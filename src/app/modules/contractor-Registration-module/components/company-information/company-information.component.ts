@@ -155,6 +155,7 @@ export class CompanyInformationComponent implements OnInit, OnDestroy, AfterView
         }
     }
     public async ngOnInit() {
+        // test
         //setting locale dynamically in case of internal employee
         (<CldrIntlService> this.intlService).localeId = this._srvAuth.currentLanguageID === 0 ? 'en-US' : 'fr-CA';
 
