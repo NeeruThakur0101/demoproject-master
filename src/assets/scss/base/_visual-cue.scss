@@ -1,0 +1,136 @@
+.visual-cue:not(.err) {
+    a {
+        color: $c-V-Que !important;
+    }
+    color: $c-V-Que !important;
+    background-color: $c-VQ-Bg !important;
+    .d-col {
+        color: $c-V-Que !important;
+    }
+    .k-checkbox-label::after {
+        border-color: $c-V-Que !important;
+    }
+    &.k-checkbox:checked + .k-checkbox-label::before,
+    .k-checkbox:checked + .k-checkbox-label::before,
+    &.k-radio:checked + .k-radio-label::after {
+        border-color: $c-V-Que !important;
+    }
+    &.k-radio:checked + .k-radio-label::after {
+        background-color: darken($color: $c-V-Que, $amount: 15) !important;
+    }
+    .k-checkbox-label {
+        color: $c-V-Que;
+    }
+    &.k-checkbox:checked + .k-checkbox-label::after,
+    .k-checkbox:checked + .k-checkbox-label::after,
+    &.k-radio:checked + .k-radio-label::before {
+        background: linear-gradient($c-White, $c-V-Que);
+        color: darken($color: $c-V-Que, $amount: 15);
+    }
+    &.k-radio:checked + .k-radio-label::before {
+        border-color: darken($color: $c-V-Que, $amount: 15) !important;
+    }
+    .k-switch-container,
+    .k-switch-handle {
+        background-color: $c-V-Que !important;
+    }
+    .k-switch-label-on {
+        color: $c-V-Que !important;
+    }
+    .k-switch-label-off:before {
+        color: #7f7f7f;
+    }
+    .k-switch-handle {
+        left: -0.2rem;
+    }
+    &.counter {
+        border: 1px solid $c-V-Que;
+        background-color: $c-V-Que !important;
+        color: white !important;
+        line-height: 22px !important;
+    }
+    &.k-textbox,
+    &.k-multiselect {
+        border: 1px solid $c-V-Que !important;
+        box-shadow: 0 2px 0 0 $c-V-Que !important;
+        background-color: rgba($c-V-Que, 0.1) !important;
+        .k-multiselect-wrap {
+            background-color: transparent !important;
+            box-shadow: none;
+        }
+        & + .tools {
+            border: 1px solid $c-V-Que !important;
+        }
+    }
+    &.k-datepicker,
+    &.k-maskedtextbox {
+        background-color: transparent !important;
+        .k-input,
+        .k-textbox {
+            color: $c-V-Que !important;
+            background-color: rgba($c-V-Que, 0.1) !important;
+            border: 1px solid $c-V-Que !important;
+            box-shadow: 0 2px 0 0 $c-V-Que !important;
+        }
+    }
+    &.k-maskedtextbox {
+        border: none !important;
+    }
+    &.k-dropdown {
+        border: 1px solid $c-V-Que !important;
+        box-shadow: 0 2px 0 $c-V-Que !important;
+        .k-input {
+            color: $c-V-Que !important;
+        }
+    }
+    &:hover {
+        color: $c-V-Que !important;
+    }
+}
+.coverage-profile-details span em.visual-cue {
+    border: 1px solid $c-V-Que;
+    padding: 0 5px;
+    line-height: 20px;
+    color: $c-V-Que !important;
+    background-color: rgba($c-V-Que, 0.1) !important;
+    height: 20px;
+    display: inline-block;
+    @include Max(1360px) {
+        line-height: 19px;
+    }
+}
+.k-tabstrip-items .k-item .k-link .visual-cue {
+    background-color: $c-V-Que !important;
+    color: $c-White !important;
+    border: 1px solid darken($color: $c-V-Que, $amount: 15) !important;
+}
+.k-grid td {
+    position: relative;
+    .visual-cue {
+        position: relative;
+        top: 0;
+        left: 0;
+        background-color: transparent !important;
+        word-break: break-word;
+    }
+}
+.visual-cue + .k-checkbox-label::before,
+.visual-cue + .k-radio-label::before {
+    border-color: $c-V-Que !important;
+    background: linear-gradient($c-White, rgba($c-V-Que, 0.3));
+}
+input.visual-cue {
+    border: 1px solid $c-V-Que !important;
+    box-shadow: 0 2px 0 0 $c-V-Que !important;
+}
+.d-table-row {
+    &.visual-cue {
+        .visual-cue {
+            .k-switch-label-on {
+                &:before {
+                    background-color: $c-VQ-Bg !important;
+                }
+            }
+        }
+    }
+}

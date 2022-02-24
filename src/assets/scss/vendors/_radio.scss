@@ -1,0 +1,51 @@
+
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Kendo Radio Component
+// ----------------------------------------------------------------------------
+
+$c-Radio-Gradient-Top-L-Blue: $c-L-Blue;
+$c-Radio-Gradient-Bottom-M-Blue: $c-M-Blue;
+$c-Radio-Gradient-White: $c-White;
+$c-Radio-Border: $c-Bdr-L;
+$c-Radio-Select-Border: $c-D-Blue;
+$c-Radio-Bg-Color: $c-D-Blue;
+$c-Radio: $c-D-Blue;
+
+.k-form .k-radio-label, 
+.k-form-inline .k-radio-label {
+  margin-left: 0;
+}
+.k-radio {
+    display: none;
+}
+
+.k-radio-label {
+    @extend %label-Radio-Checkbox;
+}
+.k-radio-label::before, 
+.k-radio-label::after {
+    @extend %base-Radio-Checkbox;
+    border-radius: 100%;
+}
+.k-radio-label::after {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    transform: scale(0);
+}
+.k-radio:checked + .k-radio-label::before {
+    border-color:$c-Radio-Select-Border !important;
+    background: linear-gradient( $c-Radio-Gradient-Top-L-Blue, $c-Radio-Gradient-Bottom-M-Blue);
+}
+
+.k-radio-label::before {
+    border: 1px solid $c-Bdr-L;
+    background: linear-gradient($c-Radio-Gradient-White, $c-Radio-Gradient-Top-L-Blue);
+}
+.k-radio:checked + .k-radio-label::after {
+    background-color: $c-Radio-Bg-Color;
+    transform: scale(1);
+}

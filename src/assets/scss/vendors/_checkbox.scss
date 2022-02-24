@@ -1,0 +1,55 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Checkbox Component
+// ----------------------------------------------------------------------------
+
+$c-Checkbox-Gradient-Top: $c-White;
+$c-Checkbox-Gradient-Bottom-L-Blue: $c-L-Blue;
+$c-Checkbox-Gradient-Bottom-M-Blue: $c-M-Blue;
+$c-Checkbox-Border: $c-Bdr-L;
+$c-Checkbox-Select-Border: $c-M-Blue;
+$c-Checkbox-Bg-Color: $c-White;
+$c-Checkbox: $c-D-Blue;
+
+
+
+.k-form .k-checkbox-label, 
+.k-form-inline .k-checkbox-label {
+  margin-left: 0;
+}
+
+.k-checkbox {
+    display: none;
+}
+.k-checkbox-label {
+    @extend %label-Radio-Checkbox;
+}
+
+.k-checkbox-label::before, 
+.k-checkbox-label::after {
+    @extend %base-Radio-Checkbox;
+}
+
+.k-checkbox-label::before {
+    border: 1px solid $c-Checkbox-Border;
+    background: linear-gradient($c-Checkbox-Gradient-Top, $c-Checkbox-Gradient-Bottom-L-Blue);
+    border-radius: 2px;
+}
+
+.k-checkbox-label::after {
+    content: "\e118";
+    transform: scale(0);
+}
+
+.k-checkbox:checked+.k-checkbox-label::after {
+    transform: scale(.75);
+    background: linear-gradient($c-Checkbox-Gradient-Top, $c-Checkbox-Gradient-Bottom-M-Blue);
+    color: $c-Checkbox;
+}
+.k-checkbox:checked+.k-checkbox-label::before {
+    border-color: $c-Checkbox-Select-Border !important;
+    background-color: $c-Checkbox-Bg-Color;
+}
+
+.k-checkbox-label:empty {
+    display: inline-block;
+}

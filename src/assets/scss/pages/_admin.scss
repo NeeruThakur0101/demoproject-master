@@ -1,0 +1,654 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Admin Page
+// -----------------------------------------------------------------------------
+.multi-location-rights {
+    .actions {
+        text-align: center;
+        button {
+            padding: 0 3rem;
+            margin: 0 1rem;
+            min-width: 12rem;
+            @include Max($MD-P) {
+                padding: 0 1.5rem;
+                margin: 0 0.5rem;
+                min-width: auto;
+            }
+        }
+    }
+    .top-info {
+        text-align: center;
+        ul {
+            list-style: none;
+            padding-bottom: 1rem;
+        }
+    }
+    .select-option {
+        @extend %d-flx;
+        padding: 2rem 0;
+        margin: 0 -1rem;
+        @include Max($G-L) {
+            padding-top: 0;
+            margin: 0;
+        }
+        > label {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 1rem;
+            font-weight: 400;
+            color: $c-D-Gry;
+            position: relative;
+            opacity: 0.6;
+            .overflow {
+                position: absolute;
+                top: 0;
+                right: 1rem;
+                bottom: 0;
+                left: 1rem;
+                background-color: $c-Blk-05;
+                z-index: 10;
+            }
+            > section {
+                padding: 1.5rem;
+                border: 1px solid $c-Blk-08;
+                text-align: center;
+                height: 100%;
+                > p {
+                    padding-bottom: 1.5rem;
+                    @media all and (min-width: 1081px) {
+                        min-height: 75px;
+                    }
+                }
+            }
+            @media all and (max-width: 1080px) {
+                flex: 0 0 100%;
+                max-width: 100%;
+                &:first-of-type {
+                    margin-bottom: 2rem;
+                }
+            }
+        }
+        input[type='radio'] {
+            display: none;
+            position: absolute;
+            &:checked + label {
+                opacity: 1;
+                .overflow {
+                    display: none;
+                }
+            }
+        }
+        .form-control-wrapper {
+            margin: 0 auto;
+            text-align: left;
+            width: 80%;
+            @include Max($M-XL) {
+                width: 100%;
+            }
+
+            .k-textbox {
+                width: 100% !important;
+            }
+            kendo-textbox-container {
+                kendo-dropdownlist {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+    .k-combobox {
+        .k-select {
+            width: 40px;
+            box-shadow: 0 2px 0 0 $k-d-down-shdw;
+        }
+    }
+    &.manage-license {
+        .form-control-wrapper {
+            max-width: 65rem;
+        }
+    }
+    &:not(.multilocation) {
+        .form-control-wrapper {
+            max-width: 55rem;
+            @include Max($MD-L) {
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+    }
+    &.multilocation {
+        .top-info {
+            padding-bottom: 1.5rem;
+            p {
+                @include Max($G-L) {
+                    padding-bottom: 1rem;
+                }
+            }
+        }
+    }
+}
+.multilocation {
+    .k-textbox-container {
+        &.k-state-empty {
+            .k-combobox {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 40px;
+                    display: block;
+                }
+                .k-select {
+                    opacity: 0.6;
+                }
+            }
+            .k-multiselect {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 40px;
+                    display: block;
+                    z-index: 10;
+                }
+                .k-searchbar {
+                    &:before {
+                        opacity: 0.5;
+                    }
+                }
+            }
+        }
+    }
+    .k-combobox {
+        .k-select {
+            width: 40px;
+            box-shadow: 0 2px 0 0 $k-d-down-shdw;
+            // background-color: $c-L-Blue;
+
+            background-image: linear-gradient(#f6f6f6, #f1f1f1);
+            border: 1px solid $c-Blk-20;
+            color: $c-Blk-60;
+        }
+        .k-clear-value {
+            right: 50px !important;
+        }
+    }
+    .k-multiselect {
+        kendo-searchbar {
+            padding-right: 35px;
+            position: initial;
+
+            &:before,
+            &:after {
+                position: absolute;
+                cursor: pointer;
+            }
+
+            &:before {
+                content: '\e006';
+
+                right: 11px;
+                top: 50%;
+                transform: translateY(-50%);
+
+                display: block;
+                width: 15px;
+                height: 15px;
+                width: 1em;
+                height: 1em;
+                -moz-osx-font-smoothing: grayscale;
+                -webkit-font-smoothing: antialiased;
+                font-size: 16px;
+                font-family: 'WebComponentsIcons';
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                line-height: 1;
+                speak: none;
+                text-transform: none;
+                z-index: 1;
+            }
+            &:after {
+                content: '';
+
+                top: 0;
+                right: 0;
+                bottom: 0;
+                background-image: linear-gradient(#f6f6f6, #f1f1f1);
+                border-color: $c-Blk-20;
+                color: $c-Blk-60;
+
+                background-color: #e5f0fa;
+                border-width: 0 0 0 1px;
+                box-sizing: border-box;
+                border-style: solid;
+                display: -ms-flexbox;
+                display: flex;
+                -ms-flex-align: center;
+                align-items: center;
+                border-radius: 0 2px 2px 0;
+                padding: 0px 0px;
+                width: 40px;
+            }
+        }
+        .k-clear-value {
+            right: 50px !important;
+            top: 11px !important;
+            display: none !important;
+        }
+    }
+    .k-textbox-container:not(.k-state-empty) {
+        kendo-multiselect.k-multiselect .k-multiselect-wrap ul {
+            margin-right: 4rem;
+            max-height: 122px;
+            overflow-y: auto;
+        }
+    }
+}
+.admin-page {
+    .middle-section {
+        height: calc(100% - 80px) !important;
+        .scrollable-content-wrapper.admin-tabs {
+            .scrollable-content-wrapper {
+                &.max-height {
+                    .scrollable-content {
+                        width: 100%;
+                        padding: 10px;
+                        @include Max(1080px) {
+                            width: 100% !important;
+                        }
+                    }
+                    &.has-scroll {
+                        .scrollable-content {
+                            @extend %Width-112;
+                            @include Max($M-XL) {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .k-form-inline {
+            > .scrollable-content-wrapper:not(.max-height) {
+                > .scrollable-content {
+                    width: 100%;
+                    padding: 10px;
+                    > .white-block {
+                        height: 100%;
+                        .k-tabstrip {
+                            height: 100%;
+                        }
+                    }
+                }
+            }
+            .k-tabstrip {
+                .k-content {
+                    .scrollable-content-wrapper:not(.max-height) {
+                        .scrollable-content {
+                            padding: 10px;
+                            @media all and (min-width: 1081px) {
+                                width: 100%;
+                            }
+                            // @media all and (min-height: 681px) and (max-width: 1080px) {
+                            //     width: calc(100% + 12px);
+                            // }
+                            @include Max($M-XL) {
+                                width: 100%;
+                            }
+                        }
+                    }
+                }
+            }
+            .multi-location-rights {
+                padding: 10px;
+                @include Max($G-L) {
+                    padding: 10px 0;
+                }
+            }
+        }
+    }
+}
+.Safari {
+    .admin-page {
+        .k-form-inline .admin-tabs > .scrollable-content {
+            > .white-block {
+                &.floating-labels {
+                    margin-right: 0px;
+                }
+            }
+            .k-tabstrip {
+                ul {
+                    @include Max(985px) {
+                        flex: 0 0 84px;
+                    }
+                    @include Max($G-L) {
+                        flex: 0 0 120px;
+                    }
+                    @include Max($MD-P) {
+                        flex: 0 0 200px;
+                    }
+                }
+                > .k-content {
+                    .scrollable-content {
+                        padding-right: 10px !important;
+                    }
+                    @include Max(985px) {
+                        flex: 1;
+                    }
+                }
+            }
+        }
+    }
+    &.admin-body {
+        @include Max($D-N) {
+            height: auto;
+        }
+    }
+}
+
+body.admin-body {
+    @media all and (max-height: 715px) {
+        height: auto;
+    }
+}
+@include Max(740px) {
+    .Safari {
+        .admin-tabs {
+            > .scrollable-content {
+                padding-right: 10px !important;
+                > .white-block {
+                    margin-right: 0 !important;
+                }
+            }
+        }
+    }
+}
+.combo-action-box {
+    display: flex;
+    margin-bottom: 2rem;
+    @include Max($G-L) {
+        flex-wrap: wrap;
+        margin-bottom: 0;
+    }
+    > div {
+        flex: 1;
+        @include Max($G-L) {
+            flex: 0 0 100%;
+        }
+    }
+    > aside {
+        flex: 0 0 100px;
+        display: flex;
+        align-items: center;
+        padding-top: 18px;
+        button {
+            margin-left: 1rem;
+            padding: 0 1.25rem !important;
+            height: 4.2rem !important;
+            span {
+                font-size: 1.7rem;
+                line-height: 1.6rem;
+            }
+            @include Max($G-L) {
+                padding: 0 0.5rem !important;
+                height: 3rem !important;
+            }
+        }
+        @include Max($G-L) {
+            flex: 0 0 100%;
+            justify-content: flex-end;
+        }
+    }
+    .k-combobox {
+        .k-searchbar {
+            .k-input {
+                margin-bottom: 0 !important;
+            }
+        }
+        .k-clear-value {
+            display: none !important;
+        }
+    }
+    &.add-edit-license {
+        > aside {
+            flex: 0 0 108px;
+            @include Max($G-L) {
+                flex: 0 0 100%;
+                justify-content: flex-end;
+            }
+        }
+    }
+}
+body.manage-license {
+    .k-height-container {
+        display: none;
+    }
+}
+.user-right,
+.create-lead {
+    .k-combobox {
+        margin-bottom: 1.5rem;
+    }
+    .k-searchbar {
+        .k-input {
+            width: 100% !important;
+        }
+    }
+    .k-combobox {
+        .k-clear-value {
+            top: 10px;
+        }
+    }
+}
+.create-lead {
+    .k-textbox-container {
+        .k-label {
+            @include Max($MD-P) {
+                position: relative;
+                top: 0;
+                left: 0;
+                font-size: 11px !important;
+                padding-bottom: 5px;
+                transform: none !important;
+                order: -1;
+            }
+        }
+    }
+}
+.user-right {
+    //@include Max($M-XL) {
+    @include Max(780px) {
+        .k-label {
+            position: relative;
+            transform: none !important;
+            top: initial !important;
+            white-space: normal;
+            order: -1;
+            padding-bottom: 1rem;
+            font-size: 12px !important;
+            left: 0 !important;
+        }
+    }
+}
+.custom-select-row {
+    display: flex;
+    width: 100%;
+    div {
+        flex: 0 0 80%;
+        @include Max($MD-P) {
+            flex: 0 0 calc(100% - 80px);
+        }
+    }
+    span {
+        flex: 0 0 20%;
+        @include Max($MD-P) {
+            flex: 0 0 80px;
+            padding-left: 2rem;
+        }
+    }
+    &.ruleset {
+        color: $c-Rem; //$c-Bs-Link;
+        position: relative;
+        padding-right: 3rem;
+        &:after {
+            content: 'CR';
+            position: absolute;
+            width: 2rem;
+            height: 2rem;
+            outline: 0;
+            font-size: 10px;
+            text-align: center;
+            line-height: 2.2rem;
+            text-transform: none;
+            right: 1.5rem;
+            border: 2px solid $c-Rem; //$c-Bs-Link;
+            border-radius: 100%;
+            font-weight: 500;
+            top: -2px;
+        }
+        &:hover {
+            color: $c-White;
+        }
+    }
+}
+.correctionReq-Info {
+    display: flex;
+    width: 100%;
+    > span {
+        flex: 0 0 175px;
+        padding: 10px 0 10px 10px;
+        color: $c-Bs-Link;
+        font-weight: 600;
+        span {
+            font-size: 2.5rem;
+        }
+    }
+    div {
+        flex: 1;
+        padding: 10px;
+    }
+}
+.correctionReq-Info ~ .scrollable-content-wrapper {
+    height: calc(100% - 40px);
+    .scrollable-content {
+        .scrollable-content {
+            width: calc(100% + 12px) !important;
+        }
+    }
+}
+body.noPopup {
+    kendo-popup {
+        display: none !important;
+    }
+}
+.associate-drop-row {
+    @extend %d-flx;
+    width: 100%;
+    small {
+        display: block;
+        line-height: 12px;
+    }
+    .webLogin {
+        flex: 0 0 40%;
+        max-width: 40%;
+        font-size: 1.3rem;
+        word-wrap: break-word;
+        word-break: break-all;
+        @include Max($MD-P) {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+    .assoLogin {
+        flex: 0 0 60%;
+        max-width: 60%;
+        font-size: 1.3rem;
+        word-wrap: break-word;
+        word-break: break-all;
+        padding-left: 1rem;
+        @include Max($MD-P) {
+            flex: 0 0 100%;
+            max-width: 100%;
+            padding-left: 0;
+        }
+    }
+    &:hover {
+        small {
+            color: $c-L-Blue;
+        }
+    }
+}
+.lang-french {
+    @include Max($MD-L) {
+        .multi-location-rights.multilocation .select-option .form-control-wrapper {
+            width: 100%;
+        }
+    }
+    // .multi-location-rights {
+    //     &.multilocation {
+    //         .form-control-wrapper {
+    //             width: 100%;
+    //         }
+    //     }
+    // }
+    .admin-page .k-tabstrip {
+        ul {
+            @include Max($MD-P) {
+                flex: 0 0 200px !important;
+                margin-bottom: 1.5rem;
+                li:nth-child(2) {
+                    flex: 0 0 95%;
+                    span {
+                        text-align: center;
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+    .multi-location-rights .top-info {
+        > p {
+            padding: 0 5rem;
+            @include Max($G-L) {
+                padding: 0 0 2rem;
+            }
+        }
+    }
+    .admin-page .multi-location-rights.multilocation .k-textbox-container > .k-label {
+        // @include Max(15000px) {
+        position: relative;
+        transform: none !important;
+        top: auto !important;
+        white-space: normal;
+        order: -1;
+        padding-bottom: 1rem;
+        font-size: 12px !important;
+        left: 0 !important;
+        max-width: 100%;
+        //}
+    }
+    .admin-page .multi-location-rights .k-textbox-container > .k-label {
+        @include Max($MD-P) {
+            position: relative;
+            transform: none !important;
+            top: auto !important;
+            white-space: normal;
+            order: -1;
+            padding-bottom: 1rem;
+            font-size: 12px !important;
+            left: 0 !important;
+            max-width: 100%;
+        }
+    }
+    .admin-page {
+        .max-height .scrollable-content {
+            @media all and (min-width: 1081px) and (max-width: 1500px) {
+                width: calc(100% + 12px) !important;
+            }
+        }
+    }
+}

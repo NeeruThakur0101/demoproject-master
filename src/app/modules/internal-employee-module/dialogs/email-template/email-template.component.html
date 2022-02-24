@@ -1,0 +1,117 @@
+<!-- <kendo-dialog title="Send Email" [minWidth]="700" [width]="100"> -->
+<div *ngIf="loadingState" class="page-loader"><span class="k-i-loading"></span></div>
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.EmailTemplate.Send_Email }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<form [formGroup]="emailTemplate" (ngSubmit)="onSubmit()">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+                    <section class="form-block">
+                        <section class="email-block">
+                            <section>
+                                <section>
+                                    <div class="mailrow">
+                                        <div>
+                                            <span>{{ pageContent.EmailTemplate.To }}</span>
+                                        </div>
+                                        <div>
+                                            <input kendoTextBox required formControlName="email" [ngClass]="{
+                                                    'err ng-invalid ng-touched': emailform.email.errors
+                                                }" />
+                                        </div>
+                                    </div>
+                                    <div class="err comp k-tooltip-validation">
+                                        <div class="err-msg comp" *ngIf="emailform.email.errors?.emailsPattern">
+                                            {{ pageContent.EmailTemplate.Enter_Valid_Email_Pattern }}
+                                        </div>
+                                    </div>
+                                    <div class="err comp k-tooltip-validation">
+                                        <div class="err-msg comp" *ngIf="emailform.email.errors?.required">
+                                            {{ pageContent.EmailTemplate.Specify_Atleast_One_Recipient }}
+                                        </div>
+                                    </div>
+                                    <div class="mailrow">
+                                        <div>
+                                            <span>{{ pageContent.EmailTemplate.Cc }}</span>
+                                        </div>
+                                        <div>
+                                            <input kendoTextBox formControlName="cc" [ngClass]="{
+                                                    'err ng-invalid ng-touched': emailform.cc.errors?.emailsPattern
+                                                }" />
+                                        </div>
+                                    </div>
+                                    <div class="err comp k-tooltip-validation"
+                                        *ngIf="emailform.cc.errors?.emailsPattern">
+                                        <div class="err-msg comp">
+                                            {{ pageContent.EmailTemplate.Enter_Valid_Email_Pattern }}
+                                        </div>
+                                    </div>
+                                    <div class="mailrow">
+                                        <div>
+                                            <span>{{ pageContent.EmailTemplate.Bcc }}</span>
+                                        </div>
+                                        <div>
+                                            <input kendoTextBox formControlName="bcc" [ngClass]="{
+                                                    'err ng-invalid ng-touched': emailform.bcc.errors?.emailsPattern
+                                                }" />
+                                        </div>
+                                    </div>
+                                    <div class="err comp k-tooltip-validation"
+                                        *ngIf="emailform.bcc.errors?.emailsPattern">
+                                        <div class="err-msg comp">
+                                            {{ pageContent.EmailTemplate.Enter_Valid_Email_Pattern }}
+                                        </div>
+                                    </div>
+                                    <div class="mailrow">
+                                        <div>
+                                            <span>{{ pageContent.EmailTemplate.Subject }}</span>
+                                        </div>
+                                        <div><input kendoTextBox required formControlName="subject" /></div>
+                                    </div>
+                                    <div class="mailrow">
+                                        <div>
+                                            <span>{{ pageContent.EmailTemplate.Attachment }}</span>
+                                        </div>
+                                        <div class="attachment">
+                                            <a [href]="pdfLink" target="_blank">
+                                                <span class="k-icon k-i-file-pdf"></span>
+                                                <span>{{ pageContent.EmailTemplate.Report }}</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <editor *ngIf="showEditor" required formControlName="body" [init]="{
+                                                height: 200,
+                                                menubar: false,
+                                                statusbar: false,
+                                                plugins: ['lists'],
+                                                toolbar:
+                                                    'bold italic underline | \
+                                                  alignleft aligncenter alignright alignjustify | \
+                                                  outdent indent | bullist numlist| removeformat',
+                                                branding: false
+                                            }"></editor>
+                                    </div>
+                                </section>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton type="submit" [primary]="true">{{ pageContent.EmailTemplate.Send }}</button>
+    </div>
+</form>
+<!-- </kendo-dialog> -->

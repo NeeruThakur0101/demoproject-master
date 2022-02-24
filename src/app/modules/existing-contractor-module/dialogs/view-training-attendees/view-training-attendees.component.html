@@ -1,0 +1,108 @@
+<!-- <kendo-dialog
+  title="Add Contractor Coverage Type"
+
+  [minWidth]="580"
+  [width]="100"> -->
+
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent?.Credentialing_Information.Employee_Training_List }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<form [formGroup]="group">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+                    <section class="form-block">
+                        <!-- <h2>Training Tracker - Subrogation - (###) Sample Contractor, Inc.</h2> -->
+                        <h2>
+                            {{ pageContent?.Credentialing_Information.Training_Tracker }} - {{ _dataItem.MetricTypeName }} - ({{ $credentialSrv.loginDetails[0]?.ContrID }})
+                            {{ $credentialSrv.loginDetails[0]?.CompanyName }}
+                        </h2>
+                        <div class="scrollable-content-wrapper view-training" #commentBlock max-height="310" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="d-table">
+                                        <section class="d-table-hd">
+                                            <div class="d-col">{{ pageContent?.Credentialing_Information.Contractor_Employee }}</div>
+                                            <div class="d-col">{{ pageContent?.Credentialing_Information.Title }}</div>
+                                            <div class="d-col">{{ pageContent?.Credentialing_Information.Date_completed }}</div>
+                                            <div class="d-col">{{ pageContent?.Credentialing_Information.Action }}</div>
+                                        </section>
+
+                                        <section class="d-table-content">
+                                            <section class="d-table-row" *ngFor="let row of employeeTrainees; let i = index">
+                                                <ng-container *ngIf="!row.deletedFlag || row.deletedFlag !== true">
+                                                    <div class="d-col">
+                                                        <kendo-dropdownlist
+                                                            [formControl]="group.controls['empl' + row.id]"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': submitted && group.controls['empl' + row.id].errors }"
+                                                            [disabled]="row.disabled"
+                                                            (selectionChange)="onEmployeeSelect($event, row.id)"
+                                                            [valueField]="'PersonalId'"
+                                                            [textField]="'ContractorEmployeeName'"
+                                                            [data]="employeeList"
+                                                            [valuePrimitive]="true"
+                                                            [(value)]="row.employee"
+                                                        >
+                                                            <ng-template kendoDropDownListNoDataTemplate>
+                                                                <h4>
+                                                                    {{ pageContent.General_Keys.No_Data_Found }}
+                                                                </h4>
+                                                            </ng-template>
+                                                        </kendo-dropdownlist>
+                                                        <!-- [name]="'empl' + row.id" -->
+                                                    </div>
+                                                    <div class="d-col">
+                                                        <span> {{ row.title }}</span>
+                                                    </div>
+                                                    <div class="d-col">
+                                                        <kendo-datepicker
+                                                            [formControl]="group.controls['date' + row.id]"
+                                                            [(ngModel)]="row.dateCompleted"
+                                                            [min]="min"
+                                                            [max]="max"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': submitted && group.controls['date' + row.id].errors }"
+                                                            (selectionChange)="onDateSelect($event, row.id)"
+                                                            (keydown)="onKeydownHandler($event.target.value)"
+                                                            format="MM/dd/yyyy"
+                                                            (valueChange)="onDateSelect($event, row.id)"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                        <!-- [ngModelOptions]="{ standalone: true }" -->
+                                                    </div>
+                                                    <div class="d-col">
+                                                        <div>
+                                                            <button type="button" class="add" *ngIf="i === getDisplayedListPlus()" (click)="addEmployeeRow()">
+                                                                <span class="k-icon k-i-plus"></span>
+                                                            </button>
+                                                            <button type="button" class="remove" *ngIf="getDisplayedList()" (click)="deleteEmployeeRow(row)">
+                                                                <span class="k-icon k-i-minus"></span>
+                                                            </button>
+                                                            <!-- <button type="button" class="remove" *ngIf="employeeTrainees.length !==1" (click)="deleteEmployeeRow(row)"><span class="k-icon k-i-minus"></span></button> -->
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton (click)="close()">{{ pageContent?.Credentialing_Information.Cancel }}</button>
+        <button kendoButton (click)="onSave(employeeTrainees)" [primary]="true">{{ pageContent?.Credentialing_Information.Save }}</button>
+    </div>
+</form>
+<!-- </kendo-dialog> -->

@@ -1,0 +1,556 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Coverage Profile Page
+// -----------------------------------------------------------------------------
+.coverage-profile {
+    .vertical-accord li > span > label {
+        @include Max(1140px) {
+            left: 0 !important;
+        }
+    }
+    .top-block {
+        h2 {
+            padding-bottom: 3rem;
+            span {
+                position: relative;
+                top: 2px;
+            }
+        }
+        > section.coverage-profile-type {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            .k-textbox-container {
+                max-width: 250px;
+                margin-top: -1rem;
+            }
+            .col {
+                &:first-child {
+                    flex: 0 0 260px;
+                    max-width: 260px;
+                    + .col {
+                        flex: 1;
+                        display: flex;
+                        align-items: center;
+                        position: relative;
+                        .top-actions {
+                            position: absolute;
+                            top: -4.25rem;
+                            right: 0;
+                            @include Max(460px) {
+                                top: -9.25rem !important;
+                            }
+                            a {
+                                background-color: $c-Wh-01;
+                                text-align: center;
+                                outline: none;
+                                border: none;
+                                font-size: 22px;
+                                color: white;
+                                cursor: pointer;
+                                padding: 0 3px;
+                                border: 1px solid $c-Blk-20 !important;
+                                transition: all 0.3s ease;
+                                margin-left: 5px;
+                                overflow: hidden;
+                                text-indent: 99999px;
+                                height: 25px;
+                                display: inline-flex;
+                                align-items: center;
+                                border-radius: 5px;
+                                &:hover {
+                                    border: 1px solid $c-Dg-50 !important;
+                                    background-color: $c-Dg-10 !important;
+                                    color: $c-Wh-08 !important;
+                                }
+                                &.ico-email {
+                                    i {
+                                        @include before('', 18px, 20px, inline-block, relative, 'ico-email-b.svg', 1px, 0px);
+                                    }
+                                    &:hover {
+                                        i {
+                                            @include before('', 18px, 20px, inline-block, relative, 'ico-email.svg', 1px, 0px);
+                                        }
+                                    }
+                                }
+                                &.ico-plus {
+                                    i {
+                                        @include before('', 17px, 20px, inline-block, relative, 'ico-plus-r.svg', 1px, 1px);
+                                        background-size: 16px;
+                                    }
+                                    &:hover {
+                                        i {
+                                            @include before('', 17px, 20px, inline-block, relative, 'ico-plus-b.svg', 1px, 1px);
+                                            background-size: 16px;
+                                        }
+                                    }
+                                }
+                                i {
+                                    @include iehack() {
+                                        height: 16px;
+                                        top: 0.5px;
+                                    }
+                                }
+                            }
+                            @include Max(1420px) {
+                                top: -5rem;
+                            }
+                        }
+                        @include Max(1420px) {
+                            flex: 0 0 100%;
+                        }
+                    }
+                }
+            }
+        }
+        .coverage-profile-details {
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: space-between;
+            @include Max(1240px) {
+                flex-direction: column;
+                padding-bottom: 10px;
+            }
+            @include Max(800px) {
+                padding-bottom: 0;
+            }
+            > div {
+                &:first-child {
+                    span {
+                        margin-right: 10px;
+                        font-weight: 400;
+                        em {
+                            font-style: normal;
+                            font-weight: 600;
+                        }
+                    }
+                    @include Max(1240px) {
+                        padding-bottom: 1.5rem;
+                        display: flex;
+                        flex-wrap: wrap;
+                    }
+                    @include Max(860px) {
+                        justify-content: space-between;
+                    }
+                    @include Max(800px) {
+                        span {
+                            flex: 0 0 50%;
+                            margin: 0 0 5px;
+                        }
+                    }
+                    @include Max(500px) {
+                        span {
+                            flex: 0 0 100%;
+                            margin: 0 0 5px;
+                        }
+                    }
+                }
+                &:last-child {
+                    position: relative;
+                    top: -5px;
+                    button {
+                        padding: 0 1.5rem;
+                        width: 80px;
+                    }
+                }
+            }
+            > span {
+                margin-right: 10px;
+                font-weight: 400;
+                em {
+                    font-style: normal;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+    ul {
+        li {
+            height: 301px;
+            > span {
+                > label {
+                    margin-top: 6px;
+                    border-radius: 5px 5px 0 0;
+                    &:after {
+                        border-radius: 5px 5px 0 0 !important;
+                        bottom: -2.5px;
+                    }
+                    @include Max(1140px) {
+                        width: calc(100% - 0px);
+                        margin: 0;
+                    }
+                }
+            }
+            .k-checkbox {
+                width: auto !important;
+                height: auto !important;
+                line-height: 1px !important;
+                margin: 0 !important;
+                display: none;
+            }
+            .k-checkbox-label {
+                width: auto;
+                flex: none;
+                display: inline-block;
+                margin: 0;
+            }
+            .legal-table {
+                &.statePro {
+                    .d-table-hd,
+                    .d-table-row {
+                        .d-col {
+                            height: 40px;
+                            min-height: 40px !important;
+                            &:first-child {
+                                flex: 0 0 85%;
+                                max-width: 85%;
+                                padding-left: 30px;
+                                @include Max($MD-P) {
+                                    padding-left: 15px;
+                                }
+                                + .d-col {
+                                    flex: 0 0 15%;
+                                    max-width: 15%;
+                                }
+                            }
+                        }
+                    }
+                    .d-table-row {
+                        .d-col {
+                            &:first-child {
+                                span {
+                                    margin-left: 10px;
+                                    &:after {
+                                        content: ')';
+                                    }
+                                    &:before {
+                                        content: '(';
+                                    }
+                                }
+                            }
+                        }
+                        &.active {
+                            .d-col {
+                                &:first-child {
+                                    font-weight: 600;
+                                    color: $c-D-Blue;
+                                }
+                            }
+                        }
+                    }
+                }
+                &.counties {
+                    .d-table-hd,
+                    .d-table-row {
+                        .d-col {
+                            height: 40px;
+                            min-height: 40px !important;
+                            &:first-child {
+                                flex: 0 0 15%;
+                                max-width: 15%;
+                                text-align: center;
+                                + .d-col {
+                                    flex: 0 0 70%;
+                                    max-width: 70%;
+                                    + .d-col {
+                                        flex: 0 0 15%;
+                                        max-width: 15%;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .d-table-row {
+                        &.active {
+                            .d-col {
+                                color: $c-D-Blue;
+                            }
+                        }
+                    }
+                }
+                &.postalcode {
+                    .d-table-hd,
+                    .d-table-row {
+                        .d-col {
+                            height: 40px;
+                            min-height: 40px !important;
+                            &:first-child {
+                                flex: 0 0 15%;
+                                max-width: 15%;
+                                text-align: center;
+                                + .d-col {
+                                    flex: 0 0 30%;
+                                    max-width: 30%;
+                                    + .d-col {
+                                        flex: 0 0 20%;
+                                        max-width: 20%;
+                                        + .d-col {
+                                            flex: 0 0 20%;
+                                            max-width: 20%;
+                                            + .d-col {
+                                                flex: 0 0 15%;
+                                                max-width: 15%;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        @include Max($iPh-L) {
+                            .d-col {
+                                height: 42.5px;
+                                padding: 10px 0;
+                                &:first-child {
+                                    flex: 0 0 50px;
+                                    max-width: 50px;
+                                    + .d-col {
+                                        flex: 0 0 calc(100% - 280px);
+                                        max-width: calc(100% - 280px);
+                                        @include iehack() {
+                                            flex: 1;
+                                        }
+                                        + .d-col {
+                                            flex: 0 0 100px;
+                                            max-width: 100px;
+                                            + .d-col {
+                                                flex: 0 0 80px;
+                                                max-width: 80px;
+                                                + .d-col {
+                                                    flex: 0 0 45px;
+                                                    max-width: 45px;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        @include Max(500px) {
+                            .d-col {
+                                &:first-child {
+                                    flex: 0 0 40px;
+                                    max-width: 40px;
+                                    + .d-col {
+                                        flex: 0 0 calc(100% - 215px);
+                                        max-width: calc(100% - 215px);
+                                        word-break: break-all;
+                                        padding: 10px 5px;
+                                        + .d-col {
+                                            flex: 0 0 60px;
+                                            max-width: 60px;
+                                            + .d-col {
+                                                flex: 0 0 70px;
+                                                max-width: 70px;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .d-table-row {
+                        &.active {
+                            .d-col {
+                                color: $c-D-Blue;
+                            }
+                        }
+                    }
+                    .d-table-hd {
+                        @include Max($MD-P) {
+                            height: 60px;
+                            .d-col {
+                                height: 60px;
+                                span {
+                                    display: block;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            @include Max(1140px) {
+                height: auto;
+                padding-bottom: 10px;
+            }
+        }
+    }
+    .d-table.has-scroll .d-table-hd {
+        &:after {
+            right: 3px;
+            bottom: 0;
+            background-color: $c-L-Blue; //#e5f0fa;
+            height: 41.5px;
+            display: none;
+        }
+        @include Min(1920px) {
+            padding-right: 10px;
+        }
+    }
+    @include Max(1140px) {
+        .vertical-accord {
+            li.active {
+                flex: 0 0 330px;
+                padding-bottom: 0;
+                @include iehack() {
+                    flex: 0 0 370px;
+                }
+            }
+        }
+    }
+    .scrollable-content {
+        @include Min(1400px) {
+            width: 100%;
+            padding-right: 10px;
+        }
+    }
+    @include Min(1700px) {
+        .d-table-content-wrapper.has-scroll {
+            .d-table-wrapper {
+                width: calc(100% + 14px);
+            }
+        }
+    }
+    //// temporary treat
+    .vertical-accord-content {
+        .d-table-content-wrapper {
+            &.has-scroll {
+                border-right: 1px solid $c-L-Gry; //#d7d2cb;
+                .d-table-wrapper {
+                    .legal-table.has-scroll {
+                        @extend %Width-112;
+                    }
+                }
+            }
+        }
+    }
+}
+.Safari {
+    .vertical-accord-content {
+        .d-table-content-wrapper {
+            &.has-scroll {
+                border-right: 0px;
+                .d-table-wrapper {
+                    .legal-table.has-scroll {
+                        width: calc(100% + 0px);
+                    }
+                }
+            }
+        }
+    }
+    @include Max(1140px) {
+        .vertical-accord {
+            li.active {
+                flex: 0 0 100%;
+            }
+        }
+    }
+    // .statePro {
+    //     .d-table-row {
+    //         flex: 0 0 40px;
+    //     }
+    // }
+}
+.coverage-tip {
+    .k-tooltip {
+        position: relative;
+        overflow: hidden;
+        height: 110px;
+        font-size: 12px;
+        .k-tooltip-content {
+            width: calc(100% + 19px);
+            padding-right: 15px;
+            overflow-y: auto;
+        }
+    }
+}
+.mobile,
+.tablet {
+    .d-table-content-wrapper.has-scroll .d-table-wrapper {
+        width: 100%;
+    }
+    .d-table.has-scroll .d-table-hd {
+        width: 100%;
+        padding-right: 0;
+    }
+    .coverage-profile .d-table.has-scroll .d-table-hd:after {
+        display: none;
+    }
+    .coverage-profile {
+        .scrollable-content {
+            width: 100%;
+        }
+    }
+    .statePro.has-scroll {
+        width: 100% !important;
+    }
+}
+.Safari {
+    .d-table .d-col {
+        min-height: 45px !important;
+    }
+    @include Min($G-L) {
+        .coverage-profile {
+            .d-table {
+                &.has-scroll {
+                    .d-table-hd {
+                        width: 100%;
+                        div {
+                            &:first-child {
+                                flex: 0 0 calc(100% - 126px);
+                                max-width: calc(100% - 126px);
+                                + div {
+                                    flex: 0 0 126px;
+                                    max-width: 126px;
+                                }
+                            }
+                        }
+                    }
+                    .d-table-row {
+                        div {
+                            &:first-child {
+                                flex: 0 0 calc(100% - 121px);
+                                max-width: calc(100% - 121px);
+                                + div {
+                                    flex: 0 0 121px;
+                                    max-width: 121px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include Max($G-L) {
+        .coverage-profile {
+            .d-table {
+                &.has-scroll {
+                    .d-table-hd {
+                        width: 100%;
+                        div {
+                            &:first-child {
+                                flex: 0 0 calc(100% - 60px);
+                                max-width: calc(100% - 60px);
+                                + div {
+                                    flex: 0 0 60px;
+                                    max-width: 60px;
+                                }
+                            }
+                        }
+                    }
+                    .d-table-row {
+                        div {
+                            &:first-child {
+                                flex: 0 0 calc(100% - 55px);
+                                max-width: calc(100% - 55px);
+                                + div {
+                                    flex: 0 0 55px;
+                                    max-width: 55px;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,524 @@
+<main *ngIf="!hidePage" [class.internal-user]="loginDetails[0]?.ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Company_Info.Company_Information" [comments]="crComments"> </app-page-title>
+            </section>
+
+            <form *ngIf="loadFormHTML" class="k-form-inline h-100 comp-info-form" [formGroup]="registerForm" (ngSubmit)="onSubmit(scrollTarget)">
+                <!-- middle content area open -->
+                <section class="middle-section company-info-page">
+                    <div class="white-block">
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="410" min-Height="620">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <!-- content -->
+
+                                    <section class="company-information">
+                                        <!-- two columns -->
+                                        <section class="flex-5-5">
+                                            <div class="col">
+                                                <section class="white-block h-100">
+                                                    <label class="k-form-field tool-with-input required">
+                                                        <span #scrollTarget>{{ pageContent.Company_Info.DBA_Name }}</span>
+                                                        <input
+                                                            [class]="companyInfoFormControl.CompanyLegalName.value !== '' && visualCueObject.CompanyLegalName == true ? 'visual-cue' : 'none'"
+                                                            [attr.disabled]="
+                                                                ((visualCueObject.CompanyLegalName == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                visualCueObject.IsCompanyLegalNameDisable
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            trim="blur"
+                                                            maxlength="100"
+                                                            kendoTextBox
+                                                            formControlName="CompanyLegalName"
+                                                            class="k-textbox"
+                                                            [ngClass]="{
+                                                                'err ng-invalid ng-touched': submitted && companyInfoFormControl.CompanyLegalName.errors
+                                                            }"
+                                                        />
+                                                        <div class="tools">
+                                                            <input
+                                                                [class]="companyInfoFormControl.CompanyName.value !== '' && visualCueObject.CompanyName == true ? 'visual-cue' : 'none'"
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.CompanyLegalName === true || ContrID === 0 || visualCueObject.CompanyName === true) &&
+                                                                        loggedInUserType == 'Internal') ||
+                                                                    !$pagePrivilege.editAccess ||
+                                                                    visualCueObject.IsCompanyNameDisable ||
+                                                                    visualCueObject.IsCompanyLegalNameDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                type="checkbox"
+                                                                id="ch1"
+                                                                class="k-checkbox"
+                                                                [checked]="marked"
+                                                                (change)="toggleVisibility($event)"
+                                                            />
+                                                            <label class="k-checkbox-label" for="ch1"></label>
+                                                            <div kendoTooltip class="right" [position]="deviceInfo.screen === 'mobile' || deviceInfo.screen === 'tab' ? 'left' : 'right'">
+                                                                <span class="btn-hammer" title="{{ pageContent.Company_Info.Hammer }}"><i></i></span>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="submitted && companyInfoFormControl.CompanyLegalName.errors" class="k-tooltip-validation"></div>
+                                                    </label>
+                                                    <label *ngIf="!marked" class="k-form-field tool-with-input required">
+                                                        <span>{{ pageContent.Company_Info.Company_Name_Company_Info }}</span>
+
+                                                        <input
+                                                            [class]="companyInfoFormControl.CompanyName.value !== '' && visualCueObject.CompanyName == true ? 'visual-cue' : 'none'"
+                                                            [attr.disabled]="
+                                                                ((visualCueObject.CompanyName == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                visualCueObject.IsCompanyNameDisable ||
+                                                                visualCueObject.IsCompanyLegalNameDisable
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            type="text"
+                                                            trim="blur"
+                                                            kendoTextBox
+                                                            maxlength="100"
+                                                            formControlName="CompanyName"
+                                                            class="k-textbox"
+                                                            [ngClass]="{
+                                                                'err ng-invalid ng-touched': submitted && companyInfoFormControl.CompanyName.errors
+                                                            }"
+                                                        />
+                                                        <div *ngIf="submitted && companyInfoFormControl.CompanyName.errors" class="k-tooltip-validation"></div>
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.Website }}</span>
+                                                        <input
+                                                            [class]="visualCueObject.WebSite == true ? 'visual-cue' : 'none'"
+                                                            [attr.disabled]="
+                                                                ((visualCueObject.WebSite == true || ContrID === 0) && loggedInUserType == 'Internal') || visualCueObject.IsWebSiteDisable ? '' : null
+                                                            "
+                                                            trim="blur"
+                                                            maxlength="80"
+                                                            kendoTextBox
+                                                            formControlName="WebSite"
+                                                            class="k-textbox"
+                                                        />
+                                                    </label>
+                                                    <label class="k-form-field tool-with-input required federal-tax">
+                                                        <span>{{ taxLabel }}</span>
+                                                        <kendo-maskedtextbox
+                                                            [class]="
+                                                                companyInfoFormControl.ContractorFederalTaxNumber.value !== '' && visualCueObject.ContractorFederalTaxNumber == true
+                                                                    ? 'visual-cue'
+                                                                    : 'none'
+                                                            "
+                                                            [disabled]="
+                                                                ((visualCueObject.ContractorFederalTaxNumber == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                visualCueObject.IsContractorFederalTaxNumberDisable
+                                                            "
+                                                            [maskOnFocus]="true"
+                                                            [mask]="federalBinNumberMask"
+                                                            kendoTextBox
+                                                            (keypress)="isNumber($event)"
+                                                            formControlName="ContractorFederalTaxNumber"
+                                                            class="k-textbox"
+                                                            [ngClass]="{
+                                                                'err ng-invalid ng-touched': submitted && companyInfoFormControl.ContractorFederalTaxNumber.errors
+                                                            }"
+                                                        ></kendo-maskedtextbox>
+                                                        <div [class.disable-rep]="(_srvAuth.Profile.ContrID === 0 && loggedInUserType === 'Internal') || !$pagePrivilege.editAccess" class="tools">
+                                                            <a
+                                                                class="btn-upload"
+                                                                (click)="
+                                                                    _srvAuth.Profile.ContrID === 0 && loggedInUserType === 'Internal'
+                                                                        ? ''
+                                                                        : (_srvAuth.Profile.ContrID === 0 && loggedInUserType !== 'Internal') ||
+                                                                          $pagePrivilege.editAccess ||
+                                                                          loginDetails[0].ContrID > 0
+                                                                        ? onRepositoryOpen()
+                                                                        : ''
+                                                                "
+                                                                ><i></i
+                                                            ></a>
+                                                        </div>
+                                                        <div *ngIf="submitted && companyInfoFormControl.ContractorFederalTaxNumber.errors" class="k-tooltip-validation">
+                                                            <div *ngIf="companyInfoFormControl.ContractorFederalTaxNumber.errors.minlength">
+                                                                {{ pageContent.Company_Info.Invalid_Number }}
+                                                            </div>
+                                                        </div>
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.Franchise_Affiliation }}</span>
+                                                        <kendo-dropdownlist
+                                                            [class]="
+                                                                companyInfoFormControl.ContractorFranchiseSelectedNumber.value !== '' && visualCueObject.ContractorFranchiseSelectedNumber == true
+                                                                    ? 'visual-cue'
+                                                                    : 'none'
+                                                            "
+                                                            [attr.disabled]="
+                                                                ((visualCueObject.ContractorFranchiseSelectedNumber == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                visualCueObject.IsContractorFranchiseSelectedNumberDisable
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            formControlName="ContractorFranchiseSelectedNumber"
+                                                            [data]="Frenchise"
+                                                            textField="FranchiseName"
+                                                            valueField="FranchiseID"
+                                                            [valuePrimitive]="true"
+                                                            [filterable]="true"
+                                                            [defaultItem]="defaultItemFranchise"
+                                                            #dropdownlist
+                                                            (focus)="onFocus($event)"
+                                                            (mousedown)="onMousedown($event)"
+                                                            (mouseup)="onMouseup($event)"
+                                                            (filterChange)="handleFilterFranchise($event)"
+                                                        >
+                                                            <ng-template kendoDropDownListNoDataTemplate>
+                                                                <h4>
+                                                                    {{ pageContent.General_Keys.No_Data_Found }}
+                                                                </h4>
+                                                            </ng-template>
+                                                        </kendo-dropdownlist>
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.Country_Company_Info }}</span>
+                                                        <kendo-dropdownlist
+                                                            formControlName="ContractorCountryCode"
+                                                            [data]="Abbreviationlist"
+                                                            [attr.disabled]="true || visualCueObject.IsContractorCountryCodeDisable ? '' : null"
+                                                            [readonly]="true"
+                                                            [textField]="'Name'"
+                                                            [valueField]="'ID'"
+                                                            [valuePrimitive]="true"
+                                                            [filterable]="true"
+                                                            [ngClass]="{
+                                                                'err ng-invalid ng-touched': submitted && companyInfoFormControl.ContractorCountryCode.errors
+                                                            }"
+                                                        >
+                                                            <ng-template kendoDropDownListNoDataTemplate>
+                                                                <h4>
+                                                                    {{ pageContent.General_Keys.No_Data_Found }}
+                                                                </h4>
+                                                            </ng-template>
+                                                        </kendo-dropdownlist>
+                                                        <div *ngIf="submitted && companyInfoFormControl.ContractorCountryCode.errors" class="k-tooltip-validation"></div>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                            <div class="col">
+                                                <section class="white-block">
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.XactNet_Address }}</span>
+                                                        <input
+                                                            [class]="visualCueObject.ContractorXactNetAddress == true ? 'visual-cue' : 'none'"
+                                                            [attr.disabled]="
+                                                                ((visualCueObject.ContractorXactNetAddress == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                visualCueObject.IsContractorXactNetAddressDisable
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            trim="blur"
+                                                            maxlength="40"
+                                                            kendoTextBox
+                                                            formControlName="ContractorXactNetAddress"
+                                                            class="k-textbox"
+                                                        />
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span
+                                                            >{{ pageContent.Company_Info.Symbility_ID }}<small> {{ pageContent.Company_Info.if_any }}</small></span
+                                                        >
+                                                        <input
+                                                            [class]="visualCueObject.ContractorSymbilityAddress == true ? 'visual-cue' : 'none'"
+                                                            [attr.disabled]="
+                                                                ((visualCueObject.ContractorSymbilityAddress == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                visualCueObject.IsContractorSymbilityAddressDisable
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            trim="blur"
+                                                            maxlength="40"
+                                                            kendoTextBox
+                                                            formControlName="ContractorSymbilityAddress"
+                                                            class="k-textbox"
+                                                        />
+                                                    </label>
+                                                </section>
+                                                <section class="white-block moisture-block">
+                                                    <div class="moisture-block-wrapper">
+                                                        <label class="k-form-field full-width">
+                                                            <span
+                                                                >{{ pageContent.Company_Info.Preferred_Moisture_Data_Software }}<small> {{ pageContent.Company_Info.Select_One }}</small></span
+                                                            >
+                                                        </label>
+                                                        <div class="k-form-field">
+                                                            <div class="col" *ngFor="let prefer of vendors; let y = index">
+                                                                <input
+                                                                    [class]="loginDetails[0].ContrID > 0 && visualCueObject.ContractorMoistureData[y]?.visualPrefCue == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="
+                                                                        (loggedInUserType == 'Internal' &&
+                                                                            (prefFlag === true ||
+                                                                                visualCueObject.ContractorMoistureData[y]?.visualSupCue == true ||
+                                                                                visualCueObject.ContractorMoistureData[y]?.visualPrefCue == true ||
+                                                                                ContrID === 0)) ||
+                                                                        visualCueObject.IsContractorMoistureDataDisable ||
+                                                                        visualCueObject.IsContractorMoistureSupportedDataDisable
+                                                                            ? ''
+                                                                            : null
+                                                                    "
+                                                                    type="radio"
+                                                                    id="radio{{ y }}"
+                                                                    class="k-radio"
+                                                                    formControlName="PreferredFlag"
+                                                                    name="PreferredFlag"
+                                                                    [value]="prefer.VendorID"
+                                                                />
+                                                                <label class="k-radio-label" for="radio{{ y }}">{{ prefer.VendorName }}</label>
+                                                            </div>
+                                                        </div>
+                                                        <label class="k-form-field full-width">
+                                                            <span
+                                                                >{{ pageContent.Company_Info.Supported_Moisture_Data_Software }}<small> {{ pageContent.Company_Info.Select_Apply }}</small></span
+                                                            >
+                                                        </label>
+                                                        <div class="k-form-field" *ngIf="companyData.CompanyDetails.ContractorMoistureData.length">
+                                                            <div class="col" formArrayName="SupportedFlag" *ngFor="let support of registerForm.get('SupportedFlag')['controls']; let i = index">
+                                                                <input
+                                                                    [class]="loginDetails[0].ContrID > 0 && visualCueObject.ContractorMoistureData[i]?.visualSupCue == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="
+                                                                        (loggedInUserType == 'Internal' &&
+                                                                            (visualCueObject.ContractorMoistureData[i].visualSupCue == true ||
+                                                                                visualCueObject.ContractorMoistureData[i].visualPrefCue == true ||
+                                                                                ContrID === 0)) ||
+                                                                        visualCueObject.IsContractorMoistureSupportedDataDisable ||
+                                                                        visualCueObject.IsContractorMoistureDataDisable
+                                                                            ? ''
+                                                                            : null
+                                                                    "
+                                                                    type="checkbox"
+                                                                    id="chck{{ i }}"
+                                                                    class="k-checkbox"
+                                                                    [formControlName]="i"
+                                                                    [(ngModel)]="companyData.CompanyDetails.ContractorMoistureData[i].SupportedFlag"
+                                                                />
+                                                                <label class="k-checkbox-label" for="chck{{ i }}">{{ vendors[i].VendorName }}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </div>
+                                        </section>
+                                        <section class="white-block">
+                                            <section class="bottom-block">
+                                                <div class="col">
+                                                    <label class="k-form-field required">
+                                                        <span>{{ pageContent.Company_Info.What_Date_Open }}</span>
+                                                        <section>
+                                                            <kendo-datepicker
+                                                                [class]="
+                                                                    companyInfoFormControl.ContractorOpeningDate.value !== '' && visualCueObject.ContractorOpeningDate == true ? 'visual-cue' : 'none'
+                                                                "
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.ContractorOpeningDate == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsContractorOpeningDateDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                id="contractorOpeningDate"
+                                                                [min]="min"
+                                                                [max]="max"
+                                                                format="MM/dd/yyyy"
+                                                                [ngClass]="{
+                                                                    'err ng-invalid ng-touched': submitted && companyInfoFormControl.ContractorOpeningDate.errors
+                                                                }"
+                                                                formControlName="ContractorOpeningDate"
+                                                            >
+                                                                <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                            </kendo-datepicker>
+                                                        </section>
+
+                                                        <div *ngIf="submitted && companyInfoFormControl.ContractorOpeningDate.errors" class="k-tooltip-validation"></div>
+                                                    </label>
+                                                    <label class="k-form-field required">
+                                                        <span>{{ pageContent.Company_Info.What_Percent }}</span>
+                                                        <section>
+                                                            <input
+                                                                [class]="
+                                                                    companyInfoFormControl.ContractorPercentOfOverallBusinessSubContracted.value !== null &&
+                                                                    visualCueObject.ContractorPercentOfOverallBusinessSubContracted == true
+                                                                        ? 'visual-cue'
+                                                                        : 'none'
+                                                                "
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.ContractorPercentOfOverallBusinessSubContracted == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsContractorPercentOfOverallBusinessSubContractedDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                class="k-textbox"
+                                                                kendoTextBox
+                                                                pattern="^(0|[0-9]|[1-9][0-9]|100)$"
+                                                                onKeyPress="if(this.value.length==3) return false;"
+                                                                type="number"
+                                                                formControlName="ContractorPercentOfOverallBusinessSubContracted"
+                                                                [ngClass]="{
+                                                                    'err ng-invalid ng-touched': submitted && companyInfoFormControl.ContractorPercentOfOverallBusinessSubContracted.errors
+                                                                }"
+                                                            />
+                                                        </section>
+
+                                                        <div *ngIf="submitted && companyInfoFormControl.ContractorPercentOfOverallBusinessSubContracted.errors" class="k-tooltip-validation required">
+                                                            <div>{{ pageContent.Company_Info.Enter_Number }}</div>
+                                                        </div>
+                                                    </label>
+                                                    <label class="k-form-field required">
+                                                        <span>{{ pageContent.Company_Info.How_Hear_About_Contractor }}</span>
+
+                                                        <section>
+                                                            <input
+                                                                [class]="
+                                                                    companyInfoFormControl.ContractorCentralHeardMethod.value !== '' && visualCueObject.ContractorCentralHeardMethod == true
+                                                                        ? 'visual-cue'
+                                                                        : 'none'
+                                                                "
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.ContractorCentralHeardMethod == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsContractorCentralHeardMethodDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                trim="blur"
+                                                                class="k-textbox"
+                                                                kendoTextBox
+                                                                type="text"
+                                                                maxlength="60"
+                                                                formControlName="ContractorCentralHeardMethod"
+                                                                [ngClass]="{
+                                                                    'err ng-invalid ng-touched': submitted && companyInfoFormControl.ContractorCentralHeardMethod.errors
+                                                                }"
+                                                            />
+                                                        </section>
+
+                                                        <div *ngIf="submitted && companyInfoFormControl.ContractorCentralHeardMethod.errors" class="k-tooltip-validation"></div>
+                                                    </label>
+                                                    <label class="k-form-field required">
+                                                        <span>{{ pageContent.Company_Info.Number_Of_Employees }}</span>
+
+                                                        <section>
+                                                            <input
+                                                                [class]="
+                                                                    companyInfoFormControl.CountOfEmployeesInContractorCompany.value !== null &&
+                                                                    visualCueObject.CountOfEmployeesInContractorCompany == true
+                                                                        ? 'visual-cue'
+                                                                        : 'none'
+                                                                "
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.CountOfEmployeesInContractorCompany == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsCountOfEmployeesInContractorCompanyDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                kendoTextBox
+                                                                type="number"
+                                                                pattern="^(?:[1-9][0-9]{2}|[1-9][0-9]{3}|[1-9][0-9]{4}|[1-9][0-9]|[1-9])$"
+                                                                onKeyPress="if(this.value.length==5) return false;"
+                                                                formControlName="CountOfEmployeesInContractorCompany"
+                                                                class="k-textbox"
+                                                                [ngClass]="{
+                                                                    'err ng-invalid ng-touched': submitted && companyInfoFormControl.CountOfEmployeesInContractorCompany.errors
+                                                                }"
+                                                            />
+                                                        </section>
+
+                                                        <div *ngIf="submitted && companyInfoFormControl.CountOfEmployeesInContractorCompany.errors" class="k-tooltip-validation">
+                                                            <div *ngIf="companyInfoFormControl.CountOfEmployeesInContractorCompany.errors.pattern">Enter a valid number!</div>
+                                                        </div>
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.Employees_Uniform }}</span>
+
+                                                        <section>
+                                                            <kendo-switch
+                                                                [class]="visualCueObject.ContractorEmployeeUniformFlag == true ? 'visual-cue' : 'none'"
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.ContractorEmployeeUniformFlag == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsContractorEmployeeUniformFlagDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                formControlName="ContractorEmployeeUniformFlag"
+                                                            >
+                                                            </kendo-switch>
+                                                        </section>
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.Carry_ID }}</span>
+
+                                                        <section>
+                                                            <kendo-switch
+                                                                [class]="visualCueObject.ContractorEmployeeIdentificationFlag == true ? 'visual-cue' : 'none'"
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.ContractorEmployeeIdentificationFlag == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsContractorEmployeeIdentificationFlagDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                formControlName="ContractorEmployeeIdentificationFlag"
+                                                            >
+                                                            </kendo-switch>
+                                                        </section>
+                                                    </label>
+                                                    <label class="k-form-field">
+                                                        <span>{{ pageContent.Company_Info.Minimum_Statutory }}</span>
+
+                                                        <section>
+                                                            <kendo-switch
+                                                                [class]="visualCueObject.WorkersCompanyMinimumRequirementFlag == true ? 'visual-cue' : 'none'"
+                                                                [attr.disabled]="
+                                                                    ((visualCueObject.WorkersCompanyMinimumRequirementFlag == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    visualCueObject.IsWorkersCompanyMinimumRequirementFlagDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                formControlName="WorkersCompanyMinimumRequirementFlag"
+                                                            >
+                                                            </kendo-switch>
+                                                        </section>
+                                                    </label>
+                                                </div>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </div>
+                                <!-- content close -->
+                            </div>
+                        </div>
+                        <!-- content close new-->
+                    </div>
+                </section>
+                <!-- middle content area close -->
+
+                <!-- bottom block open -->
+                <section class="bottom-section">
+                    <section class="action-buttons">
+                        <button *ngIf="toggleBackButton && _srvAuth.Profile.EventName === 'No Event' && loggedInUserType !== 'Internal'" type="button" kendoButton (click)="onBackClick()">
+                            {{ pageContent.Company_Info.Back }}
+                        </button>
+                        <button
+                            *ngIf="!readonlyMode"
+                            type="submit"
+                            [disabled]="!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess"
+                            kendoButton
+                            [primary]="true"
+                            [innerHTML]="loginDetails[0].ContrID > 0 && _srvAuth.Profile.EventName === 'No Event' ? pageContent.Company_Info.Save : pageContent.Company_Info.Save_Next"
+                        ></button>
+                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()" kendoButton [primary]="true">{{ pageContent.Company_Info.Next }}</button>
+                    </section>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<!-- Dialog Reference -->
+<div kendoDialogContainer class="popup-loader repository-popup"></div>

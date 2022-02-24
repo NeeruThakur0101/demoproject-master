@@ -1,0 +1,31 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Button component
+// ----------------------------------------------------------------------------
+
+button.k-button,
+a.sign-up {
+    @extend %btn;
+    background-image: none !important;
+    border-radius: 0 !important;
+    &.k-primary {
+        @extend %btn;
+
+        &:hover {
+            color: $c-B-Hover-Clr !important;
+            background-color: $c-B-Hover-Bg !important;
+            border-color: darken($color: $c-D-Gry, $amount: 10%);
+        }
+    }
+    &:not(.k-primary) {
+        @extend %btn-cancel;
+    }
+}
+
+a.sign-up {
+    line-height: 2.8rem !important;
+}
+
+.k-button:hover::before,
+.k-button.k-state-hover::before {
+    opacity: 0.2;
+}

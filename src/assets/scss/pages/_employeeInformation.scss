@@ -1,0 +1,210 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Credit Information Page
+// -----------------------------------------------------------------------------
+
+main {
+    &.employee-information {
+        > .outer-block {
+            height: 100%;
+            > .inner-block {
+                height: 100%;
+                > .middle-section {
+                    height: calc(100% - (80px + 45px)) !important;
+                    > .white-block {
+                        height: 100%;
+                    }
+                    @media all and (max-width: 700px) {
+                        height: calc(100% - 110px) !important;
+                    }
+                }
+            }
+        }
+        .employee-listing {
+            .employeeInfo-grid {
+                height: calc(100% - 45px) !important;
+            }
+        }
+        @media all and (min-width: 1241px) and (min-height: 710px) {
+            .scrollable-content-wrapper {
+                .scrollable-content {
+                    width: 100%;
+                    .flex-3-7 {
+                        padding-bottom: 0 !important;
+                    }
+                }
+            }
+        }
+        .scrollable-content-wrapper {
+            @media all and (max-width: 1240px) {
+                padding-bottom: 0;
+            }
+        }
+        .employee-chart {
+            margin-bottom: 0 !important;
+            .form-off {
+                @extend %form-off;
+            }
+        }
+        .employee-block-wrapper {
+            overflow: hidden;
+            position: relative;
+            .employee-chart {
+                text-align: center;
+                @extend %trans;
+                position: absolute;
+                width: 400px;
+                bottom: 10px;
+                top: 10px;
+                left: 10px;
+                @include Max(736px) {
+                    top: 0px;
+                }
+                @media all and (max-height: 600px) {
+                    height: auto;
+                }
+            }
+            .employee-listing {
+                @extend %trans;
+                padding-left: 440px;
+                height: 100%;
+                // @media all and (max-height: 768px) {
+                //   height: auto;
+                //   .h-100 { height: auto;}
+                // }
+                .grid-top-bar {
+                    @include Max($iPh-L) {
+                        //flex-direction: row;
+                        justify-content: space-between;
+                        margin-bottom: 0;
+                    }
+                }
+            }
+            &.active {
+                .employee-chart {
+                    left: -400px;
+                    .form-off {
+                        right: -30px;
+                        &:before {
+                            @include bg('ico-arrow-right.svg', '', '', 14px);
+                        }
+                        &:hover {
+                            &:before {
+                                @include bg('ico-arrow-right-w.svg', '', '', 14px);
+                            }
+                        }
+                    }
+                }
+                .employee-listing {
+                    padding-left: 30px;
+                }
+            }
+            &:not(.active) {
+                @media all and (max-width: 1282px) {
+                    .k-pager-wrap {
+                        top: -1px;
+                    }
+                }
+                @include Max($iPh-L) {
+                    kendo-pager-page-sizes {
+                        display: none;
+                    }
+                }
+            }
+            @media all and (max-width: 1240px) {
+                .k-pager-wrap {
+                    top: -1px;
+                }
+                .scrollable-content {
+                    width: 100%;
+                }
+                .employee-chart {
+                    left: -400px;
+                    .form-off {
+                        right: -30px;
+                        top: 0px;
+                    }
+                }
+                .employee-listing {
+                    padding-left: 30px;
+                }
+                &.active {
+                    .employee-chart {
+                        left: 0;
+                        .form-off {
+                            right: -29px;
+                        }
+                    }
+                    .employee-listing {
+                        padding-left: 440px;
+                    }
+                    .k-pager-sizes {
+                        display: none;
+                    }
+                }
+            }
+            .k-grid-header {
+                @include Max($D-S) {
+                    display: none;
+                }
+            }
+            @include Max($D-S) {
+                &.active {
+                    .employee-listing {
+                        padding-left: 120%;
+                        height: 1px;
+                        overflow: hidden;
+                    }
+                    .scrollable-content {
+                        width: calc(100% + 12px);
+                    }
+                    .employee-chart {
+                        padding-right: 30px;
+                        width: auto;
+                        position: relative;
+                        top: 0;
+                        .form-off {
+                            right: 1px !important;
+                            top: 15px;
+                        }
+                    }
+                }
+            }
+            .scrollable-content {
+                @include Max(600px) {
+                    width: calc(100% + 12px);
+                }
+            }
+        }
+        @media all and (max-width: 900px), (max-height: 680px) {
+            .scrollable-content {
+                width: 100% !important;
+            }
+            .employee-chart {
+                position: relative !important;
+                width: 100% !important;
+                left: 0 !important;
+                padding-bottom: 3rem;
+                .form-off {
+                    display: none;
+                }
+            }
+            .employee-listing {
+                padding-left: 0 !important;
+            }
+        }
+    }
+}
+main.employee-information ~ .k-dialog-wrapper .success-msg {
+    padding-bottom: 1.5rem;
+}
+
+.disable-tip {
+    position: relative;
+    > div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+    }
+}

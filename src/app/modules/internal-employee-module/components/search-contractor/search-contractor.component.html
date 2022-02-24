@@ -1,0 +1,239 @@
+<main appGridlayout class="ContractorOperations">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header [fromPage]="fromPage" [searchIcon]="'notDisplaySearch'"></app-header>
+                <h1>{{ pageContent.Search_Contractor.Search_Contractor }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <section class="middle-section">
+                <div class="white-block">
+                    <form [formGroup]="formGroup" class="k-form-inline h-100">
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content" [ngClass]="{ active: showFilters }">
+                                <section class="white-block search-section">
+                                    <section class="search-overlay" *ngIf="showFilters"></section>
+                                    <section class="show-srch-filter">
+                                        <a (click)="searchFilter()" [ngClass]="{ active: showFilters }"><span class="k-icon k-i-filter"></span></a>
+                                    </section>
+                                    <section *ngIf="showFilters" class="form-block search-filter">
+                                        <section class="search-filter-wrapper">
+                                            <div class="form-control col">
+                                                <kendo-textbox-container (keypress)="keyPress($event)" (paste)="onPaste($event)" floatingLabel="{{ pageContent.Search_Contractor.ContractorID }}">
+                                                    <input kendoTextBox formControlName="contractorId" maxlength="15" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.Contractor_Name }}">
+                                                    <input kendoTextBox formControlName="contractorName" maxlength="50" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.OwnerPrincipal }}">
+                                                    <input kendoTextBox formControlName="ownerPrincipal" maxlength="50" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.City }}">
+                                                    <input kendoTextBox formControlName="city" maxlength="50" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.State }}">
+                                                    <input kendoTextBox appAlphabetOnly formControlName="state" maxlength="50" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.PostalCode }}">
+                                                    <input kendoTextBox formControlName="postalCode" maxlength="15" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.DM }}">
+                                                    <input kendoTextBox formControlName="dm" maxlength="50" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col">
+                                                <kendo-textbox-container floatingLabel="{{ pageContent.Search_Contractor.XNASymbility_ID }}">
+                                                    <input kendoTextBox formControlName="xnaSymbility" maxlength="50" />
+                                                </kendo-textbox-container>
+                                            </div>
+                                            <div class="form-control col search-btn">
+                                                <button kendoButton (click)="searchContractor()" [primary]="true">{{ pageContent.Search_Contractor.Search_Contractor_btn }}</button>
+                                                <button kendoButton (click)="resetPage()">{{ pageContent.Search_Contractor.Reset_Contractor_btn }}</button>
+                                            </div>
+                                        </section>
+                                        <p *ngIf="enterFieldFlag" class="err-msg comp">
+                                            {{ pageContent.Search_Contractor.Enter_one_value_to_search_contractor }}
+                                        </p>
+                                    </section>
+                                    <section class="cont-operation-wrap" *ngIf="!showFilters || showGrid">
+                                        <kendo-grid
+                                            media="(min-width: 901px)"
+                                            [kendoGridBinding]="searchGrid"
+                                            class="responsive-grid search-grid desktop-mode"
+                                            [filter]="filter"
+                                            filterable="menu"
+                                            (filterChange)="filterChange($event)"
+                                            [pageSize]="pageSize"
+                                            [style.height.%]="100"
+                                            [sortable]="{
+                                                allowUnsort: allowUnsort,
+                                                mode: multiple ? 'multiple' : 'single'
+                                            }"
+                                            [sort]="sort"
+                                            [resizable]="false"
+                                            [pageable]="pageObj"
+                                        >
+                                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <!-- template for mobile -->
+                                                    <h2 class="tbl-card-title">
+                                                        <strong>{{ pageContent.Search_Contractor.Contractor }} </strong>
+                                                        <a (click)="openContractorDetail(dataItem)">{{ dataItem.CompanyName }}</a>
+                                                    </h2>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Search_Contractor.ST }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.State }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Search_Contractor.City_header }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.City }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Search_Contractor.PostalCode_header }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.PostalCode }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Search_Contractor.OwnerPrincipal_header }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.PrimaryOwnerName }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Search_Contractor.DM_header }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.DM }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Search_Contractor.XNASymbility_ID_header }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.XNASymbilityID }}</dd>
+                                                    </dl>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-messages
+                                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                            >
+                                            </kendo-grid-messages>
+                                            <kendo-grid-column field="CompanyName" title="{{ pageContent.Search_Contractor.Contractor }}" width="200" media="(min-width: 901px)" class="event-link">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <a (click)="openContractorDetail(dataItem)"> {{ dataItem.CompanyName }}</a>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="State" title="{{ pageContent.Search_Contractor.ST }}" width="80" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="City" title="{{ pageContent.Search_Contractor.City_header }}" width="140" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="PostalCode" title="{{ pageContent.Search_Contractor.PostalCode_header }}" width="140" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column
+                                                field="PrimaryOwnerName"
+                                                title="{{ pageContent.Search_Contractor.OwnerPrincipal_header }}"
+                                                width="180"
+                                                media="(min-width: 901px)"
+                                                class="highestCredit"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="DM" title="{{ pageContent.Search_Contractor.DM_header }}" width="120" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="XNASymbilityID" title="{{ pageContent.Search_Contractor.XNASymbility_ID_header }}" width="190" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                        </kendo-grid>
+                                    </section>
+                                </section>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>

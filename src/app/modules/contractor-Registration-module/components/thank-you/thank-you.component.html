@@ -1,0 +1,85 @@
+<main>
+    <!-- <div *ngIf="loader" class="page-loader">
+        <span class="k-i-loading"></span>
+    </div> -->
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <div class="breadcrumb">
+                    <span *ngIf="isBreadcrum">{{ breadcrumHub }}</span>
+                    <span class="active">Contractor Central</span>
+                </div>
+                <h1>{{ pageContent.Thank_You_Page.Thank_you_header }} &reg;</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <section class="middle-section thank-you">
+                <div class="white-block">
+                    <form class="k-form-inline h-100">
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content">
+                                <!-- content  start-->
+
+                                <section class="white-block">
+                                    <section class="media">
+                                        <h2>{{ pageContent.Thank_You_Page.what_to_expect }}</h2>
+                                        <!-- <a href="javascript:window.print()" class="print">
+                                            <span class="k-icon k-i-printer"></span>
+                                        </a> -->
+
+                                        <a
+                                            href="https://reports.contractorconnection.com/ReportsDisplay11.5/PDF_Report.aspx?param1={{
+                                                ContractorID
+                                            }}&param2=NOMORE&param3=&param4=NOMORE&param5=NOMORE&param6=NOMORE&param7=NOMORE&param8=NOMORE&param9=NOMORE&param10=NOMORE&param11=NOMORE&param12=NOMORE&param13=NOMORE&param14=NOMORE&param15=NOMORE&CRname=ZetaFaxContrApplication-2098r.rpt&CRcheck=NEEDED"
+                                            target="_blank"
+                                            class="print"
+                                        >
+                                            <span class="k-icon k-i-printer"></span>
+                                        </a>
+                                    </section>
+
+                                    <div class="thank-you">
+                                        <ul>
+                                            <li>{{ pageContent.Thank_You_Page.Line1 }}</li>
+                                            <li *ngIf="CountryID === 1">{{ pageContent.Thank_You_Page.Line2 }}</li>
+                                            <li>{{ pageContent.Thank_You_Page.Line3 }}</li>
+                                            <li>{{ pageContent.Thank_You_Page.Line4 }}</li>
+                                            <li>{{ pageContent.Thank_You_Page.Line5 }}</li>
+                                        </ul>
+                                        <section class="contact">
+                                            <h3 *ngIf="CountryID === 1">{{ pageContent.Thank_You_Page.For_Question_Contact_USA }}</h3>
+                                            <h3 *ngIf="CountryID === 2">{{ pageContent.Thank_You_Page.For_Question_Contact_CANADA }}</h3>
+                                            <p>
+                                                <a (click)="insuranceEmail()" *ngIf="toggleInsuranceEmail && CountryID === 1">
+                                                    <span class="k-icon k-i-email"></span> {{ pageContent.Thank_You_Page.Insurance_Restoration }}</a
+                                                >
+                                                <a (click)="remoRenoEmail()" *ngIf="toggleRemoRenoEmail && CountryID === 1"
+                                                    ><span class="k-icon k-i-email"></span> {{ pageContent.Thank_You_Page.Remodeling_Renovation }}</a
+                                                >
+                                                <a *ngIf="CountryID === 2" href="mailto:membershipservices@contractorconnection.ca"
+                                                    ><span class="k-icon k-i-email"></span> membershipservices@contractorconnection.ca
+                                                </a>
+                                            </p>
+                                            <p>
+                                                <a class="k-button k-primary" (click)="redirectToLogin()">{{ pageContent.Thank_You_Page.Return_Home }}</a>
+                                            </p>
+                                        </section>
+                                    </div>
+                                </section>
+                                <!-- content close -->
+                            </div>
+                        </div>
+
+                        <!-- </div></perfect-scrollbar> -->
+                    </form>
+                </div>
+            </section>
+            <!-- middle content area close -->
+            <!-- bottom block open -->
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>

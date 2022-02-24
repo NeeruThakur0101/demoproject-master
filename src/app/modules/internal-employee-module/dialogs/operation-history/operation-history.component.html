@@ -1,0 +1,165 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Ops_History.Ops_History }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- popup content -->
+            <section class="white-block">
+                <!-- form block starts -->
+                <section class="form-block" *ngIf="Page?.grid[0]">
+                    <div class="form-control">
+                        <kendo-textbox-container required floatingLabel="{{ pageContent.Ops_History.Contractor }}">
+                            <input kendoTextBox value="({{ Page.grid[0].Contr_Id }}) {{ Page.grid[0].ContractorName }}" [readonly]="true" disabled />
+                        </kendo-textbox-container>
+                    </div>
+                    <section>
+                        <kendo-grid
+                            media="(min-width: 901px)"
+                            class="responsive-grid OpsHistory-grid desktop-mode"
+                            [kendoGridBinding]="Page.grid"
+                            [filter]="filterProfile"
+                            filterable="menu"
+                            (filterChange)="filterProfileChange($event)"
+                            [pageSize]="pageSize"
+                            [skip]="skip"
+                            [style.height.%]="100"
+                            [sortable]="{
+                                allowUnsort: allowUnsort,
+                                mode: 'single'
+                            }"
+                            [sort]="sort"
+                            [resizable]="false"
+                            [pageable]="{
+                                buttonCount: buttonCount,
+                                info: info,
+                                type: type,
+                                pageSizes: pageSizes,
+                                previousNext: previousNext
+                            }"
+                        >
+                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <!-- template for mobile -->
+                                    <h2 class="tbl-card-title">
+                                        <strong>{{ pageContent.Ops_History.Change_Date }}</strong>
+                                        {{ dataItem.ChangeDate }}
+                                    </h2>
+                                    <dl>
+                                        <dt>
+                                            <strong>{{ pageContent.Ops_History.Change_Type }} </strong>
+                                        </dt>
+                                        <dd>{{ dataItem.ChangeTypeTranslated }}</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>
+                                            <strong>{{ pageContent.Ops_History.Status }}</strong>
+                                        </dt>
+                                        <dd>
+                                            <a *ngIf="dataItem.Status == 'Pending' && dataItem.PendingHyperlinkActiveFlag && !dataItem.EmptyJSONFlag" (click)="openPending(dataItem)">
+                                                {{ dataItem.StatusNew }}
+                                            </a>
+                                            <span *ngIf="dataItem.Status == 'Pending' && !dataItem.PendingHyperlinkActiveFlag && !dataItem.EmptyJSONFlag">
+                                                {{ dataItem.StatusNew }}
+                                            </span>
+                                            <span *ngIf="dataItem.Status != 'Pending'">
+                                                {{ dataItem.StatusNew }}
+                                            </span>
+                                            <span *ngIf="dataItem.EmptyJSONFlag">
+                                                <a *ngIf="dataItem.Status == 'Pending'" (click)="quickAction = !quickAction" class="quick-approve">Pending</a>
+                                                <span kendoTooltip class="right" position="right"><span class="ico-hammer" title="{{ pageContent.Ops_History.NoData }}"></span></span>
+
+                                                <div *ngIf="quickAction && dataItem.Status == 'Pending'">
+                                                    <p>
+                                                        <a (click)="quickActionCall('Approve', dataItem)"
+                                                            ><span kendoTooltip title="{{ pageContent.Ops_History.QuickApprove }}" class="k-icon k-i-check-outline"></span
+                                                        ></a>
+                                                        <a (click)="quickActionCall('Disapprove', dataItem)"
+                                                            ><span kendoTooltip title="{{ pageContent.Ops_History.Disapprove }}" class="k-icon k-i-close-outline"></span
+                                                        ></a>
+                                                    </p>
+                                                </div>
+                                            </span>
+                                        </dd>
+                                    </dl>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-messages
+                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                            >
+                            </kendo-grid-messages>
+                            <kendo-grid-column field="ChangeDate" title="{{ pageContent.Ops_History.Change_Date }}" width="150" media="(min-width: 901px)">
+                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                    <multicheck-filter
+                                        [isPrimitive]="true"
+                                        [field]="column.field"
+                                        [filterService]="filterService"
+                                        [currentFilter]="filter"
+                                        [data]="distinctPrimitiveProfile(column.field)"
+                                    ></multicheck-filter>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="ChangeTypeTranslated" title="{{ pageContent.Ops_History.Change_Type }}" width="150" [filterable]="true" media="(min-width: 901px)">
+                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                    <multicheck-filter
+                                        [isPrimitive]="true"
+                                        [field]="column.field"
+                                        [filterService]="filterService"
+                                        [currentFilter]="filter"
+                                        [data]="distinctPrimitiveProfile(column.field)"
+                                    ></multicheck-filter>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column field="StatusNew" title="{{ pageContent.Ops_History.Status }}" width="100" [filterable]="true" media="(min-width: 901px)">
+                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                    <multicheck-filter
+                                        [isPrimitive]="true"
+                                        [field]="column.field"
+                                        [filterService]="filterService"
+                                        [currentFilter]="filter"
+                                        [data]="distinctPrimitiveProfile(column.field)"
+                                    ></multicheck-filter>
+                                </ng-template>
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <a *ngIf="dataItem.Status == 'Pending' && dataItem.PendingHyperlinkActiveFlag && !dataItem.EmptyJSONFlag" (click)="openPending(dataItem)">
+                                        {{ dataItem.StatusNew }}
+                                    </a>
+                                    <span *ngIf="dataItem.Status == 'Pending' && !dataItem.PendingHyperlinkActiveFlag && !dataItem.EmptyJSONFlag">
+                                        {{ dataItem.StatusNew }}
+                                    </span>
+                                    <span *ngIf="dataItem.Status != 'Pending'">
+                                        {{ dataItem.StatusNew }}
+                                    </span>
+                                    <span *ngIf="dataItem.EmptyJSONFlag">
+                                        <a *ngIf="dataItem.Status == 'Pending'" (click)="quickAction = !quickAction" class="quick-approve">Pending</a>
+                                        <span kendoTooltip class="right" position="right"><span class="ico-hammer" title="{{ pageContent.Ops_History.NoData }}"></span></span>
+
+                                        <div *ngIf="quickAction && dataItem.Status == 'Pending'">
+                                            <p>
+                                                <a (click)="quickActionCall('Approve', dataItem)"
+                                                    ><span kendoTooltip title="{{ pageContent.Ops_History.QuickApprove }}" class="k-icon k-i-check-outline"></span
+                                                ></a>
+                                                <a (click)="quickActionCall('Disapprove', dataItem)"
+                                                    ><span kendoTooltip title="{{ pageContent.Ops_History.Disapprove }}" class="k-icon k-i-close-outline"></span
+                                                ></a>
+                                            </p>
+                                        </div>
+                                    </span>
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                    </section>
+                </section>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton (click)="close()">{{ pageContent.Ops_History.Cancel }}</button>
+</div>
+<!-- </kendo-dialog> -->

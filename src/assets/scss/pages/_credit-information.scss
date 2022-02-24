@@ -1,0 +1,25 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Credit Information Page
+// -----------------------------------------------------------------------------
+
+.credit-info-section {
+    .cont-operation-wrap {
+        @include Max($M-XL) {
+            height: calc(100% - 76px) !important;
+        }
+    }
+
+    .k-pager-wrap {
+        @include Max(1487px) {
+            top: -11px;
+        }
+    }
+}
+
+.credential-grid {
+    .k-dateinput-wrap .k-input:read-only:not([readonly='false']),
+    .k-textbox-container + .k-datepicker + .k-label {
+        background-color: transparent !important;
+        cursor: default !important;
+    }
+}

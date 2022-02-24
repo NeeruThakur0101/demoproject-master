@@ -1,0 +1,102 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Pending_Profile.Pending_Profile_Change }}</h1>
+    <button type="button" (click)="dialog.close({ button: 'close' })">&times;</button>
+</kendo-dialog-titlebar>
+
+<form (ngSubmit)="onChangeSubmit(f)" #f="ngForm">
+    <!-- popup content section -->
+    <div class="popup-content pending-profile-changes">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block"
+                    [class.questionnaire_popup]="dataItem.contractor_page === 'Contractor Questionnaire'">
+                    <!-- form block starts -->
+                    <section class="form-block">
+                        <div class="form-control"
+                            *ngIf="!dataItem.federalMask && !dataItem.mobileMask && !dataItem.ssnMask && !dataItem.FieldName.includes('SubOutComment')">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ dataItem.FieldName }} ({{ pageContent.Pending_Profile.Old_Value }})">
+                                <input kendoTextBox value="{{ dataItem.OldValue }}" [readonly]="true" disabled />
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" *ngIf="dataItem.FieldName.includes('SubOutComment')">
+                            <kendo-textbox-container
+                                floatingLabel="{{ dataItem.FieldName }} ({{ pageContent.Pending_Profile.Old_Value }})">
+                                <textarea class="read-only" name="dataItem.OldValue" [(ngModel)]="dataItem.OldValue"
+                                    disabled></textarea>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control"
+                            *ngIf="dataItem.federalMask || dataItem.mobileMask || dataItem.ssnMask">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ dataItem.FieldName }} ({{ pageContent.Pending_Profile.Old_Value }})">
+                                <kendo-maskedtextbox [maskOnFocus]="true"
+                                    [mask]="dataItem.mobileMask === true ? mobileNumberMask : dataItem.federalMask === true ? federalBinNumberMask : ssnNumberMask"
+                                    kendoTextBox [value]="dataItem.OldValue" class="k-textbox" [disabled]="true"
+                                    [maskValidation]="true" [ngClass]="{ 'ng-invalid ng-touched': submitted }" required>
+                                </kendo-maskedtextbox>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <section>
+                            <section class="form-block"
+                                *ngIf="!dataItem.federalMask && !dataItem.mobileMask && !dataItem.ssnMask && !dataItem.FieldName.includes('SubOutComment')">
+                                <div class="form-control">
+                                    <kendo-textbox-container required
+                                        floatingLabel="{{ dataItem.FieldName }} ({{ pageContent.Pending_Profile.New_Value }})">
+                                        <input name="newValue" [(ngModel)]="newValue" kendoTextBox
+                                            [maxLength]="fieldValidation" minlength="1"
+                                            (keypress)="masterFunction(dataItem.FieldName, $event, dataItem.financialKeypress)"
+                                            [pattern]="pattern"
+                                            [type]="dataItem.isFinancial || dataItem.isLocation ? dataItem.dataType : dataType"
+                                            [ngClass]="{ 'ng-invalid ng-touched': submitted }" trim="blur" required />
+                                        <!-- (paste)="dataItem.financialKeypress ? financailonPaste() : ''" -->
+                                    </kendo-textbox-container>
+                                </div>
+                            </section>
+
+                            <section class="form-block" *ngIf="dataItem.FieldName.includes('SubOutComment')">
+                                <div class="form-control">
+                                    <kendo-textbox-container required
+                                        floatingLabel="{{ dataItem.FieldName }} ({{ pageContent.Pending_Profile.New_Value }})">
+                                        <textarea name="newValue" [(ngModel)]="newValue"
+                                            (keypress)="masterFunction(dataItem.FieldName, $event, dataItem.financialKeypress)"
+                                            kendoTextBox [maxLength]="fieldValidation"
+                                            [ngClass]="{ 'ng-invalid ng-touched': submitted }" trim="blur" required>
+                                        </textarea>
+                                    </kendo-textbox-container>
+                                </div>
+                            </section>
+
+                            <section class="form-block"
+                                *ngIf="dataItem.federalMask || dataItem.mobileMask || dataItem.ssnMask">
+                                <div class="form-control">
+                                    <kendo-textbox-container required
+                                        floatingLabel="{{ dataItem.FieldName }} ({{ pageContent.Pending_Profile.New_Value }})">
+                                        <kendo-maskedtextbox [maskOnFocus]="true"
+                                            [mask]="dataItem.mobileMask === true ? mobileNumberMask : dataItem.federalMask === true ? federalBinNumberMask : ssnNumberMask"
+                                            kendoTextBox name="newValue" [(ngModel)]="newValue" class="k-textbox"
+                                            [ngClass]="{ 'ng-invalid ng-touched': submitted }" required>
+                                        </kendo-maskedtextbox>
+                                    </kendo-textbox-container>
+                                </div>
+                            </section>
+                        </section>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton (click)="dialog.close({ button: 'close' })">{{ pageContent.Pending_Profile.Cancel
+            }}</button>
+        <button kendoButton type="submit" [disabled]="dataItem.NewValue === newValue?.trim()" [primary]="true">{{
+            pageContent.Pending_Profile.Save }}</button>
+    </div>
+</form>
+
+<!-- </kendo-dialog> -->

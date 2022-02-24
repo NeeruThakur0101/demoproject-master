@@ -1,0 +1,90 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to breadcrum.
+// -----------------------------------------------------------------------------
+
+%breadCrumArrow {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: initial;
+    width: 28px;
+    height: 28px;
+    transform: scale(0.707) rotate(45deg);
+    z-index: 1;
+    box-shadow: 1px -1px 0 1px $c-Arrow-Bdr, 2px -2px 0 1px$c-Arrow-Bdr;
+    border-radius: 0 0 0 50px;
+}
+.breadcrumb {
+    display: block;
+    margin-bottom: 10px;
+    height: 28px;
+    a,
+    span {
+        text-decoration: none;
+        outline: none;
+        display: block;
+        float: left;
+        color: $c-BrdCrm-Link;
+        background: $c-BrdCrm-D-Bg;
+        position: relative;
+        padding: 0 30px 0 40px;
+        font-size: 12px;
+        line-height: 28px;
+        @include Max($MD-P) {
+            padding: 0 6px 0 20px;
+        }
+        &:first-child {
+            &:before {
+                left: -14px;
+                background-color: $c-Arrow-Bdr;
+                @extend %breadCrumArrow;
+            }
+        }
+        &:last-child {
+            padding-right: 20px;
+            @include Max($MD-P) {
+                padding-right: 7px;
+            }
+        }
+        &.active,
+        &:hover {
+            background: $c-BrdCrm-A-Bg;
+            &:after {
+                background: $c-BrdCrm-A-Bg;
+            }
+        }
+        &:after {
+            right: -14px;
+            background-color: $c-BrdCrm-D-Bg;
+            @extend %breadCrumArrow;
+        }
+        @include Max($M-L) {
+            font-size: 11px;
+            padding-left: 21px;
+        }
+    }
+    span {
+        &:hover {
+            background-color: $c-BrdCrm-D-Bg;
+            &:after {
+                background-color: $c-BrdCrm-D-Bg;
+            }
+        }
+        &.active {
+            &:hover {
+                background: $c-BrdCrm-A-Bg;
+                &:after {
+                    background: $c-BrdCrm-A-Bg;
+                }
+            }
+        }
+    }
+
+    a:focus {
+        background: lighten($c-D-Gry, 20);
+
+        &:after {
+            background: lighten($c-D-Gry, 20);
+        }
+    }
+}

@@ -1,0 +1,167 @@
+.internal-user {
+    @include Max($Tab-P) {
+        .bottom-section,
+        .action-buttons {
+            position: relative !important;
+            bottom: auto !important;
+            padding-bottom: 0.25rem;
+        }
+        .surge-page {
+            .scrollable-content {
+                padding-right: 5px !important;
+            }
+            .action-buttons {
+                padding-top: 1rem;
+                padding-bottom: 1rem;
+                @include Max($MD-P) {
+                    padding-bottom: 2rem;
+                }
+            }
+        }
+    }
+    .middle-section {
+        // &.legal-page, &.fiscal-information, &.reference-information {
+        //     height: calc(100% - 80px) !important;
+        //     @media all and (max-width: 730px) {
+        //         height: calc(100% - 110px) !important;
+        //     }
+        // }
+        &.legal-page,
+        &.fiscal-information,
+        &.reference-information {
+            //height: calc(100% - (80px + 45px)) !important;
+            // height:100% !important;
+            @media all and (max-width: 730px) {
+                height: calc(100% - 110px) !important;
+            }
+        }
+    }
+    form.contractor-loc {
+        // height: calc(100% - 125px);
+        @media all and (max-width: 740px) {
+            height: calc(100% - 155px) !important;
+        }
+    }
+    .contractor-loc {
+        .contractor-location {
+            @extend %H-100-I;
+        }
+    }
+
+    form.jobVolume-form {
+        // height: calc(100% - 80px);
+        height: calc(100% - (80px + 45px));
+        .middle-section {
+            height: calc(100% - 0px) !important;
+        }
+    }
+    @include Max($MD-L) {
+        .top-section {
+            height: 110px;
+            padding-top: 45px;
+            .top-action-tools {
+                top: 0;
+                left: 0;
+                width: 100%;
+                justify-content: flex-end;
+            }
+            .jumpTo {
+                width: calc(100% - 30px);
+            }
+        }
+        .ownership-information {
+            height: calc(100% - 40px) !important;
+        }
+        .ownership-info,
+        .contractor-loc,
+        .fiscal-information,
+        form.jobVolume-form,
+        .reference-information,
+        .ownership-information.reference-information {
+            height: calc(100% - 110px) !important;
+        }
+        .comp-info-form,
+        .middle-section.cont-info-page,
+        .equip-page,
+        .coverage-page,
+        .surge-page,
+        .veteran-page,
+        .trade-information-page .h-100 {
+            height: calc(100% - 150px) !important;
+        }
+        .trade-information-page .h-100 .trade-information,
+        .comp-info-form .middle-section {
+            height: 100% !important;
+        }
+    }
+
+    @include Max($M-L) {
+        .jumpTo {
+            width: calc(100% - 60px);
+        }
+    }
+    @include Max($MD-P) {
+        .top-section {
+            padding-top: 40px;
+        }
+    }
+    .middle-section.validation {
+        @include Min(730px) {
+            //height: calc(100% - (80px + 0px)) !important;
+            height: calc(100% - (80px + 45px)) !important;
+        }
+        @include Max(733px) {
+            height: calc(100% - (80px + 30px)) !important;
+        }
+    }
+    @include Max($Tab-P) {
+        height: auto !important;
+        .scrollable-content {
+            //padding-right: 5px; // global change for responsive grid
+            width: 100%;
+        }
+        &.hasGrid,
+        .reference-information {
+            .scrollable-content {
+                //padding-right: 5px;
+                width: 100% !important;
+            }
+        }
+        &.employee-information {
+            .scrollable-content {
+                padding-right: 10px;
+            }
+        }
+    }
+    .credentialing-tabs > .scrollable-content {
+        @extend %H-100;
+        max-height: 100%;
+    }
+}
+.Safari {
+    .internal-user {
+        @include Max($Tab-P) {
+            .veteranInfo .multilingual .k-content ul {
+                width: 100%;
+                margin-top: 1rem;
+                margin-bottom: 1rem;
+            }
+            .veteran-page {
+                .scrollable-content {
+                    padding-right: 0px !important;
+                }
+                .action-buttons {
+                    padding-top: 1rem;
+                    padding-bottom: 1rem;
+                }
+            }
+        }
+        @include Max($MD-P) {
+            .veteran-page {
+                .action-buttons {
+                    padding-bottom: 2rem;
+                }
+            }
+        }
+    }
+}

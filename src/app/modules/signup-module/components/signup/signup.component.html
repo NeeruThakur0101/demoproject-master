@@ -1,0 +1,190 @@
+<kendo-dialog class="signup-popup">
+    <kendo-dialog-titlebar>
+        <h1>Crawford Contractor Connection</h1>
+    </kendo-dialog-titlebar>
+
+    <div *ngIf="loader" class="page-loader">
+        <span class="k-i-loading"></span>
+    </div>
+    <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
+        <div class="popup-content">
+            <div class="outer-block">
+                <div class="inner-block">
+                    <section class="white-block">
+                        <section class="form-block floating-labels">
+                            <div class="form-control">
+                                <kendo-textbox-container required floatingLabel="{{this.pageContent.Sign_Up.Language}}">
+                                    <kendo-dropdownlist formControlName="language" [data]="languageListData"
+                                        textField="LanguageName" #dropdownlistLanguage (focus)="onFocus($event)"
+                                        (mousedown)="onMousedown($event)" (mouseup)="onMouseup($event)"
+                                        valueField="WorldLanguageID" [valuePrimitive]="true" [filterable]="true"
+                                        (valueChange)="changeLanguage($event)"
+                                        (filterChange)="handleFilterLanguage($event)"
+                                        [ngClass]="{ err: submitted && signupform.language.errors }">
+                                        <ng-template kendoDropDownListNoDataTemplate>
+                                            <h4>
+                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                            </h4>
+                                        </ng-template>
+                                    </kendo-dropdownlist>
+                                    <div *ngIf="submitted && signupform.language.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.language.errors.required" class="err-msg">Language is
+                                            required</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container required
+                                    floatingLabel="{{this.pageContent.Sign_Up.Company_Name}}">
+                                    <input trim="blur" kendoTextBox formControlName="companyName" maxlength="200"
+                                        [ngClass]="{
+                                            err: submitted && signupform.companyName.errors
+                                        }" />
+                                    <div *ngIf="submitted && signupform.companyName.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.companyName.errors.required" class="err-msg">Company Name
+                                            is required</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container required
+                                    floatingLabel="{{this.pageContent.Sign_Up.First_Name}}">
+                                    <input trim="blur" kendoTextBox formControlName="firstName" maxlength="30"
+                                        [ngClass]="{
+                                            err: submitted && signupform.firstName.errors
+                                        }" />
+                                    <!-- pattern="^[a-zA-Z ,.'-]+$" -->
+                                    <div *ngIf="submitted && signupform.firstName.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.firstName.errors.required" class="err-msg">First Name is
+                                            required</div>
+                                        <div *ngIf="signupform.firstName.errors.pattern" class="err-msg comp">Enter
+                                            valid name</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container required
+                                    floatingLabel="{{this.pageContent.Sign_Up.Last_Name}}">
+                                    <input trim="blur" kendoTextBox formControlName="lastName" maxlength="30"
+                                        [ngClass]="{ err: submitted && signupform.lastName.errors }" />
+                                    <div *ngIf="submitted && signupform.lastName.errors" class="invalid-feedback">
+                                        <!-- pattern="^[a-zA-Z ,.'-]+$" -->
+                                        <div *ngIf="signupform.lastName.errors.required" class="err-msg">Last Name is
+                                            required</div>
+                                        <div *ngIf="signupform.lastName.errors.pattern" class="err-msg comp">Enter valid
+                                            name</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container required floatingLabel="{{this.pageContent.Sign_Up.Email}}">
+                                    <input trim="blur" kendoTextBox formControlName="email" type="text" maxlength="200"
+                                        [ngClass]="{ err: submitted && signupform.email.errors }" />
+                                    <div *ngIf="submitted && signupform.email.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.email.errors.required" class="err-msg">Email is required
+                                        </div>
+                                        <div *ngIf="signupform.email.errors.pattern" class="err-msg comp">
+                                            {{pageContent.Contact_Information.Valid_Format}}</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+                            <div class="form-control">
+                                <kendo-textbox-container required
+                                    floatingLabel="{{this.pageContent.Sign_Up.Reenter_Email}}">
+                                    <input trim="blur" kendoTextBox type="text" formControlName="confirmEmail"
+                                        maxlength="200" [ngClass]="{
+                                            err: submitted && signupform.confirmEmail.errors
+                                        }" />
+                                    <div *ngIf="submitted && signupform.confirmEmail.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.confirmEmail.errors.required" class="err-msg">Confirm
+                                            email is required</div>
+                                        <div *ngIf="signupform.confirmEmail.errors.pattern" class="err-msg comp">
+                                            {{pageContent.Contact_Information.Valid_Format}}</div>
+
+                                        <div *ngIf="signupform.confirmEmail.errors.mustMatch" class="err-msg comp">
+                                            {{pageContent.Sign_Up.Email_Confirm_Match}}</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container required floatingLabel="{{this.pageContent.Sign_Up.Country}}">
+                                    <kendo-dropdownlist isRequired="true" #dropdownlistCountry (focus)="onFocus($event)"
+                                        (mousedown)="onMousedown($event)" (mouseup)="onMouseup($event)"
+                                        formControlName="country" [data]="countryData"
+                                        (valueChange)="getStatesList($event)" textField="Name"
+                                        (selectionChange)="changeCountry($event)" valueField="ID"
+                                        [ngClass]="{ err: submitted && signupform.country.errors }"
+                                        [valuePrimitive]="true" [filterable]="true"
+                                        (filterChange)="handleFilterCountry($event)">
+                                        <ng-template kendoDropDownListNoDataTemplate>
+                                            <h4>
+                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                            </h4>
+                                        </ng-template>
+                                    </kendo-dropdownlist>
+                                    <div *ngIf="submitted && signupform.country.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.country.errors.required" class="err-msg">Country is
+                                            required</div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container required
+                                    floatingLabel="{{this.pageContent.Sign_Up.State_Province}}">
+                                    <kendo-dropdownlist formControlName="state" [data]="stateData" textField="Name"
+                                        #dropdownlistState (focus)="onFocus($event)" (mousedown)="onMousedown($event)"
+                                        (mouseup)="onMouseup($event)" valueField="ID"
+                                        (valueChange)="changeStateValue($event)" [(ngModel)]="selectedState"
+                                        [valuePrimitive]="true" [filterable]="true"
+                                        (filterChange)="handleFilterState($event)"
+                                        [ngClass]="{ err: submitted && signupform.state.errors }">
+                                        <ng-template kendoDropDownListNoDataTemplate>
+                                            <h4>
+                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                            </h4>
+                                        </ng-template>
+                                    </kendo-dropdownlist>
+                                    <div *ngIf="submitted && signupform.state.errors" class="invalid-feedback">
+                                        <div *ngIf="signupform.state.errors.required" class="err-msg">State is required
+                                        </div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="owner-check">
+                                <input type="checkbox" id="ch1" class="k-checkbox" formControlName="role" />
+                                <label class="k-checkbox-label"
+                                    for="ch1">{{this.pageContent.Sign_Up.Are_you_owner}}</label>
+                            </div>
+                            <div class="form-control signup-captcha">
+                                <re-captcha formControlName="recaptchaReactive"></re-captcha>
+                            </div>
+                        </section>
+
+                        <div class="signup-info">
+                            <p>{{Please_Contact}}</p>
+                            <P>
+                                {{this.pageContent.Sign_Up.Phone}}: {{mobile_number}}<br />
+                                {{this.pageContent.Sign_Up.EmailTxt}}: {{Email_Id}}</P>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer section test Girish Rawat dist folder test 1-->
+        <div class="popup-footer">
+            <button kendoButton type="button" (click)="resetForm()">{{this.pageContent.Sign_Up.Cancel}}</button>
+            <button kendoButton [primary]="true">{{this.pageContent.Sign_Up.SignUp}}</button>
+
+            <button kendoButton [primary]="true" [routerLink]="['/login']">{{this.pageContent.Sign_Up.SignIn}}</button>
+        </div>
+    </form>
+    <div kendoDialogContainer class="popup-loader success"></div>
+</kendo-dialog>

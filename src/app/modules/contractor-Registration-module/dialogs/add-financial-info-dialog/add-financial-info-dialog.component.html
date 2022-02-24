@@ -1,0 +1,250 @@
+<kendo-dialog-titlebar class="hasDialog" [minWidth]="580" [width]="100">
+    <h1>{{ header }} {{ pageContent.Financial_Information.Financial_Information }}</h1>
+    <button type="button" (click)="closeAddFinancial('cancel')">&times;</button>
+</kendo-dialog-titlebar>
+<form [formGroup]="financialForm" (ngSubmit)="onSubmit()">
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <section class="white-block">
+                    <section class="form-block floating-labels">
+                        <div class="form-control" [class.readonly]="isYearDiabled">
+                            <div class="block-data"></div>
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Type_Financial_Year }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isYear == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_YR_DT"
+                                    [readonly]="isYearDiabled"
+                                    [class.readonly]="isYearDiabled"
+                                    (blur)="validateYear($event.target.value)"
+                                    maxlength="4"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_YR_DT.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_YR_DT.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_YR_DT.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="flex-5-5 fiscal-block">
+                            <div class="col">
+                                <div class="inline-switch-label fiscal-year">
+                                    <label>{{ pageContent.Financial_Information.Fiscal_Year }}</label>
+                                    <kendo-switch
+                                        formControlName="FISCALYEARFLG"
+                                        [(ngModel)]="isCheckedFiscalYear"
+                                        (valueChange)="toggleFiscalYear(isCheckedFiscalYear)"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [ngClass]="{ 'visual-cue': newIncomingData && (newIncomingData.isFiscalYearStartDate || newIncomingData.isFiscalYearFlag) }"
+                                        [disabled]="newIncomingData && (newIncomingData.isFiscalYearFlag || newIncomingData.isFiscalYearStartDate) && internalEmployee == true"
+                                    >
+                                    </kendo-switch>
+                                </div>
+                            </div>
+                            <div class="col fiscal-year-block" *ngIf="isFiscalYear">
+                                <div class="form-control">
+                                    <kendo-textbox-container required [disabled]="true" floatingLabel="{{ pageContent.Financial_Information.Enter_Fiscal_Year }}">
+                                        <kendo-datepicker
+                                            [class]="newIncomingData && newIncomingData.isFiscalYearStartDate == true ? 'visual-cue' : ''"
+                                            [min]="min"
+                                            [max]="max"
+                                            (keydown)="onKeydownHandler($event.target.value)"
+                                            [readonly]="newIncomingData && (newIncomingData.isFiscalYearFlag || newIncomingData.isFiscalYearStartDate) && internalEmployee == true"
+                                            name="contractorFiscalYear"
+                                            id="contractorFiscalYear"
+                                            format="MM/dd/yyyy"
+                                            [ngClass]="{ 'err ng-invalid ng-touched': submitted && financialFormControl.FISCALYEARSTART.errors }"
+                                            formControlName="FISCALYEARSTART"
+                                        >
+                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                        </kendo-datepicker>
+                                        <div *ngIf="submitted && financialFormControl.FISCALYEARSTART.errors" class="k-tooltip-validation"></div>
+                                    </kendo-textbox-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Total_Revenue }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isTotalRevenue == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_TOT_REVN_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isTotalRevenue == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_TOT_REVN_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_TOT_REVN_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_TOT_REVN_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Total_Expenses }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isTotalExpenses == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_TOT_EXP_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isTotalExpenses == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_TOT_EXP_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_TOT_EXP_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_TOT_EXP_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Net_Income }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isNetIncome == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_NET_INCM_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isNetIncome == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_NET_INCM_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_NET_INCM_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_NET_INCM_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Total_Current_Assets }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isTotalCurrentAssets == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_CURR_AST_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isTotalCurrentAssets == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_CURR_AST_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_CURR_AST_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_CURR_AST_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Total_Current_Liabilities }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isTotalCurrentLiabilities == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_CURR_LIAB_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isTotalCurrentLiabilities == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_CURR_LIAB_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_CURR_LIAB_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_CURR_LIAB_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Long_Term_Debt }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isLongTermDebt == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_LNG_TRM_DEBT_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnlyLongTerm($event)"
+                                    (paste)="numberOnlyLongTerm($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isLongTermDebt == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_LNG_TRM_DEBT_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_LNG_TRM_DEBT_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_LNG_TRM_DEBT_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Financial_Information.Add_Financial_Information_Equity }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isEquity == true ? 'visual-cue' : ''"
+                                    formControlName="FINST_TOT_EQTY_AM"
+                                    maxlength="14"
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="numberOnly($event)"
+                                    [readonly]="newIncomingData && newIncomingData.isEquity == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && financialFormControl.FINST_TOT_EQTY_AM.errors }"
+                                />
+                                <div *ngIf="submitted && financialFormControl.FINST_TOT_EQTY_AM.errors" class="invalid-feedback">
+                                    <div *ngIf="financialFormControl.FINST_TOT_EQTY_AM.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control dropzone-area">
+                            <label>{{ pageContent.Financial_Information.Financial_Document_Dropzone }}</label>
+
+                            <!-- photo uploaded zone -->
+                            <section class="form-block">
+                                <div class="form-control">
+                                    <kendo-upload
+                                        #myUpload
+                                        [saveUrl]="uploadSaveUrl"
+                                        [removeUrl]="uploadRemoveUrl"
+                                        [autoUpload]="false"
+                                        [restrictions]="fileRestriction"
+                                        (select)="selectEventHandler($event)"
+                                        (remove)="removeEventHandler($event)"
+                                        (uploadProgress)="uploadProgressEvent($event)"
+                                        (clear)="clearEventHandler($event)"
+                                        [disabled]="accessReadonly || IsRowDisable"
+                                    >
+                                        <kendo-upload-messages select="{{ pageContent.Company_Info.Select_files }}" dropFilesHere="{{ pageContent.Company_Info.Drop_Your_Files_Here }}">
+                                        </kendo-upload-messages>
+                                        <ng-template kendoUploadFileTemplate let-files let-state="state">
+                                            <div class="selectFileList" *ngFor="let image of selectedFiles">
+                                                <div class="selectFileCont" *ngIf="image.uid == files[0].uid">
+                                                    <figure>
+                                                        <img width="50px" [src]="image.preview" />
+                                                    </figure>
+                                                    <div>
+                                                        <label class="repos-image">{{ image.name }} </label>
+                                                        <div>Size : {{ image.size }} -{{ image.uploadProgress }}</div>
+                                                    </div>
+
+                                                    <div class="close-btn">
+                                                        <button (click)="remove(myUpload, files[0].uid)" class="k-button">
+                                                            <span class="k-icon k-i-delete"></span>
+                                                        </button>
+                                                    </div>
+                                                    <kendo-progressbar class="k-upload-pct" *ngIf="image.uploadProgress" [value]="image.uploadProgress" style="height: 10px"> </kendo-progressbar>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-upload>
+                                </div>
+                            </section>
+                            <!-- photo uploaded zone ends -->
+
+                            <p>
+                                <small>{{ pageContent.Financial_Information.Financial_Document_Dropzone_Text }}</small>
+                            </p>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="closeAddFinancial('cancel')">
+            {{ pageContent.Financial_Information.Financial_Cancel }}
+        </button>
+        <button kendoButton [disabled]="accessReadonly || (loggedInUserType !== 'Internal' && IsRowDisable)" [primary]="true">
+            {{ pageContent.Financial_Information.Financial_Save }}
+        </button>
+    </div>
+</form>

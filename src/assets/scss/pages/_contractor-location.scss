@@ -1,0 +1,91 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Contractor Location Page
+// -----------------------------------------------------------------------------
+
+.contractor-location {
+    .k-grid-header {
+        tr {
+            th {
+                text-align: left;
+            }
+        }
+    }
+    .bottom-block {
+        .flex-5-5 {
+            @include Max($T-XL) {
+                .col {
+                    flex: 0 0 100%;
+                    padding-bottom: 0;
+                    &:last-child {
+                        padding-bottom: 0;
+                    }
+                }
+            }
+        }
+        label {
+            padding-right: 1rem;
+            @include Max( $Tab-P) {
+                padding-bottom: 1rem;
+                padding-right: 0;
+            }
+            & + div[kendotooltip] {
+                position: relative;
+                top: 4px;
+            }
+        }
+        small {
+            font-style: italic;
+            color: $c-Blk-50;
+            font-size: 100%;
+            @include Min(1121px) {
+                top: 2px;
+                left: 5px;
+                position: relative;
+            }
+            @include Max('1120px') {
+                display: block;
+                padding-top: 5px;
+                padding-left: 5px;
+            }
+        }
+    }
+    .contractor-location-inner {
+        margin: 5px 0;
+        tr {
+            td {
+                position: relative;
+                .visual-cue {
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    left: 0;
+                    line-height: 35px;
+                      padding: 0 10px;
+                }
+            }
+        }
+    }
+    .scrollable-content {
+        @include Min(1538px) {
+          width:100%;
+        }
+    }
+}
+form.contractor-loc {
+    height: calc(100% - 80px);
+    .middle-section.contractor-location {
+        height: calc(100% - 50px);
+    }
+}
+.cont-location-grid {
+    min-height: 250px;
+    @include respond-to-Min-Max(1180px, 901px) {
+        .k-pager-wrap {
+            top: -11px;
+        }
+        @include iehack() {
+            top: -12px;
+        }
+    }
+}

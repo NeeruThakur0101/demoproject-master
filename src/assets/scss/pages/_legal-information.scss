@@ -1,0 +1,427 @@
+
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Legal Information Page
+// -----------------------------------------------------------------------------
+
+.legal-info-page {
+    .scrollable-block {
+        @include Max(1140px) {
+            height: 100%;
+            overflow: hidden;
+        }
+    }
+    .scrollable-content {
+        > .white-block {
+            position: relative;
+            &:after {
+                content: '';
+                top: 0;
+                bottom: 0;
+                right: 0;
+                width: 20px;
+                background-color: $c-White;
+                position: absolute;
+                @include Max($Tab-P) {
+                    display: none;
+                }
+            }
+        }
+
+        @include respond-to-Min-Max(1140px, 520px) {
+            width:calc(100% + 12px);
+        }
+    }
+    .vertical-accord {
+        width: calc(100% - 1px);
+    }
+    padding-bottom: 10px !important;
+    .vertical-accord {
+        @include Min(1140px) {
+            height: 304px;
+            .d-table-wrapper {
+                height: 100%;
+            }
+        }
+    }
+    .vertical-accord li.active {
+        @include Max(1140px) {
+            > span {
+                width: 100%;
+                max-width: 100%;
+                height: 400px;
+                height: auto;
+                > section {
+                    width: 100%;
+                    height: 358px;
+                }
+            }
+            .legal-table {
+                width: 100%;
+                max-height: 95%;
+                height: 95%;
+                .d-table-content {
+                    .d-table-row {
+                        flex: 0 0 100%;
+                    }
+                }
+            }
+        }
+        @include Max(800px) {
+            .legal-table {
+                width: 100%;
+                .d-table-content {
+                    overflow-x: hidden;
+                }
+                .d-col {
+                    white-space: nowrap;
+                    width: 100%;
+                    &:first-child {
+                        text-align: left;
+                        flex: 0 0 calc(100% - 230px);
+                        max-width: calc(100% - 230px);
+                        @include iehack() {
+                            flex: 1;
+                        }
+                        + .d-col {
+                            flex: 0 0 155px;
+                            max-width: 155px;
+                            + .d-col {
+                                flex: 0 0 75px;
+                                max-width: 75px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+         @include Max($Tab-P) {
+            .legal-table {
+                border-bottom: 1px solid $c-Bdr-L;//#d7d2cb;
+               width:100%; 
+               padding-right: 10px;
+               padding-bottom: 0px;
+
+                .d-table-row {
+                    flex-wrap: wrap;
+                    border-left: 1px solid $c-Bdr-L;//#d7d2cb;
+                    border-top: 1px solid $c-Bdr-L;//#d7d2cb;
+                    margin-bottom: 20px;
+                }
+                .d-table-hd {
+                    display: none;
+                }
+                .d-table-content {
+                    overflow-x: hidden;
+                    margin-bottom: -5px;
+                    padding: 10px 10px 5px;
+                    max-height: 245px;
+                    border-bottom: 0px;
+                    width:calc(100% + 12px);
+                    max-width: initial;
+                }
+                .d-col {
+                    white-space: nowrap;
+                    width: 100%;
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                    padding-top: 50px;
+                    text-align: left;
+                    min-height: 80px;
+                    position: relative;
+                    .k-switch {
+                        margin-left: 28px;
+                    }
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        right: 0;
+                        border-bottom: 1px solid $c-Bdr-L;//#d7d2cb;;
+                        padding: 10px;
+                        background-color: #e5f0fa;
+                        color:$c-D-Blue;// #002f87;
+                        font-weight: 600;
+                        display: block;
+                    }
+                    &:first-child {
+                        &:before {
+                            content: 'Company/Owner/Principal';
+                        }
+                        + div {
+                            &:before {
+                                content: 'Legal Issue Answer';
+                            }
+                            + div {
+                                border-right: 1px solid $c-Bdr-L;//#d7d2cb;;
+                                &:before {
+                                    content: 'Details';
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .d-table-scroll-wrapper {
+            height: 213px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            .d-table-wrapper {
+                @include Max(1140px) {
+                    height: calc(100% + 11px);
+                }
+            }
+        }
+    }
+    .white-block {
+        height: 100%;
+        @include Max(1140px) {
+            height: auto;
+        }
+    }
+    .d-table-wrapper {
+        @include Max(1140px) {
+            height:245px;
+            max-height: 245px;
+            height: 100%;
+            @include iehack() {
+                height: calc(100% - 80px);
+            }
+        }
+        @include Max(640px) {
+            overflow: hidden;
+            height: 245px;
+            max-height: 245px;
+            width:100%; 
+            position: relative;
+        }
+    }
+    
+    @-moz-document url-prefix() { 
+        .d-table-wrapper {
+            @include Max(640px) {
+            height: 270px;
+            max-height: 270px;
+            }
+        }
+      }
+
+    .v-scroll {
+        overflow: hidden;
+        height: 100%;
+        width: 100%;
+        max-width: 100%;
+        @include Max(1140px) {
+            .d-table-content {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+        }
+        @include Max(640px) {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+    }
+
+    .has-scroll {
+        .v-scroll {
+            .d-table-content {
+                width: calc(100% + 11px);
+                max-width: calc(100% + 11px);
+                overflow-y: scroll;
+                @include iehack() {
+                    width: calc(100% + 13px);
+                    max-width: calc(100% + 13px);
+                }
+                @include Min(1538px) {
+                    width: calc(100% + 13px);
+                    max-width: calc(100% + 13px);
+                }
+                @include Min(1919px) {
+                    width: calc(100% + 15px);
+                    max-width: calc(100% + 15px);
+                }
+            }
+        }
+    }
+    .scrollable-content {
+        @include Min(1140px) {
+            width: 100%;
+            padding: 10px;
+        }
+    }
+}
+
+.legal-table {
+    max-height: calc(100% - 90px);
+    .d-table-content {
+        max-width: 100%;
+    }
+    .d-col-row {
+        min-height: 45px;
+    }
+    .d-col {
+        text-align: center;
+        &:first-child {
+            text-align: left;
+            flex: 0 0 50%;
+            max-width: 50%;
+            + .d-col {
+                flex: 0 0 25%;
+                max-width: 25%;
+                + .d-col {
+                    flex: 0 0 25%;
+                    max-width: 25%;
+                }
+            }
+        }
+        .d-table-content {
+            height: 100%;
+            @include Max(790px) {
+                overflow: initial;
+            }
+        }
+        &.has-scroll {
+            .d-table-content {
+                max-height: 165px;
+                width: calc(100% + 11px);
+                @include iehack() {
+                    width: calc(100% + 13px);
+                }
+            }
+            .v-scroll {
+                overflow: hidden;
+            }
+        }
+        a {
+            cursor: pointer;
+        }
+    }
+    &.has-scroll {
+        .d-table-content {
+            overflow: hidden;
+            overflow-y: scroll;
+            max-height: 170px;
+        }
+        .d-col {
+            text-align: center;
+            &:first-child {
+                text-align: left;
+                flex: 0 0 50%;
+                max-width: 50%;
+                + .d-col {
+                    flex: 0 0 25%;
+                    max-width: 25%;
+                    + .d-col {
+                        flex: 0 0 calc(25% + 8px);
+                        max-width: calc(25% + 8px);
+                        @include iehack() {
+                            width: calc(25% + 8px);
+                        }
+                    }
+                }
+            }
+        }
+        .v-scroll {
+            .d-table-content {
+                border-bottom: 1px solid $c-L-Gry;
+                .d-table-row {
+                    .d-col {
+                        height: 43px;
+                        &:first-child {
+                            flex: 0 0 calc(50% - 6px);
+                            @include iehack() {
+                                max-width: calc(50% - 6.5px);
+                            }
+                            @media all and (max-width: 800px) {
+                                flex: 0 0 calc(100% - 231px);
+                                max-width: calc(100% - 231px);
+                            }
+                            + div {
+                                flex: 0 0 calc(25% - 2.5px);
+                                @include iehack() {
+                                    max-width: calc(25% - 3px);
+                                }
+                                + div {
+                                    @include iehack() {
+                                        max-width: calc(25% + 10px);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.mobile {
+    .legal-info-page {
+        .scrollable-content {
+            @extend %W-100;
+        }
+    }
+}
+.Safari {
+    .legal-info-page .v-scroll {
+        @extend %W-100-I;
+        max-width: 100% !important;
+        max-width: 100% !important;
+        overflow-y: scroll;
+        overflow-x: hidden;
+    }
+
+
+}
+@include Max($Tab-P) {
+
+    .Safari {
+        .legal-info-page .vertical-accord li.active .legal-table .d-table-content {
+          width:100%;
+        }
+        .legal-table.has-scroll .v-scroll .d-table-content .d-table-row .d-col {
+            height:auto;
+            min-height: 83px !important;
+        }
+    }
+    .MS-Edge-Chromium {
+        .legal-info-page .vertical-accord li.active .legal-table .d-table-content {
+            width:calc(100% + 13px);
+        }
+    }
+}
+legal-questions {
+    .dynamic-field {
+        > span {
+            color: $c-D-Blue;
+            font-weight: 600;
+        }
+    }
+}
+.litigation-listing ul:empty {
+    display: none;
+}
+.Safari {
+    // .legal-info-page {
+    //     .scrollable-content-wrapper > .scrollable-content {
+    //         padding-right: 5px !important;
+    //     }
+    // }
+    @include Max($MD-P) {
+        .legal-info-page .vertical-accord li.active .legal-table {
+            width:100% !important;
+        }
+    }
+}
+@include Max(500px) {
+.lang-french {
+    .rep-action-btn {
+        
+            button {
+                padding: 0 1rem;
+            }
+        }
+    }
+}

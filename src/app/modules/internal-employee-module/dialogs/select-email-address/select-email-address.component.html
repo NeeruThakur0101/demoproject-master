@@ -1,0 +1,42 @@
+<kendo-dialog-titlebar class="hasDialog">
+  <h1 *ngIf="this.$auth.Language !== 1">Email Address<span>(es)</span> Selection</h1>
+  <h1 *ngIf="this.$auth.Language === 1">Sélection d'adresse<span>(s)</span> E-mail</h1>
+  <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<form [formGroup]="sendEmailForm" (ngSubmit)="onSubmit()">
+  <!-- popup content section -->
+  <div class="popup-content">
+    <div class="outer-block">
+      <div class="inner-block">
+        <!-- popup content -->
+        <section class="white-block">
+          <!-- form block starts -->
+          <section class="form-block floating-labels email-selection">
+            <div class="form-control">
+              <kendo-textbox-container required floatingLabel="{{pageContent.SelectEmailAddress.Select_Email_Address}}">
+                <kendo-multiselect formControlName="Email" [data]="Page.email" textField="Email" valueField="Email"
+                  [ngClass]="{ 'err': submitted && emailform.Email.errors }" [valuePrimitive]="true"
+                  [(ngModel)]="selectedItems">
+                  <ng-template kendoDropDownListNoDataTemplate> {{
+                    this.pageContent.DropDown_NoData_Msg.Message }} </ng-template>
+                </kendo-multiselect>
+                <div *ngIf="submitted && emailform.Email.errors" class="invalid-feedback">
+                  <div *ngIf="emailform.Email.errors.required" class="err-msg">Email is required</div>
+                </div>
+              </kendo-textbox-container>
+            </div>
+
+
+          </section>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- footer section -->
+  <div class="popup-footer">
+    <button kendoButton (click)="close()">{{pageContent.SelectEmailAddress.Cancel}}</button>
+    <button kendoButton [primary]="true">{{pageContent.SelectEmailAddress.Select_Mail}}</button>
+  </div>
+  <!-- </kendo-dialog> -->
+</form>

@@ -1,0 +1,111 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Tooltip Button Component
+// ----------------------------------------------------------------------------
+.k-tooltip-wrapper {
+    overflow: initial;
+    max-width: 300px;
+    border-radius: 5px;
+    box-shadow: none;
+    max-height: 200px;
+    position: fixed !important;
+    .k-tooltip {
+        background-color: $c-Blk;
+        border-radius: 5px;
+        .k-callout {
+            color: $c-Blk;
+            display: none;
+        }
+    }
+}
+.k-tooltip-wrapper {
+    margin-left: -5px;
+    padding-left: 8px !important;
+}
+.big-tip {
+    .k-animation-container-fixed > .k-popup {
+        box-shadow: none;
+        height: 100%;
+        overflow: auto;
+        max-height: 200px;
+        width: calc(300px + 11px);
+    }
+}
+div[kendotooltip] {
+    display: inline-block;
+    font-size: 12px;
+    > span {
+        top: 0px;
+        position: relative;
+        cursor: pointer;
+    }
+}
+.small-tip {
+    max-width: 135px;
+    text-align: center;
+    font-size: 12px;
+}
+.multiple-tip {
+    overflow: visible;
+    font-size: 12px;
+    margin-top: 7px;
+    padding: 0 !important;
+    margin-right: 0 !important;
+    .k-callout {
+        margin-left: -5px !important;
+    }
+    .k-popup {
+        padding-bottom: 10px;
+    }
+}
+.k-tooltip-content {
+    font-size: 12px;
+    @include iehack() {
+        width: 100%;
+    }
+}
+.guide-tip,
+.surge-tip {
+    margin-top: 0;
+    .k-tooltip-content {
+        overflow-y: auto;
+        width: calc(100% + 19px);
+        padding-right: 15px;
+        font-size: 12.25px;
+        line-height: 15px;
+    }
+    .k-popup {
+        padding-bottom: 7px;
+        overflow: hidden;
+    }
+}
+.guide-tip {
+    margin-top: 2px;
+    .k-tooltip {
+        height: 150px;
+        padding-top: 10px;
+        width: calc(100% + 12px);
+        overflow-y: auto;
+    }
+}
+.surge-tip {
+    margin-top: 5px !important;
+    .k-popup {
+        padding-left: 1rem;
+    }
+    .k-tooltip {
+        height: 68px;
+        max-height: 68px;
+        overflow-y: auto;
+        width: calc(100% + 12px);
+    }
+}
+.k-animation-container-shown {
+    @include iehack() {
+        overflow-x: visible;
+    }
+}
+
+.chkbox-tooltip {
+    width: 200px;
+    text-align: center;
+}

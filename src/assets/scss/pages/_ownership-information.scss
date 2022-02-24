@@ -1,0 +1,124 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Ownership Information Page
+// -----------------------------------------------------------------------------
+
+.ownership-action {
+    .delete-owner {
+        padding: 0 1.5rem !important;
+        @include Max($M-XL) {
+            margin-right: 1rem;
+        }
+    }
+
+    button {
+        @include Max(820px) {
+            margin-bottom: 1rem;
+        }
+    }
+}
+
+.lang-french {
+    .ownership-action {
+        .delete-owner {
+            @include Max($T-XL) {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+}
+
+.doc-info {
+    display: flex;
+    div {
+        &:last-child {
+            padding-left: 5px;
+        }
+
+        span {
+            font-weight: bold;
+            position: relative;
+            font-size: 20px;
+            &:after {
+                content: '';
+                position: absolute;
+                top: 7px;
+                left: 6px;
+                color: $c-Rem;
+                font-size: 10px;
+                font-family: sans-serif;
+                font-weight: bold;
+            }
+        }
+        .doc-del {
+            color: $c-Rem;
+            &:after {
+                content: 'D';
+                color: $c-Rem;
+            }
+        }
+        .doc-rec {
+            color: $c-Success;
+            &:after {
+                content: 'R';
+                color: $c-Success;
+            }
+        }
+    }
+}
+.ownership-information {
+    .k-form-field {
+        .two-column {
+            flex: 0 0 250px;
+            @include grid(100, 10px, 'flx', 2, 1024, 2, 768, 2, 520, 2);
+            .col {
+                input {
+                    width: 100% !important;
+                }
+                @include Max($MD-P) {
+                    &:first-of-type {
+                        margin-bottom: 1.5rem;
+                    }
+                }
+            }
+        }
+    }
+    .flex-6-4 {
+        @include gridTwoColOdd(100, 10px, 'flx', 60, 40, 1370, 80, 950, 100);
+    }
+    th,
+    td {
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7),
+        &:nth-child(8),
+        &:nth-child(9),
+        &:nth-child(10) {
+            text-align: center;
+        }
+    }
+
+    .scrollable-content {
+        @extend %W-100;
+    }
+}
+.ownership-top-info {
+    @include Max($MD-P) {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+}
+@include respond-to-Min-Max($D-M, $D-S) {
+    .ownershipGrid {
+        .k-pager-wrap {
+            top: -11px;
+        }
+    }
+}
+
+.MS-Edge-Chromium {
+    .hasGrid {
+        .scrollable-content {
+            width: calc(100% + 13.5px);
+        }
+    }
+}

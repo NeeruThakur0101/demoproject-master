@@ -1,0 +1,21 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Textarea Component
+// ----------------------------------------------------------------------------
+
+textarea {
+    @extend %input-base;
+    line-height: 2.25rem !important;
+    resize: none;
+    padding: 0.5rem 1.5rem;
+    min-height: calc(60px + 1.4285714286em);
+
+    &.read-only {
+        background-color: $c-Blk-05 !important;
+        @extend %box-shadow;
+    }
+}
+
+.k-textarea {
+    @extend %input-base;
+    height: 120px;
+}

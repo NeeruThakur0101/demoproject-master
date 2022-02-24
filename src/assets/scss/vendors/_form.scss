@@ -1,0 +1,191 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Form Component
+// ----------------------------------------------------------------------------
+
+.k-state-focused:not(.k-switch):not(.k-textbox-container):not(td):not(.k-multiselect):not(.k-state-disabled):not(.k-maskedtextbox),
+input:focus,
+.k-multiselect.k-state-focused > .k-multiselect-wrap,
+.k-state-focused.k-dropdowntree > .k-multiselect-wrap {
+    box-shadow: 0 3px 3px $c-Dg-20 !important;
+    border: 1px solid $c-Dg-50;
+}
+
+.k-dateinput.k-state-focused input {
+    box-shadow: none !important;
+    border: 0 !important;
+}
+
+.k-picker-wrap.k-state-focused {
+    border: 0 !important;
+}
+.k-switch.k-state-focused {
+    .k-switch-handle,
+    .k-switch-container {
+        border: 1px solid $c-D-Gry;
+    }
+}
+
+.k-button.k-state-focused {
+    box-shadow: 0 3px 3px $c-Dg-50 !important;
+    background-color: darken($c-D-Blue, 40) !important;
+    border-color: $c-D-Gry !important;
+}
+
+.k-form,
+.k-form-inline {
+    color: $c-D-Gry;
+    @include Max($M-XL) {
+    }
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+
+%k-form-inline {
+    label {
+        flex-wrap: wrap;
+        position: relative;
+        kendo-popup {
+            width: 100%;
+            text-align: right;
+            font-weight: 400;
+            font-size: 1.3rem;
+            padding: 5px 0 0;
+            color: $c-Error;
+            display: block;
+            > span {
+                display: none;
+            }
+        }
+        &:not(.full-width) {
+            > span {
+                &:first-child:not(.err-msg):not(.label) {
+                    align-self: flex-start;
+                    padding-top: 1.2rem;
+                    // width: 45% !important;
+                    width: 47%;
+                    text-align: left !important;
+                    font-size: 1.4rem;
+                    color: $c-D-Blue;
+                    font-weight: bold;
+                    transition: all 0.3s ease;
+                    transform: none;
+                    @include Max($MD-L) {
+                        width: 100% !important;
+                    }
+                    @include Max(400px) {
+                        font-size: 1.3rem;
+                    }
+                }
+                small {
+                    color: $c-D-Gry;
+                    font-weight: bold;
+                    font-size: 90%;
+                    font-style: italic;
+                }
+            }
+        }
+        input,
+        .k-dropdown,
+        kendo-datepicker,
+        .k-maskedtextbox,
+        div.tool {
+            width: calc(100% - 47%) !important;
+            margin-bottom: 0 !important;
+            @include Max($MD-L) {
+                width: 100% !important;
+            }
+        }
+
+        div.tool {
+            @extend %d-flx;
+            input {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+            position: relative;
+            div {
+                position: absolute;
+                right: 1rem;
+                background-color: $c-White;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                width: 4rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1px solid $c-Bdr-L;
+
+                i {
+                    cursor: pointer;
+                    color: $c-Success;
+                }
+
+                @include Max(1240px) {
+                    top: 1px;
+                    right: 1px;
+                    bottom: 1px;
+                }
+            }
+        }
+        .k-maskedtextbox {
+            height: 4rem;
+            padding: 0;
+        }
+        &.full-width {
+            span {
+                width: 100% !important;
+                text-align: left !important;
+                small {
+                    color: $c-Blk;
+                    font-weight: bold;
+                    font-size: 90%;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+}
+
+.k-form-inline {
+    @extend %k-form-inline;
+    padding: 0;
+}
+
+.k-tooltip-validation {
+    width: 100%;
+    text-align: right;
+    justify-content: flex-end;
+    font-weight: 400;
+    font-size: 1.2rem;
+    display: none;
+    padding-top: 5px;
+    color: $c-Error;
+
+    &.comp {
+        display: block;
+    }
+}
+
+.k-checkbox-label,
+.k-radio-label {
+    font-weight: 400;
+    color: $c-D-Gry;
+}
+
+input:read-only,
+input[readonly='readonly'],
+input[readonly],
+input[readonly=''] {
+    cursor: not-allowed;
+}
+
+.k-list .k-item:hover.k-state-selected,
+.k-list .k-item.k-state-hover.k-state-selected,
+.k-list-optionlabel:hover.k-state-selected,
+.k-list-optionlabel.k-state-hover.k-state-selected {
+    background-color: $c-D-Blue;
+}

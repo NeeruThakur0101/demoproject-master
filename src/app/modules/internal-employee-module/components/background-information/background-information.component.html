@@ -1,0 +1,242 @@
+<main appGridlayout class="background-information" [class.internal-user]="$auth.Profile.ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <h1>{{ pageContent.Background_Info.Background_Information }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+
+            <form class="k-form-inline h-100" [formGroup]="formgroup">
+                <section class="middle-section backgroundInformation">
+                    <div class="white-block">
+                        <section class="bginfo-wrap">
+                            <section class="bginfo">
+                                <h2>{{ pageContent.Background_Info.Viewing }} {{ allHeaderData?.headerData[0]?.ContractorNameWithID }}</h2>
+                                <section class="flex-5-5">
+                                    <!-- two columns -->
+                                    <div class="col">
+                                        <section class="white-block bgedit-col">
+                                            <section>
+                                                <label class="k-form-field">
+                                                    <div>{{ pageContent.Background_Info.Last_Background_Audit }}</div>
+                                                    <section>
+                                                        <kendo-datepicker disabled="true" formControlName="auditDateText">
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                        <button kendoButton [primary]="true" (click)="auditDateClicked()">{{ pageContent.Background_Info.Audit }}</button>
+                                                    </section>
+                                                </label>
+                                            </section>
+
+                                            <section>
+                                                <label class="k-form-field">
+                                                    <div>{{ pageContent.Background_Info.Background_Addendum }}</div>
+                                                    <kendo-textbox-container>
+                                                        <kendo-dropdownlist
+                                                            required
+                                                            formControlName="bgAddendum"
+                                                            [data]="allHeaderData?.backgroundAddendum"
+                                                            [valuePrimitive]="true"
+                                                            textField="VendorName"
+                                                            valueField="VendorID"
+                                                        >
+                                                            <ng-template kendoDropDownListNoDataTemplate>
+                                                                <h4>
+                                                                    {{ pageContent.General_Keys.No_Data_Found }}
+                                                                </h4>
+                                                            </ng-template>
+                                                        </kendo-dropdownlist>
+                                                    </kendo-textbox-container>
+                                                </label>
+                                            </section>
+                                        </section>
+                                    </div>
+                                    <div class="col">
+                                        <section class="white-block bgedit-col count-block">
+                                            <section>
+                                                <label class="k-form-field">
+                                                    <div>{{ pageContent.Background_Info.Employee_Count }}</div>
+                                                    <section>
+                                                        <kendo-textbox-container>
+                                                            <input kendoTextBox readonly formControlName="empCount" />
+                                                        </kendo-textbox-container>
+                                                    </section>
+                                                </label>
+                                            </section>
+
+                                            <section>
+                                                <div>
+                                                    <input type="checkbox" formControlName="bgScreeningException" id="opt1" class="k-checkbox" />
+                                                    <label class="k-checkbox-label" for="opt1">{{ pageContent.Background_Info.BG_Screening_Exception }}</label>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" formControlName="annualScreeningAudit" id="opt2" class="k-checkbox" />
+                                                    <label class="k-checkbox-label" for="opt2">{{ pageContent.Background_Info.Annual_Screening_Audit_Required }}</label>
+                                                </div>
+                                            </section>
+                                        </section>
+                                    </div>
+                                </section>
+                            </section>
+                        </section>
+
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div> -->
+
+                        <section class="tabs-wrapper">
+                            <section class="white-block">
+                                <kendo-tabstrip tabAlignment="center">
+                                    <kendo-tabstrip-tab [title]="pageContent.Background_Info.Programs" [selected]="true">
+                                        <ng-template kendoTabContent>
+                                            <div class="scrollable-content-wrapper" #commentBlock max-height="190" min-Height="621">
+                                                <div class="scrollable-content">
+                                                    <div class="scroll-inner" #commentArea>
+                                                        <ul class="bg-programs">
+                                                            <li [class]="item.Colors == 'Red' ? 'suspended' : 'inactive'" *ngFor="let item of programTabData">
+                                                                <a (click)="openClientprogDetails(item)">{{ item.PRISMClientName }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-tabstrip-tab>
+
+                                    <kendo-tabstrip-tab [title]="pageContent.Background_Info.Sub_contracted_Trades" [selected]="false">
+                                        <ng-template kendoTabContent>
+                                            <div class="scrollable-content-wrapper" #commentBlock max-height="190" min-Height="621">
+                                                <div class="scrollable-content">
+                                                    <div class="scroll-inner" #commentArea>
+                                                        <ul class="trades">
+                                                            <li *ngFor="let item of subContractedTradesData">
+                                                                <div>
+                                                                    <strong>{{ item.TradeName }}</strong> <span>{{ item.SubOutPct }}%</span>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-tabstrip-tab>
+
+                                    <kendo-tabstrip-tab [title]="pageContent.Background_Info.Owners" *ngIf="ownersVisualFlag">
+                                        <ng-template kendoTabContent>
+                                            <section class="grid-wrapper">
+                                                <kendo-grid
+                                                    media="(min-width: 901px)"
+                                                    [kendoGridBinding]="ownerGridData"
+                                                    class="responsive-grid internal-landing-grid desktop-mode"
+                                                    [filter]="filter"
+                                                    filterable="menu"
+                                                    (filterChange)="filterChange($event)"
+                                                    [pageSize]="pageSize"
+                                                    [skip]="skip"
+                                                    [style.height.%]="100"
+                                                    [sortable]="{
+                                                        allowUnsort: allowUnsort,
+                                                        mode: multiple ? 'multiple' : 'single'
+                                                    }"
+                                                    [sort]="sort"
+                                                    [resizable]="false"
+                                                    [pageable]="pageObj"
+                                                >
+                                                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                                            <!-- template for mobile -->
+                                                            <h2 class="tbl-card-title">
+                                                                <strong>{{ pageContent.Background_Info.Owner_Name }}</strong>
+                                                                {{ dataItem.PersonnelName }}
+                                                            </h2>
+
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Background_Info.Owner_Email }}</strong>
+                                                                </dt>
+                                                                <dd>{{ dataItem.PersonnelEmail }}</dd>
+                                                            </dl>
+
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Background_Info.Owner_Phone }}</strong>
+                                                                </dt>
+                                                                <dd>{{ dataItem.PersonnelPhone }}</dd>
+                                                            </dl>
+
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Background_Info.Ownership }}</strong>
+                                                                </dt>
+                                                                <dd>{{ dataItem.PersonnelPercentage }}</dd>
+                                                            </dl>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="PersonnelName" title="{{ pageContent.Background_Info.Owner_Name }}" width="150">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+                                                    <kendo-grid-column media="(min-width: 901px)" field="PersonnelEmail" title="{{ pageContent.Background_Info.Owner_Email }}" width="150">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+                                                    <kendo-grid-column media="(min-width: 901px)" field="PersonnelPhone" title="{{ pageContent.Background_Info.Owner_Phone }}" width="80">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="PersonnelPercentage" title="{{ pageContent.Background_Info.Ownership }}" width="80">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+                                                </kendo-grid>
+                                            </section>
+                                        </ng-template>
+                                    </kendo-tabstrip-tab>
+                                </kendo-tabstrip>
+                            </section>
+                        </section>
+                    </div>
+                </section>
+
+                <!-- </div></perfect-scrollbar> -->
+                <section class="action-buttons">
+                    <button [disabled]="formgroup && !formgroup.valid ? true : false" kendoButton (click)="onSaveClick()" [primary]="true">{{ pageContent.Background_Info.Save }}</button>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+
+<div kendoDialogContainer class="big-dialog flag"></div>

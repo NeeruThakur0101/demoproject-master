@@ -1,0 +1,172 @@
+// -----------------------------------------------------------------------------
+// This file contains some common rules
+// -----------------------------------------------------------------------------
+.inner-block {
+    > h2 {
+        padding-bottom: 1.5rem;
+    }
+    .white-block {
+        > h3 {
+            padding-bottom: 1.25rem;
+            padding-left: 0.5rem;
+        }
+    }
+}
+.grid-top-bar {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+    > div {
+        @include Min($M-XL) {
+            padding-right: 1.5rem;
+            &:last-of-type {
+                padding-right: 0;
+                button {
+                    margin-left: 1rem;
+                }
+            }
+        }
+        &:last-of-type {
+            button {
+                margin-left: 1rem;
+                @include Max($M-XL) {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+    h2 {
+        &:not(:only-child) {
+            padding-bottom: 0.5rem;
+        }
+    }
+    p {
+        padding-bottom: 1.5rem;
+    }
+    @include Max($M-XL) {
+        flex-direction: column;
+        justify-content: flex-start;
+        margin-bottom: 1rem;
+        h3 {
+            padding-bottom: 1rem;
+        }
+    }
+    .k-primary {
+        background-color: rgba($c-M-Blue, 0.8) !important;
+        border: 1px solid $c-M-Blue !important;
+        &:hover {
+            border: 1px solid $c-Blk !important;
+        }
+    }
+}
+.dropzone-area {
+    padding-top: 1.5rem;
+    small {
+        line-height: 16px;
+        display: block;
+        padding-top: 5px;
+    }
+}
+.blue-box {
+    background-color: rgba($c-L-Blue, 0.5);
+    margin-top: 5rem;
+}
+kendo-popup {
+    //z-index: 10 !important;
+    z-index: 100000;
+    padding: 0 15px 0 0 !important;
+    input {
+        background-image: none !important;
+    }
+    // &.k-tooltip-wrapper {
+    //     padding: 0 !important;
+    // }
+}
+.signup-captcha {
+    display: flex;
+}
+.signup-info {
+    p {
+        text-align: center;
+    }
+}
+.popup-loader.success + .k-dialog-wrapper {
+    .k-window.k-dialog {
+        max-width: 600px;
+        width: 100% !important;
+    }
+}
+.owner-check {
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+}
+app-login app-event-selection .k-dialog-titlebar .k-dialog-actions {
+    display: none;
+}
+.update-alert-box {
+    h2 {
+        a {
+            color: $c-D-Blue;
+            text-decoration: none !important;
+            &:hover {
+                color: $c-D-Gry;
+            }
+        }
+    }
+    .scrollable-content {
+        width: calc(100% + 0px);
+        a {
+            text-decoration: underline;
+            cursor: pointer;
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+    &.has-scroll {
+        .scrollable-content-wrapper {
+            @include respond-to-Max(540px){
+               
+                    overflow: hidden;
+                    height: 100%;
+                
+            }
+        }
+        .scrollable-content {
+            @extend %Width-112;
+            max-height: 300px;
+
+            @media all and (max-height:700px) {
+                width: calc(100% + 12px) !important
+            }
+            @include respond-to-Max(540px){
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+            }
+        }
+    }
+}
+.update-alert {
+    border-bottom: 1px solid $c-Blk-50;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1.5rem;
+    h2 {
+        .k-icon {
+            font-size: 1.9rem;
+        }
+    }
+    &:last-of-type {
+        border: 0px;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+}
+
+.Safari{
+    &.mobile {
+        .scrollable-content {
+            width: 100% !important
+        }
+    }
+}

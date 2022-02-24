@@ -1,0 +1,33 @@
+// input.err, 
+// kendo-maskedtextbox.err input, 
+// .k-autocomplete.err .k-searchbar .k-input, 
+// input.ng-invalid:not(.ng-untouched) {
+//     box-shadow: 0 2px 0 0 $c-Error !important;
+//     border:1px solid $c-Error !important;
+//     background-color: $c-White !important;
+// }
+
+input:not([type='button']):not([type='reset']):not([type='submit']):not([type='image']),
+textarea {
+    @extend %input-base;
+}
+
+input :not([type='button']) :not([type='submit']) :not([type='checkbox']) :not([type='radio']) :not([type='file']) {
+    @extend %input-base;
+}
+input {
+    transition: all 0.3s ease;
+}
+// input:focus:not([type='button']):not([type='submit']):not([type='checkbox']):not([type='radio']):not([type='file']):not(.err):not(.kendo-searchbar .k-input) {
+//     border: 1px solid $c-D-Gry;
+// }
+
+input[type='submit'],
+input[type='button']:not([value='Cancel']) {
+    cursor: pointer;
+    @extend %btn;
+}
+
+input[value='Cancel'] {
+    @extend %btn-cancel;
+}

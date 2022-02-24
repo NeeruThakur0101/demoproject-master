@@ -1,0 +1,504 @@
+// -----------------------------------------------------------------------------
+// This file contains CSS helper classes.
+// -----------------------------------------------------------------------------
+/**
+ * Clear inner floats
+ */
+
+.fnt-R {
+    font-weight: 400;
+}
+.fnt-L {
+    font-weight: 300;
+}
+.fnt-B {
+    font-weight: bold;
+}
+
+.clearfix::after {
+    clear: both;
+    content: '';
+    display: table;
+}
+.hide-text {
+    overflow: hidden;
+    padding: 0;
+    /* 1 */
+    text-indent: 101%;
+    white-space: nowrap;
+}
+.visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+.success-block {
+    padding: 4rem 2rem;
+}
+.shadow {
+    box-shadow: 10px 10px 5px 0px $c-Blk-80;
+}
+.outer-block {
+    @extend %outer-block;
+}
+.inner-block {
+    @extend %inner-block;
+}
+.white-block {
+    @extend %white-block;
+}
+
+// text-alignment
+.a-Center {
+    text-align: center !important;
+}
+.a-Right {
+    text-align: right !important;
+}
+// padding
+.p-T-2rem {
+    padding-top: 2rem;
+}
+.clr-P {
+    padding: 0 !important;
+}
+.clr-Bm {
+    margin-bottom: 0 !important;
+}
+.h-100 {
+    height: 100%;
+}
+
+//custom-grids
+
+.flex-8-2 {
+    @include gridTwoColOdd(100, 10px, 'flx', 80, 20, 1240, 100, 768, 100);
+}
+
+.flex-7-3 {
+    @include gridTwoColOdd(100, 10px, 'flx', 70, 30, 1240, 100, 768, 100);
+}
+.flex-3-7 {
+    @include gridTwoColOdd(100, 10px, 'flx', 30, 70, 1240, 100, 768, 100);
+}
+.flex-6-4 {
+    @include gridTwoColOdd(100, 10px, 'flx', 60, 40, 900, 50, 768, 100);
+}
+.flex-5-5 {
+    @include gridTwoColOdd(100, 10px, 'flx', 50, 50, 900, 50, 768, 100);
+}
+.flex-4-6 {
+    @include gridTwoColOdd(100, 10px, 'flx', 40, 60, 1240, 50, 768, 100);
+}
+
+.top-section + .k-form-inline {
+    @include Height-M(80px);
+    .middle-section {
+        @include Height-M-I(45px);
+    }
+}
+
+.set-button-position {
+    .bottom-section {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 3.25rem;
+    }
+}
+
+.action-buttons {
+    @extend %d-flx;
+    justify-content: center;
+    padding-top: 1.5rem;
+    //@media all and (min-height:581px) {
+    // @media all and (min-height: 721px) {
+    //     position: fixed;
+    //     bottom: 3.25rem;
+    // }
+    left: 0;
+    right: 0;
+    button {
+        margin: 0 5px;
+        min-width: 170px;
+        @include Max(420px) {
+            min-width: 12rem;
+        }
+    }
+}
+.success-msg {
+    color: $c-Success;
+}
+.err-msg {
+    font-size: 12px;
+    color: $c-Error;
+    top: -10px;
+    margin-bottom: -10px;
+    position: relative;
+    display: none; ////
+    &.comp {
+        display: block !important;
+    }
+}
+
+.popup-content {
+    .err-msg {
+        top: -15px;
+    }
+}
+
+.err-block {
+    padding-bottom: 20px;
+}
+
+.tool-with-input {
+    position: relative;
+    .tools {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+        top: 0;
+        right: 0;
+        height: 4rem;
+        background-color: $c-White;
+        border: 1px solid $c-Bdr-L;
+        // @include Max(780px) {
+        //     top: 38px;
+        // }
+        @include Max($MD-L) {
+            top: 3.8rem;
+        }
+        @include Max($MD-P) {
+            top: 4rem;
+        }
+        a {
+            cursor: pointer;
+        }
+        img {
+            width: 15px;
+            margin-top: 4px;
+        }
+        .ico-hammer {
+            margin-top: 1px;
+        }
+        button {
+            -webkit-appearance: none;
+            background: none;
+            outline: none;
+            border: none;
+            cursor: pointer;
+            span {
+                font-size: 20px;
+                color: $c-M-Blue;
+                &.k-i-minus {
+                    color: $c-Rem;
+                }
+            }
+        }
+        a {
+            span {
+                font-size: 20px;
+            }
+            &.add {
+                color: $c-M-Blue;
+            }
+        }
+        label {
+            margin-right: 5px;
+            margin-top: -15px;
+        }
+    }
+}
+.err-block {
+    position: relative;
+    .err,
+    .k-dropdown-wrap {
+        box-shadow: 0 2px 0 0 $c-Error !important;
+        border: 1px solid $c-Error !important;
+        background-color: $c-White !important;
+    }
+    .err-msg {
+        position: absolute;
+        right: 0;
+        top: auto;
+        width: auto !important;
+        bottom: 0;
+        @include Max($MD-L) {
+            left: 0;
+            right: initial;
+        }
+    }
+}
+kendo-dialog {
+    .err-block {
+        .k-textbox-container {
+            .err-msg {
+                bottom: -10px;
+                left: 0;
+            }
+        }
+    }
+}
+.ico-hammer {
+    display: inline-block;
+    background: url(../images/ico-hammer.png) 0 0 no-repeat;
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.date-selection {
+    padding-bottom: 1.5rem;
+    .k-state-empty {
+        .k-label {
+            background-color: $c-L-Blue;
+            right: 40px !important;
+        }
+    }
+}
+kendo-popup.k-animation-container:not(.k-tooltip-wrapper) {
+    position: absolute !important;
+}
+
+.Mac {
+    .scrollable-content {
+        @extend %W-100;
+    }
+    main.hasGrid {
+        .ownership-info {
+            .scrollable-content {
+                @extend %W-100;
+            }
+        }
+    }
+    .jobVolume-form .scrollable-content-wrapper > .scrollable-content {
+        padding-right: 0px;
+    }
+}
+// .Firefox {
+//     .scrollable-content .scroll-inner > .white-block,
+//     .scrollable-content .white-block {
+//         margin-bottom: 10px;
+//     }
+//     .k-tabstrip > .k-content.k-state-active {
+//         margin-bottom: 10px;
+//     }
+// }
+.MS-Edge-Chromium {
+    .scrollable-content {
+        @include Width-P(13.5px);
+        //width: calc(100% + 13.5px);
+    }
+}
+// .Safari {
+//     .scrollable-content {
+//         @extend %W-100-I;
+//         .scroll-inner {
+//             padding-right: 0;
+//         }
+//     }
+// }
+.Safari {
+    &.mobile,
+    &.tablet {
+        .scrollable-content {
+            @include respond-to-Min-Max(740px, 421px) {
+                padding-right: 10px !important;
+            }
+            @include Max(420px) {
+                //padding-right: 15px !important; // global change for responsive grid
+            }
+        }
+    }
+}
+
+.tablet,
+.mobile {
+    .scrollable-content {
+        @extend %W-100;
+    }
+}
+
+// Fixes for FF
+// .Firefox {
+//     .middle-section {
+//         &.company-info-page,
+//         &.ownership-information {
+//             .scroll-inner {
+//                 margin-bottom: 10px;
+//             }
+//         }
+//     }
+// }
+
+.email-info {
+    padding-bottom: 0;
+    font-style: italic;
+    padding-left: 20%;
+    //color: #5c5757;
+    color: $c-Bdr-D;
+    font-size: 12px;
+    @media all and (max-width: 1240px) {
+        padding-left: 40%;
+    }
+    @media all and (max-width: 700px) {
+        padding-left: 0%;
+    }
+}
+.read-only {
+    color: $c-Bdr-D !important;
+}
+%astrict {
+    content: '*';
+    color: $c-Error;
+    font-size: 15px;
+    padding-left: 3px;
+    position: relative;
+    display: inline-block;
+}
+::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: $c-D-Gry !important;
+}
+::-moz-placeholder {
+    /* Firefox 19+ */
+    color: $c-D-Gry !important;
+}
+:-ms-input-placeholder {
+    /* IE 10+ */
+    color: $c-D-Gry !important;
+}
+:-moz-placeholder {
+    /* Firefox 18- */
+    color: $c-D-Gry !important;
+}
+@mixin icons($w, $h, $display, $pos, $img, $img-h, $t, $l, $size) {
+    i {
+        @include before('', $w, $h, $display, $pos, $img, $t, $l);
+    }
+    &:hover {
+        i {
+            @include bg($img-h, '', '', $size);
+        }
+    }
+}
+
+.ico-save {
+    @include icons(16px, 20px, inline-block, relative, 'ico-save.svg', 'ico-save-w.svg', 1px, 2.5px, 16px);
+}
+.ico-edit {
+    @include icons(16px, 14px, inline-block, relative, 'ico-edit-w.svg', 'ico-edit-w.svg', 2px, 2.5px, 16px);
+}
+.ico-delete {
+    @include icons(13px, 15px, inline-block, relative, 'ico-del-w.svg', 'ico-del-w.svg', 2px, 0, 13px);
+}
+.ico-print {
+    @include icons(13px, 13px, inline-block, relative, 'ico-print.svg', 'ico-print-w.svg', 0, 0, 13px);
+}
+.ico-email {
+    @include icons(14px, 13px, inline-block, relative, 'ico-email.svg', 'ico-email-w.svg', 0, 0, 14px);
+}
+.ico-admin {
+    @include icons(20px, 16px, inline-block, relative, 'ico-admin.svg', 'ico-admin.svg', 0, 0, 20px);
+}
+.ico-globe {
+    @include icons(16px, 16px, inline-block, relative, 'ico-globe-bl.svg', 'ico-globe.svg', 0, 0, 16px);
+}
+.ico-upload {
+    @include icons(16px, 16px, inline-block, relative, 'ico-upload-bl.svg', 'ico-upload.svg', 0, 0, 16px);
+}
+.ico-trade {
+    @include icons(16px, 16px, inline-block, relative, 'ico-trade-bl.svg', 'ico-trade.svg', 0, 0, 16px);
+}
+.btn-logout {
+    @include icons(13px, 13px, inline-block, relative, 'ico-logout-w.svg', 'ico-logout-w.svg', -1.5px, 0, 13px);
+}
+.btn-search {
+    @include icons(13px, 13px, inline-block, relative, 'ico-logout-w.svg', 'ico-logout-w.svg', 0px, 0, 13px);
+}
+
+.btn-upload {
+    @include icons(13px, 13px, inline-block, relative, 'ico-upload-bl.svg', 'ico-upload-bl.svg', 0px, 0, 13px);
+    cursor: pointer;
+}
+
+.btn-hammer {
+    @include icons(15px, 15px, inline-block, relative, 'ico-hammer.svg', 'ico-hammer.svg', 3px, 0, 15px);
+    cursor: pointer;
+}
+
+.preloaders {
+    background: url(../images/ico-save-w.svg) 0 0 no-repeat;
+}
+.btn-home {
+    .k-icon {
+        position: relative;
+        top: -3.25px;
+        font-size: 14px;
+        @include Max($MD-P) {
+            top: -4.25px;
+            left: -0.25px;
+        }
+    }
+    //@at-root @include icons (13px, 13px, inline-block, relative, 'ico-home-w.png', 'ico-home-w.png', 0px, 0, 13px);
+    // @include icons (13px, 13px, inline-block, relative, '', '', -1.5px, 0, 13px);
+}
+.btn-refresh {
+    padding: 0 0.75rem !important;
+    @include icons(13px, 13px, inline-block, relative, 'ico-refresh.svg', 'ico-refresh.svg', 1px, 0, 13px);
+}
+.note-box {
+    background-color: #f2f8fd;
+    padding: 1.5rem;
+    border: 1px solid $c-Bdr-L;
+    margin-bottom: 1.5rem;
+    strong {
+        text-align: center;
+        display: block;
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: $c-D-Blue;
+        border-bottom: 1px solid $c-Bdr-L;
+        font-size: 16px;
+    }
+}
+.loader-icon {
+    svg {
+        stroke-dasharray: 269.7405090332031px;
+        stroke-dashoffset: 0;
+        animation: heartBeat 3s linear reverse infinite;
+        transform: rotate(-90deg);
+        width: 15px;
+        height: 15px;
+        margin-top: 3px;
+    }
+    @keyframes heartBeat {
+        50% {
+            stroke-dashoffset: 269.7405090332031px;
+        }
+        50.01% {
+            stroke-dashoffset: -269.7405090332031px;
+        }
+    }
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+/* Firefox */
+input[type='number'] {
+    -moz-appearance: textfield;
+}
+.hide {
+    display: none !important;
+}

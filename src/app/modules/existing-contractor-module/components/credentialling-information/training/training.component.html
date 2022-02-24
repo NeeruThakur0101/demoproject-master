@@ -1,0 +1,153 @@
+<div class="scrollable-content-wrapper" #commentBlock max-height="360" min-Height="621">
+    <div class="scrollable-content">
+        <div class="scroll-inner" #commentArea>
+            <section class="grid-wrapper">
+                <kendo-grid
+                    id="productsGrid"
+                    [kendoGridBinding]="_trainingGrid"
+                    [style.height.%]="100"
+                    [navigable]="true"
+                    class="responsive-grid credential-grid training-grid edit-kendo-grid desktop-mode"
+                    [filter]="filter"
+                    filterable="menu"
+                    (filterChange)="filterChange($event)"
+                    [pageSize]="pageSize"
+                    [sortable]="{ allowUnsort: true, mode: 'single' }"
+                    [sort]="sort"
+                    (sortChange)="sortChange()"
+                    [resizable]="false"
+                    [pageable]="pageObj"
+                    media="(min-width: 901px)"
+                >
+                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <!-- template for mobile -->
+                            <h2 class="tbl-card-title">
+                                <strong>{{ pageContent?.Credentialing_Information.Training }}</strong>
+                                {{ dataItem.MetricTypeName }}
+                            </h2>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Attendees }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <a (click)="viewAttendees(dataItem)">{{ pageContent?.Credentialing_Information.View }}</a>
+                                </dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Credentialing_Date }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <kendo-datepicker (keyup)="keyPress($event, rowIndex)" [min]="min" format="MM/dd/yyyy" [(ngModel)]="dataItem.ExpirationDateNew">
+                                        <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                    </kendo-datepicker>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Due }}</strong>
+                                </dt>
+                                <dd>{{ dataItem.due }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Action }}</strong>
+                                </dt>
+                                <dd class="action">
+                                    <button class="ico-save" (click)="onSaveTraining(dataItem, rowIndex)"><i></i>Save</button>
+                                </dd>
+                            </dl>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages
+                        pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                        noRecords="{{ pageContent.General_Keys.General_No_Record_Available }}"
+                    >
+                    </kendo-grid-messages>
+                    <kendo-grid-column width="250" field="MetricTypeName" title="{{ pageContent?.Credentialing_Information.Training }}" media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        width="220"
+                        field="$"
+                        format="{0:c}"
+                        title="{{ pageContent?.Credentialing_Information.Attendees }}"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                        [sortable]="false"
+                    >
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <a (click)="viewAttendees(dataItem)">{{ pageContent?.Credentialing_Information.View }}</a>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        width="220"
+                        field="ExpirationDate"
+                        editor="date"
+                        title="{{ pageContent?.Credentialing_Information.Credentialing_Date }}"
+                        class="edit-col-input editDate"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <kendo-datepicker (keyup)="keyPress($event, rowIndex)" [min]="min" format="MM/dd/yyyy" [(ngModel)]="dataItem.ExpirationDateNew">
+                                <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                            </kendo-datepicker>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="100"
+                        field="Due"
+                        class="due"
+                        title="{{ pageContent.Credentialing_Information.Due }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="120"
+                        class="action"
+                        field="$"
+                        title="Action"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                        [sortable]="false"
+                    >
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <button class="ico-save" (click)="onSaveTraining(dataItem, rowIndex)"><i></i>Save</button>
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </section>
+        </div>
+    </div>
+</div>

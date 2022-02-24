@@ -1,0 +1,572 @@
+.internalLanding-page {
+    &.main-page {
+        .scroll-inner {
+            height: 100%;
+
+            > .white-block {
+                height: 100%;
+            }
+        }
+    }
+    .middle-section {
+        height: calc(100% - 80px) !important;
+
+        .scrollable-content-wrapper:not(.has-scroll) {
+            > .scrollable-content {
+                width: 100%;
+                .white-block {
+                    height: 100%;
+                }
+            }
+        }
+    }
+    .medallions {
+        position: relative;
+        height: 100px;
+        padding: 0 5rem;
+        @include Max(500px) {
+            padding: 0 3rem;
+        }
+        .project-control {
+            > div {
+                border-radius: 100%;
+                background-color: $c-L-Blue;
+                width: 30px;
+                height: 30px;
+                border: 1px solid darken($color: $c-L-Blue, $amount: 20);
+                box-shadow: 0 0 5px darken($color: $c-L-Blue, $amount: 10);
+                top: 40%;
+                @include iehack() {
+                    top: 20px;
+                }
+                @extend %trans;
+                &:after {
+                    display: none;
+                }
+                &.swiper-button-next {
+                    &:before {
+                        @include before('', 10px, 16px, block, 1px, 'ico-right.svg', 6px, 14px);
+                        @include iehack() {
+                            top: 5px;
+                        }
+                    }
+                }
+                &.swiper-button-prev {
+                    &:before {
+                        @include before('', 10px, 16px, block, absolute, 'ico-left.svg', 6px, 8px);
+                        @include iehack() {
+                            top: 5px;
+                        }
+                    }
+                }
+                &.swiper-button-disabled {
+                    opacity: 0.2;
+                }
+            }
+            .swiper-button-next {
+                @include Max(600px) {
+                    //right:-8px;
+                    right: 0px;
+                    width: 25px;
+                    height: 25px;
+                    &:before {
+                        width: 9px !important;
+                        background-size: 9px !important;
+                        top: 5px !important;
+                        left: 10px !important;
+                        margin-top: 2px;
+                        margin-left: 2px;
+                    }
+                }
+                @include Max(500px) {
+                    right: -6px;
+                }
+            }
+            .swiper-button-prev {
+                @include Max(600px) {
+                    left: 0px;
+                    width: 25px;
+                    height: 25px;
+                    &:before {
+                        width: 8px !important;
+                        background-size: 9px !important;
+                        top: 5px !important;
+                        left: 7px !important;
+                    }
+                }
+                @include Max(500px) {
+                    left: -6px;
+                }
+                @include iehack() {
+                    @include Max(600px) {
+                        &:before {
+                            top: 3px !important;
+                        }
+                    }
+                }
+            }
+        }
+        .swiper-container {
+            .swiper-button-prev,
+            .swiper-button-next {
+                display: none;
+            }
+            .swiper-slide {
+                &:not(.swiper-slide-active) {
+                    opacity: 1;
+                    @extend %trans;
+                    &:hover {
+                        opacity: 1;
+                    }
+                }
+                &.swiper-slide-active {
+                    opacity: 1;
+                }
+                div {
+                    height: 7rem;
+                    border-radius: 5px;
+                    padding: 5px;
+                    display: flex;
+                    flex-wrap: wrap;
+                    background-color: $c-M-Blue;
+                    border: 1px solid darken($c-M-Blue, 10);
+                    box-shadow: inset 0px 0px 20px darken($c-M-Blue, 10);
+                    position: relative;
+                    &:after {
+                        display: block;
+                        width: 20px;
+                        height: 20px;
+                        background-color: darken($c-D-Blue, 5);
+                        position: absolute;
+                        left: 58%;
+                        bottom: -5px;
+                        transform: rotate(45deg);
+                        content: '';
+                        z-index: -1;
+                        opacity: 0;
+                    }
+                    cursor: pointer;
+                    figure {
+                        flex: 0 0 70px;
+                        max-width: 70px;
+                        margin: 0;
+                        position: relative;
+                        &:before {
+                            top: 50%;
+                            background-position: 50%;
+
+                            @include Min($M-L) {
+                                background-size: 25px !important;
+                            }
+                            @include iehack() {
+                                background-size: 35px;
+                            }
+                            left: 50%;
+                            transform: translateX(-50%, -50%);
+
+                            @include Max($MD-P) {
+                                margin-top: -5px;
+                            }
+                        }
+                        &.ico-call {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-call-w.svg', 6px, 6px);
+
+                                @include Max($M-L) {
+                                    background-size: 20px !important;
+                                }
+                            }
+                        }
+                        &.ico-brand {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-brand-w.svg', 6px, 6px);
+
+                                @include Max($M-L) {
+                                    background-size: 20px !important;
+                                }
+                            }
+                        }
+                        &.ico-legal {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-legal-w.svg', 6px, 6px);
+
+                                @include Min($M-L) {
+                                    background-size: 35px !important;
+                                }
+                            }
+                        }
+                        &.ico-prof {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-prof-w.svg', 6px, 6px);
+
+                                @include Min($M-L) {
+                                    background-size: 30px !important;
+                                }
+                            }
+                        }
+                        &.ico-app-start {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-app-start-w.svg', 10px, 7px);
+
+                                @include Min($M-L) {
+                                    background-size: 34px !important;
+                                }
+                            }
+                        }
+
+                        &.ico-app-coverage {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-app-coverage-w.svg', 10px, 7px);
+                                @include Min($M-L) {
+                                    background-size: 34px !important;
+                                }
+                            }
+                        }
+                        &.ico-app-submit {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-app-submited-w.svg', 10px, 7px);
+                                @include Min($M-L) {
+                                    background-size: 34px !important;
+                                }
+                            }
+                        }
+                        &.ico-au-start {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-au-submit-w.svg', 10px, 7px);
+                                @include Min($M-L) {
+                                    background-size: 34px !important;
+                                }
+                            }
+                        }
+                        &.ico-au-submit {
+                            &:before {
+                                @include before('', 50px, 46px, block, absolute, 'ico-au-start-w.svg', 10px, 7px);
+                                @include Min($M-L) {
+                                    background-size: 34px !important;
+                                }
+                            }
+                        }
+
+                        @include Max($M-L) {
+                            flex: 0 0 40px;
+                            max-width: 40px;
+
+                            &:before {
+                                width: 26px !important;
+                                background-size: 22px !important;
+                            }
+                        }
+                    }
+                    section {
+                        flex: auto;
+                        flex: 1;
+                        text-align: center;
+                        border-left: 1px solid rgba($c-L-Blue, 0.3);
+                        h2 {
+                            text-align: center;
+                            color: $c-White;
+                            padding: 0.5rem 0.5rem 0.85rem;
+                            border-radius: 5px;
+                            font-weight: 400;
+                            padding-right: 5px;
+                            line-height: 1.6rem;
+                            font-size: 1.7rem;
+                            text-shadow: 1px 1px 5px darken($color: $c-D-Gry, $amount: 0);
+                            @media all and (max-width: 1400px) and (min-width: 1291px) {
+                                font-size: 1.4rem;
+                            }
+                            @media all and (max-width: 1130px) and (min-width: 921px) {
+                                font-size: 1.4rem;
+                            }
+                            @media all and (max-width: 830px) and (min-width: 701px) {
+                                font-size: 1.4rem;
+                            }
+                            @media all and (max-width: 500px) {
+                                font-size: 1.5rem;
+                                padding: 0.5rem 0.5rem 0.45rem;
+                            }
+                        }
+                        span {
+                            display: inline-block;
+                            text-align: center;
+                            border-radius: 5px;
+                            background-color: $c-L-Blue;
+                            color: $c-D-Blue;
+                            //width: 50px;
+                            flex: 0 0 50px;
+                            margin-right: 5px;
+                            border: 1px solid darken($c-D-Blue, 10);
+                            box-shadow: 0px 0px 10px darken($c-M-Blue, 10);
+                            height: 24px;
+                            line-height: 23px;
+                            padding: 0 5px;
+                            font-weight: 600;
+                            font-size: 14px;
+
+                            @include Max($M-L) {
+                                flex: 0 0 40px;
+                            }
+                        }
+                    }
+                }
+                //&:nth-child(even),
+                &.active {
+                    > div {
+                        background-color: $c-D-Blue;
+                        border: 1px solid darken($c-D-Blue, 10);
+                        &:before {
+                            opacity: 1;
+                        }
+                    }
+                }
+                &.swiper-slide-active {
+                    > div {
+                        background-color: darken($c-D-Blue, 5);
+                        border: 1px solid darken($c-D-Blue, 5);
+                        box-shadow: inset 0px 0px 10px darken($c-D-Blue, 10);
+                        &:after {
+                            opacity: 1;
+                        }
+                    }
+                }
+            }
+        }
+        & + div.landing-grid-wrap {
+            height: calc(100% - 100px);
+            .status {
+                @include Min(900px) {
+                    text-align: center;
+                    padding: 0 1rem;
+                }
+                span {
+                    color: $c-White;
+                    display: inline-block;
+                    border-radius: 10px;
+                    color: $c-White;
+                    text-align: center;
+                    line-height: 25px;
+                    text-transform: capitalize;
+                    padding: 0 10px;
+                    width: 100px;
+                    margin-top: 0.5rem;
+                    &.active {
+                        background-color: $c-Success;
+                    }
+                    &.suspend {
+                        background-color: $c-Rem; //$c-Bs-Link;
+                    }
+                    &.inactive {
+                        background-color: lighten($color: $c-D-Gry, $amount: 20);
+                    }
+
+                    @include Max($D-S) {
+                        margin-top: -0.5rem;
+                    }
+                }
+            }
+        }
+    }
+}
+.landing-grid-wrap {
+    strong[kendotooltip] {
+        cursor: pointer;
+    }
+    .due-status {
+        .hide-me {
+            display: none;
+        }
+    }
+    .selectDate {
+        input {
+            background: transparent !important;
+            box-shadow: none !important;
+            border: none !important;
+            line-height: 20px !important;
+            height: 20px !important;
+            padding: 0 !important;
+            @include Max($D-S) {
+                font-size: 12px !important;
+            }
+        }
+        kendo-datepicker.k-datepicker .k-picker-wrap .k-select {
+            height: 34px;
+            // top: 0;
+
+            top: 5px;
+            @include Max($D-S) {
+                top: 3px;
+            }
+            span {
+                font-size: 14px;
+            }
+            @include Max($M-XL) {
+                height: 28px;
+            }
+        }
+        .k-dateinput-wrap {
+            background-color: transparent;
+            margin-top: 5px;
+            @include Max($D-S) {
+                margin-top: 3px;
+            }
+
+            input {
+                font-size: 1.3rem !important;
+            }
+
+            input[readonly] {
+                background-color: transparent !important;
+                cursor: default;
+            }
+        }
+        .k-datepicker {
+            position: absolute;
+            //top: 0;
+            top: -4px;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            .k-dateinput {
+                padding: 6px 10px 0;
+            }
+            .k-picker-wrap:hover,
+            .k-picker-wrap.k-state-focused,
+            .k-picker-wrap.k-state-active {
+                background-color: transparent;
+                box-shadow: none;
+            }
+            &:hover {
+                background-color: transparent;
+            }
+            @include Max($D-S) {
+                width: 120px;
+
+                .k-dateinput {
+                    padding-left: 3.5rem;
+                    & + .k-select {
+                        right: auto;
+                        left: 0;
+                    }
+                }
+            }
+            @include Max($iPh-L) {
+                .k-dateinput {
+                    padding-top: 3px;
+                }
+            }
+        }
+    }
+    @media all and (min-width: 901px) {
+        tr:hover {
+            .selectDate {
+                input {
+                    color: $c-White !important;
+                }
+                .k-i-calendar::before {
+                    color: $c-White;
+                }
+            }
+        }
+    }
+}
+.internal-landing-grid {
+    &.responsive-grid .k-grid-content .k-grid-table tbody .tbl-card-title strong {
+        @include Max($D-S) {
+            display: block;
+        }
+    }
+    &.appStarted-grid,
+    &.appUpdateStarted-grid,
+    &.app-submitted-grid,
+    &.appUpdatesubmitted-grid {
+        .k-pager-wrap {
+            @include Max(1068px) {
+                top: -11px;
+            }
+        }
+    }
+
+    &.currentCalls-grid {
+        .k-pager-wrap {
+            @include Max(1204px) {
+                top: -11px;
+            }
+        }
+    }
+
+    &.legalIssue-grid {
+        .k-pager-wrap {
+            @include Max(1213px) {
+                top: -11px;
+            }
+        }
+    }
+
+    &.profileChanges-grid {
+        .k-pager-wrap {
+            @include Max(1100px) {
+                top: -11px;
+            }
+        }
+    }
+
+    .k-pager-wrap {
+        @include Max(600px) {
+            top: -1px !important;
+        }
+    }
+}
+.internalLanding-page {
+    .swiper-button-next,
+    .swiper-button-prev {
+        z-index: 5;
+    }
+    .medallions .swiper-container .swiper-slide div section {
+        display: flex;
+        align-items: center;
+        h2 {
+            text-align: left;
+            padding: 0.5rem 0.5rem 0.85rem 1rem;
+            font-size: 1.5rem;
+            flex: 1;
+            word-wrap: break-word;
+        }
+    }
+
+    .swiper > .swiper.s-wrapper {
+        padding-left: 1rem;
+    }
+}
+
+.Safari {
+    .internalLanding-page {
+        .scrollable-content {
+            > .white-block {
+                margin-right: 0 !important;
+            }
+        }
+        > .outer-block {
+            > .inner-block {
+                > .middle-section {
+                    > .white-block {
+                        > .k-form-inline {
+                            > .scrollable-content-wrapper {
+                                > .scrollable-content {
+                                    @include Max(420px) {
+                                        padding-right: 10px !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.lang-french {
+    .internalLanding-page .medallions .swiper-container .swiper-slide div section h2 {
+        font-size: 1.4rem;
+    }
+}

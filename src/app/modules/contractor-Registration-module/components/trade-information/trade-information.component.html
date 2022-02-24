@@ -1,0 +1,296 @@
+<main [class.internal-user]="loginDetails[0].ContrID > 0">
+    <div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div>
+    <div class="outer-block">
+        <div class="inner-block trade-information-page">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+
+                <app-page-title [pageName]="pageContent.Trade_Info.Trade_Information" [comments]="crComments"> </app-page-title>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <form class="k-form-inline h-100">
+                <section class="middle-section trade-information">
+                    <div class="white-block">
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="510">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <!-- content  start-->
+                                    <section class="white-block">
+                                        <div class="panelbar-wrapper">
+                                            <kendo-panelbar [expandMode]="expandType">
+                                                <!--  [expandMode]="single" -->
+                                                <!-- first item open -->
+                                                <kendo-panelbar-item (click)="panelBar(i)" title="" *ngFor="let tradeGroup of masterData; let i = index">
+                                                    <ng-template kendoPanelBarItemTitle>
+                                                        <h3>
+                                                            <span class="fa-stack fa-lg stacked-icon">
+                                                                <i class="fa fa-square-o fa-stack-2x"></i>
+                                                                <i class="fa fa-money fa-stack-1x"></i>
+                                                            </span>
+                                                            <strong>{{ tradeGroup.TradeGroupDesc }}</strong>
+                                                            <div class="counter" [ngClass]="{ 'visual-cue': tradeGroup.iscount == true }">
+                                                                {{ tradeGroup.count }}
+                                                            </div>
+                                                        </h3>
+                                                    </ng-template>
+                                                    <ng-template kendoPanelBarContent>
+                                                        <div class="outer-block">
+                                                            <div class="inner-block">
+                                                                <section class="white-block">
+                                                                    <div class="ex-table-v-wrapper">
+                                                                        <div
+                                                                            class="ex-table-wrapper table-v-scroll row-{{ tradeGroup.TradeNameList.length }}"
+                                                                            [class.table-scroll]="tradeGroup.showScroll"
+                                                                            [class.horizontal-scroll]="tradeGroup.setHeight"
+                                                                        >
+                                                                            <div class="d-table-wrapper ex-table" [class.table-scroll]="showScroll">
+                                                                                <div class="d-table-inner">
+                                                                                    <section class="d-table">
+                                                                                        <div class="d-table-hd">
+                                                                                            <div class="d-col">
+                                                                                                {{ this.pageContent.Trade_Info.Trade }}
+                                                                                            </div>
+                                                                                            <div class="d-col">
+                                                                                                {{ this.pageContent.Trade_Info.Program }}
+                                                                                            </div>
+                                                                                            <div class="d-col">
+                                                                                                {{ this.pageContent.Trade_Info.Sub }}
+                                                                                            </div>
+                                                                                            <div class="d-col" *ngIf="tradeGroup.showSubOutReason">
+                                                                                                {{ this.pageContent.Trade_Info.SubOut_Reason }}
+                                                                                            </div>
+                                                                                            <div class="d-col" *ngIf="tradeGroup.showSubOutReason">
+                                                                                                {{ this.pageContent.Trade_Info.SubOut_Comment }}
+                                                                                            </div>
+                                                                                            <div class="d-col">
+                                                                                                {{ this.pageContent.Trade_Info.Single_Trade }}
+                                                                                                <div kendoTooltip class="right" position="left">
+                                                                                                    <span class="ico-hammer" title="{{ titleSingleTrade }}"></span>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                            <div class="d-col">
+                                                                                                {{ this.pageContent.Trade_Info.Consumer_Services_Trade }}
+                                                                                                <div kendoTooltip class="right" position="left">
+                                                                                                    <span class="ico-hammer" title="{{ titleCSTrade }}"></span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="d-table-content">
+                                                                                            <div class="d-table-row" *ngFor="let trade of tradeGroup.TradeNameList">
+                                                                                                <div class="d-col" data-label="Trade">
+                                                                                                    <input
+                                                                                                        type="checkbox"
+                                                                                                        [ngClass]="{ 'visual-cue': trade.isPrimaryFlg == true }"
+                                                                                                        #trades
+                                                                                                        [disabled]="
+                                                                                                            (trade.isPrimaryFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isSubOutPct == true && internalEmployee == true) ||
+                                                                                                            (trade.isSingleTradeFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isConsumerFlg == true && internalEmployee == true) ||
+                                                                                                            (loginDetails[0].ContrID == 0 && loggedInUserType == 'Internal') ||
+                                                                                                            readonlyMode ||
+                                                                                                            trade.IsRowDisable
+                                                                                                        "
+                                                                                                        id="trade-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                        [checked]="trade.checkedTrade"
+                                                                                                        class="k-checkbox"
+                                                                                                        (click)="updateTrades(trade.TradeGroupID, trade.TradeListID, 'trade')"
+                                                                                                    />
+                                                                                                    <label class="k-checkbox-label" for="trade-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}">{{
+                                                                                                        trade.TradeName
+                                                                                                    }}</label>
+                                                                                                </div>
+                                                                                                <div class="d-col" data-label="Program" *ngIf="trade.Program === 'Residential'">
+                                                                                                    {{ pageContent.Trade_Info.Residential }}
+                                                                                                </div>
+                                                                                                <div class="d-col" data-label="Program" *ngIf="trade.Program === 'Commercial'">
+                                                                                                    {{ pageContent.Trade_Info.Commercial }}
+                                                                                                </div>
+                                                                                                <div
+                                                                                                    class="d-col"
+                                                                                                    data-label="Program"
+                                                                                                    *ngIf="trade.Program !== 'Commercial' && trade.Program !== 'Residential'"
+                                                                                                ></div>
+                                                                                                <div class="d-col" data-label="%Sub">
+                                                                                                    <input
+                                                                                                        kendoTextBox
+                                                                                                        [ngClass]="{ 'visual-cue': trade.isSubOutPct == true }"
+                                                                                                        (keypress)="numberOnly($event)"
+                                                                                                        (paste)="onPaste()"
+                                                                                                        maxlength="3"
+                                                                                                        (keyup)="
+                                                                                                            updateTrades(trade.TradeGroupID, trade.TradeListID, 'sub', null, $event, trade.SubOutPct)
+                                                                                                        "
+                                                                                                        #subs
+                                                                                                        id="subs-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                        value="{{ trade.SubOutPct }}"
+                                                                                                        autocomplete="off"
+                                                                                                        [readonly]="
+                                                                                                            (trade.isPrimaryFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isSubOutPct == true && internalEmployee == true) ||
+                                                                                                            (trade.isSingleTradeFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isConsumerFlg == true && internalEmployee == true) ||
+                                                                                                            (loginDetails[0].ContrID == 0 && loggedInUserType == 'Internal') ||
+                                                                                                            readonlyMode
+                                                                                                        "
+                                                                                                        [disabled]="trade.IsRowDisable"
+                                                                                                        *ngIf="trade.SubOutChkFlg"
+                                                                                                    />
+                                                                                                </div>
+                                                                                                <div class="d-col" *ngIf="tradeGroup.showSubOutReason" data-label="SubOut Reason">
+                                                                                                    <kendo-dropdownlist
+                                                                                                        #subOutReason
+                                                                                                        [ngClass]="{ 'visual-cue': trade.isContractorSubOutReasonNumber == true }"
+                                                                                                        *ngIf="trade.showTradeReason"
+                                                                                                        [data]="trade.ReasonList"
+                                                                                                        textField="ContractorSubOutReasonName"
+                                                                                                        id="reason-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                        valueField="ContractorSubOutReasonNumber"
+                                                                                                        [filterable]="true"
+                                                                                                        [(ngModel)]="trade.ContractorSubOutReasonNumber"
+                                                                                                        [readonly]="
+                                                                                                            (trade.isPrimaryFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isContractorSubOutReasonNumber == true && internalEmployee == true) ||
+                                                                                                            (trade.isSingleTradeFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isConsumerFlg == true && internalEmployee == true) ||
+                                                                                                            (loginDetails[0].ContrID == 0 && loggedInUserType == 'Internal') ||
+                                                                                                            readonlyMode
+                                                                                                        "
+                                                                                                        [disabled]="trade.IsRowDisable"
+                                                                                                        (selectionChange)="updateTrades(trade.TradeGroupID, trade.TradeListID, 'reason', $event)"
+                                                                                                        (filterChange)="handleFilterReason($event, tradeGroup.TradeGroupID, trade.TradeListID)"
+                                                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                                                        [valuePrimitive]="true"
+                                                                                                    >
+                                                                                                        <ng-template kendoDropDownListNoDataTemplate>
+                                                                                                            <h4>
+                                                                                                                {{ pageContent.General_Keys.No_Data_Found }}
+                                                                                                            </h4>
+                                                                                                        </ng-template>
+                                                                                                    </kendo-dropdownlist>
+                                                                                                </div>
+                                                                                                <div class="d-col" *ngIf="tradeGroup.showSubOutReason" data-label="SubOut Reason">
+                                                                                                    <section class="textarea-wrapp" [ngClass]="{ 'has-scroll': trade.rowSize == 4 }">
+                                                                                                        <textarea
+                                                                                                            (keyup)="keyupComment(trade.TradeGroupID, trade.TradeListID, 'reasonComment', $event)"
+                                                                                                            (keypress)="updateTrades(trade.TradeGroupID, trade.TradeListID, 'reasonComment', $event)"
+                                                                                                            kendoTextArea
+                                                                                                            onKeyPress="if(this.value.length==1000) return false;"
+                                                                                                            rows="{{ trade.rowSize }}"
+                                                                                                            [ngClass]="{ 'visual-cue': trade.isSubOutComment == true }"
+                                                                                                            *ngIf="trade.showTradeReason"
+                                                                                                            [(ngModel)]="trade.SubOutComment"
+                                                                                                            [readonly]="
+                                                                                                                (trade.isPrimaryFlg == true && internalEmployee == true) ||
+                                                                                                                (trade.isSubOutComment == true && internalEmployee == true) ||
+                                                                                                                (trade.isSingleTradeFlg == true && internalEmployee == true) ||
+                                                                                                                (trade.isConsumerFlg == true && internalEmployee == true) ||
+                                                                                                                (loginDetails[0].ContrID == 0 && loggedInUserType == 'Internal') ||
+                                                                                                                readonlyMode
+                                                                                                            "
+                                                                                                            [disabled]="trade.IsRowDisable"
+                                                                                                            #subOutComments
+                                                                                                            id="comment-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                            [ngModelOptions]="{ standalone: true }"
+                                                                                                        ></textarea>
+                                                                                                    </section>
+                                                                                                </div>
+                                                                                                <div class="d-col" data-label="Single Trade">
+                                                                                                    <input
+                                                                                                        type="checkbox"
+                                                                                                        [ngClass]="{ 'visual-cue': trade.isSingleTradeFlg == true }"
+                                                                                                        id="single-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                        [checked]="trade.checkedSingle"
+                                                                                                        *ngIf="trade.SingleTradeEligible"
+                                                                                                        [disabled]="
+                                                                                                            (trade.isPrimaryFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isSubOutPct == true && internalEmployee == true) ||
+                                                                                                            (trade.isSingleTradeFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isConsumerFlg == true && internalEmployee == true) ||
+                                                                                                            (loginDetails[0].ContrID == 0 && loggedInUserType == 'Internal') ||
+                                                                                                            readonlyMode ||
+                                                                                                            trade.IsRowDisable
+                                                                                                        "
+                                                                                                        class="k-checkbox"
+                                                                                                        (click)="updateTrades(trade.TradeGroupID, trade.TradeListID, 'single')"
+                                                                                                    />
+                                                                                                    <label
+                                                                                                        class="k-checkbox-label"
+                                                                                                        for="single-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                        *ngIf="trade.SingleTradeEligible"
+                                                                                                    ></label>
+                                                                                                </div>
+                                                                                                <div class="d-col" data-label="Consumer Services Trade">
+                                                                                                    <input
+                                                                                                        type="checkbox"
+                                                                                                        [ngClass]="{ 'visual-cue': trade.isConsumerFlg == true }"
+                                                                                                        [disabled]="
+                                                                                                            (trade.isPrimaryFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isSubOutPct == true && internalEmployee == true) ||
+                                                                                                            (trade.isSingleTradeFlg == true && internalEmployee == true) ||
+                                                                                                            (trade.isConsumerFlg == true && internalEmployee == true) ||
+                                                                                                            (loginDetails[0].ContrID == 0 && loggedInUserType == 'Internal') ||
+                                                                                                            readonlyMode ||
+                                                                                                            trade.IsRowDisable
+                                                                                                        "
+                                                                                                        id="consumer-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                        [checked]="trade.checkedConsumer"
+                                                                                                        class="k-checkbox"
+                                                                                                        (click)="updateTrades(trade.TradeGroupID, trade.TradeListID, 'consumer')"
+                                                                                                    />
+                                                                                                    <label
+                                                                                                        class="k-checkbox-label"
+                                                                                                        for="consumer-{{ trade.TradeGroupID }}-{{ trade.TradeListID }}"
+                                                                                                    ></label>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </section>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </section>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-panelbar-item>
+                                            </kendo-panelbar>
+                                        </div>
+                                    </section>
+                                    <!-- content close -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <section class="bottom-section">
+                        <section
+                            class="action-buttons"
+                            *ngIf="loginDetails[0].ContrID === 0 || (loginDetails[0].ContrID > 0 && _srvAuth.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')"
+                        >
+                            <button kendoButton type="button" (click)="preventDataOnCancel('back')">
+                                {{ this.pageContent.Trade_Info.Trade_Information_Back }}
+                            </button>
+                            <button kendoButton (click)="loginDetails[0].ContrID > 0 ? saveApprovalJson() : saveNext()" [primary]="true">
+                                {{ saveandNext }}
+                            </button>
+                        </section>
+                        <section class="action-buttons" *ngIf="loginDetails[0].ContrID > 0 && _srvAuth.Profile.EventName === 'No Event'">
+                            <button kendoButton (click)="saveApprovalJson()" [disabled]="readonlyMode" [primary]="true">
+                                {{ this.pageContent.Trade_Info.Save }}
+                            </button>
+                        </section>
+                    </section>
+                </section>
+            </form>
+            <!-- middle content area close -->
+            <!-- bottom block open -->
+        </div>
+    </div>
+    <div kendoDialogContainer class="popup-loader"></div>
+</main>
+<ng-container #container></ng-container>

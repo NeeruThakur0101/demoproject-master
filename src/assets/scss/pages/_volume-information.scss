@@ -1,0 +1,225 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Job Volumn Information Page
+// -----------------------------------------------------------------------------
+
+.volume-information {
+   // margin: -20px 0 0 -10px;
+    .k-grid-header-wrap {
+        border: none;
+    }
+    .pie-chart-wrapper {
+        height: calc(100% - 42px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        .k-chart {
+            width: 100%;
+        }
+    }
+    .k-grid-header {
+        .k-grid-header-wrap {
+            thead[kendogridheader] {
+                tr {
+                    &:first-child {
+                        color: $c-White;
+                        text-align: center;
+                        &:hover {
+                            background-color: $c-D-Blue !important;
+                        }
+                    }
+                }
+            }
+        }
+        .k-header {
+            text-align: center;
+            border: none;
+            .k-link {
+                position: relative;
+                > span {
+                    position: absolute;
+                    margin: 0;
+                }
+            }
+        }
+    }
+    .k-grid-table {
+        td:not(:first-child) {
+            text-align: center;
+        }
+    }
+    .flex-3-7 {
+        @include gridTwoColOdd(100, 10px, 'flx', 35, 65, 1240, 100, 768, 100);
+        .col {
+            margin-bottom: 0;
+            &:first-child {
+                margin-bottom: 0 !important;
+                @include Max(1240px) {
+                    margin-bottom: 20px !important;
+                }
+            }
+        }
+        @include Max(1340px) {
+            .col {
+                flex: 0 0 100%;
+                &:first-child {
+                    + .col {
+                        flex: 0 0 100%;
+                    }
+                }
+            }
+        }
+    }
+    tr {
+        td {
+            position: relative;
+            text-align: center;
+            .visual-cue {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                line-height: 35px;
+                padding: 0 10px;
+            }
+        }
+    }
+}
+form.jobVolume-form {
+    // height: calc(100% - 80px);
+    // .middle-section {
+    //     height: calc(100% - 50px) !important;
+    // }
+    // .scroll-inner {
+    //     padding-right: 2px;
+    // }
+    kendo-popup.k-animation-container {
+        width: 125px;
+    }
+    .tooltip-chart {
+        width: 120px;
+        cursor: pointer;
+    }
+    .tooltip-chart .tooltip-row {
+        flex-wrap: wrap;
+        display: flex;
+    }
+    .tooltip-chart .tooltip-row div {
+        flex: 0 0 100%;
+    }
+
+    // .scrollable-content .volume-information {
+    //     @media all and (min-width:769px) {
+    //         padding-right: 1rem;
+    //     }
+    // }
+
+    .scrollable-content-wrapper > .scrollable-content {
+        // padding-right: 10px;
+         padding: 0 10px 0 0 !important;
+
+         @media all and (max-height:700px) {
+             padding: 0 !important;
+         }
+
+         @include Max($MD-P) {
+            padding: 0 !important;
+         }
+     }
+
+}
+// .Safari {
+//     &.mobile,
+//     &.tablet {
+//         form.jobVolume-form {
+//             .scrollable-content {
+//                 @include respond-to-Min-Max(740px, 421px) {
+//                     padding-right: 5px !important;
+//                 }
+//                 @include Max(420px) {
+//                     padding-right: 7.5px !important;
+//                 }
+//             }
+//         }
+//     }
+// }
+.job-volume-grid {
+    @include iehack() {
+        thead {
+            tr {
+                th {
+                    &:nth-child(2),
+                    &:nth-child(6),
+                    &:nth-child(5) {
+                        .k-grid-filter {
+                            top: 100%;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    @include respond-to-Min-Max(1710px, 1241px) {
+        .k-pager-wrap {
+            top: -11px;
+            @include iehack() {
+                top: -12px;
+            }
+        }
+    }
+    @include respond-to-Min-Max(1140px, 901px) {
+        .k-pager-wrap {
+            top: -11px;
+            @include iehack() {
+                top: -12px;
+            }
+        }
+    }
+    .k-grid-content td dl dt {
+        flex: 0 0 145px !important;
+    }
+    .k-grid-content td dl dd {
+        flex: 0 0 calc(100% - 145px);
+    }
+    @include Max(1240px) {
+        height: 350px !important;
+    }
+}
+
+.Safari {
+    .jobVolume-form {
+        .scrollable-content-wrapper > .scrollable-content {
+            padding-right: 5px !important;
+        }
+    }
+}
+
+.volume-information  {
+    >.white-block {
+        >section {
+            @media all and (max-width:1390px) {
+            height:190px;
+            }
+            @media all and (max-width:768px) {
+                height:195px;
+                }
+        }
+    }
+}
+.scrollable-horizontal {
+    width: 100%;
+    
+
+    .scrollable-content {
+        @media all and (max-width:1390px) {
+            overflow-x:auto;
+            .scroll-inner {
+                width: 1380px !important;
+            }
+
+            
+        
+        }
+    }
+    
+}

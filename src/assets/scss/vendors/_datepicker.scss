@@ -1,0 +1,112 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Date Picker Component
+// ----------------------------------------------------------------------------
+
+$c-Calendar-Icon: $c-D-Gry;
+$c-DatePicker-Bg: $c-L-Blue;
+$c-DatePicker-Focus-Bg: $c-White;
+
+kendo-datepicker {
+    &.k-datepicker {
+        border: none;
+        .k-picker-wrap {
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            .k-dateinput {
+                flex: 100%;
+            }
+            .k-dateinput-wrap {
+                background-color: transparent;
+                .k-input {
+                    margin-bottom: 0;
+                    flex: 100%;
+                }
+            }
+            .k-select {
+                background: none;
+                position: absolute;
+                right: 0;
+                height: 4rem;
+                width: 3.5rem;
+                @include Max($MD-P) {
+                    height: 3.6rem;
+                }
+
+                .k-i-calendar {
+                    color: $c-Calendar-Icon;
+                }
+            }
+        }
+        &.err {
+            kendo-dateinput {
+                .k-input {
+                    box-shadow: 0 2px 0 0 $c-Error !important;
+                    border: 1px solid $c-Error !important;
+                    background-color: $c-White !important;
+                }
+            }
+        }
+        &.err ~ .k-label {
+            background-color: $c-White;
+        }
+
+        &.read-only {
+            .k-select {
+                cursor: not-allowed;
+                opacity: 0.6;
+            }
+        }
+    }
+}
+.date-picker {
+    margin-bottom: 1.5rem;
+    &.k-state-empty {
+        .k-label {
+            background-color: $c-DatePicker-Bg;
+            margin-right: 3rem;
+        }
+    }
+    &.k-state-focused {
+        .k-label {
+            background-color: $c-DatePicker-Focus-Bg;
+            margin-right: 3rem;
+        }
+    }
+}
+.k-datepicker .k-picker-wrap:hover .k-select,
+.k-datepicker .k-picker-wrap.k-state-hover .k-select,
+.k-timepicker .k-picker-wrap:hover .k-select,
+.k-timepicker .k-picker-wrap.k-state-hover .k-select,
+.k-datetimepicker .k-picker-wrap:hover .k-select,
+.k-datetimepicker .k-picker-wrap.k-state-hover .k-select {
+    background-color: transparent;
+    background-image: none !important;
+}
+
+
+.lang-french {
+    .k-calendar-header .k-today {
+        color: #fff;
+        position: relative;
+
+        &:after {
+            content:"AUJOURD'HUI";
+            position:absolute;
+            top:0;right:0;display:block;
+            font-size: 13px;
+            color:#ff6358;
+            white-space: nowrap;
+        }
+
+        &:hover {
+            color: #fff; 
+
+            &:after {
+                color:#d6534a;
+            }
+        }
+
+        
+    }
+}

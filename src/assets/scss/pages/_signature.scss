@@ -1,0 +1,161 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Program Type Page
+// -----------------------------------------------------------------------------
+// .k-checkbox-label {
+//     color: #656565;
+//     font-weight: 200;
+//     padding-bottom: 0;
+// }
+.signature {
+    .scrollable-content {
+        @include Min(520px) {
+            width: calc(100% + 12px);
+        }
+        .white-block {
+            > div {
+                > h2:first-child {
+                    margin-top: 1rem;
+                }
+            }
+        }
+    }
+    &.middle-section {
+        text-align: center;
+        h2 {
+            padding-bottom: 0px;
+        }
+        p {
+            padding-bottom: 2rem;
+            font-size: 1.4rem;
+            padding-top: 0.5rem;
+        }
+        .d-col {
+            width: 100%;
+        }
+        .d-table.signature {
+            width: 20%;
+            margin: 0 auto;
+            text-align: left;
+            input[type='checkbox'] {
+                margin: 0;
+                padding: 0;
+                width: auto;
+            }
+            input[type='checkbox']:checked + label + input[type='text'] {
+                display: block;
+            }
+            input[type='text'] {
+                border: none;
+                box-shadow: none;
+                line-height: 2rem;
+                height: 2rem !important;
+                margin-bottom: 0;
+                display: inline-block;
+                width: initial;
+                display: none;
+            }
+            .initial {
+                display: flex;
+                justify-content: space-between;
+                label {
+                    margin-right: 1rem;
+                }
+                input[type='text'] {
+                    padding: 0;
+                }
+            }
+            @include Max(1100px) {
+                width: 75%;
+            }
+            @include Max(840px) {
+                width: 100%;
+            }
+        }
+    }
+}
+.signature {
+    .d-table-content-wrapper {
+        overflow: hidden;
+        max-height: 200px;
+        border-bottom: 1px solid $c-Bdr-L; //#d7d2cb;
+        .d-table-content-scroll {
+            overflow-y: auto;
+            max-height: 200px;
+            width: calc(100% + 10px);
+        }
+    }
+}
+.sign-change {
+    margin-top: 30px;
+}
+.owner-block {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+    .wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        max-width: 580px;
+        width: 100%;
+        background-color: $c-Blk-01; //rgba(0, 0, 0, 0.01);
+        padding: 20px;
+        border: 1px solid $c-Bdr-L; //rgba(0, 0, 0, 0.05);
+        .sign-change {
+            flex: 0 0 100%;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem !important;
+            border: 1px solid $c-Bdr-L; //rgba(0, 0, 0, 0.1);
+            margin-top: 0 !important;
+            background-color: white;
+            padding-top: 2rem !important;
+            max-width: 100%;
+            span {
+                font-size: 30px;
+                border: 1px solid $c-Bdr-L; //rgba(0, 0, 0, 0.3);
+                border-radius: 100%;
+                padding: 10px;
+                width: initial;
+                height: inherit;
+                margin-bottom: 10px;
+                display: inline-block;
+                width: 50px;
+            }
+        }
+        div {
+            padding: 0 10px !important;
+            &:not(.sign-change) {
+                text-align: left;
+                flex: 0 0 50%;
+                max-width: 50%;
+                @include Max($MD-P) {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                    margin-bottom: 20px;
+                    &:last-child {
+                        margin-bottom: 20px;
+                    }
+                }
+            }
+        }
+        input {
+            margin: 0 !important;
+        }
+    }
+    @include Max($MD-P) {
+        margin-bottom: 2rem;
+    }
+}
+app-signature-page {
+    .action-buttons {
+        @include Max( 590px) {
+            button {
+                min-width: auto;
+            }
+        }
+    }
+}

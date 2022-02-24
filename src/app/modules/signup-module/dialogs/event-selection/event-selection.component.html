@@ -1,0 +1,58 @@
+<kendo-dialog-titlebar class="hasDialog" [class.has-scroll]="eventData.length > 0">
+    <h1>{{ pageContent.Event_Selection.Event_Selection_Header }}</h1>
+    <!-- <button type="button" (click)="setEventAndRoute('No Event')">&times;</button> -->
+</kendo-dialog-titlebar>
+
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- popup content -->
+            <section class="white-block">
+                <!-- form block starts -->
+                <section class="form-block update-alert-box" [class.has-scroll]="eventData.length > 2">
+                    <div class="scrollable-content-wrapper">
+                        <div class="scrollable-content">
+                            <div class="update-alert" *ngFor="let eventName of eventArray">
+                                <h2>
+                                    <a (click)="setEventAndRoute(eventName.EventName, eventName.EventTypeID)">
+                                        <span class="k-icon k-i-notification"></span>
+                                        <!-- {{ eventName.EventName }} Alert -->
+                                        {{ eventName.EventNameTranslated }} {{ pageContent.General_Keys.Alert }}
+                                        <!-- {{ pageContent.Event_Selection.Alert }} -->
+                                    </a>
+                                </h2>
+                                <p>
+                                    <strong>{{ pageContent.Event_Selection.Courtesy_Reminder }}</strong
+                                    >; {{ pageContent.Event_Selection.Your_Company }}
+                                    <strong
+                                        >{{ eventName.EventName === 'Recertification' ? pageContent.Event_Selection.Annual_Recert : pageContent.Event_Selection.Has_Been_Request
+                                        }}{{ eventName.EventName === 'Recertification' ? null : pageContent.Event_Selection.App_Update }}</strong
+                                    >. {{ pageContent.Event_Selection.During_The }}
+                                    {{ eventName.EventName === 'Recertification' ? pageContent.Event_Selection.Recertification : pageContent.Event_Selection.App_Update }}
+                                    {{ pageContent.Event_Selection.Contractor_Required }}
+                                </p>
+                            </div>
+                            <div class="update-alert" *ngFor="let eventName of correctionArray">
+                                <h2>
+                                    <a (click)="setEventAndRoute(eventName.EventName, eventName.EventTypeID)">
+                                        <span class="k-icon k-i-notification"></span>
+                                        <!-- {{ eventName.EventName }} Alert -->
+                                        {{ eventName.EventNameTranslated }} {{ pageContent.General_Keys.Alert }}
+                                        <!-- {{ pageContent.Event_Selection.Alert }} -->
+                                    </a>
+                                </h2>
+                                <p>{{ pageContent.Event_Selection.Contractor_Connection_Request }} {{ eventName.EventName }} {{ pageContent.Event_Selection.Correction_Request_Sen1 }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton type="button" (click)="setEventAndRoute('No Event', 0)" [primary]="true">{{ pageContent.Event_Selection.Will_Do_Later }}</button>
+</div>
+<!-- </kendo-dialog> -->

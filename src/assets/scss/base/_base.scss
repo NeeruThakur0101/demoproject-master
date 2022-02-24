@@ -1,0 +1,49 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+* {
+    box-sizing: border-box;
+    outline: none;
+    margin: 0;
+    padding: 0;
+}
+
+/**
+ * Basic styles for links
+ */
+a {
+    color: $c-Bs-Link;
+    text-decoration: underline;
+    &:hover {
+        color: $c-D-Gry;
+        text-decoration: none;
+    }
+}
+html,
+body {
+    @media all and (min-height: 701px) {
+        height: 100%;
+    }
+    overflow-x: hidden;
+    @include Max(540px) {
+        height: auto;
+    }
+}
+
+body {
+    @include bg('body-bg.png', a, null, null);
+    color: $c-D-Gry;
+    line-height: 2rem;
+    padding: 10px;
+}
+
+ol {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    li {
+        padding-left: 0.5rem;
+        padding-bottom: 0;
+        font-weight: bold;
+    }
+}

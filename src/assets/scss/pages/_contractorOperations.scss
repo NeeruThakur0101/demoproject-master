@@ -1,0 +1,238 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Contractor Operation Page
+// -----------------------------------------------------------------------------
+.ContractorOperations {
+    .middle-section {
+        .cont-operation-wrap {
+            height: calc(100% - 40px);
+            .event-link {
+                a {
+                    text-decoration: underline;
+
+                    &:hover {
+                        text-decoration: none;
+                    }
+                }
+            }
+            .action {
+                @include Min($D-S) {
+                    text-align: center;
+                }
+                a {
+                    display: inline-block;
+                    margin: 0 3px;
+                    color: $c-D-Gry;
+                    text-decoration: none;
+                }
+
+                .k-i-email {
+                    font-size: 1.7rem;
+                }
+                // @include Max($D-S) {
+                //     a.ico-print {
+                //         &:hover {
+                //             i {
+                //                 @include bg('ico-print-b.svg', '', '', 13px);
+                //             }
+                //         }
+                //     }
+                //     a.ico-email {
+                //         &:hover {
+                //             i {
+                //                 @include bg('ico-email-b.svg', '', '', 14px);
+                //             }
+                //         }
+                //     }
+                // }
+            }
+        }
+        .grid-top-bar {
+            padding-bottom: 1rem;
+            @include Max($iPh-L) {
+                padding-bottom: 0;
+                margin-bottom: 1rem;
+            }
+
+            .k-icon {
+                width: 3rem;
+                height: 3rem;
+                @extend %btn;
+
+                &:before {
+                    margin-left: 1px;
+                }
+
+                &:hover {
+                    background-color: $c-Blk !important;
+                }
+            }
+        }
+        height: calc(100% - 80px) !important;
+        .scrollable-content {
+            width: 100%;
+            .white-block {
+                height: 100%;
+            }
+        }
+    }
+}
+.history-timestamp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 12px;
+    padding-bottom: 1.5rem;
+}
+.contractor-op-grid {
+    // @media all and (max-width: 900px) and (min-width: 681px) { // global change for responsive grid
+    //     .k-grid-table tbody tr td {
+    //         padding-top: 74px !important;
+    //     }
+    //     .tbl-card-title {
+    //         margin-top: -74px !important;
+    //     }
+    // }
+    @include Max($D-S) {
+        .tbl-card-title {
+            strong {
+                display: block;
+            }
+            span {
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+            }
+        }
+        .action {
+            min-height: 33px;
+        }
+    }
+    // @include Max($M-XL) {  // global change for responsive grid
+    //     .k-grid-content .k-grid-table tbody tr td {
+    //         padding-top: 50px !important;
+    //         .tbl-card-title {
+    //             margin-top: -50px !important;
+    //         }
+    //     }
+    // }
+}
+.ContractorOperations ~ .k-dialog-wrapper .k-window.k-dialog {
+    max-width: inherit;
+}
+.OpsHistoryDetail-grid {
+    td {
+        vertical-align: top;
+        p {
+            padding: 0 0 2px;
+            font-size: 12px;
+            &:nth-child(3n + 3) {
+                padding-bottom: 1rem;
+            }
+            &:last-child {
+                padding-bottom: 0 !important;
+            }
+        }
+    }
+    @include Max($D-S) {
+        .tbl-card-title {
+            strong {
+                display: block;
+            }
+            span {
+                // white-space: nowrap;  // global change for responsive grid
+                // text-overflow: ellipsis;
+                // overflow: hidden;
+                display: block;
+            }
+        }
+        .action {
+            min-height: 33px;
+        }
+    }
+    // @include Max($M-XL) { // global change for responsive grid
+    //     .k-grid-content .k-grid-table tbody tr td {
+    //         padding-top: 50px !important;
+    //         .tbl-card-title {
+    //             margin-top: -50px !important;
+    //         }
+    //     }
+    // }
+
+    .scrollable-content {
+        max-height: 150px;
+        padding: 0 1rem 0 0;
+    }
+}
+.OpsHistory-grid {
+    .ico-hammer {
+        position: relative;
+        top: 3px;
+        @include Max($D-S) {
+            position: absolute;
+            top: 8px;
+        }
+        @include Max(600px) {
+            top: 5px;
+        }
+        // &:hover {
+        //         background: url(../images/ico-hammer.png) 0 0 no-repeat;
+        // }
+    }
+    @include Min($D-S) {
+        tr {
+            &:hover {
+                .ico-hammer {
+                    background: url(../images/ico-hammer-w.png) 0 0 no-repeat;
+                    width: 16px;
+                    height: 16px;
+                    background-size: 16px;
+                }
+            }
+        }
+    }
+    .pending {
+        div {
+            margin-top: 3px;
+            .k-i-close-outline {
+                color: $c-Rem; //$c-Bs-Link;
+            }
+            p {
+                padding: 0;
+                margin: 0;
+            }
+            a {
+                margin: 0 5px 0 0;
+                span {
+                    font-size: 20px;
+                }
+            }
+        }
+        .ico-hammer {
+            margin: 0 0 0 10px;
+            position: relative;
+            top: 4px;
+        }
+    }
+}
+.k-maskedtextbox {
+    width: 100%;
+    line-height: 4rem;
+    height: 4rem;
+    padding: 0;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+}
+.edit-recertifiation {
+    @include Max($M-XL) {
+        margin-right: 1rem;
+    }
+}
+
+.quick-approve + span + div {
+    p {
+        a {
+            margin-right: 5px;
+        }
+    }
+}

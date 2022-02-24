@@ -1,0 +1,36 @@
+<kendo-dialog-titlebar (close)="closePopupFinancialDeferal('cancel')">
+    <h1>{{ pageContent.Application_Type.Financial_Deferral_Guidelines }}</h1>
+</kendo-dialog-titlebar>
+
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="white-block">
+                <h2>{{ pageContent.Application_Type.Summary }}</h2>
+                <p>
+                    {{ pageContent.Application_Type.Summary_Text_One }}
+                </p>
+                <p>
+                    {{ pageContent.Application_Type.Summary_Text_Two }}
+                </p>
+                <ul>
+                    <li>{{ pageContent.Application_Type.Summary_Text_Three }}</li>
+                    <li>{{ pageContent.Application_Type.Summary_Text_Four }}</li>
+                    <li>{{ pageContent.Application_Type.Summary_Text_Five }}</li>
+                </ul>
+                <p></p>
+                <p>
+                    {{ pageContent.Application_Type.Summary_Text_Six }}
+                </p>
+                <p>
+                    {{ pageContent.Application_Type.Summary_Text_Seven }}
+                </p>
+                <p>{{ pageContent.Application_Type.Summary_Text_Eight }}</p>
+            </section>
+        </div>
+    </div>
+</div>
+<div class="popup-footer">
+    <button kendoButton (click)="closePopupFinancialDeferal('cancel')">{{ pageContent.Application_Type.Application_Types_Cancel }}</button>
+    <button kendoButton (click)="closePopupFinancialDeferal('agree')" [primary]="true">{{ pageContent.Application_Type.Application_Types_Agree }}</button>
+</div>

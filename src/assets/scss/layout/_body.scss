@@ -1,0 +1,37 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the body structure of the site/application.
+// -----------------------------------------------------------------------------
+main {
+    max-width: $max-width;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    height: 100%;
+    > .outer-block {
+        height: 100%;
+        > .inner-block {
+            height: 100%;
+            position: relative;
+            .middle-section {
+                height: calc(100% - (80px + 45px));
+                > .white-block {
+                    height: 100%;
+                    //padding: 10px 10px 25px;
+                    padding: 1rem;
+                    background-color: $c-Wh-05;
+                    @include Max(420px) {
+                        padding: 0;
+                    }
+                    > .scrollable-content-wrapper {
+                        > .scrollable-content {
+                            @media all and (max-height: 700px) {
+                                width: 100%;
+                                padding-right: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+  }

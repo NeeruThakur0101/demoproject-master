@@ -1,0 +1,185 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Drop Zoone Component
+// ----------------------------------------------------------------------------
+
+.k-dropzone {
+    .k-upload-status-total {
+        color: $c-Success !important;
+    }
+    // &:before {
+    //     content: 'Drop your files here';
+    //     position: absolute;
+    //     top: 70%;
+    //     transform: translate(-50%, -70%);
+    //     font-size: 3rem;
+    //     font-weight: 700;
+    //     width: 30rem;
+    //     left: 50%;
+    //     color: $c-Dg-30;
+    //     text-align: center;
+    //     line-height: 3.5rem;
+    //     text-transform: capitalize;
+    //     border: 2px dashed $c-Dg-50;
+    //     padding: 2rem;
+    //     transition: all 0.3s ease;
+    // }
+    &:hover {
+        &:before {
+            border: 2px dashed $c-Dg-30;
+        }
+    }
+    height: 16.5rem;
+    .k-upload-button {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0;
+        height: 30px;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            display: block;
+            cursor: pointer;
+        }
+        input {
+            margin: 0 !important;
+            height: 30px !important;
+            padding: 0 !important;
+            cursor: default !important;
+
+            & + span {
+                cursor: pointer;
+                position: absolute;
+                height: 30px;
+                display: block;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                line-height: 30px;
+            }
+        }
+    }
+    .k-dropzone-hint {
+        //display: none !important;
+        position: absolute;
+        top: 50%;
+        transform: translate(-50%, -60%);
+        font-size: 3rem;
+        font-weight: 700;
+        width: 100%;
+        max-width: 40rem;
+
+        @include iehack() {
+            max-width: 100%;
+        }
+        left: 50%;
+        color: $c-Dg-30;
+        text-align: center;
+        font-weight: 600 !important;
+        line-height: 3.5rem;
+        text-transform: capitalize;
+        border: 2px dashed $c-Dg-50;
+        padding: 2rem;
+        transition: all 0.3s ease;
+
+        @include respond-to-Max($iPh-P) {
+            font-size: 2.1rem;
+        }
+    }
+    kendo-upload-status-total {
+        position: absolute;
+        top: 0.8rem;
+    }
+}
+@include Max($M-L) {
+    .lang-franch {
+        .k-dropzone-hint {
+            font-size: 2.5rem;
+        }
+    }
+}
+.k-upload-files {
+    .k-file-name {
+        color: $c-D-Blue !important;
+    }
+    .k-button {
+        &:hover {
+            background-color: transparent !important;
+            color: $c-D-Blue !important;
+        }
+    }
+    .k-file {
+        box-shadow: none !important;
+    }
+    .k-progress {
+        background-color: $c-D-Blue !important;
+    }
+    .k-file-size {
+        color: $c-D-Gry !important;
+    }
+    .k-file-extension-wrapper {
+        color: $c-Dg-05 !important;
+        border-color: $c-Dg-05 !important;
+        &:before {
+            border-color: transparent transparent $c-Dg-05 $c-Dg-05 !important;
+        }
+    }
+}
+
+.lang-french {
+    .k-dropzone .k-upload-button {
+        width: 180px;
+    }
+
+    .k-upload {
+        .k-action-buttons {
+            button {
+                position: relative;
+                &:before {
+                    position: absolute;
+                    color: $c-White;
+                    content: '';
+                    display: block;
+
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    font-size: 1.5rem;
+                    line-height: 2.8rem;
+                    opacity: 1;
+                }
+            }
+            .k-clear-selected {
+                &:before {
+                    content: 'Dégager';
+                    background-color: $c-S-Btn-Bg;
+                }
+
+                &:hover {
+                    &:before {
+                        background-color: $c-B-Hover-Bg;
+                    }
+                }
+            }
+            .k-upload-selected {
+                &:before {
+                    content: 'Télécharger';
+                    background-color: $c-P-Btn-Bg;
+                }
+
+                &:hover {
+                    &:before {
+                        background-color: $c-B-Hover-Bg;
+                    }
+                }
+            }
+        }
+    }
+}

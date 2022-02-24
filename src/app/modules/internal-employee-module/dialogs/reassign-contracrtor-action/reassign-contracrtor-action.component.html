@@ -1,0 +1,66 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Reassign_Contractor.Reassign_Contractor_Action }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+<form [formGroup]="formgroup">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+                    <section class="form-block">
+                        <div class="form-control">
+                            <kendo-textbox-container floatingLabel="{{ pageContent.Reassign_Contractor.Contractor }}">
+                                <input kendoTextBox formControlName="contractor" [readonly]="true" disabled />
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container
+                                floatingLabel="{{ recruitingRole == true ? pageContent.Reassign_Contractor.Contractor_Recruiter : pageContent.Reassign_Contractor.Contractor_Coordinator }}"
+                            >
+                                <input kendoTextBox formControlName="contRecruiter" [readonly]="true" disabled />
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container floatingLabel="{{ pageContent.Reassign_Contractor.Reassign_To }}">
+                                <kendo-dropdownlist
+                                    formControlName="reassignTo"
+                                    [data]="reassignToList"
+                                    [valuePrimitive]="true"
+                                    textField="RepName"
+                                    valueField="RepResourceID"
+                                    [filterable]="true"
+                                    (filterChange)="filterDropdown($event)"
+                                >
+                                    <ng-template kendoDropDownListNoDataTemplate>
+                                        <h4>
+                                            {{ pageContent.General_Keys.No_Data_Found }}
+                                        </h4>
+                                    </ng-template>
+                                </kendo-dropdownlist>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container floatingLabel="{{ pageContent.Reassign_Contractor.Reassign_Until }}" class="date-picker">
+                                <kendo-datepicker formControlName="reassignUntil" [min]="minDate">
+                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                </kendo-datepicker>
+                            </kendo-textbox-container>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton (click)="close()">{{ pageContent.Reassign_Contractor.Cancel }}</button>
+        <button kendoButton (click)="reassignClicked()" [primary]="true" [disabled]="formgroup && !formgroup.valid ? true : false">{{ pageContent.Reassign_Contractor.Reassign }}</button>
+    </div>
+    <!-- </kendo-dialog> -->
+</form>

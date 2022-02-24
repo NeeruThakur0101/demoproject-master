@@ -1,0 +1,153 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Popup Component
+// ----------------------------------------------------------------------------
+.k-animation-container:not(.k-tooltip-wrapper) {
+    overflow: hidden;
+    margin-top: 3px;
+    margin-left: -1px;
+    margin-right: -1px;
+    .k-popup {
+        width: calc(100% + 15px) !important;
+        font-family: SegoeUI, Arial, sans-serif !important;
+        .k-list-filter {
+            padding-right: 3px !important;
+        }
+    }
+}
+kendo-popup.k-animation-container {
+    .k-list-container.k-popup {
+        .k-list-filter {
+            .k-icon.k-i-search {
+                top: 28px !important;
+            }
+        }
+    }
+    .k-item {
+        label {
+            font-weight: normal;
+        }
+        &.k-state-focused {
+            background-color: $c-Blk-05;
+            box-shadow: none;
+            span,
+            label {
+                color: $c-D-Gry;
+            }
+            &:hover {
+                span,
+                label {
+                    color: $c-White;
+                }
+            }
+            &.k-state-selected {
+                color: $c-D-Gry;
+                span,
+                label {
+                    color: $c-D-Gry;
+                }
+                &:hover {
+                    color: $c-White;
+                    span,
+                    label {
+                        color: $c-White;
+                    }
+                }
+            }
+        }
+        .custom-drop-row {
+            display: flex;
+            width: 100%;
+            @include Max($MD-P) {
+                flex-wrap: wrap;
+            }
+            .k-checkbox-label,
+            .k-label {
+                flex: 0 0 35%;
+                max-width: 35%;
+                word-break: break-word;
+                padding-right: 20px;
+                margin-top: 0;
+                @include Max($G-L) {
+                    flex: 0 0 80px;
+                    max-width: 80px;
+                }
+                @include Max($MD-P) {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                }
+                //margin-top: -2px;
+            }
+            span {
+                flex: 0 0 65%;
+                max-width: 65%;
+                @include Max($G-L) {
+                    flex: 0 0 calc(100% - 80px);
+                    max-width: calc(100% - 80px);
+                }
+                @include Max($MD-P) {
+                    flex: 0 0 100%;
+                    max-width: 100%;
+                }
+            }
+        }
+        .k-checkbox-label {
+            cursor: pointer;
+            padding-top: 1px;
+            &:before,
+            &:after {
+                top: 1px;
+            }
+            @include Max($MD-P) {
+                margin-bottom: 8px;
+            }
+        }
+        // &.k-state-focused,
+        &.k-state-hover,
+        &.k-state-selected {
+            .k-checkbox-label,
+            .k-label {
+                color: $c-White;
+            }
+        }
+        &.k-state-selected {
+            .k-checkbox-label::after {
+                transform: scale(0.8);
+                color: $c-D-Gry;
+            }
+        }
+        &:hover {
+            .k-checkbox-label,
+            .k-label {
+                color: $c-White;
+            }
+        }
+    }
+}
+.signup-popup {
+    .k-dialog {
+        width: 100%;
+        max-width: 700px;
+        box-shadow: none;
+    }
+    .popup-footer {
+        @media all and (max-width: 480px) {
+            justify-content: center;
+            button {
+                margin-bottom: 10px;
+            }
+        }
+    }
+}
+.k-grid-filter-popup {
+    max-width: 613px;
+}
+.Safari {
+    .k-animation-container:not(.k-tooltip-wrapper) {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+    .k-animation-container kendo-list,
+    .k-animation-container .k-list-scroller {
+        width: 100% !important;
+    }
+}

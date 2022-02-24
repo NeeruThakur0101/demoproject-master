@@ -1,0 +1,595 @@
+<main appGridlayout class="admin-page">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header [fromPage]="fromPage" (adminBtnValue)="getAdminBtnValue($event)" [searchIcon]="'notDisplaySearch'"></app-header>
+                <h1>{{ pageContent?.Admin.Multi_Location.Admin_Header }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <section class="middle-section">
+                <div class="white-block">
+                    <form class="k-form-inline h-100" [formGroup]="group">
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper admin-tabs">
+                            <div class="scrollable-content">
+                                <section class="white-block floating-labels">
+                                    <kendo-tabstrip tabAlignment="center" (tabSelect)="onTabSelect($event)">
+                                        <!-- Multi Location Type -->
+                                        <kendo-tabstrip-tab [title]="pageContent?.Admin.Multi_Location.Add_MultiLocation_Rights" [selected]="true">
+                                            <ng-template kendoTabContent>
+                                                <div class="scrollable-content-wrapper max-height" #commentBlock max-height="460">
+                                                    <div class="scrollable-content">
+                                                        <div class="scroll-inner" #commentArea>
+                                                            <form name="form" (ngSubmit)="saveMultiLocation(f)" #f="ngForm" novalidate>
+                                                                <section class="multi-location-rights multilocation">
+                                                                    <div class="top-info">
+                                                                        <p>
+                                                                            <!-- You can either create the lead contractor to
+                                                                            child contractor subscription from this tab,
+                                                                            or assign multi-location rights to a
+                                                                            specific user. -->
+                                                                            {{ pageContent?.Admin.Multi_Location.MultiLocation_header }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="select-option">
+                                                                        <input type="radio" name="rights" id="multiLocation" value="multi-location" (change)="onBlockChange($event.target.value, f)" />
+                                                                        <label for="multiLocation">
+                                                                            <div class="overflow"></div>
+                                                                            <section class="create-lead">
+                                                                                <p>
+                                                                                    <!-- To create a lead-to-child
+                                                                                    subscription, enter the Contractor
+                                                                                    ID of the lead contractor, and enter
+                                                                                    the Contracot ID of
+                                                                                    the child contractors, and click the
+                                                                                    <strong>"Save"</strong> button. -->
+                                                                                    {{ pageContent?.Admin.Multi_Location.MultiLocation_Desc }}
+                                                                                </p>
+                                                                                <h3>{{ pageContent?.Admin.Multi_Location.Create_Lead_Child_Subscription }}</h3>
+                                                                                <section class="form-control-wrapper">
+                                                                                    <div class="form-control">
+                                                                                        <kendo-textbox-container
+                                                                                            required
+                                                                                            floatingLabel="{{ pageContent?.Admin.Multi_Location.Select_Lead_Contractors }}"
+                                                                                        >
+                                                                                            <kendo-combobox
+                                                                                                [data]="leadContractors"
+                                                                                                [filterable]="true"
+                                                                                                [valuePrimitive]="true"
+                                                                                                [readonly]="readonlyLead"
+                                                                                                (filterChange)="searchLeadContractor($event)"
+                                                                                                (valueChange)="getLeadId($event, f)"
+                                                                                                [allowCustom]="allowCustom"
+                                                                                                [readonly]="isLeadReadOnly"
+                                                                                                [textField]="'showValue'"
+                                                                                                [valueField]="'Contr_ID'"
+                                                                                                class="form-control"
+                                                                                                name="selectedLeadId"
+                                                                                                [(ngModel)]="model.selectedLeadId"
+                                                                                                #selectedLeadId="ngModel"
+                                                                                                (focus)="focus('lead')"
+                                                                                                (blur)="blurMultiLocation('lead')"
+                                                                                                [required]="selectedLeadId.touched && selectedBlock == 'multi-location'"
+                                                                                            >
+                                                                                                <ng-template kendoComboBoxItemTemplate let-dataItem>
+                                                                                                    <div class="custom-drop-row">
+                                                                                                        <label class="k-label">{{ dataItem.Contr_ID }}</label>
+                                                                                                        <span>{{ dataItem.ContractorName }}</span>
+                                                                                                    </div>
+                                                                                                </ng-template>
+                                                                                                <ng-template kendoComboBoxNoDataTemplate>
+                                                                                                    <h4>
+                                                                                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                                    </h4>
+                                                                                                </ng-template>
+                                                                                            </kendo-combobox>
+                                                                                        </kendo-textbox-container>
+                                                                                    </div>
+                                                                                    <div class="form-control">
+                                                                                        <kendo-textbox-container
+                                                                                            required
+                                                                                            floatingLabel="{{ pageContent?.Admin.Multi_Location.Select_Child_Contractors }}"
+                                                                                        >
+                                                                                            <kendo-multiselect
+                                                                                                [data]="childContractorList"
+                                                                                                [readonly]="diabledChild"
+                                                                                                [textField]="'showValue'"
+                                                                                                [valueField]="'Contr_ID'"
+                                                                                                [autoClose]="false"
+                                                                                                [filterable]="true"
+                                                                                                [valuePrimitive]="true"
+                                                                                                (valueChange)="getChildId($event)"
+                                                                                                (filterChange)="searchChildContractor($event)"
+                                                                                                name="selectedChildIs"
+                                                                                                class="form-control"
+                                                                                                [(ngModel)]="model.selectedChildIs"
+                                                                                                #selectedChildIds="ngModel"
+                                                                                                [required]="selectedBlock == 'multi-location'"
+                                                                                                (focus)="focus('child')"
+                                                                                                (blur)="blurMultiLocation('child')"
+                                                                                            >
+                                                                                                <ng-template kendoMultiSelectItemTemplate let-dataItem>
+                                                                                                    <div class="custom-drop-row">
+                                                                                                        <input type="checkbox" class="k-checkbox" />
+                                                                                                        <label class="k-checkbox-label">{{ dataItem.Contr_ID }}</label>
+                                                                                                        <span>{{ dataItem.ContractorName }}</span>
+                                                                                                    </div>
+                                                                                                </ng-template>
+                                                                                                <ng-template kendoMultiSelectNoDataTemplate>
+                                                                                                    <h4>
+                                                                                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                                    </h4>
+                                                                                                </ng-template>
+                                                                                            </kendo-multiselect>
+                                                                                        </kendo-textbox-container>
+                                                                                    </div>
+                                                                                </section>
+                                                                            </section>
+                                                                        </label>
+                                                                        <input type="radio" name="rights" id="rights" value="rights" (change)="onBlockChange($event.target.value, f)" />
+                                                                        <label for="rights">
+                                                                            <div class="overflow"></div>
+                                                                            <section class="user-right">
+                                                                                <p>
+                                                                                    <!-- To assign multi-location rights,
+                                                                                    first enter the User ID of the
+                                                                                    person you wish to grant access, and
+                                                                                    click the
+                                                                                    <strong>"Save"</strong> button. -->
+                                                                                    {{ pageContent?.Admin.Multi_Location.User_Right_Desc }}
+                                                                                </p>
+                                                                                <h3>{{ pageContent?.Admin.Multi_Location.Assign_User_Rights }}</h3>
+                                                                                <section class="form-control-wrapper">
+                                                                                    <div class="form-control">
+                                                                                        <kendo-textbox-container
+                                                                                            required
+                                                                                            floatingLabel="{{ pageContent?.Admin.Multi_Location.Enter_UserID_assign_rights }}"
+                                                                                        >
+                                                                                            <kendo-dropdownlist
+                                                                                                [data]="userRights"
+                                                                                                textField="showValue"
+                                                                                                valueField="ResourceID"
+                                                                                                [filterable]="true"
+                                                                                                (filterChange)="searchUserRight($event)"
+                                                                                                [(ngModel)]="model.userRight"
+                                                                                                #userRight="ngModel"
+                                                                                                name="userRight"
+                                                                                                [required]="selectedBlock == 'rights'"
+                                                                                                [ngClass]="{ err: userRight.invalid && userRight.touched }"
+                                                                                                [valuePrimitive]="true"
+                                                                                            >
+                                                                                                <ng-template kendoDropDownListItemTemplate let-dataItem>
+                                                                                                    <div class="associate-drop-row">
+                                                                                                        <div class="webLogin">
+                                                                                                            {{ dataItem.WebLogin }}
+                                                                                                        </div>
+                                                                                                        <div class="assoLogin">
+                                                                                                            {{ dataItem.Email }}
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </ng-template>
+                                                                                                <ng-template kendoDropDownListNoDataTemplate>
+                                                                                                    <h4>
+                                                                                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                                    </h4>
+                                                                                                </ng-template>
+                                                                                            </kendo-dropdownlist>
+                                                                                        </kendo-textbox-container>
+                                                                                    </div>
+                                                                                </section>
+                                                                            </section>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="actions">
+                                                                        <button kendoButton [primary]="true" [disabled]="!f.form.valid || !enableLocationSave">
+                                                                            {{ pageContent?.Admin.Multi_Location.Save }}
+                                                                        </button>
+                                                                        <button type="button" (click)="cancelMultilocation(f)" kendoButton>{{ pageContent?.Admin.Multi_Location.Cancel }}</button>
+                                                                    </div>
+                                                                </section>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+
+                                        <!-- Equipment type -->
+                                        <kendo-tabstrip-tab *ngIf="isHideEquipment" [title]="pageContent?.Admin.Equipment.Equipment_Tab_Header">
+                                            <ng-template kendoTabContent>
+                                                <div class="scrollable-content-wrapper" #commentBlock max-height="460">
+                                                    <div class="scrollable-content">
+                                                        <div class="scroll-inner" #commentArea>
+                                                            <section class="multi-location-rights">
+                                                                <div class="top-info">
+                                                                    <ul>
+                                                                        <li>
+                                                                            {{ pageContent?.Admin.Equipment.To }}
+                                                                            <strong>{{ pageContent?.Admin.Equipment.To_add }} </strong>{{ pageContent?.Admin.Equipment.or }}
+                                                                            <strong>{{ pageContent?.Admin.Equipment.edit }}</strong>
+                                                                            {{ pageContent?.Admin.Equipment.To_Edit_Line_1 }}
+
+                                                                            {{ pageContent?.Admin.Equipment.To_add_Line_2 }}
+                                                                            <strong>{{ pageContent?.Admin.Equipment.Save }} </strong>
+                                                                            {{ pageContent?.Admin.Equipment.To_add_Line_2_2 }}
+                                                                            <strong>{{ pageContent?.Admin.Equipment.Save }}</strong>
+                                                                            {{ pageContent?.Admin.Equipment.Button }}
+
+                                                                            {{ pageContent?.Admin.Equipment.To }}
+                                                                            <strong>{{ pageContent?.Admin.Equipment.To_delete }} </strong>{{ pageContent?.Admin.Equipment.To_delete_Line_3 }}
+                                                                            <strong>{{ pageContent?.Admin.Equipment.trash }} </strong>{{ pageContent?.Admin.Equipment.Button }}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="select-option">
+                                                                    <section class="form-control-wrapper">
+                                                                        <div class="combo-action-box">
+                                                                            <div>
+                                                                                <kendo-textbox-container required floatingLabel="{{ pageContent?.Admin.Equipment.Select_Equipment_Type }}">
+                                                                                    <kendo-combobox
+                                                                                        [data]="EquipmentData"
+                                                                                        [textField]="'EquipmentTypeName'"
+                                                                                        [valueField]="'EquipmentTypeID'"
+                                                                                        [(ngModel)]="selectedOption"
+                                                                                        (keypress)="onKeyPress($event, equipText.text)"
+                                                                                        [valuePrimitive]="true"
+                                                                                        [filterable]="true"
+                                                                                        (valueChange)="onEquipmentTypeChange($event)"
+                                                                                        #equipText
+                                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                                        [filterable]="true"
+                                                                                        (filterChange)="equipmentTypeFilter($event)"
+                                                                                        (selectionChange)="EquipmentTypeSelectionChange($event)"
+                                                                                        [allowCustom]="allowCustom"
+                                                                                    >
+                                                                                    </kendo-combobox>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+                                                                            <aside kendoTooltip class="right" position="top">
+                                                                                <button
+                                                                                    kendoButton
+                                                                                    [primary]="true"
+                                                                                    class="addList"
+                                                                                    title="{{ pageContent?.Admin.Equipment.icon_title1 }}"
+                                                                                    [disabled]="!equipText.text || enableEquipmentTypeSave"
+                                                                                    (click)="AddEquipmentType(equipText.text)"
+                                                                                >
+                                                                                    <span class="k-icon k-i-save"></span>
+                                                                                </button>
+
+                                                                                <button
+                                                                                    kendoButton
+                                                                                    class="removeList"
+                                                                                    title="{{ pageContent?.Admin.Equipment.delete_title1 }}"
+                                                                                    [disabled]="!equipText.text"
+                                                                                    (click)="OnRemoveEquipment(equipText?.value, equipText.text, 'DropDownOne', equipText.value)"
+                                                                                >
+                                                                                    <span class="k-icon k-i-delete"></span>
+                                                                                </button>
+                                                                            </aside>
+                                                                        </div>
+
+                                                                        <div class="combo-action-box">
+                                                                            <div>
+                                                                                <kendo-textbox-container required floatingLabel="{{ pageContent?.Admin.Equipment.Select_Equipment }}">
+                                                                                    <kendo-combobox
+                                                                                        [data]="EquipmentSelectData"
+                                                                                        [textField]="'EquipmentListName'"
+                                                                                        [valueField]="'EquipmentListID'"
+                                                                                        [(ngModel)]="selectedOptionType"
+                                                                                        (keypress)="onKeyPress($event, selectType.text)"
+                                                                                        (valueChange)="onEquipmentChange($event)"
+                                                                                        [valuePrimitive]="true"
+                                                                                        #selectType
+                                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                                        [filterable]="true"
+                                                                                        (filterChange)="equipmentSelectFilter($event)"
+                                                                                        (selectionChange)="EquipmentSelectionChange($event)"
+                                                                                        [allowCustom]="allowCustom"
+                                                                                    >
+                                                                                    </kendo-combobox>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+                                                                            <aside kendoTooltip class="right" position="top">
+                                                                                <button
+                                                                                    kendoButton
+                                                                                    [primary]="true"
+                                                                                    class="addList"
+                                                                                    title="{{ pageContent?.Admin.Equipment.icon_title2 }}"
+                                                                                    [disabled]="!selectType.text || enableEquipmentSave"
+                                                                                    (click)="AddEquipment(equipText?.value, selectType.text)"
+                                                                                >
+                                                                                    <span class="k-icon k-i-save"></span>
+                                                                                </button>
+
+                                                                                <button
+                                                                                    kendoButton
+                                                                                    class="removeList"
+                                                                                    title="{{ pageContent?.Admin.Equipment.delete_title2 }}"
+                                                                                    [disabled]="!selectType.text"
+                                                                                    (click)="OnRemoveEquipment(equipText?.value, selectType?.text, 'DropDownTwo', selectType?.value)"
+                                                                                >
+                                                                                    <span class="k-icon k-i-delete"></span>
+                                                                                </button>
+                                                                            </aside>
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
+
+                                                                <div class="actions">
+                                                                    <button kendoButton class="removeList" title="Reset" (click)="OnResetEquipment()">
+                                                                        {{ pageContent?.Admin.Equipment.Reset }}
+                                                                    </button>
+                                                                </div>
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+                                        <!-- Manage License -->
+                                        <kendo-tabstrip-tab *ngIF="isHideLicense" [disabled]="false" [title]="pageContent?.Admin?.Licenses?.Liscenses_Header">
+                                            <ng-template kendoTabContent>
+                                                <div class="scrollable-content-wrapper" #commentBlock max-height="460">
+                                                    <div class="scrollable-content">
+                                                        <div class="scroll-inner" #commentArea>
+                                                            <section class="multi-location-rights manage-license">
+                                                                <div class="top-info">
+                                                                    <ul>
+                                                                        <li>
+                                                                            {{ pageContent?.Admin.Licenses.To }}
+                                                                            <strong>{{ pageContent?.Admin.Licenses.To_add }} </strong>{{ pageContent?.Admin.Licenses.or }}
+                                                                            <strong>{{ pageContent?.Admin.Licenses.edit }}</strong>
+                                                                            {{ pageContent?.Admin.Licenses.To_Edit_Line_1 }}
+
+                                                                            {{ pageContent?.Admin.Licenses.To_add_Line_2 }}
+                                                                            <strong>{{ pageContent?.Admin.Licenses.Save }} </strong>
+                                                                            {{ pageContent?.Admin.Licenses.To_add_Line_2_2 }}
+                                                                            <strong>{{ pageContent?.Admin.Licenses.Save }}</strong>
+                                                                            {{ pageContent?.Admin.Licenses.Button }}
+
+                                                                            {{ pageContent?.Admin.Licenses.To }}
+                                                                            <strong>{{ pageContent?.Admin.Licenses.To_delete }} </strong>{{ pageContent?.Admin.Licenses.To_delete_Line_3 }}
+                                                                            <strong>{{ pageContent?.Admin.Licenses.trash }} </strong>{{ pageContent?.Admin.Licenses.Button }}
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <div class="select-option">
+                                                                    <section class="form-control-wrapper">
+                                                                        <div class="combo-action-box add-edit-license manage-license">
+                                                                            <div>
+                                                                                <kendo-textbox-container required [floatingLabel]="pageContent?.Admin?.Licenses?.Select_Liscense_Name">
+                                                                                    <kendo-combobox
+                                                                                        [data]="liscenceData"
+                                                                                        [allowCustom]="allowCustom"
+                                                                                        [textField]="'ContrLicenseName'"
+                                                                                        [valueField]="'ContrLicenseID'"
+                                                                                        [virtual]="{ itemHeight: 10 }"
+                                                                                        [valuePrimitive]="true"
+                                                                                        (valueChange)="onLiscenseChange($event)"
+                                                                                        (selectionChange)="changeLiscenseDesc($event)"
+                                                                                        #liscenceText
+                                                                                        [(ngModel)]="liscenseField"
+                                                                                        [ngModelOptions]="{ standalone: true }"
+                                                                                        [filterable]="true"
+                                                                                        (filterChange)="manageLicenseFilter($event)"
+                                                                                        (keypress)="onKeyPress($event, liscenceText.text)"
+                                                                                    >
+                                                                                        <!-- (blur)="blur()" -->
+                                                                                        <ng-template kendoComboBoxItemTemplate let-dataItem>
+                                                                                            <div class="custom-drop-row">
+                                                                                                <label class="k-label">{{ dataItem.ContrLicenseName }}</label>
+                                                                                                <span>{{ dataItem.ContrLicenseDesc }}</span>
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                    </kendo-combobox>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+                                                                            <aside kendoTooltip class="right" position="top">
+                                                                                <button
+                                                                                    kendoButton
+                                                                                    [primary]="true"
+                                                                                    class="addList"
+                                                                                    [title]="pageContent?.Admin?.Licenses?.Add_License"
+                                                                                    [disabled]="!liscenceText.text || liscenseDisableSaveCtr !== 0 || !licenceBtnClick"
+                                                                                    (click)="actionLiscence(liscenceText.value, liscenceText.text, liscenseDesc.value, 'ADD')"
+                                                                                >
+                                                                                    <span class="k-icon k-i-save"></span>
+                                                                                </button>
+                                                                                <button
+                                                                                    kendoButton
+                                                                                    class="removeList"
+                                                                                    [disabled]="!liscenceText.text"
+                                                                                    [title]="pageContent?.Admin?.Licenses?.Remove_License"
+                                                                                    (click)="actionLiscence(liscenceText.value.ContrLicenseID, liscenceText.text, liscenseDesc.value, 'DELETE')"
+                                                                                >
+                                                                                    <span class="k-icon k-i-delete"></span>
+                                                                                </button>
+                                                                                <!-- <button kendoButton class="removeList" [title]="pageContent?.Admin?.Licenses?.Reset" (click)="resetLiscense()">
+                                                                                    <span class="k-icon k-i-reload"></span>
+                                                                                </button> -->
+                                                                            </aside>
+                                                                        </div>
+                                                                        <div class="form-control">
+                                                                            <kendo-textbox-container [floatingLabel]="pageContent?.Admin?.Licenses?.Description">
+                                                                                <textarea kendoTextArea formControlName="liscenseDes" #liscenseDesc maxlength="1000"></textarea>
+                                                                            </kendo-textbox-container>
+                                                                        </div>
+                                                                    </section>
+                                                                </div>
+
+                                                                <div class="actions">
+                                                                    <button kendoButton class="removeList" [title]="pageContent?.Admin?.Licenses?.Reset" (click)="resetLiscense()">
+                                                                        {{ pageContent?.Admin.Equipment.Reset }}
+                                                                    </button>
+                                                                </div>
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+                                        <!-- Assign -->
+                                        <kendo-tabstrip-tab [disabled]="false" [title]="pageContent?.Admin?.Assign_Required_Liscenses?.Assign_Required_Licenses">
+                                            <ng-template kendoTabContent>
+                                                <div class="scrollable-content-wrapper max-height" #commentBlock max-height="420">
+                                                    <div class="scrollable-content">
+                                                        <div class="scroll-inner" #commentArea>
+                                                            <form name="form" (ngSubmit)="saveAssignLiscense(f)" #f="ngForm">
+                                                                <section class="multi-location-rights">
+                                                                    <div class="top-info">
+                                                                        <p>{{ pageContent?.Admin?.Assign_Required_Liscenses?.Assign_License_Select }}</p>
+                                                                    </div>
+                                                                    <div class="select-option">
+                                                                        <section class="form-control-wrapper">
+                                                                            <div class="form-control">
+                                                                                <kendo-textbox-container required [floatingLabel]="pageContent?.Admin?.Assign_Required_Liscenses?.Select_State">
+                                                                                    <kendo-dropdownlist
+                                                                                        [data]="stateProvinceDropdown"
+                                                                                        [textField]="'StateProvinceName'"
+                                                                                        [valueField]="'StateProvinceID'"
+                                                                                        [filterable]="true"
+                                                                                        (filterChange)="assignLiscenseStateFilter($event)"
+                                                                                        required
+                                                                                        name="stateProvince"
+                                                                                        [(ngModel)]="liscenceModel.stateProvince"
+                                                                                        #stateProvince="ngModel"
+                                                                                    >
+                                                                                        <ng-template kendoDropDownListItemTemplate let-dataItem>
+                                                                                            <div class="custom-select-row" [class.ruleset]="dataItem.setRule">
+                                                                                                <div>{{ dataItem.StateProvinceName }}</div>
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                        <ng-template kendoDropDownListNoDataTemplate>
+                                                                                            <h4>
+                                                                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                            </h4>
+                                                                                        </ng-template>
+                                                                                    </kendo-dropdownlist>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+                                                                            <div class="form-control">
+                                                                                <kendo-textbox-container required [floatingLabel]="pageContent?.Admin?.Assign_Required_Liscenses?.Select_License_name">
+                                                                                    <kendo-dropdownlist
+                                                                                        [data]="assignLicenseDropdown"
+                                                                                        [textField]="'ContrLicenseName'"
+                                                                                        [valueField]="'ContrLicenseID'"
+                                                                                        [filterable]="true"
+                                                                                        (filterChange)="assignLiscenseFilter($event)"
+                                                                                        required
+                                                                                        name="assignLiscenseName"
+                                                                                        [(ngModel)]="liscenceModel.assignLiscenseName"
+                                                                                        #assignLiscenseName="ngModel"
+                                                                                    >
+                                                                                        <!-- (blur)="blur()" -->
+                                                                                        <ng-template kendoDropDownListItemTemplate let-dataItem>
+                                                                                            <div class="custom-select-row" [class.ruleset]="dataItem.setRule">
+                                                                                                <div>{{ dataItem.ContrLicenseName }}</div>
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                        <ng-template kendoDropDownListNoDataTemplate>
+                                                                                            <h4>
+                                                                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                            </h4>
+                                                                                        </ng-template>
+                                                                                    </kendo-dropdownlist>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+
+                                                                            <div class="form-control">
+                                                                                <kendo-textbox-container
+                                                                                    required
+                                                                                    [floatingLabel]="pageContent?.Admin?.Assign_Required_Liscenses?.Select_Program_to_assign"
+                                                                                >
+                                                                                    <kendo-multiselect
+                                                                                        name="assignProgram"
+                                                                                        [data]="assignLiscenseData?.programTypeDropdown"
+                                                                                        [textField]="'ProgramTypeName'"
+                                                                                        [valueField]="'ProgramTypeID'"
+                                                                                        [autoClose]="false"
+                                                                                        (valueChange)="getHeight()"
+                                                                                        required
+                                                                                        class="form-control"
+                                                                                        [(ngModel)]="liscenceModel.assignProgram"
+                                                                                        #assignProgram="ngModel"
+                                                                                        [kendoDropDownFilter]="filterSettings"
+                                                                                    >
+                                                                                        <!-- (blur)="blur()" -->
+                                                                                        <ng-template kendoMultiSelectItemTemplate let-dataItem>
+                                                                                            <div class="custom-select-row">
+                                                                                                <div>{{ dataItem.ProgramTypeName }}</div>
+                                                                                                <span>{{ dataItem.ProgramTypeAbbreviationCode }}</span>
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                        <ng-template kendoMultiSelectNoDataTemplate>
+                                                                                            <h4>
+                                                                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                            </h4>
+                                                                                        </ng-template>
+                                                                                    </kendo-multiselect>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+
+                                                                            <div class="form-control">
+                                                                                <kendo-textbox-container
+                                                                                    required
+                                                                                    [floatingLabel]="pageContent?.Admin?.Assign_Required_Liscenses?.Select_trades_to_assign"
+                                                                                >
+                                                                                    <kendo-multiselect
+                                                                                        name="tradeSelect"
+                                                                                        [data]="assignLiscenseData?.tradeListDropdown"
+                                                                                        [textField]="'tradeName'"
+                                                                                        [valueField]="'tradeListID'"
+                                                                                        [(ngModel)]="liscenceModel.tradeSelect"
+                                                                                        #tradeSelect="ngModel"
+                                                                                        (valueChange)="getHeight()"
+                                                                                        required
+                                                                                        [autoClose]="false"
+                                                                                        [kendoDropDownFilter]="filterSettings"
+                                                                                    >
+                                                                                        <!-- (blur)="blur()" -->
+                                                                                        <ng-template kendoMultiSelectItemTemplate let-dataItem>
+                                                                                            <div class="custom-select-row">
+                                                                                                <div>{{ dataItem.tradeName }}</div>
+                                                                                                <span>{{ dataItem.tradeAbbreviationCode }}</span>
+                                                                                            </div>
+                                                                                        </ng-template>
+                                                                                        <ng-template kendoMultiSelectNoDataTemplate>
+                                                                                            <h4>
+                                                                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                                                                            </h4>
+                                                                                        </ng-template>
+                                                                                    </kendo-multiselect>
+                                                                                </kendo-textbox-container>
+                                                                            </div>
+                                                                        </section>
+                                                                    </div>
+                                                                    <div class="actions">
+                                                                        <button kendoButton [disabled]="!f.form.valid || !assignClick" [primary]="true">
+                                                                            {{ pageContent?.Admin?.Assign_Required_Liscenses?.Save }}
+                                                                        </button>
+                                                                        <button kendoButton type="button" (click)="cancelAssignLicense(f)">
+                                                                            {{ pageContent?.Admin?.Assign_Required_Liscenses?.Cancel }}
+                                                                        </button>
+                                                                    </div>
+                                                                </section>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+                                    </kendo-tabstrip>
+                                </section>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>

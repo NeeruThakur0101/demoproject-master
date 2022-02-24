@@ -1,0 +1,130 @@
+<main *ngIf="pageAccess">
+    <!-- <div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div> -->
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="top-section">
+                <app-header></app-header>
+                <h2>{{ pageContent.Signature_Info.Signature_Page_Header }}</h2>
+            </section>
+
+            <form class="k-form-inline h-100">
+                <section class="middle-section signature">
+                    <div class="white-block">
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content">
+                                <section class="white-block">
+                                    <div>
+                                        <h2>{{ pageContent.Signature_Info.Signature_Page }}</h2>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Please_Read_Sign_Original_Signed_Document }}
+                                        </p>
+                                        <h2>{{ pageContent.Signature_Info.Acknowledgement_Statement }}</h2>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.ACKNOWLEDGEMENT_STATEMENT_TEXT1 }}
+                                        </p>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.ACKNOWLEDGEMENT_STATEMENT_TEXT2 }}
+                                        </p>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.ACKNOWLEDGEMENT_STATEMENT_TEXT3 }}
+                                        </p>
+
+                                        <h2>{{ pageContent.Signature_Info.Financial_Deferral_Option }}</h2>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Financial_Deferral_Option_And_Financial_Information_Text }}
+                                        </p>
+                                        <h2>{{ pageContent.Signature_Info.Legal_Issues }}</h2>
+                                        <p class="spacing">{{ pageContent.Signature_Info.Legal_Issues_Text }}</p>
+                                        <h2>{{ pageContent.Signature_Info.Qualification_Statement }}</h2>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Qualification_Statement_Text }}
+                                        </p>
+                                        <h2>{{ pageContent.Signature_Info.Application_Fee }}</h2>
+                                        <p class="spacing">{{ pageContent.Signature_Info.Application_Fee_Text1 }}</p>
+
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Application_Fee_Text2 }}
+                                        </p>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Application_Fee_Text3 }}
+                                        </p>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Application_Fee_Text4 }}
+                                        </p>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Application_Fee_Text5 }}
+                                        </p>
+                                        <p class="spacing">
+                                            {{ pageContent.Signature_Info.Application_Fee_Text6 }}
+                                        </p>
+
+                                        <!--  new code added -->
+                                        <p>
+                                            <b>{{ pageContent.Signature_Info.Certify }} </b>
+                                        </p>
+
+                                        <section class="owner-block">
+                                            <div class="wrapper">
+                                                <div class="sign-change"><span class="k-icon k-i-user"></span> {{ userLoggedIn }}</div>
+
+                                                <div>
+                                                    <label>{{ pageContent.Signature_Info.Initials }}</label
+                                                    ><input
+                                                        [attr.disabled]="loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal' ? '' : null"
+                                                        kendoTextBox
+                                                        maxlength="5"
+                                                        [(ngModel)]="ContractorSignatureInitials"
+                                                        name="ContractorSignatureInitials'"
+                                                        appAlphabetOnly
+                                                    />
+                                                </div>
+                                                <!-- (keypress)="onKeyPress($event, ContractorSignatureInitials)" -->
+
+                                                <div>
+                                                    <label>{{ pageContent.Signature_Info.Date_Signed }}</label>
+                                                    <input disabled style="background-color: lightgrey" [(ngModel)]="ContractorSignatureDate" name="ContractorSignatureDate'" />
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <div class="d-table-wrapper" *ngIf="!(OwnershipStructure === 1 || OwnershipStructure === 2)">
+                                            <div class="d-table signature">
+                                                <div class="d-table-hd">
+                                                    <div class="d-col">{{ pageContent.Signature_Info.Owner_Principal }}</div>
+                                                </div>
+
+                                                <div class="d-table-content-wrapper">
+                                                    <div class="d-table-content-scroll">
+                                                        <div class="d-table-content">
+                                                            <div *ngFor="let person of previousPageData?.OwnershipDetails.OwnershipInformationList; let i = index">
+                                                                <div class="d-table-row" *ngIf="i > 0 && person.IsContractorActive === 'Y' && person.IsDeletedFlag !== true">
+                                                                    <div class="d-col">
+                                                                        {{ person.OwnershipName }}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="action-buttons">
+                    <button kendoButton (click)="backButtonClick()">{{ pageContent.Signature_Info.Back }}</button>
+                    <button *ngIf="!(loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal')" kendoButton (click)="onSaveNext()">{{ pageContent.Signature_Info.Save }}</button>
+                    <button *ngIf="!(loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal')" kendoButton (click)="submit()" [primary]="true" [disabled]="!save">
+                        {{ pageContent.Signature_Info.Submit }}
+                    </button>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>
+<ng-container #container></ng-container>

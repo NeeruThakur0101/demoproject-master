@@ -1,0 +1,46 @@
+<!-- <section class="top-section"> -->
+<section class="top-action-tools" kendoTooltip position="top">
+    <section class="jumpTo"
+        *ngIf="(loginDetails && loginDetails[0].ContrID > 0 && _srvAuth.Profile.EventName === 'No Event') || userType == 'Internal'">
+        <kendo-dropdownlist *ngIf="fromPage != 'internal'" [data]="pagelistItems"
+            (selectionChange)="selectionChange($event)" [textField]="'ApplicationPageNameTranslated'"
+            [valueField]="'ApplicationPageID'" [(ngModel)]="selectedPage" [filterable]="true"
+            (filterChange)="filterDropdown($event)">
+            <ng-template kendoDropDownListItemTemplate let-dataItem>
+                <div class="custom-select-row" [class.ruleset]="dataItem.CorrectionRequestFlag">
+                    <div>{{ dataItem.ApplicationPageNameTranslated }}</div>
+                </div>
+            </ng-template>
+            <ng-template kendoDropDownListNoDataTemplate>
+                <h4>
+                    {{ pageContent.General_Keys.No_Data_Found}}
+                </h4>
+            </ng-template>
+        </kendo-dropdownlist>
+    </section>
+
+    <button kendoButton title="{{ pageContent.General_Keys.Search }}"
+        *ngIf="userType == 'Internal' && recrutingAndMembershipFlag && fromPage == 'internal' && searchIcon != 'notDisplaySearch'"
+        class="btn-search button k-button k-primary" primary="true" type="button" (click)="searchContractor()">
+        <span class="k-icon k-i-search"></span>
+    </button>
+    <!-- in admin button same property is used searchIcon != 'notDisplaySearch' to show hide the button no need to create new property-->
+    <button kendoButton title="{{ pageContent.Admin.Multi_Location.Admin }}" class="btn-admin button k-button k-primary"
+        *ngIf="userType == 'Internal' && showAdminBtn && searchIcon != 'notDisplaySearch' && fromPage == 'internal'"
+        (click)="redirectToAdmin()">
+        <span class="k-icon k-i-lock"></span>
+    </button>
+
+    <button kendoButton title="{{ pageContent.General_Keys.Home }}" *ngIf="homeDisplay"
+        class="btn-home button k-button k-primary" type="button" primary="true" (click)="redirect()">
+        <span class="k-icon k-i-home"></span>
+    </button>
+
+    <button kendoButton title="{{ pageContent.General_Keys.Logout }}" class="btn-logout button k-button k-primary"
+        primary="true" type="button" (click)="logout()"><i></i></button>
+</section>
+
+<div class="breadcrumb">
+    <a href="#" *ngIf="isBreadcrum">{{breadcrumHub}}</a>
+    <a href="#" class="active">Contractor Central</a>
+</div>

@@ -1,0 +1,54 @@
+
+
+// ----------------------------------------------------------------------------
+// This file contains default kendo UI theme Sass variables.
+// ----------------------------------------------------------------------------
+
+
+//Variables
+$border-radius:2px; 
+$accent: $c-D-Blue ; // #ff6358;  //The color that focuses the user attention. Used for primary buttons and for elements of primary importance across the theme.
+$info: #0058e9; // The color for informational messages and states.
+$success:#37b400; //The color for success messages and states.
+$warning:#ffc000; //The color for warning messages and states.
+$error:#f31700; //The color for error messages and states.
+$base-text:#656565; //The text color of the components chrome area.
+$base-bg: #f6f6f6; //The border color of the components' chrome area.
+$base-border:rgba( black, .08 );//The border color of the components' chrome area.
+$base-gradient:$base-bg, darken( $base-bg, 2% );	//The gradient background of the components' chrome area.
+$hovered-text:#656565; //The text color of hovered items.
+$hovered-bg:#ededed; //	The background of hovered items.
+$hovered-border:rgba( black, .15 ); //	The border color of hovered items.
+$hovered-gradient:$hovered-bg, darken( $hovered-bg, 2% ); //	The gradient background of hovered items.
+$selected-bg:$accent; //The background of selected items.
+$selected-text:contrast-wcag( $selected-bg ); //	The text color of selected items.
+$selected-border:rgba( black, .1 ); //	The border color of selected items.
+$selected-gradient:none; //	The gradient background of selected items.
+
+// buttons
+$button-text:$base-text; //	The text color of the buttons.
+$button-bg:$base-bg; //	The background of the buttons.
+$button-border:$base-border; //	The border color of the buttons.
+$button-gradient:$base-gradient; //	The background gradient of the buttons.
+$button-hovered-text:$hovered-text; //	The text color of hovered buttons.
+$button-hovered-bg:$hovered-bg; //	The background of hovered buttons.
+$button-hovered-border:$hovered-border; //	The border color of hovered buttons.
+$button-hovered-gradient:$hovered-gradient; //	The background gradient of hovered buttons.
+$button-pressed-text:$button-text; //	The text color of pressed buttons.
+$button-pressed-bg:$button-bg; //	The background color of pressed buttons.
+$button-pressed-border:$button-border; //	The border color of pressed buttons.
+$button-pressed-gradient:none; //	The background gradient of pressed buttons.
+$button-focused-shadow:0 3px 4px 0 rgba(0, 0, 0, .06); //	The shadow of focused buttons.
+
+//  charts
+$series-a:#ff6358; //	The color of the first series.
+$series-b:#ffd246; //	The color of the second series.
+$series-c:#78d237; //	The color of the third series.
+$series-d:#28b4c8; //	The color of the fourth series.
+$series-e:#2d73f5; //	The color of the fifth series.
+$series-f:#aa46be; //	The color of the sixth series.
+$chart-major-lines:rgba(0, 0, 0, .08); //	The color of the Chart grid lines (major).
+$chart-minor-lines:rgba(0, 0, 0, .04); //	The color of the Chart grid lines (minor).
+
+//// styles
+$k-d-down-shdw: #d7d2cb;

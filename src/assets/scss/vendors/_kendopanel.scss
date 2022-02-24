@@ -1,0 +1,186 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Panel Component
+// ----------------------------------------------------------------------------
+kendo-panelbar {
+    &.k-panelbar {
+        border: none;
+        background-color: transparent;
+        h3 {
+            padding-bottom: 0;
+        }
+        kendo-panelbar-item {
+            border: none !important;
+            > .k-header {
+                border: 1px solid $c-Bdr-L;
+                @extend %box-shadow;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                cursor: pointer !important;
+                padding: 13px !important;
+                @include Max($D-N) {
+                    padding: 10px 13px !important;
+                }
+                h3 {
+                    padding-left: 30px;
+                }
+                > .k-icon {
+                    right: initial;
+                    width: initial;
+                    height: initial;
+                    left: 15px;
+                    top: 24px;
+                    @include Max($D-N) {
+                        top: 20px;
+                    }
+                    &:before {
+                        font-size: 20px;
+                    }
+                    &.k-panelbar-expand {
+                        right: initial;
+                        &:before {
+                            content: '\e11e';
+                        }
+                    }
+                }
+            }
+            .k-link {
+                &.k-state-focused {
+                    box-shadow: none !important;
+                }
+            }
+            &.k-state-expanded {
+                span.k-header {
+                    background: $c-D-Blue !important;
+                    color: $c-White;
+                    border-radius: 5px 5px 0 0;
+                    margin-bottom: 0;
+                    h3,
+                    span {
+                        color: $c-White !important;
+                    }
+                    & + div {
+                        margin-bottom: 10px;
+                        border: 1px solid $c-Bdr-L;
+                        border-top: none;
+                        @extend %box-shadow;
+                        border-radius: 0 0 5px 5px;
+                        margin-bottom: 10px;
+                        background-color: $c-White;
+                    }
+                    .k-panelbar-collapse {
+                        right: initial;
+                        &:before {
+                            content: '\e121';
+                        }
+                    }
+                    div[kendotooltip] {
+                        .ico-hammer {
+                            background: url(../images/ico-hammer-w.png) 0 0 no-repeat;
+                            background-size: 16px;
+                        }
+                    }
+                }
+            }
+            &.k-state-default:not(.k-state-expanded) {
+                .k-header {
+                    background: linear-gradient($c-White, $c-L-Blue);
+                    color: $c-D-Blue;
+                    h3,
+                    span {
+                        color: $c-D-Blue;
+                    }
+                }
+                &:hover {
+                    .k-header {
+                        background: linear-gradient($c-L-Blue, $c-White);
+                    }
+                }
+            }
+        }
+    }
+}
+/* tab content */
+kendo-tabstrip {
+    &.k-header {
+        ul {
+            &.k-tabstrip-items {
+                background-color: $c-M-Blue;
+                border: 1px solid $c-Blk !important;
+                border: 0;
+                padding: 0 0 5px;
+                border-radius: 5px 5px 0 0;
+                flex-wrap: wrap;
+                min-height: 40px;
+                li {
+                    margin: 5px;
+                    align-self: center;
+                    .k-link {
+                        color: $c-White;
+                        span {
+                            border-radius: 5px;
+                            color: $c-White;
+                            font-weight: bold;
+                            background: $c-Rem; //$c-Bs-Link;
+                            padding: 0 2px;
+                            font-size: 80%;
+                            line-height: 16px;
+                            border: 1px solid darken($color: $c-Rem, $amount: 20%) !important;
+                            margin-left: 5px;
+                            margin-left: 5px;
+                            width: 20px;
+                            height: 20px;
+                            text-align: center;
+                            position: relative;
+                            top: 0px;
+                            line-height: 18px;
+                        }
+                    }
+                    &.k-state-active,
+                    &.k-state-selected {
+                        border-radius: 5px;
+                        border: 1px solid $c-D-Blue !important;
+                        .k-link {
+                            border-radius: 5px;
+                            color: $c-D-Blue;
+                            font-weight: bold;
+                            background: linear-gradient($c-White, $c-L-Blue);
+                            padding: 5px 10px;
+
+                            strong.visual-cue {
+                                background-color: $c-V-Que !important;
+                                color: $c-White !important;
+                            }
+                        }
+
+                        background-color: transparent !important;
+                    }
+                    @include Max($MD-P) {
+                        margin: 10px 0;
+                    }
+                }
+            }
+        }
+    }
+    div[role='tabpanel'] {
+        overflow: hidden !important;
+        padding: 0 !important;
+    }
+}
+.MS-Edge-Chromium {
+    kendo-tabstrip.k-header ul.k-tabstrip-items li .k-link span {
+        line-height: 20px;
+    }
+}
+kendo-tabstrip.k-header ul.k-tabstrip-items li .k-link span {
+    @include iehack() {
+        line-height: 18px;
+    }
+}
+.k-tabstrip > .k-content {
+    min-height: 100px;
+    border: 1px solid $c-Bdr-L;
+    border-radius: 0 0 5px 5px;
+}
+div[role='tabpanel'] {
+    min-height: 150px;
+}

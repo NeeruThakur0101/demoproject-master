@@ -1,0 +1,42 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Basic popup.
+// -----------------------------------------------------------------------------
+.popup-wrapper {
+    width: 100%;
+    max-width: $pop-max-width;
+    @extend %m-auto-center;
+    h1 {
+        color: $c-White;
+    }
+    .popup-content {
+        .white-block {
+            padding: 3rem;
+        }
+        .form-block {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            .form-control {
+                input {
+                    text-align: center !important;
+                }
+                label {
+                    display: block;
+                }
+            }
+        }
+        ul {
+            margin-left: 20px;
+        }
+    }
+}
+.popup-content {
+    ul:not(.k-pager-numbers) {
+        margin-left: 2rem;
+    }
+}
+.success-msg {
+    color: $c-Success;
+    padding-top: 1.5rem;
+    font-weight: 600;
+}

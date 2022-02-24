@@ -1,0 +1,438 @@
+<main *ngIf="!hidePage" appGridlayout [class.internal-user]="loginDetails[0].ContrID > 0">
+    <!-- <div class="page-loader" *ngIf="loadData"><span class="k-i-loading"></span></div> -->
+    <div class="outer-block">
+        <div class="inner-block">
+            <form class="k-form-inline h-100 validation-page" name="form" (ngSubmit)="validationForm.form.valid && onSubmit()" #validationForm="ngForm" novalidate>
+                <section class="top-section">
+                    <app-header></app-header>
+                    <h2>{{ pageContent.Validation_Info.Validation_Page_Header }}</h2>
+                </section>
+                <section class="middle-section validation">
+                    <div class="white-block">
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="510" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="white-block">
+                                        <section class="grid-top-bar">
+                                            <div>
+                                                <h2 *ngIf="_srvAuthentication.Profile.ContrID === 0">{{ pageContent.Validation_Info.Please_Validate_Submission }}</h2>
+                                                <h2 *ngIf="_srvAuthentication.Profile.ContrID > 0">{{ pageContent.Validation_Info.Submission }}</h2>
+                                            </div>
+                                        </section>
+                                        <section class="validation-grid" *ngIf="!showExchangeSymbolSection">
+                                            <h3>{{ pageContent.Validation_Info.Validation_Owner_Information }}</h3>
+
+                                            <kendo-grid
+                                                *ngIf="data.length"
+                                                #ownershipGrid
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [selectable]="{ mode: 'single' }"
+                                                (pageChange)="pageChange($event)"
+                                                [kendoGridBinding]="dataArr"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: 'single'
+                                                }"
+                                                [sort]="sort"
+                                                [pageable]="pageObj"
+                                                (sortChange)="sortChange($event)"
+                                                filterable="menu"
+                                                [filter]="filter"
+                                                (filterChange)="filterChange($event)"
+                                                [style.height.%]="100"
+                                                media="(min-width: 901px)"
+                                                class="responsive-grid validation-grid desktop-mode"
+                                            >
+                                                <!--  mobile code -->
+                                                <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Validation_Info.Sno }}</strong> {{ rowIndex + 1 }}
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Validation_Info.Validation_Name }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <a [class.disable-name]="loginDetails[0].ContrID > 0 || readonlyMode ? true : false" (click)="openDialogForm(dataItem)">{{
+                                                                    dataItem.OwnershipName
+                                                                }}</a>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Validation_Info.Validation_Email }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.ContactEmail }}</dd>
+                                                        </dl>
+
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Validation_Info.Validation_Phone }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.ContactPhone }}</dd>
+                                                        </dl>
+
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Validation_Info.Validation_Role }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <span>{{ dataItem.ContrEmployeeTypeId }}</span>
+                                                            </dd>
+                                                        </dl>
+
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Validation_Info.Validation_Ownership }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <span>{{ dataItem.OwnershipPercentage }}%</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="OwnershipNumber" [hidden]="true"> </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="ID" title="ID" width="150" [hidden]="true"> </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="$" title="#" width="60" [sortable]="false" [filterable]="false">
+                                                    <!-- <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        {{ rowIndex + 1 }}
+                                                    </ng-template> -->
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        <section class="doc-info">
+                                                            <div>{{ rowIndex + 1 }}</div>
+
+                                                            <div kendoTooltip class="top" position="top" *ngIf="_srvAuthentication.Profile.ContrID > 0">
+                                                                <span
+                                                                    *ngIf="dataItem.IsDeletedFlag === true"
+                                                                    class="k-icon k-i-file doc-del"
+                                                                    title="{{ pageContent.Ownership_Info.Deleted_Owner }}"
+                                                                ></span>
+                                                                <span
+                                                                    *ngIf="dataItem.IsRecoveredFlag === true"
+                                                                    class="k-icon k-i-file doc-rec"
+                                                                    title="{{ pageContent.Ownership_Info.Recovered_Owner }}"
+                                                                ></span>
+                                                            </div>
+                                                        </section>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="OwnershipName" width="200" title="{{ pageContent.Validation_Info.Validation_Name }}">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <app-multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></app-multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                        <div [class]="loginDetails[0].ContrID > 0 && dataItem.OwnershipNameCue === true ? 'visual-cue' : 'none'">
+                                                            <a
+                                                                [class.disable-name]="
+                                                                    (loginDetails[0].ContrID > 0 &&
+                                                                        (_srvAuthentication.Profile.EventName === 'No Event' || _srvAuthentication.Profile.EventAlias === 'No Event')) ||
+                                                                    readonlyMode
+                                                                        ? true
+                                                                        : false
+                                                                "
+                                                                (click)="openDialogForm(dataItem)"
+                                                                >{{ dataItem.OwnershipName }}</a
+                                                            >
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="ContactEmail" title="{{ pageContent.Validation_Info.Validation_Email }}" width="200">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <app-multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></app-multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                                                        <div [class]="loginDetails[0].ContrID > 0 && dataItem.ContactEmailCue === true ? 'visual-cue' : 'none'">
+                                                            <span>{{ dataItem.ContactEmail }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    media="(min-width: 901px)"
+                                                    field="ContactPhone"
+                                                    width="130"
+                                                    [headerClass]="{ header: true }"
+                                                    title="{{ pageContent.Validation_Info.Validation_Phone }}"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <app-multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></app-multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        <div [class]="loginDetails[0].ContrID > 0 && dataItem.ContactPhoneCue == true ? 'visual-cue' : 'none'">
+                                                            <span>{{ dataItem.ContactPhone }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="ContrEmployeeTypeId" width="160" title="Role" [headerClass]="{ header: true }" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <app-multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></app-multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        <div [class]="loginDetails[0].ContrID > 0 && dataItem.ContrEmployeeTypeIdCue == true ? 'visual-cue' : 'none'">
+                                                            <span>{{ dataItem.ContrEmployeeTypeId }}</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    media="(min-width: 901px)"
+                                                    field="OwnershipPercentage"
+                                                    width="150"
+                                                    [headerClass]="{ header: true }"
+                                                    title="{{ pageContent.Validation_Info.Validation_Ownership }}"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <app-multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></app-multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        <div [class]="loginDetails[0].ContrID > 0 && dataItem.OwnershipPercentageCue == true ? 'visual-cue' : 'none'">
+                                                            <span>{{ dataItem.OwnershipPercentage }}%</span>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="IsContractorActive" title="Active" [hidden]="true" [style]="{ 'text-align': 'center' }">
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="VeteranFlag" title="Veteran" [hidden]="true" [style]="{ 'text-align': 'center' }">
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="LegalIssueFlag" title="Legal Flag" [hidden]="true" [style]="{ 'text-align': 'center' }">
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="ActiveFlag" [hidden]="true"></kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="SocialSecurityNumber" [hidden]="true"> </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="DrivingLicense" [hidden]="true"> </kendo-grid-column>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="DateOfBirth" [hidden]="true"> </kendo-grid-column>
+
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="No records available."
+                                                >
+                                                </kendo-grid-messages>
+                                            </kendo-grid>
+                                        </section>
+
+                                        <section class="valid-company" *ngIf="model">
+                                            <h2>{{ pageContent.Validation_Info.Company_Information }}</h2>
+                                            <section class="flex-5-5">
+                                                <div class="col">
+                                                    <label class="k-form-field tool-with-input required">
+                                                        <span>{{ pageContent.Validation_Info.DBA_Name }}</span>
+                                                        <input
+                                                            trim="blur"
+                                                            [attr.disabled]="
+                                                                (loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal') || (disableEvent?.IsCompanyNameDisable && loginDetails[0].ContrID > 0)
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            maxlength="100"
+                                                            kendoTextBox
+                                                            class="k-textbox"
+                                                            name="dbaName"
+                                                            [(ngModel)]="model.dbaName"
+                                                            #dbaName="ngModel"
+                                                            [class]="model.dbaName !== '' && model.dbaNameVC === true ? 'visual-cue' : 'none'"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': validationForm.submitted && dbaName.invalid }"
+                                                            required
+                                                        />
+                                                    </label>
+                                                    <div *ngIf="validationForm.submitted && dbaName.invalid" class="k-tooltip-validation">
+                                                        <div class="err msg" *ngIf="dbaName.errors.required">D</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <label class="k-form-field tool-with-input required">
+                                                        <span>{{ pageContent.Validation_Info.Federal_Tax_ID }}</span>
+                                                        <kendo-maskedtextbox
+                                                            [readonly]="loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal' ? true : false"
+                                                            [attr.disabled]="
+                                                                (loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal') ||
+                                                                (disableEvent?.IsContractorFederalTaxNumberDisable && loginDetails[0].ContrID > 0)
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            [maskOnFocus]="true"
+                                                            [mask]="federalMask"
+                                                            [(ngModel)]="model.taxId"
+                                                            #taxId="ngModel"
+                                                            [class]="model.taxId !== '' && model.taxIdVC === true ? 'visual-cue' : 'none'"
+                                                            class="k-textbox"
+                                                            class="form-control"
+                                                            name="taxId"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': validationForm.submitted && taxId.invalid }"
+                                                            required
+                                                        ></kendo-maskedtextbox>
+                                                    </label>
+                                                    <div *ngIf="validationForm.submitted && taxId.invalid" class="k-tooltip-validation">
+                                                        <div class="err msg" *ngIf="taxId.errors.required">D</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <label class="k-form-field tool-with-input required">
+                                                        <span>{{ pageContent.Validation_Info.Contact_Name }}</span>
+                                                        <input
+                                                            [attr.disabled]="
+                                                                (loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal') ||
+                                                                (disableEvent?.IsCrawfordContractorConnectionContactNameDisable && loginDetails[0].ContrID > 0)
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            class="k-textbox"
+                                                            name="cName"
+                                                            type="text"
+                                                            maxlength="30"
+                                                            [(ngModel)]="model.cName"
+                                                            [class]="model.cName !== '' && model.cNameVC === true ? 'visual-cue' : 'none'"
+                                                            class="form-control"
+                                                            #cName="ngModel"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': validationForm.submitted && cName.invalid }"
+                                                            required
+                                                            appAlphabetOnly
+                                                        />
+                                                    </label>
+                                                    <div *ngIf="validationForm.submitted && cName.invalid" class="k-tooltip-validation">
+                                                        <div class="err msg" *ngIf="cName.errors.required">D</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <label class="k-form-field tool-with-input required">
+                                                        <span>{{ pageContent.Validation_Info.Contact_Phone }}</span>
+                                                        <kendo-maskedtextbox
+                                                            [readonly]="loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal' ? true : false"
+                                                            [attr.disabled]="
+                                                                (loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal') ||
+                                                                (disableEvent?.IsCrawfordContractorConnectionContactNumberDisable && loginDetails[0].ContrID > 0)
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            [maskOnFocus]="true"
+                                                            [mask]="mobileNumberMask"
+                                                            class="k-textbox"
+                                                            name="cPhone"
+                                                            [(ngModel)]="model.cPhone"
+                                                            #cPhone="ngModel"
+                                                            [class]="model.cPhone !== '' && model.cPhoneVC === true ? 'visual-cue' : 'none'"
+                                                            class="form-control"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': validationForm.submitted && cPhone.invalid }"
+                                                            required
+                                                        ></kendo-maskedtextbox>
+                                                    </label>
+                                                    <div *ngIf="validationForm.submitted && cPhone.invalid" class="k-tooltip-validation">
+                                                        <div class="err msg" *ngIf="cPhone.errors.required">D</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col">
+                                                    <label class="k-form-field required">
+                                                        <span>{{ pageContent.Validation_Info.Contact_Email }}</span>
+                                                        <input
+                                                            [attr.disabled]="
+                                                                (loginDetails[0].ContrID === 0 && loggedInUserType == 'Internal') ||
+                                                                (disableEvent?.IsCrawfordContractorConnectionContactEmailDisable && loginDetails[0].ContrID > 0)
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            class="k-textbox"
+                                                            name="cEmail"
+                                                            class="form-control"
+                                                            type="text"
+                                                            maxlength="60"
+                                                            [(ngModel)]="model.cEmail"
+                                                            #cEmail="ngModel"
+                                                            [class]="model.cEmail !== '' && model.cEmailVC === true ? 'visual-cue' : 'none'"
+                                                            [ngClass]="{ 'err ng-invalid ng-touched': validationForm.submitted && cEmail.invalid }"
+                                                            pattern="[A-Za-zÀ-ú0-9._%+-]+@[A-Za-zÀ-ú0-9.-]+\.[A-Za-zÀ-ú]{2,6}"
+                                                            required
+                                                        />
+                                                    </label>
+                                                    <div *ngIf="validationForm.submitted && cEmail.invalid" class="err comp k-tooltip-validation">
+                                                        <div class="err msg" *ngIf="cEmail.errors.required">{{ pageContent.Validation_Info.Invalid_Email_Address }}</div>
+                                                        <div class="err msg comp" *ngIf="cEmail.errors.pattern">{{ pageContent.Validation_Info.Invalid_Email_Address }}</div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- middle content area close -->
+                <!-- bottom block open -->
+                <section class="bottom-section" *ngIf="!readonlyMode && loginDetails[0].ContrID == 0">
+                    <section class="action-buttons">
+                        <button kendoButton type="button" *ngIf="loginDetails[0].ContrID == 0" (click)="onBackClick(validationForm.form)">
+                            {{ pageContent.Validation_Info.Back }}
+                        </button>
+                        <button
+                            *ngIf="!readonlyMode && loginDetails[0].ContrID == 0"
+                            [disabled]="!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess"
+                            kendoButton
+                            type="submit"
+                            [primary]="true"
+                        >
+                            {{ pageContent.Validation_Info.Validation_Save_Next }}
+                        </button>
+                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()" kendoButton [primary]="true">{{ pageContent.Validation_Info.Next }}</button>
+                    </section>
+                </section>
+                <section class="bottom-section" *ngIf="loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event'">
+                    <section class="action-buttons">
+                        <button type="button" (click)="backEvent()" kendoButton>{{ pageContent.Validation_Info.Back }}</button>
+                        <button type="button" (click)="submitEvent(validationForm.form)" kendoButton [primary]="true">{{ pageContent.Validation_Info.Submit }}</button>
+                    </section>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>

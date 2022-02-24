@@ -1,0 +1,276 @@
+<kendo-dialog-titlebar class="hasDialog" [minWidth]="580" [width]="100">
+    <h1>{{ title }}</h1>
+    <button type="button" (click)="onClose()">&times;</button>
+</kendo-dialog-titlebar>
+<form [formGroup]="ownershipModal" (ngSubmit)="onSubmitModal(scrollTarget)">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+                    <section class="form-block floating-labels">
+                        <div class="form-control" class="hide">
+                            <kendo-textbox-container class="hide">
+                                <input kendoTextBox formControlName="ID" />
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" class="hide">
+                            <kendo-textbox-container>
+                                <input kendoTextBox formControlName="OwnershipNumber" />
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control"
+                            [class.readonly]="disableFieldOwnershipName || disableFields || isDeletedRecovered"
+                            #scrollTarget>
+                            <div class="block-data"></div>
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.Type_Owner_Principal_Full_Legal_Name_Required }}">
+                                <input
+                                    [class]="ownershipInfoDialogFormControl.OwnershipName.value !== null && incomingData?.OwnershipNameCue == true ? 'visual-cue' : 'none'"
+                                    type="text" trim="blur" maxlength="30" #pName kendoTextBox
+                                    formControlName="OwnershipName"
+                                    [readonly]="disableFieldOwnershipName || disableFields || isDeletedRecovered"
+                                    [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.OwnershipName.errors
+                                    }" />
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.OwnershipName.errors"
+                                class="invalid-feedback">
+                                <div class="err-msg"
+                                    *ngIf="ownershipInfoDialogFormControl.OwnershipName.errors.required">
+                                    {{ pageContent.Ownership_Info.Name_is_Required }}
+                                </div>
+                                <div class="err-msg comp"
+                                    *ngIf="ownershipInfoDialogFormControl.OwnershipName.errors.pattern">
+                                    {{ pageContent.Ownership_Info.Valid_Name }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-control" [class.readonly]="disableFields || isDeletedRecovered">
+                            <div class="block-data"></div>
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Ownership_Info.Role }}">
+                                <kendo-dropdownlist
+                                    [class]="ownershipInfoDialogFormControl.ContrEmployeeTypeId.value !== null && incomingData?.ContrEmployeeTypeIdCue == true ? 'visual-cue' : 'none'"
+                                    #dropdownlist (focus)="onFocus($event)" (mousedown)="onMousedown($event)"
+                                    (mouseup)="onMouseup($event)" formControlName="ContrEmployeeTypeId"
+                                    [data]="OwnerRole" [disabled]="disableFields || isDeletedRecovered"
+                                    [filterable]="true" (filterChange)="handleFilterOwner($event)"
+                                    (valueChange)="checkPrimaryOwner(incomingData, $event)"
+                                    textField="ContractorEmployeeTypeTranslated" valueField="ContrEmployeeTypeID"
+                                    valuePrimitive="true" [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.ContrEmployeeTypeId.errors
+                                    }">
+                                    <ng-template kendoDropDownListNoDataTemplate> {{
+                                        this.pageContent.DropDown_NoData_Msg.Message }} </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && ownershipInfoDialogFormControl.ContrEmployeeTypeId.errors"
+                                    class="invalid-feedback">
+                                    <div class="err-msg"
+                                        *ngIf="ownershipInfoDialogFormControl.ContrEmployeeTypeId.errors.required"
+                                        class="err-msg">
+                                        {{ pageContent.Ownership_Info.Role_Is_Required }}
+                                    </div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control"
+                            [class.readonly]="disableFields || emailFromSignup || isDeletedRecovered || isReadonlyMail">
+                            <div class="block-data"></div>
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.Email_Ownership }}">
+                                <input
+                                    [class]="ownershipInfoDialogFormControl.ContactEmail.value !== '' && incomingData?.ContactEmailCue == true ? 'visual-cue' : 'none'"
+                                    [readonly]="disableFields || emailFromSignup || isReadonlyMail" trim="blur" #email
+                                    type="text" maxlength="200" kendoTextBox formControlName="ContactEmail" [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.ContactEmail.errors
+                                    }" />
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.ContactEmail.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="ownershipInfoDialogFormControl.ContactEmail.errors.required"
+                                    class="err-msg">Email is required</div>
+                                <div *ngIf="ownershipInfoDialogFormControl.ContactEmail.errors.pattern || ownershipInfoDialogFormControl.ContactEmail.errors.pattern"
+                                    class="err-msg comp">
+                                    {{ pageContent.Ownership_Info.Email_Required }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.New_Owner_Mobile_Phone }}" value="sdfsad">
+                                <input
+                                    [class]="ownershipInfoDialogFormControl.ContactPhone.value !== '' && incomingData?.ContactPhoneCue == true ? 'visual-cue' : 'none'"
+                                    [readonly]="(incomingData?.ContactPhoneCue == true && loggedInUserType == 'Internal') || isDeletedRecovered"
+                                    maxlength="12" [mask]="mobileNumberMask" #mobile type="text"
+                                    (keypress)="isNumber($event, 'phone')" kendoTextBox formControlName="ContactPhone"
+                                    [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.ContactPhone.errors
+                                    }" />
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.ContactPhone.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="ownershipInfoDialogFormControl.ContactPhone.errors.required"
+                                    class="err-msg">*Mobile number is required</div>
+                                <div *ngIf="ownershipInfoDialogFormControl.ContactPhone.errors.pattern" class="err-msg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-control" *ngIf="this.countryID === 1">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.New_Owner_Ssn }}">
+                                <input
+                                    [class]="ownershipInfoDialogFormControl.SocialSecurityNumber.value !== '' && incomingData?.SocialSecurityNumberCue == true ? 'visual-cue' : 'none'"
+                                    [readonly]="(incomingData?.SocialSecurityNumberCue == true && loggedInUserType == 'Internal') || isDeletedRecovered"
+                                    [mask]="ssnNumberMask" maxlength="12" pattern="^[0-9]{3}-?[0-9]{2}-?[0-9]{4}$" #ssn
+                                    kendoTextBox formControlName="SocialSecurityNumber" [ngClass]="{
+                                        'err ng-invalid ng-touched': submitted && ownershipInfoDialogFormControl.SocialSecurityNumber.errors
+                                    }" />
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.SocialSecurityNumber.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="ownershipInfoDialogFormControl.SocialSecurityNumber.errors.required"
+                                    class="err-msg">*SSN is required</div>
+                                <div *ngIf="ownershipInfoDialogFormControl.SocialSecurityNumber.errors.patternError"
+                                    class="err-msg"></div>
+                            </div>
+                        </div>
+                        <div class="form-control" *ngIf="this.countryID === 1">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.New_Owner_Driver_Licence }}">
+                                <input
+                                    [class]="ownershipInfoDialogFormControl.DrivingLicense.value !== '' && incomingData?.DrivingLicenseCue == true ? 'visual-cue' : 'none'"
+                                    trim="blur" maxlength="20" #driverlicense kendoTextBox type="text"
+                                    formControlName="DrivingLicense" [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.DrivingLicense.errors
+                                    }" [readonly]="isDeletedRecovered" />
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.DrivingLicense.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="ownershipInfoDialogFormControl.DrivingLicense.errors.required"
+                                    class="err-msg">Driving License # is required</div>
+                            </div>
+                        </div>
+                        <div class="form-control date-selection">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.Date_Of_Birth }}">
+                                <kendo-datepicker
+                                    [class]="ownershipInfoDialogFormControl.DateOfBirth.value !== null && incomingData?.DateOfBirthCue == true ? 'visual-cue' : 'none'"
+                                    required [min]="min" [max]="max" format="MM/dd/yyyy" formControlName="DateOfBirth"
+                                    [ngClass]="{
+                                        'err ng-invalid ng-touched': submitted && ownershipInfoDialogFormControl.DateOfBirth.errors
+                                    }" [value]="dobValue" [readonly]="isDeletedRecovered">
+                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}">
+                                    </kendo-datepicker-messages>
+                                </kendo-datepicker>
+                                <div *ngIf="submitted && ownershipInfoDialogFormControl.DateOfBirth.errors"
+                                    class="invalid-feedback">
+                                    <div class="err-msg">Required</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control" *ngIf="ownershipInfoDialogFormControl.VeteranFlag.value">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.Military_Affiliation }}">
+                                <kendo-multiselect [class]="
+                                        ownershipInfoDialogFormControl.VeteranEmployeeMilitaryAffiliation.value !== null && incomingData?.VeteranEmployeeMilitaryAffiliationCue == true
+                                            ? 'visual-cue'
+                                            : 'none'
+                                    " #military (valueChange)="valChange($event)"
+                                    formControlName="VeteranEmployeeMilitaryAffiliation"
+                                    [data]="militaryAffiliationsData" textField="MilitaryAffiliationBranch"
+                                    valueField="MilitaryAffiliationID" [valuePrimitive]="true" [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.VeteranEmployeeMilitaryAffiliation.errors
+                                    }" [readonly]="isDeletedRecovered">
+                                    <ng-template kendoMultiSelectItemTemplate let-dataItem>
+                                        <span
+                                            [class]="dataItem.MilitaryAffiliationNameCue === true ? 'visual-cue' : 'none'"></span>
+                                        {{ dataItem.MilitaryAffiliationBranch }}
+                                    </ng-template>
+                                </kendo-multiselect>
+                                <div *ngIf="submitted && ownershipInfoDialogFormControl.VeteranEmployeeMilitaryAffiliation.errors"
+                                    class="invalid-feedback">
+                                    <div class="err-msg"
+                                        *ngIf="ownershipInfoDialogFormControl.VeteranEmployeeMilitaryAffiliation.errors.required"
+                                        class="err-msg">Role is required</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control date-selection"
+                            *ngIf="ownershipInfoDialogFormControl.VeteranFlag.value">
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.Hire_Date }}">
+                                <kendo-datepicker
+                                    [class]="ownershipInfoDialogFormControl.VeteranEmployeeHireDate.value !== null && incomingData?.VeteranEmployeeHireDateCue == true ? 'visual-cue' : 'none'"
+                                    required [max]="max" format="MM/dd/yyyy" [ngClass]="{
+                                        'err ng-invalid ng-touched': submitted && ownershipInfoDialogFormControl.VeteranEmployeeHireDate.errors
+                                    }" formControlName="VeteranEmployeeHireDate" [(value)]="hireDateValue"
+                                    (valueChange)="changeHireDate($event)" [readonly]="isDeletedRecovered">
+                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}">
+                                    </kendo-datepicker-messages>
+                                </kendo-datepicker>
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.VeteranEmployeeHireDate.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="ownershipInfoDialogFormControl.VeteranEmployeeHireDate.errors.required"
+                                    class="err-msg">Required</div>
+                            </div>
+                        </div>
+
+                        <div class="form-control" [class.readonly]="disableFields || isDeletedRecovered">
+                            <div class="block-data"></div>
+                            <kendo-textbox-container required
+                                floatingLabel="{{ pageContent.Ownership_Info.Percentage_Of_Ownership }}">
+                                <input
+                                    [class]="ownershipInfoDialogFormControl.OwnershipPercentage.value !== '' && incomingData?.OwnershipPercentageCue == true ? 'visual-cue' : 'none'"
+                                    [readonly]="incomingData?.OwnershipPercentageCue == true && loggedInUserType == 'Internal'"
+                                    #percentageOwnership (keypress)="isNumber($event, 'percentage')" kendoTextBox
+                                    formControlName="OwnershipPercentage" maxlength="3"
+                                    [readonly]="disableFields || isDeletedRecovered" [ngClass]="{
+                                        err: submitted && ownershipInfoDialogFormControl.OwnershipPercentage.errors
+                                    }" />
+                            </kendo-textbox-container>
+                            <div *ngIf="submitted && ownershipInfoDialogFormControl.OwnershipPercentage.errors"
+                                class="invalid-feedback">
+                                <div *ngIf="ownershipInfoDialogFormControl.OwnershipPercentage.errors.required"
+                                    class="err-msg">{{ pageContent.Ownership_Info.Percentage_Ownership_Required }}</div>
+                                <div *ngIf="ownershipInfoDialogFormControl.OwnershipPercentage.errors.pattern"
+                                    class="err-msg comp">{{ pageContent.Ownership_Info.Enter_Between_1to100}}</div>
+                            </div>
+                        </div>
+                        <div class="inline-switch-label">
+                            <label>{{ pageContent.Ownership_Info.Active }}</label>
+                            <kendo-switch [class]="incomingData?.ActiveFlagCue == true ? 'visual-cue' : 'none'"
+                                formControlName="ActiveFlag" name="switchOne"
+                                [readonly]="disableFields || isDeletedRecovered">
+                            </kendo-switch>
+                        </div>
+                        <div class="inline-switch-label clr-P">
+                            <label>{{ pageContent.Ownership_Info.Veteran }}</label>
+                            <kendo-switch [class]="
+                                    incomingData?.VeteranFlagCue == true || incomingData?.VeteranEmployeeMilitaryAffiliationCue == true || incomingData?.VeteranEmployeeHireDateCue == true
+                                        ? 'visual-cue'
+                                        : 'none'
+                                " [readonly]="isDeletedRecovered" (valueChange)="veteranFlag($event, military)"
+                                formControlName="VeteranFlag">
+                            </kendo-switch>
+                        </div>
+                        <div class="success-msg" *ngIf="ownershipInfoDialogFormControl.VeteranFlag.value">
+                            {{ pageContent.Ownership_Info.Thank_You }}
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="onClose()">{{ pageContent.Ownership_Info.Cancel }}</button>
+        <button kendoButton type="submit" [disabled]="disableSavebutton || isDeletedRecovered" [primary]="true">{{
+            pageContent.Ownership_Info.Save }}</button>
+    </div>
+</form>

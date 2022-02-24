@@ -1,0 +1,194 @@
+<main appGridlayout class="veteranInformation" [class.internal-user]="contrId > 0" [hidden]="hidePage" *ngIf="pageContent">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Language_Veteran.Languages_Veterans_Information" [comments]="crComments"></app-page-title>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <form [formGroup]="languageForm" class="k-form-inline h-100">
+                <section class="middle-section veteran-page">
+                    <div class="white-block">
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="500" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="veteranInfo">
+                                        <section class="flex-4-6">
+                                            <!-- two columns -->
+                                            <div class="col">
+                                                <section class="white-block multilingual" *ngIf="addControlsFlag">
+                                                    <h2>{{ pageContent.Language_Veteran.Multilingual_Capabilities }}</h2>
+
+                                                    <kendo-tabstrip tabAlignment="center">
+                                                        <kendo-tabstrip-tab [title]="pageContent.Language_Veteran.During_Business_Hours" [selected]="true">
+                                                            <ng-template kendoTabContent>
+                                                                <div class="language-wrapper" [class.errorLanguage]="selectOneLangFlag">
+                                                                    <ul>
+                                                                        <li *ngFor="let item of langInfo; let i = index">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                id="{{ i }}"
+                                                                                class="k-checkbox lang-chk"
+                                                                                [class]="checkDuringFlag[i] === true ? 'visual-cue' : 'none'"
+                                                                                formControlName="during_{{ i }}"
+                                                                                (change)="duringChange()"
+                                                                            />
+                                                                            <label class="k-checkbox-label" for="{{ i }}">{{ item.LanguageName }}</label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                                <p *ngIf="selectOneLangFlag" class="err-msg comp">{{ pageContent.Language_Veteran.select_atleast_one_language }}</p>
+                                                            </ng-template>
+                                                        </kendo-tabstrip-tab>
+                                                        <kendo-tabstrip-tab [title]="pageContent.Language_Veteran.After_Business_Hours">
+                                                            <ng-template kendoTabContent>
+                                                                <div class="language-wrapper">
+                                                                    <ul>
+                                                                        <li *ngFor="let value of langInfo; let i = index">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                id="after_{{ i }}"
+                                                                                class="k-checkbox"
+                                                                                [class]="checkAfterFlag[i] === true ? 'visual-cue' : 'none'"
+                                                                                formControlName="after_{{ i }}"
+                                                                            />
+                                                                            <label class="k-checkbox-label" for="after_{{ i }}">{{ value.LanguageName }}</label>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </ng-template>
+                                                        </kendo-tabstrip-tab>
+                                                    </kendo-tabstrip>
+                                                </section>
+                                            </div>
+                                            <div class="col">
+                                                <section class="white-block">
+                                                    <h2>{{ pageContent.Language_Veteran.Federal_Guidelines_for_Minority_Contractors }}</h2>
+                                                    <section>
+                                                        <p>
+                                                            {{ pageContent.Language_Veteran.ownership_status_of_your_company }}
+                                                        </p>
+                                                    </section>
+                                                    <section class="guidelines" *ngIf="hammerData">
+                                                        <div class="guidelines-list">
+                                                            <h3>{{ pageContent.Language_Veteran.Minority_Owned_Business }}</h3>
+                                                            <span
+                                                                ><span kendoTooltip position="top" tooltipClass="guide-tip"
+                                                                    ><a [title]="hammerData?.MinorityOwnedBusinessHammerHower"><img src="assets/images/ico-hammer.png" width="16px" /></a></span
+                                                            ></span>
+                                                            <div>
+                                                                <kendo-switch formControlName="minorityOwned" [class]="visualCue?.minorityOwned === true ? 'visual-cue' : 'none'"> </kendo-switch>
+                                                            </div>
+                                                        </div>
+                                                        <div class="guidelines-list">
+                                                            <h3>{{ pageContent.Language_Veteran.Woman_Owned_Business }}</h3>
+                                                            <span kendoTooltip position="top" tooltipClass="guide-tip"
+                                                                ><a [title]="hammerData?.WomanOwnedBusinessHammerHower"><img src="assets/images/ico-hammer.png" width="16px" /></a
+                                                            ></span>
+                                                            <div>
+                                                                <kendo-switch formControlName="womanOwned" [class]="visualCue?.womanOwned === true ? 'visual-cue' : 'none'"> </kendo-switch>
+                                                            </div>
+                                                        </div>
+                                                        <div class="guidelines-list">
+                                                            <h3>{{ pageContent.Language_Veteran.Veteran_Owned_Business }}</h3>
+                                                            <span kendoTooltip position="top" tooltipClass="guide-tip"
+                                                                ><a [title]="hammerData?.VeteranOwnedBusinessHammerHower"><img src="assets/images/ico-hammer.png" width="16px" /></a
+                                                            ></span>
+                                                            <div>
+                                                                <kendo-switch formControlName="veteranOwned" [class]="visualCue?.veteranOwned === true ? 'visual-cue' : 'none'"> </kendo-switch>
+                                                            </div>
+                                                        </div>
+                                                        <div class="guidelines-list">
+                                                            <h3>{{ pageContent.Language_Veteran.Disabled_Owned_Business }}</h3>
+                                                            <span kendoTooltip position="top" tooltipClass="guide-tip"
+                                                                ><a [title]="hammerData?.DisabledOwnedBusinessHammerHower"><img src="assets/images/ico-hammer.png" width="16px" /></a
+                                                            ></span>
+                                                            <div>
+                                                                <kendo-switch formControlName="disableOwned" [class]="visualCue?.disableOwned === true ? 'visual-cue' : 'none'"> </kendo-switch>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                </section>
+                                            </div>
+                                        </section>
+                                    </section>
+                                    <section class="veteranPledge">
+                                        <section class="white-block">
+                                            <h2>{{ pageContent.Language_Veteran.Veteran_Pledge }}</h2>
+                                            <div class="pledge">
+                                                <h2>
+                                                    {{ pageContent.Language_Veteran.Veteran_Pledge_Count }}
+                                                    <strong><input kendoTextBox formControlName="oldEmpNum" /> </strong>
+                                                    {{ pageContent.Language_Veteran.Veteran_Pledge_To }}
+                                                    <strong
+                                                        ><input
+                                                            kendoTextBox
+                                                            formControlName="newEmpNum"
+                                                            [readonly]="languageForm.controls.nonVeteranFlag.value == true && languageForm.controls.oldEmpNum.value === 0 ? true : false"
+                                                            (keypress)="keyPress($event)"
+                                                            maxlength="5"
+                                                            (keyup)="onFocusNewEmp()"
+                                                            (blur)="onBlurNewEmpNum()"
+                                                            [class]="visualCue?.newEmpNum === true ? 'visual-cue' : 'none'"
+                                                    /></strong>
+                                                    {{ pageContent.Language_Veteran.Veteran_Pledge_By }}
+                                                    <strong>
+                                                        <kendo-datepicker
+                                                            formControlName="fromDate"
+                                                            [readonly]="languageForm.controls.nonVeteranFlag.value == true && languageForm.controls.oldEmpNum.value === 0 ? true : false"
+                                                            [class]="visualCue?.pledgeDate === true ? 'visual-cue' : 'none'"
+                                                            [min]="minDate"
+                                                            (blur)="onBlurFromDate()"
+                                                            (keypress)="onDateKeyPress($event)"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </strong>
+                                                </h2>
+                                                <p *ngIf="pledgeError" class="err-msg comp">{{ pageContent.Language_Veteran.Veteran_Alert_Employee_Greater_Than_Current_Employee }}</p>
+                                                <p *ngIf="mandateFieldsFlag" class="err-msg comp">{{ pageContent.Language_Veteran.Veteran_Alert_Fill_Pledge_Required_Fields }}</p>
+                                            </div>
+                                            <div *ngIf="languageForm.controls.oldEmpNum.value === 0">
+                                                <input
+                                                    type="checkbox"
+                                                    id="ch"
+                                                    formControlName="nonVeteranFlag"
+                                                    class="k-checkbox"
+                                                    [class]="visualCue?.nonVeteranFlg === true ? 'visual-cue' : 'none'"
+                                                />
+                                                <label class="k-checkbox-label" for="ch">{{ pageContent.Language_Veteran.Check_Company }}</label>
+                                            </div>
+                                        </section>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- </div></perfect-scrollbar> -->
+                    </div>
+                </section>
+
+                <section class="bottom-section">
+                    <section class="action-buttons" *ngIf="_srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal'">
+                        <button kendoButton (click)="backButtonClick()">
+                            {{ pageContent.Language_Veteran.Back }}
+                        </button>
+                        <button kendoButton (click)="onSaveClick()" [primary]="true">
+                            {{ pageContent.Language_Veteran.Save_Next }}
+                        </button>
+                    </section>
+                    <section class="action-buttons" *ngIf="_srvAuthentication.Profile.EventName === 'No Event'">
+                        <button kendoButton (click)="onSaveClick()" [primary]="true" [disabled]="saveBtnDisable">
+                            {{ pageContent.Language_Veteran.Global_Button_Save }}
+                        </button>
+                    </section>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>
+<ng-container #container></ng-container>

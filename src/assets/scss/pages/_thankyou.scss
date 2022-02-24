@@ -1,0 +1,127 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Thank You Page
+// -----------------------------------------------------------------------------
+app-thank-you {
+    @media all and (max-width: 900px), (max-height: 650px) {
+        main {
+            height: auto;
+            .scrollable-content {
+                width: 100% !important;
+            }
+        }
+    }
+}
+
+.thank-you {
+    text-align: center;
+    height: calc(100% - 80px) !important;
+    @include Max (700px) {
+        height: calc(100% - 110px) !important;
+    }
+    .scrollable-content {
+        width: 100%;
+        .white-block {
+            height: 100%;
+            @media all and (max-height: 720px) {
+                height: initial;
+            }
+        }
+    }
+    ul {
+        color: $c-D-Blue;
+        padding-bottom: 2rem;
+        font-weight: 700;
+        width: 100%;
+        margin: 0 auto;
+        list-style: none;
+        li {
+            margin-bottom: 1.35rem;
+            color: $c-D-Gry;
+        }
+    }
+    .media {
+        position: relative;
+        padding-top: 2rem;
+        > h2 {
+            border-bottom: 2px solid $c-D-Blue;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            width: initial;
+            display: inline-block;
+        }
+    }
+    .print {
+        position: absolute;
+        right: 0;
+        top: 0;
+        a {
+            color: $c-Rem;
+            &:hover {
+                color: $c-Blk;
+            }
+        }
+    }
+    .contact {
+        padding: 2rem 3rem;
+        border: 1px solid $c-L-Gry;
+        margin-top: 2rem;
+        background-color: rgba($c-L-Blue, 0.5);
+        width: 100%;
+        max-width: 700px;
+        margin: 0 auto;
+        h3 {
+            font-size: 1.6rem;
+            border-bottom: 1px solid $c-L-Gry;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+        a {
+            margin: 0 10px;
+            text-decoration: none;
+            cursor: pointer;
+            @include Max($Tab-P) {
+                display: block;
+                margin: 0 0 10px;
+                white-space: normal;
+            }
+            span {
+                position: relative;
+                top: -1px;
+            }
+        }
+        p {
+            padding-bottom: 1rem;
+            &:last-child {
+                padding-bottom: 0;
+                padding-top: 1rem;
+                color: rgba($c-D-Gry, 0.8);
+                font-size: 13px;
+                font-weight: 400;
+            }
+        }
+    }
+}
+
+.thankyou-class {
+    margin: 15px 0px 100px 0px;
+}
+@media print {
+    .inner-block,
+    .white-block {
+        box-shadow: none;
+        padding: 0;
+        border: none;
+    }
+    .bottom-section,
+    .breadcrumb,
+    .print {
+        display: none;
+    }
+    main > .outer-block > .inner-block .middle-section > .white-block {
+        padding: 0;
+        border: none;
+    }
+    .thank-you .contact {
+        border: none;
+    }
+}

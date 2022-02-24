@@ -1,0 +1,185 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Switch Button Component
+// ----------------------------------------------------------------------------
+.inline-switch-label {
+    padding-bottom: 1rem;
+    label {
+        color: $c-D-Blue;
+        min-width: 60px;
+        display: inline-block;
+        padding-top: 5px;
+        font-weight: bold;
+    }
+    .k-switch {
+        margin-top: -4px;
+    }
+}
+.k-switch {
+    margin-left: 28px;
+    overflow: initial;
+    overflow: visible; // ie hack
+    width: 4.5rem;
+    margin-right: 5rem;
+    .k-switch-container {
+        height: 10px;
+        background-color: $c-M-Blue;
+        span {
+            text-transform: capitalize;
+            line-height: 1.5rem;
+            width: 30px;
+            text-indent: -9999px;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .k-switch-handle {
+            width: 2rem;
+            height: 2rem;
+            top: -0.5rem;
+            background-color: $c-D-Blue;
+        }
+    }
+    .k-switch-label-on {
+        left: -35px;
+        text-align: right;
+        width: 50px;
+        overflow: hidden;
+        text-indent: 99999px;
+        &:before {
+            content: 'Yes';
+            position: absolute;
+            top: 0;
+            left: 0;
+            text-indent: initial;
+            text-indent: 0; // ie hack
+            width: 30px;
+            background-color: $c-White;
+        }
+    }
+    .k-switch-label-on,
+    .k-switch-label-off {
+        font-weight: bold;
+        font-size: 13px;
+        top: 5px;
+    }
+    .k-switch-label-off {
+        margin-right: -34px;
+        color: $c-D-Blue;
+        text-align: left;
+        right: 10px;
+        width: 50px;
+        overflow: hidden;
+        text-indent: 99999px;
+        &:before {
+            content: 'No';
+            position: absolute;
+            top: 0;
+            right: 0;
+            text-indent: 0;
+        }
+    }
+    &.k-switch-on:not(.visual-cue) {
+        .k-switch-label-off {
+            color: $c-Dg-50 !important;
+        }
+        .k-switch-label-on {
+            color: $c-D-Blue;
+        }
+
+        .k-switch-handle {
+            left: -0.2rem;
+        }
+    }
+
+    &.k-switch-on:not(.visual-cue):not(.k-state-focused):not(.k-state-disabled) {
+        .k-switch-container {
+            background-color: $c-D-Blue !important;
+        }
+    }
+    &.k-switch-off {
+        .k-switch-label-on {
+            color: $c-Dg-50;
+        }
+        .k-switch-label-off {
+            color: $c-Dg-70 !important;
+        }
+        .k-switch-handle {
+            left: calc(100% - 1.8em);
+        }
+    }
+    &.k-state-disabled:not(.k-switch-on) {
+        .k-switch-container {
+            background-color: $c-Bdr-D;
+            .k-switch-label-on,
+            .k-switch-label-off {
+                color: $c-D-Gry !important;
+            }
+            .k-switch-handle {
+                background-color: $c-D-Gry;
+            }
+        }
+    }
+    &.visual-cue:not(.err) {
+        background-color: transparent !important;
+    }
+    &.visual-cue {
+        &.k-switch-off {
+            .k-switch-container {
+                .k-switch-label-on {
+                    color: $c-Dg-70 !important;
+                }
+                .k-switch-label-off {
+                    &:before {
+                        color: $c-V-Que !important;
+                    }
+                }
+            }
+        }
+    }
+
+    &.k-state-disabled {
+        .k-switch-container,
+        .k-switch-handle {
+            background-color: darken($c-Disable-Bg-Color, 10);
+        }
+    }
+}
+
+// .k-switch-on.k-state-disabled {
+//     .k-switch-handle {
+//         background-color: $c-D-Blue;
+//     }
+// }
+.k-switch-on:hover .k-switch-container,
+.k-switch-on.k-state-hover .k-switch-container {
+    background-color: $c-M-Blue;
+}
+.k-switch-off .k-switch-container,
+.k-switch-off:hover .k-switch-container,
+.k-switch-off.k-state-hover .k-switch-container {
+    background-color: $c-Dg-30;
+    border: 1px solid transparent;
+}
+.k-switch.k-switch-off .k-switch-handle {
+    background-color: lighten($c-D-Gry, 20%);
+}
+.k-switch[aria-readonly='true'] {
+    cursor: not-allowed;
+    pointer-events: initial;
+    span {
+        cursor: not-allowed;
+    }
+}
+.lang-french {
+    .k-switch .k-switch-label-off {
+        margin-right: -40px;
+    }
+    .k-switch .k-switch-label-on:before {
+        content: 'Oui';
+    }
+    .k-switch .k-switch-label-off:before {
+        content: 'Non';
+    }
+}
+kendo-switch + p {
+    padding-top: 1.5rem;
+}

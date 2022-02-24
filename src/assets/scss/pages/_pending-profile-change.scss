@@ -1,0 +1,19 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Pending Profile Page
+// -----------------------------------------------------------------------------
+
+.popup-content {
+    &.pending-profile-changes {
+        .k-label {
+            transform: translateY(-0px) !important;
+            font-weight: bold;
+            left: 0;
+            position: relative;
+            order: -1;
+            top: 0;
+            font-size: 12px !important;
+            white-space: normal;
+            padding-bottom: 5px;
+        }
+    }
+}

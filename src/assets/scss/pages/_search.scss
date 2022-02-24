@@ -1,0 +1,210 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Responsive Grid Page
+// -----------------------------------------------------------------------------
+
+.search-grid {
+    @include Max($D-S) {
+        .tbl-card-title {
+            strong {
+                display: block;
+            }
+            margin-top: -74px !important;
+        }
+        .k-grid-content td {
+            padding-top: 74px !important;
+        }
+    }
+    @include Max($iPh-L) {
+        .tbl-card-title {
+            strong {
+                display: block;
+            }
+            margin-top: -54px !important;
+        }
+        .k-grid-content td {
+            padding-top: 54px !important;
+        }
+    }
+    .k-pager-wrap {
+        @media all and (max-width: 1252px) {
+            top: -12px;
+        }
+    }
+
+    .k-grid-norecords {
+        td {
+            padding: 50px 0 !important;
+        }
+    }
+}
+.show-srch-filter {
+    position: relative;
+    height: 35px;
+    z-index: 10;
+    a {
+        position: absolute;
+        right: 0;
+        cursor: pointer;
+        border: 1px solid $c-Bdr-L; //#d4cfc8;
+        border-radius: 5px;
+        padding: 2px 4px;
+        @extend %trans;
+        z-index: 10;
+        span {
+            color: $c-D-Blue;
+        }
+        &:hover,
+        &.active {
+            border: 1px solid $c-D-Blue;
+            background-color: $c-D-Blue;
+            span {
+                color: $c-White;
+            }
+        }
+    }
+}
+.search-overlay {
+    position: absolute;
+    top: 10px;
+    right: 1rem;
+    background-color: $c-Dg-30; //rgba($c-D-Gry, 0.3);
+    bottom: 10px;
+    left: 1rem;
+    z-index: 1;
+    border-radius: 5px;
+
+    @include Max($MD-P) {
+        display: none;
+    }
+}
+.search-filter {
+    @include Min($MD-P) {
+        position: absolute;
+    }
+
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 5;
+    padding: 3.75rem 2rem 3.5rem;
+
+    @include Max($MD-P) {
+        padding: 2.5rem 1rem 3.5rem;
+    }
+    background-color: $c-White;
+    border: 1px solid $c-Bdr-L; //#d4cfc8;
+    border-radius: 5px;
+    background-color: $c-White; //#f7f7f7;
+    margin-bottom: 10px;
+    border-bottom: 5px solid $c-D-Blue;
+    .search-filter-wrapper {
+        margin: 0 -10px;
+        @extend %d-flx;
+        @include Max($MD-P) {
+            margin: 0;
+        }
+        .col {
+            flex: 0 0 20%;
+            max-width: 20%;
+            padding: 0 10px;
+            @include Max($D-N) {
+                max-width: 33.33%;
+                flex: 0 0 33.33%;
+            }
+            @include Max($M-XL) {
+                max-width: 50%;
+                flex: 0 0 50%;
+            }
+            @include Max($MD-P) {
+                max-width: 100%;
+                flex: 0 0 100%;
+            }
+        }
+    }
+    .search-btn {
+        margin-top: 2.6rem;
+        flex: 0 0 40% !important;
+        max-width: 40% !important;
+        @include Max($D-N) {
+            //@include Max(785px) {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+            margin-left: -1rem;
+            margin-top: 1rem;
+        }
+        .k-button {
+            padding: 0 1.5rem;
+            margin: 0 0 0 1rem;
+        }
+    }
+    .err-msg.comp {
+        padding-top: 2rem;
+        @include Max($Tab-P) {
+            padding-top: 3rem;
+        }
+    }
+}
+
+.lang-french {
+    .search-filter {
+        .search-btn {
+            // @include respond-to-Min-Max(1500px, 1051px) {
+            //     margin-top: 4.75rem;
+            // }
+
+            @include Max(1050px) {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+                padding: 0;
+            }
+        }
+
+        @include Max($MD-P) {
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+    }
+}
+
+.search-section {
+    @media all and (max-height: 700px) {
+        min-height: 35rem;
+    }
+}
+.ContractorOperations {
+    .scrollable-content {
+        &.active {
+            @include Max($D-N) {
+                width: calc(100% + 12px);
+            }
+
+            @include Max($MD-P) {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.MS-Edge-Chromium {
+    .ContractorOperations {
+        .scrollable-content {
+            &.active {
+                @include Max($D-N) {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+.Safari.mobile {
+    .ContractorOperations {
+        .scrollable-content {
+            &.active {
+                @include Max($MD-P) {
+                    width: 100% !important;
+                }
+            }
+        }
+    }
+}

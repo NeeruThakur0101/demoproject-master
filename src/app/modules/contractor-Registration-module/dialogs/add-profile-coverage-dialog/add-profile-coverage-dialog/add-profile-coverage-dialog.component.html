@@ -1,0 +1,74 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{pageContent.Coverage_Profile.Add_Contractor_Coverage_Type}}</h1>
+    <button type="button" (click)="onClose()">&times;</button>
+</kendo-dialog-titlebar>
+<!-- popup content section -->
+<form #myForm="ngForm" novalidate (ngSubmit)="onClickSave(myForm)">
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <section class="white-block">
+                    <section class="form-block">
+                        <section class="form-block floating-labels">
+                            <div class="form-control">
+                                <kendo-textbox-container required
+                                    floatingLabel="{{pageContent.Coverage_Profile.Cov_Name}}">
+                                    <input kendoTextBox class="form-control" #coverageProfileName name="profileName"
+                                        [(ngModel)]="dataModel.profileName" maxlength="200" required />
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control">
+                                <kendo-textbox-container floatingLabel="{{pageContent.Coverage_Profile.Select_Client}}">
+                                    <kendo-dropdownlist name="PRISMClient" [(ngModel)]="dataModel.PRISMClient"
+                                        [data]="incomingData._prismClient" [textField]="'PRISMClientName'"
+                                        [valueField]="'PRISMClientID'" (selectionChange)="getDivisionData($event)">
+                                        <ng-template kendoDropDownListNoDataTemplate> {{
+                                            this.pageContent.DropDown_NoData_Msg.Message }} </ng-template>
+                                    </kendo-dropdownlist>
+                                </kendo-textbox-container>
+                            </div>
+                            <div class="form-control">
+                                <kendo-textbox-container
+                                    floatingLabel="{{pageContent.Coverage_Profile.Select_Division}}">
+                                    <kendo-dropdownlist name="Division" [(ngModel)]="dataModel.Division"
+                                        [data]="incomingData._prismDivision" [textField]="'DivisionName'"
+                                        [valueField]="'DivisionID'">
+                                        <ng-template kendoDropDownListNoDataTemplate> {{
+                                            this.pageContent.DropDown_NoData_Msg.Message }} </ng-template>
+                                    </kendo-dropdownlist>
+                                </kendo-textbox-container>
+                            </div>
+                            <div class="form-control">
+                                <kendo-textbox-container
+                                    floatingLabel="{{pageContent.Coverage_Profile.Select_Program}}">
+                                    <kendo-dropdownlist name="ProgramType" [(ngModel)]="dataModel.ProgramType"
+                                        [data]="incomingData._programType" [textField]="'ProgramTypeName'"
+                                        [valueField]="'ProgramTypeID'">
+                                        <ng-template kendoDropDownListNoDataTemplate> {{
+                                            this.pageContent.DropDown_NoData_Msg.Message }} </ng-template>
+                                    </kendo-dropdownlist>
+                                </kendo-textbox-container>
+                            </div>
+                            <div class="form-control">
+                                <kendo-textbox-container floatingLabel="{{pageContent.Coverage_Profile.Select_Trade}}">
+                                    <kendo-dropdownlist name="tradeListType" [(ngModel)]="dataModel.tradeListType"
+                                        [data]="incomingData._tradeList" [textField]="'tradeName'"
+                                        [valueField]="'tradeListID'">
+                                        <ng-template kendoDropDownListNoDataTemplate> {{
+                                            this.pageContent.DropDown_NoData_Msg.Message }} </ng-template>
+                                    </kendo-dropdownlist>
+                                </kendo-textbox-container>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="reset(myForm)">{{pageContent.Coverage_Profile.Reset}}</button>
+        <button kendoButton type="submit" [primary]="true">{{pageContent.Coverage_Profile.Save}}</button>
+    </div>
+</form>

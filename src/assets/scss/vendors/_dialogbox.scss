@@ -1,0 +1,164 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Dialog Box Component
+// ----------------------------------------------------------------------------
+.k-window-content,
+.k-prompt-container {
+    padding: 0;
+    overflow: initial;
+}
+kendo-dialog {
+    &.k-dialog-wrapper {
+        align-items: flex-start;
+        position: absolute;
+        height: initial;
+        flex-direction: row;
+        z-index: 100000;
+    }
+    h1 {
+        color: $c-White;
+        padding-bottom: 0;
+        font-size: 1.6rem;
+        @include Max($MD-P) {
+            line-height: 2.8rem;
+            font-size: 1.8rem;
+        }
+    }
+}
+.k-window {
+    &.k-dialog {
+        @extend %W-100;
+        // max-width: 55rem;
+        .k-dialog-close {
+            &:hover {
+                background-color: $c-Wh-01 !important;
+                border: 1px solid $c-Wh-02 !important;
+                opacity: 1;
+                border-radius: 0;
+                &:after,
+                &:before {
+                    display: none;
+                }
+            }
+        }
+        background-color: transparent !important;
+        box-shadow: none !important;
+        padding: 30px 0;
+        @media all and (max-width: 640px) {
+            min-width: initial !important;
+            max-width: 778px !important;
+            margin: 0 10px;
+            width: 100% !important;
+        }
+        .k-switch {
+            margin-left: 40px;
+        }
+    }
+}
+kendo-dialog-titlebar {
+    &.hasDialog {
+        button {
+            position: absolute;
+            right: 0;
+            top: 1rem;
+            width: 3rem;
+            height: 3rem;
+            background-color: transparent;
+            outline: none;
+            border: none;
+            font-size: 3rem;
+            color: white;
+            line-height: 3rem;
+            right: 1.5rem;
+            top: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            @include Min($MD-P) {
+                top: 1rem;
+            }
+
+            @include Max($MD-P) {
+                top: 1.5rem;
+            }
+            &:hover {
+                background-color: $c-Wh-01;
+                border: 1px solid $c-Wh-02;
+            }
+        }
+        .k-dialog-actions {
+            display: none;
+        }
+    }
+}
+.Safari {
+    kendo-dialog-titlebar {
+        &.hasDialog {
+            button {
+                line-height: 0;
+                padding-bottom: 4px;
+            }
+        }
+    }
+}
+.k-dialog-titlebar {
+    .k-window-title {
+        padding: 1.5rem 0;
+        font-size: 1.6rem;
+        text-transform: capitalize;
+        h1 {
+            white-space: normal;
+            padding-right: 3rem;
+            span {
+                text-transform: lowercase;
+            }
+        }
+    }
+}
+.big-dialog + kendo-dialog {
+    .k-window.k-dialog {
+        max-width: 120rem;
+    }
+}
+.modal-alert {
+    padding: 2rem 0 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+    position: relative;
+    padding-top: 7rem;
+    h2 {
+        font-size: 2rem;
+        padding-bottom: 0;
+        line-height: 2.25rem;
+    }
+    &.confirmation-alert {
+        &:before {
+            @include before('', 50px, 50px, inline-block, absolute, 'ico-check.svg', 10px, 50%);
+            transform: translateX(-50%);
+        }
+        h2 {
+            color: $c-Success;
+        }
+    }
+    &.info-alert {
+        &:before {
+            @include before('', 50px, 50px, inline-block, absolute, 'ico-alert.svg', 10px, 50%);
+            transform: translateX(-50%);
+        }
+        h2 {
+            color: $c-Warn;
+        }
+    }
+    &.remove-alert {
+        &:before {
+            @include before('', 50px, 50px, inline-block, absolute, 'ico-cross.svg', 10px, 50%);
+            transform: translateX(-50%);
+        }
+        h2 {
+            color: $c-Rem;
+        }
+    }
+}
+kendo-popup {
+    position: relative !important;
+}

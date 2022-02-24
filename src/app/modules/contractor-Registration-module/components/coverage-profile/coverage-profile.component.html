@@ -1,0 +1,325 @@
+<main *ngIf="Page.pageAccess" [class.internal-user]="_srvCoverageProfile.Profile.ContrID !== 0">
+	<!-- <div class="page-loader"><span class="k-i-loading"></span>
+		<div>Please wait, it will take a while....</div>
+	</div> -->
+
+	<div class="outer-block">
+		<div class="inner-block">
+			<section class="top-section">
+				<!-- Header Component -->
+				<app-header></app-header>
+				<app-page-title [pageName]="pageContent.Coverage_Profile.Coverage_Profile_Information_Page_Header"
+					[comments]="crComments"></app-page-title>
+			</section>
+			<!-------------------------------------------------------------------------------------------------------------------------->
+			<section class="middle-section coverage-page">
+				<div class="white-block coverage-profile">
+					<div class="scrollable-content-wrapper">
+						<div class="scrollable-content">
+							<div class="scroll-inner">
+								<div class="white-block">
+									<section class="top-block">
+										<h2>
+											{{ pageContent.Coverage_Profile.Select_Profile}}
+											<span kendoTooltip tooltipClass="big-tip" position="right">
+												<span class="ico-hammer"
+													title="{{pageContent.Coverage_Profile.Handle}}"></span>
+											</span>
+										</h2>
+										<section class="coverage-profile-type">
+											<div class="col">
+												<kendo-textbox-container
+													floatingLabel="{{pageContent.Coverage_Profile.Coverage_Profile_Type}}">
+													<kendo-dropdownlist [data]="Page?.CoverageProfiles"
+														[(ngModel)]="Page.SelectedProfile"
+														valueField="ContractorCoverageTypeID"
+														textField="ContractorCoverageTypeTitleTranslated"
+														title="{{pageContent.Coverage_Profile.Dropdown_Tooltip}}"
+														(selectionChange)="loadConfigurationbyCoverageProfile($event); litigacy.click()">
+													</kendo-dropdownlist>
+												</kendo-textbox-container>
+											</div>
+											<div class="col">
+												<section *ngIf="_srvCoverageProfile.Profile.ContrID !== 0"
+													class="top-actions" kendoTooltip tooltipClass="small-tip"
+													position="top">
+													<a title="{{pageContent.Coverage_Profile.Add_New_Profile}}"
+														class="ico-plus"
+														*ngIf="_srvCoverageProfile.Profile.UserType === 'Internal'"
+														(click)="onAddProfileClick()"><i>ss</i></a>
+													<a href="mailto:profileinquiry@contractorconnection.com"
+														*ngIf="_srvCoverageProfile.Profile.UserType !== 'Internal' && this.$pagePrivilege.editAccess"
+														title="{{pageContent.Coverage_Profile.Send_Mail}}"
+														class="ico-email"><i>ss</i></a>
+												</section>
+												<section class="coverage-profile-details" *ngIf="Page">
+													<div>
+														<span>{{pageContent.Coverage_Profile.State_Covered}} <em
+																class="{{ counterCue.state ? 'visual-cue' : '' }}"
+																*ngIf="Page?.States">
+																{{ CoverageStats('States').count }}</em></span>
+														<span>{{pageContent.Coverage_Profile.Counties_Covered}} <em
+																class="{{ counterCue.county ? 'visual-cue' : '' }}"
+																*ngIf="Page?.Counties">
+																{{ CoverageStats('Counties').count }}</em></span>
+														<span>{{pageContent.Coverage_Profile.Postal_Codes_Covered}}
+															<em class="{{ counterCue.postalCode ? 'visual-cue' : '' }}"
+																*ngIf="Page?.PostalCodes">
+																{{ CoverageStats('PostalCodes').count ===
+																0?0:totalCoveredPostal }}</em></span>
+														<span>{{pageContent.Coverage_Profile.Postal_Codes_Not_Covered}}
+															<em class="{{ counterCue.postalCode ? 'visual-cue' : '' }}"
+																*ngIf="Page?.PostalCodes">
+																{{ CoverageStats('PostalCodes').excluded ===
+																0?0:totalUncoveredPostal }}</em></span>
+													</div>
+													<div *ngIf="_srvCoverageProfile.Profile.ContrID !== 0">
+														<button kendoButton class="k-primary" [disabled]="createButton"
+															(click)="onCreateButtonClick()">{{pageContent.Coverage_Profile.Counties_Regions_Create}}</button>
+														<button kendoButton class="k-primary" [disabled]="copyButton"
+															(click)="onCopyButtonClick()">{{pageContent.Coverage_Profile.Counties_Regions_Copy}}</button>
+														<button kendoButton class="k-primary" [disabled]="deleteButton"
+															(click)="onDeleteButtonClick()">{{pageContent.Coverage_Profile.Delete}}</button>
+													</div>
+												</section>
+											</div>
+										</section>
+									</section>
+									<!------------------ Tabs ------------------>
+									<ul class="vertical-accord">
+										<li [ngClass]="{ active: activeAccord == 'litigacy' || !activeAccord }">
+											<span>
+												<input type="radio" name="verticalAccord" id="one" class="k-radio"
+													value="litigacy" checked="checked" #litigacy
+													(change)="alertPostalTabChange($event.target)" />
+												<label class="k-radio-label" for="one">
+													<em>{{pageContent.Coverage_Profile.State_Provinces}}</em></label>
+												<section>
+													<div class="vertical-accord-content">
+														<h3>{{pageContent.Coverage_Profile.State_Provinces}}</h3>
+														<h4 class="header-info">
+															{{pageContent.Coverage_Profile.Select_State_Provinces_Services}}
+														</h4>
+														<div class="d-table-content-wrapper has-scroll">
+															<div class="d-table-wrapper">
+																<section
+																	class="d-table legal-table statePro has-scroll">
+																	<div class="d-table-hd">
+																		<div class="d-col">
+																			{{pageContent.Coverage_Profile.State_Province}}
+																		</div>
+																		<div class="d-col">
+																			<input type="checkbox" id="allStates"
+																				[checked]="allStatesCheckbox"
+																				class="k-checkbox"
+																				[disabled]="allStatesDisabled"
+																				(change)="statesCheckboxChange($event.target, null)" />
+																			<label class="k-checkbox-label"
+																				for="allStates"></label>
+																		</div>
+																	</div>
+																	<div class="d-table-content">
+																		<div class="d-table-row {{ (s.pendingApproval) ? 'visual-cue' : '' }}"
+																			*ngFor="let s of Page?.States">
+																			<div class="d-col">{{ s.Abbreviation }}
+																				<span>{{ s.Name }}</span>
+																			</div>
+																			<div class="d-col">
+																				<input type="checkbox"
+																					[id]="s.Abbreviation"
+																					class="k-checkbox {{ (s.pendingApproval) ? 'visual-cue' : '' }}"
+																					[value]="s.ID" [checked]="s.checked"
+																					[disabled]="s.disable"
+																					(change)="statesCheckboxChange($event.target, s)" />
+																				<label class="k-checkbox-label"
+																					[for]="s.Abbreviation"></label>
+																			</div>
+																		</div>
+																	</div>
+																</section>
+															</div>
+														</div>
+													</div>
+												</section>
+											</span>
+										</li>
+										<li [ngClass]="{ active: activeAccord === 'bankruptcy' }"
+											*ngIf="Page?.Counties && Page.Counties.length">
+											<span>
+												<input type="radio" name="verticalAccord" id="two" class="k-radio"
+													value="bankruptcy" (change)="alertPostalTabChange($event.target)"
+													(click)="processVisualCueForCountyTabClick()" />
+												<label class="k-radio-label" for="two" #bankruptcy>
+													<em>{{pageContent.Coverage_Profile.Counties_Regions}}</em></label>
+												<section>
+													<div class="vertical-accord-content">
+														<h3>{{pageContent.Coverage_Profile.Counties_Regions}}</h3>
+														<h4 class="header-info">
+															{{pageContent.Coverage_Profile.Please_Select_Counties_Regions}}
+														</h4>
+														<div class="d-table-content-wrapper has-scroll">
+															<div class="d-table-wrapper">
+																<section
+																	class="d-table legal-table counties has-scroll">
+																	<div class="d-table-hd">
+																		<div class="d-col">
+																			{{pageContent.Coverage_Profile.ST}}</div>
+																		<div class="d-col">
+																			{{pageContent.Coverage_Profile.Countys}}
+																		</div>
+																		<div class="d-col">
+																			<input type="checkbox" id="allCounties"
+																				class="k-checkbox" #allCounties
+																				[disabled]="allCountyDisabled"
+																				(change)="getCountyOnCheckBox($event.target, null)" />
+																			<label class="k-checkbox-label"
+																				for="allCounties"></label>
+																		</div>
+																	</div>
+																	<div class="d-table-content-wrapper">
+																		<cdk-virtual-scroll-viewport
+																			style="height: 170px;" itemSize="20"
+																			class="d-table-content">
+																			<div class="d-table-row {{ (c.pendingApproval) ? 'visual-cue' : '' }}"
+																				*cdkVirtualFor="let c of Page?.Counties">
+																				<div class="d-col">{{
+																					c.StateAbbreviation }}</div>
+																				<div class="d-col">{{ c.Name }}</div>
+																				<div class="d-col">
+																					<input type="checkbox" [id]="c.ID"
+																						class="k-checkbox {{ (c.pendingApproval) ? 'visual-cue' : '' }}"
+																						[value]="c.ID"
+																						[checked]="c.checked"
+																						[disabled]="c.disable"
+																						(change)="getCountyOnCheckBox($event.target, c)" />
+																					<label class="k-checkbox-label"
+																						[for]="c.ID"></label>
+																				</div>
+																			</div>
+																		</cdk-virtual-scroll-viewport>
+																	</div>
+																</section>
+															</div>
+														</div>
+													</div>
+												</section>
+											</span>
+										</li>
+										<li [ngClass]="{ active: activeAccord === 'BusinessLicences' }"
+											*ngIf="CoverageStats('States').count && CoverageStats('Counties').count">
+											<span>
+												<input type="radio" name="verticalAccord" id="three" class="k-radio"
+													value="BusinessLicences"
+													(change)="activeAccord = 'BusinessLicences'"
+													(click)="fetchPostalCode()" />
+												<label class="k-radio-label" for="three">
+													<em>{{pageContent.Coverage_Profile.Postal_Codes}}</em></label>
+												<section>
+													<div class="vertical-accord-content">
+														<h3>{{pageContent.Coverage_Profile.Postal_Codes}}</h3>
+														<h4 class="header-info">
+															{{pageContent.Coverage_Profile.Select_Provided_Details}}
+														</h4>
+														<div class="d-table-content-wrapper has-scroll">
+															<div class="d-table-wrapper">
+																<section
+																	class="d-table legal-table postalcode has-scroll">
+																	<div class="d-table-hd">
+																		<div class="d-col">
+																			{{pageContent.Coverage_Profile.ST}}</div>
+																		<div class="d-col">
+																			<span>{{pageContent.Coverage_Profile.Countys}}</span>
+																		</div>
+																		<div class="d-col">
+																			<span>{{pageContent.Coverage_Profile.Postal}}</span>
+																		</div>
+																		<div class="d-col"></div>
+																		<div class="d-col">
+																			<input type="checkbox" id="allPostalCodes"
+																				class="k-checkbox" #allPostalCodes
+																				[disabled]="allPostalDisabled"
+																				[checked]="!totalUncoveredPostal"
+																				(change)="postalCodesCheckboxChange($event.target, null)" />
+																			<label class="k-checkbox-label"
+																				for="allPostalCodes"></label>
+																		</div>
+																	</div>
+																	<cdk-virtual-scroll-viewport #virtualScroll
+																		style="height: 170px;" itemSize="20"
+																		(scroll)="debounce($event)"
+																		class="d-table-content">
+																		<div class="d-table-row {{ (p.pendingApproval) ? 'visual-cue' : '' }}"
+																			*cdkVirtualFor="let p of Page?.PostalCodes">
+																			<div class="d-col">{{ p.StateAbbreviation }}
+																			</div>
+																			<div class="d-col">{{ p.CountyRegionName }}
+																			</div>
+																			<div class="d-col">{{ p.PostalId }}</div>
+																			<div class="d-col">{{ p.IsChecked ? '':
+																				'excluded' }}</div>
+																			<div class="d-col">
+																				<input type="checkbox" [id]="p.PostalId"
+																					class="k-checkbox {{ (p.pendingApproval) ? 'visual-cue' : '' }}"
+																					[value]="p.PostalId"
+																					[checked]="p.IsChecked"
+																					[disabled]="p.disable"
+																					(change)="postalCodesCheckboxChange($event.target, p)" />
+																				<label class="k-checkbox-label"
+																					[for]="p.PostalId"></label>
+																			</div>
+																		</div>
+																	</cdk-virtual-scroll-viewport>
+																</section>
+															</div>
+														</div>
+													</div>
+												</section>
+											</span>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+			<!-------------------------------------------------------------------------------------------------------------------------->
+			<section class="bottom-section">
+				<!-- phase one contractor login buttons -->
+				<section class="action-buttons"
+					*ngIf="_srvCoverageProfile.Profile.ContrID === 0 && Page?.Counties && _srvCoverageProfile.Profile.UserType !== 'Internal'">
+					<button kendoButton (click)="onBackButtonClick()"
+						*ngIf="_srvCoverageProfile.Profile.UserType !== 'Internal'">{{pageContent.Coverage_Profile.Counties_Regions_Back}}</button>
+					<button kendoButton (click)="onSaveButtonClick()" [primary]="true"
+						*ngIf="CoverageStats('Counties').count && _srvCoverageProfile.Profile.UserType !== 'Internal'">{{pageContent.Coverage_Profile.Counties_Regions_Save_Next}}</button>
+				</section>
+				<!-- phase two no event contractor and internal login -->
+				<section class="action-buttons"
+					*ngIf="_srvCoverageProfile.Profile.ContrID !== 0 && _srvCoverageProfile.Profile.EventName === 'No Event'">
+					<button kendoButton (click)="onSave()" [primary]="true" [disabled]="saveButton" *ngIf="_srvCoverageProfile.Profile.ContrID !== 0 && _srvCoverageProfile.Profile.UserType !==
+					'Internal' && _srvCoverageProfile.Profile.EventName === 'No Event'">{{pageContent.Coverage_Profile.Save}}</button>
+					<button kendoButton (click)="onSaveButtonClick()" [primary]="true" *ngIf="_srvCoverageProfile.Profile.ContrID !== 0 && _srvCoverageProfile.Profile.UserType ===
+					'Internal'">{{pageContent.Coverage_Profile.Save}}</button>
+				</section>
+				<!-- phase one internal login buttons -->
+				<section class="action-buttons"
+					*ngIf="_srvCoverageProfile.Profile.ContrID === 0 && _srvCoverageProfile.Profile.UserType === 'Internal'">
+					<button kendoButton [primary]="true" (click)="navigateTo('trade-information')"
+						*ngIf="_srvCoverageProfile.Profile.UserType === 'Internal' && _srvCoverageProfile.Profile.ContrID === 0">{{pageContent.Coverage_Profile.Counties_Regions_Back}}</button>
+					<button kendoButton [primary]="true" (click)="navigateTo('validation')"
+						*ngIf="_srvCoverageProfile.Profile.UserType === 'Internal' && _srvCoverageProfile.Profile.ContrID === 0">{{pageContent.Coverage_Profile.State_Provinces_Next}}</button>
+				</section>
+				<!-- phase two Event contractor login  -->
+				<section class="action-buttons"
+					*ngIf="_srvCoverageProfile.Profile.ContrID !== 0 && _srvCoverageProfile.Profile.EventName !== 'No Event' && _srvCoverageProfile.Profile.UserType !== 'Internal'">
+					<button kendoButton
+						(click)="navigateBackInEvent()">{{pageContent.Coverage_Profile.Counties_Regions_Back}}</button>
+					<button kendoButton [primary]="true"
+						(click)="navigateTo('existing-contractor/veteran-info')">{{pageContent.Coverage_Profile.Postal_Codes_Save_Next}}</button>
+				</section>
+			</section>
+		</div>
+	</div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>
+<ng-container #container></ng-container>

@@ -1,0 +1,34 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Client_Program_Details.Client_Program_Details }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- popup content -->
+            <section class="white-block">
+                <!-- form block starts -->
+                <h2>{{ this.ClientName }} - {{ this.ConrtName }}</h2>
+                <p>{{ pageContent.Client_Program_Details.Programs }}</p>
+                <div class="scrollable-content-wrapper client-program">
+                    <div class="scrollable-content">
+                        <ul class="programs-list" *ngFor="let data of programToList">
+                            <li [class]="data.Colors == 'Red' ? 'suspended' : 'inactive'">{{ data.ProgramTitle }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <p *ngIf="PrismClientID === 1">
+                    <strong>*{{ pageContent.Client_Program_Details.Xactanalysis_Approval }}: $ {{ USAAPayApprov ?
+                        USAAPayApprov : 0 }} </strong>
+                </p>
+                <p *ngIf="PrismClientID === 1">*{{ pageContent.Client_Program_Details.Xactanalysis_Text }}</p>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton (click)="close()" [primary]="true">{{ pageContent.Client_Program_Details.Close }}</button>
+</div>

@@ -1,0 +1,169 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Fiscal Information Page
+// -----------------------------------------------------------------------------
+
+.fiscal-information {
+    kendo-grid-date-filter-cell {
+        kendo-datepicker {
+            .k-picker-wrap {
+                .k-select {
+                    height: 28px;
+                    background-color: $c-L-Blue;
+                    width: 32px;
+                    margin-top: 1px;
+                    cursor: pointer;
+                    z-index: 1;
+                }
+            }
+        }
+    }
+    .k-grid-header .k-header {
+        text-align: center;
+        &:nth-child(11),
+        &:nth-child(12),
+        &:nth-child(2),
+        &:nth-child(1) {
+            text-align: center;
+        }
+    }
+    tr.k-filter-row td[kendogridfiltercell] {
+        .k-datepicker {
+            .k-dateinput-wrap {
+                input {
+                    font-weight: 400;
+                }
+            }
+        }
+    }
+    .fiscal-year {
+        padding-top: 2.25rem;
+    }
+    tr {
+        td {
+            &:nth-child(3),
+            &:nth-child(4),
+            &:nth-child(5),
+            &:nth-child(6),
+            &:nth-child(7),
+            &:nth-child(8),
+            &:nth-child(9),
+            &:nth-child(10) {
+                text-align: right;
+            }
+            &:nth-child(11),
+            &:nth-child(12),
+            &:nth-child(2),
+            &:nth-child(1) {
+                text-align: center;
+            }
+        }
+    }
+    .bottom-block {
+        margin-top: 2rem;
+        // button {
+        //   margin-top: 1rem;
+        // }
+        label {
+            font-weight: 500;
+            padding-bottom: 1rem;
+            display: block;
+        }
+        @include Max($D-S) {
+            margin-bottom: 1rem;
+        }
+    }
+    .scrollable-content {
+        .flex-5-5:last-of-type {
+            padding-bottom: 0;
+            .col {
+                margin-bottom: 0;
+            }
+        }
+    }
+    tr {
+        td {
+            position: relative;
+            .visual-cue {
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                line-height: 35px;
+                padding: 0 10px;
+            }
+        }
+    }
+    // .scroll-inner {
+    //   @include Min($D-S) {
+    //     padding-right: 15px;
+    //   }
+    // }
+}
+.fiscal-year-block {
+    padding-left: 20px;
+    @include Max($iPh-P) {
+        padding-left: 0;
+        padding-top: 10px !important;
+    }
+}
+.inline-switch-label.fiscal-year {
+    margin-bottom: 0px;
+    padding-bottom: 0;
+    display: flex;
+    align-items: center;
+    padding-top: 5px;
+    label {
+        white-space: nowrap;
+        min-width: 80px;
+    }
+    .k-switch {
+        margin-top: 5px;
+        margin-right: -10px;
+        .k-switch-container {
+            margin-left: -5px;
+        }
+        .k-switch-label-off {
+            margin-right: -40px;
+        }
+        .k-switch-label-on {
+            width: 30px;
+            text-align: right;
+        }
+        @include iehack() {
+            margin-top: 4px;
+        }
+    }
+}
+.fiscal-info-grid {
+    min-height: 30rem;
+    .k-grid-header .k-header > .k-link {
+        text-overflow: initial;
+    }
+    @include respond-to-Min-Max(1710px, 901px) {
+        .k-pager-wrap {
+            top: -11px;
+        }
+    }
+}
+.Safari {
+    .fiscal-info-grid {
+        @include respond-to-Min-Max(1500px, 901px) {
+            .k-pager-wrap {
+                top: -11px;
+            }
+        }
+    }
+}
+.lang-french {
+    .fiscal-block {
+        > div {
+            flex: 0 0 100% !important;
+            max-width: 100% !important;
+        }
+    }
+    .fiscal-year-block {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}

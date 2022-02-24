@@ -1,0 +1,23 @@
+    <kendo-dialog-titlebar >
+        <h1>Crawford Contractor Connection Contractor Signup</h1>
+      </kendo-dialog-titlebar>
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+
+                <section class="white-block a-Center success-block">
+                    <h2>{{pageContent.Sign_Up.Congratulations}}</h2>
+                    <h3>{{pageContent.Sign_Up.Success_Signup}} - {{contractorName}}</h3>
+                    <h3>{{pageContent.Sign_Up.We_will_send_you_email}}</h3>
+                        <p class="p-T-2rem"><button kendoButton (click)="closePopupSuccess('cancel')">
+                            {{pageContent.Sign_Up.Go_To_Home}}
+                        </button></p>
+                </section>
+
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer"></div>

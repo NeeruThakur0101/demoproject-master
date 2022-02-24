@@ -1,0 +1,49 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the select component.
+// -----------------------------------------------------------------------------
+
+.custom-select {
+    position: relative;
+    display: block;
+    width: 100%;
+    &:before {
+        content: '';
+        background-color: $c-L-Blue;
+        left: 0;
+        right: 0;
+        height: 4rem;
+        position: absolute;
+    }
+    &:after {
+        content: "\f078";
+        width: 0;
+        height: 0;
+        // border-width:6px 5px 0 5px;
+        // border-style: solid;
+        // border-color: grey transparent transparent transparent;
+        @extend %fa;
+        position: absolute;
+        right: 25px;
+        top: 14px;
+        z-index: 0;
+    }
+    select {
+        width: 100%;
+        background-color: transparent;
+        border: 1px solid $c-Bdr-D;
+        padding: 0 3rem 0 1.5rem;
+        border-radius: 0px;
+        cursor: pointer;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        outline: none;
+        box-shadow: 0 2px 0 0 $c-D-Gry;
+        margin-bottom: 1.5rem;
+        height: 4rem;
+        position: relative;
+        z-index: 1;
+    }
+    select::-ms-expand {
+        display: none;
+    }
+}

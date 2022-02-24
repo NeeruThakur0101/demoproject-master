@@ -1,0 +1,175 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Equipment Information Page
+// -----------------------------------------------------------------------------
+
+.equipment-information {
+    //padding: 2rem !important;
+
+    @include Max($Tab-P) {
+        padding: 1rem !important;
+    }
+
+    @include Max($M-L) {
+        padding: 0rem !important;
+    }
+    .blue-box {
+        flex: 0 0 50%;
+        padding: 2rem;
+        .k-switch .k-switch-label-on:before {
+            background-color: #f2f7fc;
+        }
+        @include Max($Tab-P) {
+            margin-top: 1rem !important;
+        }
+    }
+    .k-form-inline {
+        padding-bottom: 20px;
+        &.new-structure {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0 -40px;
+            padding: 4rem 4rem;
+            .flex-4-6 {
+                flex: 0 0 50%;
+                padding: 0 40px 20px 40px;
+            }
+            .blue-box {
+                flex: 0 0 calc(100% - 4rem);
+                margin: 2rem 2rem -2rem;
+            }
+        }
+    }
+    .k-tabstrip > .k-content {
+        @include Max($Tab-P) {
+            // background-color: transparent;
+            // border: none;
+            .k-form-inline {
+                padding: 0 !important;
+            }
+        }
+    }
+    .k-tabstrip {
+        height: 100%;
+    }
+
+    @include Min($MD-P) {
+        .k-tabstrip-items {
+            height: 45px;
+        }
+        .k-content {
+            height: calc(100% - 45px);
+        }
+    }
+
+    h2 {
+        padding: 1.4rem 0 0;
+        @include Max($Tab-P) {
+            margin-bottom: -10px;
+            border-bottom: 1px solid;
+            padding-bottom: 5px;
+            border-bottom: 1px solid $c-Bdr-L;
+        }
+    }
+    .label {
+        color: $c-D-Gry;
+        text-align: right;
+    }
+    .flex-4-6 {
+        padding-bottom: 0;
+        .flex-5-5 {
+            & > .col {
+                .k-form-field {
+                    span {
+                        width: 30%;
+                    }
+                }
+            }
+        }
+        @include Max(1240px) {
+            > .col {
+                &:first-child {
+                    flex: 0 0 30% !important;
+                    max-width: 30% !important;
+                    + .col {
+                        flex: 0 0 70% !important;
+                        max-width: 70% !important;
+                    }
+                }
+            }
+            .flex-5-5 {
+                > .col {
+                    &:first-child {
+                        flex: 0 0 50% !important;
+                        max-width: 50% !important;
+                        + .col {
+                            flex: 0 0 50% !important;
+                            max-width: 50% !important;
+                        }
+                    }
+                }
+            }
+        }
+        @include Max($Tab-P) {
+            border: 1px solid rgba($c-L-Gry, 0.75);
+            padding: 0 5px;
+            margin: 0 0 15px;
+            background-color: $c-White;
+            &:last-of-type:not(:only-of-type) {
+                border-bottom: none;
+                margin-bottom: none;
+                padding-bottom: none;
+            }
+            > .col {
+                &:first-child {
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                    + .col {
+                        flex: 0 0 100% !important;
+                        max-width: 100% !important;
+                    }
+                }
+            }
+            .flex-5-5 {
+                > .col {
+                    &:first-child {
+                        flex: 0 0 50% !important;
+                        + .col {
+                            flex: 0 0 50% !important;
+                        }
+                    }
+                    .label {
+                        flex: 0 0 100% !important;
+                        text-align: left !important;
+                    }
+                }
+            }
+        }
+        @include Max($M-L) {
+            .flex-5-5 {
+                .col {
+                    flex: 0 0 100%;
+                    max-width: 100% !important;
+                }
+            }
+        }
+    }
+    // .app-type-option {
+    //     padding: 2rem 0;
+    //     @include Max($Tab-P) {
+    //         padding: 0;
+    //     }
+    // }
+    .scrollable-content {
+        @include Min(1538px) {
+            width: 100%;
+        }
+    }
+}
+.Safari {
+    .internal-user {
+        .equip-page + .action-buttons {
+            position: relative;
+            bottom: 0;
+        }
+    }
+}

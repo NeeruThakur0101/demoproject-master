@@ -1,0 +1,359 @@
+<kendo-dialog-titlebar class="hasDialog" [minWidth]="580" [width]="100">
+    <h1>{{ header }} {{ pageContent.Location_Info.Contractor_Locations_Header }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<form [formGroup]="locationModal" (ngSubmit)="onFormSubmitModal()" novalidate #form="ngForm">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+
+                    <section class="form-block floating-labels">
+                        <div class="form-control" class="hide"></div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Type_FacilIty_Location_Name }}">
+                                <input
+                                    kendoTextBox
+                                    type="text"
+                                    [class]="newIncoming && newIncoming.isFacilityTypeORLocationName == true ? 'visual-cue' : ''"
+                                    formControlName="FacilityTypeORLocationName"
+                                    maxlength="50"
+                                    min="0"
+                                    [readonly]="newIncoming && newIncoming.FacilityTypeORLocationName && internalEmployee == true"
+                                    trim="blur"
+                                    [ngClass]="{ err: submitted && locationFormControl.FacilityTypeORLocationName.errors }"
+                                />
+                                <div *ngIf="submitted && locationFormControl.FacilityTypeORLocationName.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.FacilityTypeORLocationName.errors.required" class="err-msg">Type Facility/Location Name required</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="inline-switch-label">
+                            <label>{{ pageContent.Location_Info.Use_Physical_Address }}</label>
+                            <kendo-switch
+                                type="button"
+                                formControlName="IsPhysicalAddressSame"
+                                [class]="newIncoming && newIncoming.isIsPhysicalAddressSame == true ? 'visual-cue' : ''"
+                                true
+                                [(ngModel)]="isPhysicalAddress"
+                                (click)="togglePhysicalAddress(isPhysicalAddress)"
+                                [disabled]="newIncoming && newIncoming.isIsPhysicalAddressSame == true && internalEmployee == true"
+                                [ngModelOptions]="{ standalone: true }"
+                            >
+                            </kendo-switch>
+                        </div>
+
+                        <div class="form-control" *ngIf="!isPhysicalAddress">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Street_Address }}">
+                                <input
+                                    type="text"
+                                    [class]="newIncoming && newIncoming.isLocationStreetAddress == true ? 'visual-cue' : ''"
+                                    kendoTextBox
+                                    formControlName="LocationStreetAddress"
+                                    maxlength="50"
+                                    min="0"
+                                    trim="blur"
+                                    [readonly]="newIncoming && newIncoming.isLocationStreetAddress == true && internalEmployee == true"
+                                    [ngClass]="{ err: submitted && locationFormControl.LocationStreetAddress.errors }"
+                                />
+                                <div *ngIf="submitted && locationFormControl.LocationStreetAddress.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.LocationStreetAddress.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="flex-6-4" *ngIf="!isPhysicalAddress">
+                            <div class="col clr-Bm">
+                                <div class="form-control">
+                                    <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.City }}">
+                                        <input
+                                            [class]="newIncoming && newIncoming.isCity == true ? 'visual-cue' : ''"
+                                            kendoTextBox
+                                            formControlName="City"
+                                            trim="blur"
+                                            [readonly]="newIncoming && newIncoming.isCity == true && internalEmployee == true"
+                                            type="text"
+                                            maxlength="50"
+                                            min="0"
+                                            oninput="validity.valid||(value='');"
+                                            [ngClass]="{ err: submitted && locationFormControl.City.errors }"
+                                        />
+                                        <div *ngIf="submitted && locationFormControl.City.errors" class="invalid-feedback">
+                                            <div *ngIf="locationFormControl.City.errors.required" class="err-msg"></div>
+                                        </div>
+                                    </kendo-textbox-container>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-control">
+                                    <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.State }}">
+                                        <kendo-dropdownlist
+                                            #ddlStateList
+                                            (mousedown)="onMousedown($event)"
+                                            (mouseup)="onMouseup($event)"
+                                            (focus)="onFocus()"
+                                            [class]="newIncoming && newIncoming.isStateName == true ? 'visual-cue' : ''"
+                                            formControlName="State"
+                                            [data]="state"
+                                            textField="Name"
+                                            [disabled]="newIncoming && newIncoming.isStateName == true && internalEmployee == true"
+                                            valueField="ID"
+                                            [filterable]="true"
+                                            (filterChange)="handleFilterState($event)"
+                                            [ngClass]="{ err: submitted && locationFormControl.State.errors }"
+                                            [valuePrimitive]="true"
+                                        >
+                                        <ng-template kendoDropDownListNoDataTemplate>
+                                            <h4>
+                                                {{ pageContent.General_Keys.No_Data_Found}}
+                                            </h4>
+                                        </ng-template>
+                                        </kendo-dropdownlist>
+                                        <div *ngIf="submitted && locationFormControl.State.errors" class="invalid-feedback">
+                                            <div *ngIf="locationFormControl.State.errors.required" class="err-msg"></div>
+                                        </div>
+                                    </kendo-textbox-container>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-control" *ngIf="!isPhysicalAddress">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Postal_Code }}">
+                                <input
+                                    [class]="newIncoming && newIncoming.isPostalCode == true ? 'visual-cue' : ''"
+                                    kendoTextBox
+                                    formControlName="PostalCode"
+                                    type="text"
+                                    min="0"
+                                    maxlength="9"
+                                    trim="blur"
+                                    [readonly]="newIncoming && newIncoming.isPostalCode == true && internalEmployee == true"
+                                    (keypress)="postalCodeValidatior($event)"
+                                    [ngClass]="{ err: submitted && locationFormControl.PostalCode.errors }"
+                                />
+                                <div *ngIf="submitted && locationFormControl.PostalCode.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.PostalCode.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Location_Type }}">
+                                <kendo-dropdownlist
+                                    #ddlLocationType
+                                    (focus)="onFocus()"
+                                    (mousedown)="onMousedown($event)"
+                                    (mouseup)="onMouseup($event)"
+                                    formControlName="ContractorLocationTypeNumber"
+                                    [class]="newIncoming && newIncoming.isContractorLocationTypeName == true ? 'visual-cue' : ''"
+                                    [data]="locationType"
+                                    [disabled]="newIncoming && newIncoming.isContractorLocationTypeName == true && internalEmployee == true"
+                                    textField="ContractorLocationTypeTitleTranslated"
+                                    valueField="ContractorLocationTypeID"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterLocation($event)"
+                                    (selectionChange)="changeLocationType($event, 'change')"
+                                    [ngClass]="{ err: submitted && locationFormControl.ContractorLocationTypeNumber.errors }"
+                                    valuePrimitive="true"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <h4>
+                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                    </h4>
+                                </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && locationFormControl.ContractorLocationTypeNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.ContractorLocationTypeNumber.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" *ngIf="isLocationFacilty">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.FacilIty_Type }}">
+                                <kendo-dropdownlist
+                                    #ddlFacilityType
+                                    (focus)="onFocus()"
+                                    (mousedown)="onMousedown($event)"
+                                    (mouseup)="onMouseup($event)"
+                                    formControlName="ContractorFacilityTypeNumber"
+                                    [class]="newIncoming && newIncoming.isContractorFacilityTypeName == true ? 'visual-cue' : ''"
+                                    [data]="facilityType"
+                                    [disabled]="newIncoming && newIncoming.isContractorFacilityTypeName == true && internalEmployee == true"
+                                    textField="ContractorFacilityTypeTitleTranslated"
+                                    valueField="ContractorFacilityTypeID"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterFacilityType($event)"
+                                    (valueChange)="changeFacility($event)"
+                                    [ngClass]="{ err: submitted && locationFormControl.ContractorFacilityTypeNumber.errors }"
+                                    [valuePrimitive]="true"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <h4>
+                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                    </h4>
+                                </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && locationFormControl.ContractorFacilityTypeNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.ContractorFacilityTypeNumber.errors.required" class="err-msg">Facility Type required</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" *ngIf="isLocationFacilty">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Space_Used }}">
+                                <kendo-dropdownlist
+                                    #ddlSpaceUsed
+                                    (focus)="onFocus()"
+                                    (mousedown)="onMousedown($event)"
+                                    (mouseup)="onMouseup($event)"
+                                    formControlName="SpaceHoldTypeNumber"
+                                    [class]="newIncoming && newIncoming.isSpaceHoldTypeNumber == true ? 'visual-cue' : ''"
+                                    [data]="spaceType"
+                                    [disabled]="newIncoming && newIncoming.isSpaceHoldTypeNumber == true && internalEmployee == true"
+                                    textField="SpaceUseTypeTitle"
+                                    valueField="SpaceUseTypeID"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterSpace($event)"
+                                    [ngClass]="{ err: submitted && locationFormControl.SpaceHoldTypeNumber.errors }"
+                                    [valuePrimitive]="true"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <h4>
+                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                    </h4>
+                                </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && locationFormControl.SpaceHoldTypeNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.SpaceHoldTypeNumber.errors.required" class="err-msg">Space Used required</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" *ngIf="isLocationFacilty">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Space_Size }}">
+                                <input
+                                    [class]="newIncoming && newIncoming.isContractorLocationSpaceUse == true ? 'visual-cue' : ''"
+                                    kendoTextBox
+                                    formControlName="ContractorLocationSpaceUse"
+                                    min="0"
+                                    maxlength="6"
+                                    oninput="validity.valid||(value='');"
+                                    trim="blur"
+                                    [readonly]="newIncoming && newIncoming.isContractorLocationSpaceUse == true && internalEmployee == true"
+                                    (keypress)="numberOnly($event)"
+                                    [ngClass]="{ err: submitted && locationFormControl.ContractorLocationSpaceUse.errors }"
+                                />
+                                <div *ngIf="submitted && locationFormControl.ContractorLocationSpaceUse.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.ContractorLocationSpaceUse.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" *ngIf="isLocationFacilty">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Location_Info.Own_Lease_NA }}">
+                                <kendo-dropdownlist
+                                    #ddlSpaceType
+                                    (focus)="onFocus()"
+                                    (mousedown)="onMousedown($event)"
+                                    (mouseup)="onMouseup($event)"
+                                    formControlName="OfficeOwnedIndicator"
+                                    [data]="selectType"
+                                    [disabled]="newIncoming && newIncoming.isOfficeOwnedIndicatorName == true && internalEmployee == true"
+                                    [class]="newIncoming && newIncoming.isOfficeOwnedIndicatorName == true ? 'visual-cue' : ''"
+                                    textField="SpaceHoldTypeTitle"
+                                    valueField="SpaceHoldTypeID"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterSelect($event)"
+                                    [ngClass]="{ err: submitted && locationFormControl.OfficeOwnedIndicator.errors }"
+                                    [valuePrimitive]="true"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <h4>
+                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                    </h4>
+                                </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && locationFormControl.OfficeOwnedIndicator.errors" class="invalid-feedback">
+                                    <div *ngIf="locationFormControl.OfficeOwnedIndicator.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div *ngIf="isFacilityType" class="inline-switch-label">
+                            <label>{{ pageContent.Location_Info.Separate_Area_for_Office }}</label>
+                            <kendo-switch
+                                formControlName="SeparateOfficeFlag"
+                                [disabled]="newIncoming && newIncoming.isSeparateOfficeFlag == true && internalEmployee == true"
+                                [class]="newIncoming && newIncoming.isSeparateOfficeFlag == true ? 'visual-cue' : ''"
+                            >
+                            </kendo-switch>
+                        </div>
+                        <div *ngIf="isFacilityType" class="inline-switch-label clr-P">
+                            <label>{{ pageContent.Location_Info.Separate_Entrance_for_Office }}</label>
+                            <kendo-switch
+                                formControlName="SeparateEntranceFlag"
+                                [disabled]="newIncoming && newIncoming.isSeparateEntranceFlag == true && internalEmployee == true"
+                                [class]="newIncoming && newIncoming.isSeparateEntranceFlag == true ? 'visual-cue' : ''"
+                            >
+                            </kendo-switch>
+                        </div>
+
+                        <div class="form-control dropzone-area">
+                            <label>{{ pageContent.Location_Info.Location_Photo_Dropzone }}</label>
+
+                            <!-- photo uploaded zone -->
+                            <section class="form-block">
+                                <div class="form-control">
+                                    <kendo-upload
+                                        #myUpload
+                                        [saveUrl]="uploadSaveUrl"
+                                        [removeUrl]="uploadRemoveUrl"
+                                        [autoUpload]="false"
+                                        (select)="selectEventHandler($event)"
+                                        (remove)="removeEventHandler($event)"
+                                        [restrictions]="fileRestriction"
+                                        accept="image/*"
+                                        (uploadProgress)="uploadProgressEvent($event)"
+                                        (clear)="clearEventHandler($event)"
+                                        [disabled]="accessReadonly"
+                                    >
+                                        <kendo-upload-messages select="{{ pageContent.Company_Info.Select_files }}" dropFilesHere="{{ pageContent.Company_Info.Drop_Your_Files_Here }}">
+                                        </kendo-upload-messages>
+                                        <ng-template kendoUploadFileTemplate let-files let-state="state">
+                                            <div class="selectFileList" *ngFor="let image of selectedFiles">
+                                                <div class="selectFileCont" *ngIf="image.uid == files[0].uid">
+                                                    <figure>
+                                                        <img width="50px" [src]="image.preview" />
+                                                    </figure>
+                                                    <div>
+                                                        <label class="repos-image">{{ image.name }} </label>
+                                                        <div>Size : {{ image.size }} -{{ image.uploadProgress }}</div>
+                                                    </div>
+
+                                                    <div class="close-btn">
+                                                        <button (click)="remove(myUpload, files[0].uid)" class="k-button">
+                                                            <span class="k-icon k-i-delete"></span>
+                                                        </button>
+                                                    </div>
+                                                    <kendo-progressbar class="k-upload-pct" *ngIf="image.uploadProgress" [value]="image.uploadProgress" style="height: 10px"> </kendo-progressbar>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </kendo-upload>
+                                </div>
+                            </section>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="close()">{{ pageContent.Location_Info.Contractor_Locations_Cancel }}</button>
+        <button kendoButton type="submit" [disabled]="accessReadonly || (loggedInUserType !== 'Internal' && IsRowDisable)" [primary]="true">{{ pageContent.Location_Info.Save }}</button>
+    </div>
+</form>

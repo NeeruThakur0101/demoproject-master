@@ -1,0 +1,294 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Drop Down Component
+// ----------------------------------------------------------------------------
+
+.k-list-filter {
+    .k-textbox {
+        margin-bottom: 0 !important;
+    }
+}
+
+.k-autocomplete {
+    background: none;
+    padding-right: 0;
+    border: none;
+    margin-bottom: 1.5rem;
+    &.k-state-focused {
+        background-color: transparent;
+        box-shadow: none;
+    }
+    .k-searchbar {
+        input {
+            margin-bottom: 0 !important;
+        }
+    }
+}
+.k-autocomplete .k-clear-value,
+.k-dropdown-wrap .k-clear-value,
+.k-multiselect-wrap .k-clear-value {
+    top: 1rem !important;
+    right: 1rem !important;
+}
+kendo-dropdownlist {
+    @extend %input-base;
+    padding: 0;
+    background-color: $c-Inp-Bg-Color !important;
+    line-height: 4rem;
+    border: 1px solid $c-Inp-Bdr-Color !important;
+    .k-dropdown-wrap {
+        background: none !important;
+        border: none !important;
+    }
+    .k-input {
+        height: 4rem !important;
+        line-height: 3.5rem !important;
+        padding: 0 1.5rem !important;
+        color: $c-Inp-Color !important;
+        font-family: $bs-Font !important;
+    }
+    &.err {
+        box-shadow: 0 2px 0 0 $c-Error !important;
+        border: 1px solid $c-Error !important;
+        background-color: $c-White !important;
+    }
+}
+kendo-dropdownlist[disabled] {
+    box-shadow: 0 2px 0 0 $c-Disable-Shadow !important; //#e7e4e0;
+    background-color: $c-Disable-Bg-Color !important; // #f8f8f8 !important;
+    color: $c-Disable-Color !important; //#909090 !important;
+    border: 1px solid $c-Disable-Bdr !important; // #e5e2df !important;
+    opacity: 0.8 !important;
+
+    .k-dropdown-wrap {
+        background-color: $c-Disable-Bg-Color !important;
+        .k-input,
+        .k-icon::before {
+            color: $c-Disable-Color !important;
+        }
+    }
+}
+
+kendo-textbox-container.k-state-empty {
+    kendo-multiselect {
+        .k-multiselect-wrap {
+            min-height: 4rem;
+        }
+    }
+    .k-combobox {
+        &.ng-invalid {
+            .k-dropdown-wrap {
+                .k-searchbar {
+                    .k-input {
+                        border: none;
+                        box-shadow: none;
+                    }
+                }
+            }
+        }
+    }
+}
+kendo-textbox-container:not(.k-state-empty) {
+    kendo-multiselect {
+        .k-multiselect-wrap {
+            min-height: 4.5rem;
+        }
+    }
+}
+kendo-multiselect {
+    &.k-multiselect {
+        .k-multiselect-wrap {
+            @extend %input-base;
+            height: initial;
+            padding: 0 5px;
+            input {
+                background-color: transparent !important;
+                border: none !important;
+                box-shadow: none !important;
+                margin-bottom: 0 !important;
+                &:focus {
+                    border: none !important;
+                }
+            }
+            .k-searchbar {
+                .k-input {
+                    line-height: 3rem;
+                    height: 3rem;
+                    padding: 0 5px;
+                    margin-top: 0;
+                }
+            }
+            ul {
+                padding-bottom: 5px;
+                display: flex;
+                flex-wrap: wrap;
+                margin-left: 0;
+                li {
+                    padding: 0;
+                    &.k-button {
+                        background-image: linear-gradient($c-White, $c-L-Blue);
+                        border: 1px solid $c-Dg-50;
+                        margin: 5px 5px 0 0;
+                        &:hover {
+                            background-image: linear-gradient($c-L-Blue, $c-White);
+                        }
+                        > span {
+                            line-height: 2rem;
+                            padding: 5px;
+                            text-align: left;
+                            &.k-select {
+                                border-left: 1px solid $c-Dg-50;
+                                padding: 0 0 0 5px;
+                            }
+                        }
+                    }
+                }
+            }
+            &:focus {
+                border: 1px solid $c-D-Gry;
+            }
+            @include iehack() {
+                height: auto;
+            }
+        }
+    }
+    kendo-taglist {
+        @include iehack() {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    }
+}
+
+/* multiselect */
+.k-list .k-item.k-state-selected,
+.k-list-optionlabel.k-state-selected,
+.k-list-container .k-button:active,
+.k-list-container .k-button.k-state-active,
+.k-column-menu .k-menu:not(.k-context-menu) .k-item.k-state-selected,
+.k-spreadsheet-popup .k-button:active,
+.k-spreadsheet-popup .k-button.k-state-active,
+.k-spreadsheet-popup .k-button.k-state-selected,
+.k-menu-group .k-item.k-state-selected,
+.k-menu.k-context-menu .k-item.k-state-selected,
+.k-button.k-state-selected,
+.k-button.k-primary:active,
+.k-button.k-primary.k-state-active,
+.k-button.k-primary.k-state-selected,
+.k-button-group .k-button:active,
+.k-button-group .k-button.k-state-active,
+.k-button-group .k-button.k-state-selected,
+.k-button-group > input[type='radio']:checked + .k-button,
+.k-button-group > input[type='checkbox']:checked + .k-button,
+.k-action-buttons .k-primary:active,
+.k-action-buttons .k-primary.k-state-active,
+.k-slider .k-draghandle:active,
+.k-slider .k-draghandle.k-pressed {
+    color: $c-White;
+    background-color: $c-M-Blue;
+}
+.k-animation-container-shown {
+    overflow-x: hidden;
+}
+.k-list-scroller,
+.k-virtual-content {
+    //overflow-x: hidden; // **** 07/05 to display grid scroll bar
+    .k-list {
+        .k-item {
+            padding-top: 10px;
+            padding-bottom: 8px;
+            height: auto !important;
+            position: relative;
+            margin: 0;
+            white-space: inherit;
+            text-overflow: initial;
+            transform: inherit !important;
+            background-color: $c-Dg-01;
+            border-bottom: 1px solid $c-Dg-10;
+            margin: 0 0 1px;
+            .k-checkbox-label {
+                padding-left: 25px;
+            }
+            &:hover {
+                background-color: $c-D-Blue;
+                color: $c-White;
+            }
+        }
+    }
+}
+kendo-multiselect {
+    .k-multiselect-wrap {
+        margin-bottom: 0;
+        kendo-taglist {
+            ul {
+                margin-left: 0;
+                @media all and (max-width: 700px) {
+                    padding-right: 3rem;
+                }
+                li {
+                    @media all and (max-width: 700px) {
+                        display: flex !important;
+                        justify-content: space-between;
+                        flex: 0 0 100%;
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
+    }
+    &.visual-cue {
+        margin-bottom: 1.5rem;
+        .k-multiselect-wrap {
+            border: 0 !important;
+            margin-bottom: 0 !important;
+        }
+    }
+    &.err {
+        .k-multiselect-wrap {
+            box-shadow: 0 2px 0 0 $c-Rem !important; //$c-Bs-Link; !important;
+            border: 1px solid $c-Rem !important; //$c-Bs-Link; !important;
+        }
+    }
+}
+.k-multiselect.k-state-invalid .k-multiselect-wrap,
+.k-state-invalid.k-dropdowntree .k-multiselect-wrap,
+.k-multiselect.ng-invalid.ng-touched .k-multiselect-wrap,
+.ng-invalid.ng-touched.k-dropdowntree .k-multiselect-wrap,
+.k-multiselect.ng-invalid.ng-dirty .k-multiselect-wrap,
+.ng-invalid.ng-dirty.k-dropdowntree .k-multiselect-wrap {
+    box-shadow: 0 2px 0 0 $c-Error !important;
+    border: 1px solid $c-Error !important;
+    //background-color: $c-White !important;
+}
+/* kendo drop down structure */
+.k-animation-conta {
+    width: calc(100% + 10px) !important;
+}
+.k-animation-container > .k-list-container {
+    width: calc(100% + 10px) !important;
+    padding-right: 5px !important;
+}
+.k-animation-container kendo-list,
+.k-animation-container .k-list-scroller {
+    width: calc(100% + 8px) !important;
+    overflow-x: hidden;
+}
+.k-multiselect-wrap .k-button:last-child {
+    margin-bottom: 0px !important;
+}
+.k-list-scroller .k-list .k-item {
+    &.k-state-selected {
+        background-color: $c-M-Blue !important;
+    }
+    &.k-state-focused.k-state-selected {
+        color: $c-White !important;
+        span,
+        label {
+            color: $c-White !important;
+        }
+    }
+}
+.k-multiselect + .k-label {
+    @include Max($G-L) {
+        top: calc(1.0714285714em + 1.5rem);
+    }
+}

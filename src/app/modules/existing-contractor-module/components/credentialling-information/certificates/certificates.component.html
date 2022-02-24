@@ -1,0 +1,166 @@
+<!-- <div *ngIf="loader" class="page-loader">
+    <span class="k-i-loading"></span>
+</div> -->
+
+<div class="scrollable-content-wrapper" #commentBlock max-height="360" min-Height="621">
+    <div class="scrollable-content">
+        <div class="scroll-inner" #commentArea>
+            <section class="grid-wrapper">
+                <kendo-grid
+                    [kendoGridBinding]="certificateGrid"
+                    [style.height.%]="100"
+                    [navigable]="true"
+                    class="responsive-grid credential-grid certificate-grid edit-kendo-grid desktop-mode"
+                    [filter]="filter"
+                    filterable="menu"
+                    (filterChange)="filterChange($event)"
+                    [pageSize]="pageSize"
+                    [skip]="skip"
+                    [sortable]="{ allowUnsort: true, mode: 'single' }"
+                    [sort]="sort"
+                    (sortChange)="sortChange()"
+                    [resizable]="false"
+                    [pageable]="pageObj"
+                    media="(min-width: 901px)"
+                >
+                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <!-- template for mobile -->
+                            <h2 class="tbl-card-title">
+                                <strong>{{ pageContent?.Credentialing_Information.Certificate_Item }}:</strong>
+                                {{ dataItem.MetricTypeName }}
+                            </h2>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Certificate_Firm }}:</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    {{ dataItem.CredentialingFirm }}
+                                </dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Expiration_Date }}:</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <kendo-datepicker (keyup)="keyPress($event, rowIndex)" [(ngModel)]="dataItem.ExpirationDateNew" format="MM/dd/yyyy">
+                                        <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                    </kendo-datepicker>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Due }}</strong>
+                                </dt>
+                                <dd>{{ dataItem.Due }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Action }}</strong>
+                                </dt>
+                                <dd class="action">
+                                    <button class="ico-save" (click)="onSaveCertificate(dataItem, rowIndex)"><i></i>Save</button>
+                                </dd>
+                            </dl>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-messages
+                        pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                        noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                    >
+                    </kendo-grid-messages>
+                    <kendo-grid-column width="250" field="MetricTypeName" title="{{ pageContent?.Credentialing_Information.Certificate_Item }}" media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitiveCert(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        width="250"
+                        field="CredentialingFirm"
+                        class="edit-col-input"
+                        format="{0:c}"
+                        title="{{ pageContent?.Credentialing_Information.Certificate_Firm }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitiveCert(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <input maxlength="1000" kendoTextBox #credentialingText trim="blur" (keypress)="onKeyPress($event, credentialingText.value)" [(ngModel)]="dataItem.CredentialingFirm" />
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        width="220"
+                        field="ExpirationDate"
+                        editor="date"
+                        title="{{ pageContent?.Credentialing_Information.Expiration_Date }}"
+                        class="edit-col-input editDate"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter [isPrimitive]="true" [field]="column.field" [filterService]="filterService" [currentFilter]="filter" [data]="distinctPrimitiveCert(column.field)">
+                            </multicheck-filter>
+                        </ng-template>
+
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <kendo-datepicker (keyup)="keyPress($event, rowIndex)" [(ngModel)]="dataItem.ExpirationDateNew" format="MM/dd/yyyy">
+                                <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                            </kendo-datepicker>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="100"
+                        field="Due"
+                        class="due"
+                        title="{{ pageContent?.Credentialing_Information.Due }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitiveCert(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="120"
+                        class="action"
+                        field="$"
+                        title="{{ pageContent?.Credentialing_Information.Action }}"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                        [sortable]="false"
+                    >
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <button class="ico-save" (click)="onSaveCertificate(dataItem, rowIndex)"><i></i>Save</button>
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </section>
+        </div>
+    </div>
+</div>

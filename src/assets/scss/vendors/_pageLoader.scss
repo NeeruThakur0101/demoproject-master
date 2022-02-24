@@ -1,0 +1,33 @@
+.page-loader {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: $c-Blk-30;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    span {
+        display: block;
+        width: 100px;
+        height: 100px;
+    }
+    .k-i-loading::before {
+        width: 100px;
+        height: 100px;
+        border-width: 2px;
+        top: 0;
+        left: 0;
+        margin: 0;
+    }
+    .k-i-loading::after {
+        width: 50px;
+        height: 50px;
+        border-width: 2px;
+        margin: 25px;
+        top: 0;
+        left: 0;
+    }
+}

@@ -1,0 +1,161 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1 *ngIf="this.optionType != 'EDIT'">{{ pageContent.Employee_Info.Employee_Info_Dialog_Header }}</h1>
+    <h1 *ngIf="this.optionType == 'EDIT'">{{ pageContent.Employee_Info.Employee_Info_Edit }}</h1>
+    <button type="button" (click)="close('cancel')">&times;</button>
+</kendo-dialog-titlebar>
+<!-- popup content section -->
+<form [formGroup]="employeeModal" (ngSubmit)="onSave()">
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+                    <section class="form-block floating-labels">
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Employee_Info.Employee_Info_Dialog_Employee_Name }}">
+                                <input
+                                    type="text"
+                                    trim="blur"
+                                    maxlength="30"
+                                    pattern="^[0-9a-zA-ZÀ-ú ,.'-]+$"
+                                    kendoTextBox
+                                    formControlName="EmployeeName"
+                                    [ngClass]="{ err: submitted && EmployeeDialogFormControl.EmployeeName.errors }"
+                                />
+                                <div *ngIf="submitted && EmployeeDialogFormControl.EmployeeName.errors" class="invalid-feedback">
+                                    <div *ngIf="EmployeeDialogFormControl.EmployeeName.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Role }}">
+                                <kendo-dropdownlist
+                                    #dropdown
+                                    (focus)="onFocus($event)"
+                                    formControlName="ContrEmployeeTypeID"
+                                    [data]="employeeType"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterRole($event)"
+                                    valueField="ContrEmployeeTypeID"
+                                    textField="EmployeeRoleTranslated"
+                                    valuePrimitive="true"
+                                    (selectionChange)="employeeRoleIDChange($event)"
+                                    [ngClass]="{ err: submitted && EmployeeDialogFormControl.ContrEmployeeTypeID.errors }"
+                                >
+                                    <ng-template kendoDropDownListNoDataTemplate>
+                                        <h4>
+                                            {{ pageContent.General_Keys.No_Data_Found }}
+                                        </h4>
+                                    </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && EmployeeDialogFormControl.ContrEmployeeTypeID.errors" class="invalid-feedback">
+                                    <div *ngIf="EmployeeDialogFormControl.ContrEmployeeTypeID.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control" *ngIf="isEmail">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Email }}">
+                                <input
+                                    kendoTextBox
+                                    class="form-control"
+                                    trim="blur"
+                                    #email
+                                    type="text"
+                                    maxlength="200"
+                                    formControlName="ContactEmail"
+                                    [ngClass]="{ err: submitted && EmployeeDialogFormControl.ContactEmail.errors }"
+                                    [attr.disabled]="EmailReadonly == true ? '' : null"
+                                />
+                                <div *ngIf="submitted && EmployeeDialogFormControl.ContactEmail.errors" class="invalid-feedback">
+                                    <div *ngIf="EmployeeDialogFormControl.ContactEmail.errors.required" class="err-msg"></div>
+                                    <div *ngIf="EmployeeDialogFormControl.ContactEmail.errors.pattern" class="err-msg comp">
+                                        {{ pageContent.Employee_Info.Valid_Mail }}
+                                    </div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control" *ngIf="isPhone">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Employee_Info.Employee_Info_Dialog_Mobile_Phone }}" value="sdfsad">
+                                <kendo-maskedtextbox
+                                    [maskOnFocus]="true"
+                                    [mask]="mobileNumberMask"
+                                    #mobile
+                                    type="text"
+                                    (keypress)="isNumber($event, 'phone')"
+                                    maxlength="10"
+                                    kendoTextBox
+                                    formControlName="ContactPhone"
+                                    [ngClass]="{ err: submitted && EmployeeDialogFormControl.ContactPhone.errors }"
+                                >
+                                </kendo-maskedtextbox>
+                                <div *ngIf="submitted && EmployeeDialogFormControl.ContactPhone.errors" class="invalid-feedback">
+                                    <div *ngIf="EmployeeDialogFormControl.ContactPhone.errors.required" class="err-msg"></div>
+                                    <div *ngIf="EmployeeDialogFormControl.ContactPhone.errors.pattern" class="err-msg">Please Enter Valid Phone Number Format</div>
+                                    <div *ngIf="EmployeeDialogFormControl.ContactPhone.errors.minlength">Phone Number must be at least 10 characters long.</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control">
+                            <div class="col">
+                                <label>{{ pageContent.Employee_Info.Employee_Info_Dialog_Veteran }}</label>
+                                <kendo-switch [(ngModel)]="unchecked" formControlName="VeteranFlag"></kendo-switch>
+                            </div>
+                            <div class="col success-msg" *ngIf="unchecked">
+                                {{ pageContent.Employee_Info.Employee_Info_Dialog_Veteran_Stmt }}
+                            </div>
+                        </div>
+                        <div class="form-control" *ngIf="unchecked">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Employee_Info.Employee_Info_Dialog_Military_Affiliation }}">
+                                <kendo-multiselect
+                                    #military
+                                    (focus)="onFocus($event)"
+                                    (removeTag)="onRemoveTag($event)"
+                                    formControlName="VeteranEmployeeMilitaryAffiliation"
+                                    [data]="militaryAffiliation"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterMilitary($event)"
+                                    textField="MilitaryAffiliation"
+                                    valueField="MilitaryAffiliation"
+                                    [valuePrimitive]="true"
+                                    [ngClass]="{ err: submitted && EmployeeDialogFormControl.VeteranEmployeeMilitaryAffiliation.errors }"
+                                >
+                                </kendo-multiselect>
+                                <div *ngIf="submitted && EmployeeDialogFormControl.VeteranEmployeeMilitaryAffiliation.errors" class="invalid-feedback">
+                                    <div *ngIf="EmployeeDialogFormControl.VeteranEmployeeMilitaryAffiliation.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                        <div class="form-control" *ngIf="unchecked">
+                            <kendo-textbox-container required class="date-picker" floatingLabel="{{ pageContent.Employee_Info.Employee_Info_Dialog_Hire_Date }}">
+                                <kendo-datepicker
+                                    [min]="min"
+                                    [max]="max"
+                                    format="MM/dd/yyyy"
+                                    formControlName="VeteranEmployeeHireDate"
+                                    [ngClass]="{ 'err ng-invalid ng-touched': submitted && EmployeeDialogFormControl.VeteranEmployeeHireDate.errors }"
+                                    [(value)]="hireDateValue"
+                                >
+                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                </kendo-datepicker>
+                                <div *ngIf="submitted && EmployeeDialogFormControl.VeteranEmployeeHireDate.errors" class="invalid-feedback">
+                                    <div *ngIf="EmployeeDialogFormControl.VeteranEmployeeHireDate.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="resetForm()">
+            {{ pageContent.Employee_Info.Employee_Info_Dialog_Button_Reset }}
+        </button>
+        <button kendoButton type="submit" [primary]="true">
+            {{ pageContent.Employee_Info.Employee_Info_Dialog_Button_Save }}
+        </button>
+    </div>
+</form>

@@ -1,0 +1,59 @@
+<form>
+    <h1 style="text-align: center; margin-bottom: 20px">Login</h1>
+    <div class="container">
+        <label for="txtLogin">Username</label>
+        <input type="text" maxlength="200" id="txtLogin" placeholder="Please enter your email" />
+        <label for="txtPasword">Password</label>
+        <input id="txtPasword" type="password" maxlength="10" placeholder="Please enter password" />
+        <button kendoButton [primary]="true" type="button" (click)="submit()">Login</button>
+    </div>
+</form>
+<div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div>
+
+<style>
+    /* Bordered form */
+    form {
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+        border: 3px solid #f1f1f1;
+        padding: 20px;
+        background-color: #fff;
+    }
+
+    /* Full-width inputs */
+    input[type='text'],
+    input[type='password'] {
+        width: 50%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /* Set a style for all buttons */
+
+    button {
+        width: 100%;
+        height: 40px !important;
+    }
+
+    /* Add a hover effect for buttons */
+
+    /* The "Forgot password" text */
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+
+    /* Change styles for span and cancel button on extra small screens */
+    @media screen and (max-width: 300px) {
+        span.psw {
+            display: block;
+            float: none;
+        }
+    }
+</style>
+
+<div kendoDialogContainer class="popup-loader"></div>

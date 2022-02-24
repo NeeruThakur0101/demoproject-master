@@ -1,0 +1,132 @@
+<!-- <div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div> -->
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Credit_Information.Edit_Credit_Report }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+<form [formGroup]="creditForm" (ngSubmit)="onSubmit()">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <!-- popup content -->
+                <section class="white-block">
+                    <!-- form block starts -->
+                    <section class="form-block">
+                        <section class="flex-5-5">
+                            <div class="form-control col floating-labels">
+                                <kendo-textbox-container class="date-picker" required floatingLabel="{{ pageContent.Credit_Information.Report_Date }}">
+                                    <kendo-datepicker formControlName="ReportsDate" [ngClass]="{ err: submitted && creditFormControl.ReportsDate.errors }">
+                                        <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                    </kendo-datepicker>
+                                    <div *ngIf="submitted && creditFormControl.ReportsDate.errors" class="invalid-feedback">
+                                        <div *ngIf="creditFormControl.ReportsDate.errors.required" class="err-msg"></div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control col floating-labels">
+                                <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Report_Type }}">
+                                    <input kendoTextBox type="text" maxlength="50" trim="blur" formControlName="TypeofReport" [ngClass]="{ err: submitted && creditFormControl.TypeofReport.errors }" />
+                                    <div *ngIf="submitted && creditFormControl.TypeofReport.errors" class="invalid-feedback">
+                                        <div *ngIf="creditFormControl.TypeofReport.errors.required" class="err-msg"></div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control col floating-labels">
+                                <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Payment_Trend }}">
+                                    <input
+                                        kendoTextBox
+                                        maxlength="9"
+                                        type="text"
+                                        (keypress)="isNumber($event)"
+                                        formControlName="PaymentTrend"
+                                        [ngClass]="{ err: submitted && creditFormControl.PaymentTrend.errors }"
+                                    />
+                                    <div *ngIf="submitted && creditFormControl.PaymentTrend.errors" class="invalid-feedback">
+                                        <div *ngIf="creditFormControl.PaymentTrend.errors.required" class="err-msg"></div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control col floating-labels">
+                                <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Number_of_Trade_Lines }}">
+                                    <input
+                                        kendoTextBox
+                                        maxlength="9"
+                                        type="text"
+                                        (keypress)="isNumber($event)"
+                                        formControlName="NumberOfTradeLines"
+                                        [ngClass]="{ err: submitted && creditFormControl.NumberOfTradeLines.errors }"
+                                    />
+                                    <div *ngIf="submitted && creditFormControl.NumberOfTradeLines.errors" class="invalid-feedback">
+                                        <div *ngIf="creditFormControl.NumberOfTradeLines.errors.required" class="err-msg"></div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control col floating-labels">
+                                <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Highest_Credit }}">
+                                    <input
+                                        kendoTextBox
+                                        maxlength="10"
+                                        type="text"
+                                        (keypress)="isNumber($event)"
+                                        formControlName="HightestCredit"
+                                        [ngClass]="{ err: submitted && creditFormControl.HightestCredit.errors }"
+                                    />
+                                    <div *ngIf="submitted && creditFormControl.HightestCredit.errors" class="invalid-feedback">
+                                        <div *ngIf="creditFormControl.HightestCredit.errors.required" class="err-msg"></div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+
+                            <div class="form-control col floating-labels">
+                                <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Credit_Score }}">
+                                    <input kendoTextBox formControlName="CreditScore" maxlength="50" trim="blur" [ngClass]="{ err: submitted && creditFormControl.CreditScore.errors }" />
+                                    <div *ngIf="submitted && creditFormControl.CreditScore.errors" class="invalid-feedback">
+                                        <div *ngIf="creditFormControl.CreditScore.errors.required" class="err-msg"></div>
+                                    </div>
+                                </kendo-textbox-container>
+                            </div>
+                        </section>
+
+                        <div class="form-control floating-labels">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Action_Rating }}">
+                                <kendo-dropdownlist
+                                    formControlName="ActionRatingID"
+                                    [data]="ddlActionRating"
+                                    textField="ActionRatingDesc"
+                                    valueField="actionRatingID"
+                                    [valuePrimitive]="true"
+                                    [ngClass]="{ err: submitted && creditFormControl.ActionRatingID.errors }"
+                                >
+                                    <ng-template kendoDropDownListNoDataTemplate>
+                                        <h4>
+                                            {{ pageContent.General_Keys.No_Data_Found }}
+                                        </h4>
+                                    </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && creditFormControl.ActionRatingID.errors" class="invalid-feedback">
+                                    <div *ngIf="creditFormControl.ActionRatingID.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Credit_Information.Comments }}">
+                                <textarea kendoTextArea maxlength="250" resizable="false" formControlName="Comments"></textarea>
+                            </kendo-textbox-container>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="close()">{{ pageContent.Credit_Information.Credit_Cancel }}</button>
+        <button kendoButton [primary]="true">{{ pageContent.Credit_Information.Credit_Save }}</button>
+    </div>
+    <!-- </kendo-dialog> -->
+</form>

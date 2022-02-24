@@ -1,0 +1,108 @@
+.mailrow {
+    @extend %d-flx;
+    div {
+        &:first-child {
+            flex: 0 0 110px;
+            max-width: 110px;
+            padding-top: 6px;
+            padding-right: 1.5rem;
+            button {
+                width: 100%;
+            }
+            span {
+                display: block;
+                background-color: $c-Off-White; // #f1f1f1;
+                padding: 6px 15px;
+                text-align: center;
+                top: -2px;
+                position: relative;
+            }
+            + div {
+                flex: 1;
+            }
+        }
+    }
+    kendo-toolbar-renderer {
+        kendo-dropdownlist {
+            margin: 0;
+        }
+    }
+    .k-overflow-anchor {
+        padding: 0 !important;
+    }
+    .attachment {
+        padding-top: 4px;
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 5px 10px;
+            border: 1px solid;
+            .k-icon {
+                margin-right: 0.5rem;
+                position: relative;
+                top: -1px;
+            }
+            &:hover {
+                background-color: $c-Dg-05;
+            }
+        }
+    }
+    .k-editor {
+        > .toolbar {
+            kendo-toolbar-renderer {
+                &:nth-child(5),
+                &:nth-child(6) {
+                    display: none;
+                }
+            }
+        }
+        button[title='Insert image'],
+        .k-overflow-anchor,
+        span[title='Insert link'],
+        span[title='Remove Link'] {
+            display: none;
+        }
+        kendo-dropdownlist {
+            height: calc(1 * (2px + 8px + 1.4285714286em));
+            background-color: transparent !important;
+            box-shadow: none;
+            .k-input {
+                height: calc(1 * (2px + 8px + 1.4285714286em)) !important;
+            }
+        }
+    }
+}
+@include Max($MD-P) {
+    .lang-french {
+        .email-selection {
+            .k-textbox-container {
+                padding-top: 0;
+            }
+            .k-label {
+                font-weight: bold !important;
+                left: 0 !important;
+                top: auto !important;
+                position: relative;
+                order: -1;
+                padding-bottom: 5px;
+                white-space: normal;
+                max-width: 100% !important;
+            }
+        }
+    }
+    .tox .tox-tbtn {
+        width: 23px !important;
+        svg {
+            width: 90%;
+        }
+    }
+}
+.tox-statusbar {
+    display: none !important;
+}
+.email-block {
+    .err-msg {
+        text-align: left;
+        padding-left: 110px;
+    }
+}

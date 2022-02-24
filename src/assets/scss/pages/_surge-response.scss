@@ -1,0 +1,410 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Surge Information Page
+// -----------------------------------------------------------------------------
+.surgeResponse {
+    .scrollable-content-wrapper {
+        .scrollable-content {
+            width: 100%;
+        }
+        &.has-scroll {
+            .scrollable-content {
+                @extend %Width-112;
+            }
+        }
+    }
+    .surge-response-wrap {
+        kendo-multiselect.k-multiselect .k-multiselect-wrap ul li.k-button > span {
+            padding-left: 0.5rem;
+        }
+        kendo-multiselect.k-multiselect .k-multiselect-wrap ul li.k-button > span.k-select {
+            padding-right: 0;
+        }
+        &:first-child {
+            margin-top: 0.5rem;
+        }
+        &:not(:first-child) {
+            margin-top: -1px;
+        }
+        &:nth-child(even) {
+            background-color: rgba(0, 0, 0, 0.02);
+            .k-switch .k-switch-label-on:before {
+                background-color: #fafafa;
+            }
+        }
+        > .response-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 1rem 1.5rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            .response {
+                display: flex;
+                flex-wrap: wrap;
+                flex: 0 0 45%;
+                padding-right: 1rem;
+                padding-top: 10px;
+                span {
+                    &:first-child {
+                        flex: 0 0 20px;
+                        margin-left: 0;
+                        padding-top: 2px;
+                        order: 2;
+                        @include Max($iPh-L) {
+                            margin-top: 0.5rem;
+                        }
+                        + span {
+                            order: -1;
+                            flex: 0 0 calc(100% - 20px);
+                            @include Max($iPh-L) {
+                            }
+                            padding-right: 10px;
+                        }
+                    }
+                }
+                .surge-tip-wrap {
+                    margin-left: 1.5rem;
+                    a {
+                        display: flex;
+                    }
+                }
+                @include Max($D-S) {
+                    flex: 0 0 100%;
+                    padding-right: 0;
+                    padding-bottom: 0.5rem;
+                    padding-top: 0;
+                }
+                @include Max($iPh-L) {
+                    min-height: 40px;
+                    padding-bottom: 1rem;
+                }
+            }
+            .response-options {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                flex: auto;
+                flex: 1;
+                .k-multiselect {
+                    margin-bottom: 0;
+                }
+                .ico-block {
+                    flex: 0 0 40px;
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 8px;
+                    .link-ico-btn {
+                        border: 1px solid rgba(25, 25, 25, 0.3);
+                        border-radius: 3px;
+                        padding: 0 2px;
+                        line-height: 24px;
+                        height: 24px;
+                        display: flex;
+                        align-items: center;
+                        width: 24px;
+                        max-width: 24px;
+                        justify-content: center;
+                        cursor: pointer;
+                    }
+                    @include Max($MD-P) {
+                        margin-left: 10px;
+                    }
+                }
+                .options {
+                    flex: auto;
+                    flex: 1;
+                    display: flex;
+                    min-height: 40px;
+                    .k-switch {
+                        margin-top: 15px;
+                    }
+                    .k-form-field {
+                        kendo-multiselect.k-multiselect .k-multiselect-wrap {
+                            margin-bottom: 0;
+                        }
+                        > span {
+                            width: auto !important;
+                            min-width: 60px;
+                            @include Max($iPh-L) {
+                                width: 50px;
+                            }
+                        }
+                    }
+                    &:first-child {
+                        .k-form-inline {
+                            padding-left: 1rem;
+                            padding-right: 1rem;
+                            .k-form-field {
+                                input + span {
+                                    padding-left: 1rem;
+                                }
+                            }
+                            @include Max($D-S) {
+                                padding: 0 !important;
+                                label {
+                                    flex-direction: row;
+                                    input {
+                                        flex: 1 !important;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    &.multi-select {
+                        &.with-switch {
+                            .switch-wrap {
+                                flex: 0 0 120px;
+                            }
+                            .k-form-inline {
+                                flex: 0 0 calc(100% - 120px);
+                                width: calc(100% - 120px);
+                                @include Max($D-S) {
+                                    padding-right: 0;
+                                }
+                                @include Max($iPh-L) {
+                                    flex: 0 0 100%;
+                                    width: calc(100% - 0px);
+                                    margin-top: 1.5rem;
+                                }
+                                kendo-multiselect {
+                                    &.visual-cue {
+                                        margin-bottom: 0 !important;
+                                    }
+                                }
+                                @include iehack() {
+                                    .k-multiselect .k-multiselect-wrap {
+                                        min-height: 4.25rem;
+                                    }
+                                }
+                            }
+                        }
+                        &.with-icon {
+                            .k-form-inline {
+                                flex: 0 0 calc(100% - 25px);
+                                width: 100%;
+                                @include Max($D-S) {
+                                    flex: 0 0 calc(100% - 35px);
+                                }
+                            }
+                            .ico-block {
+                                flex: 0 0 20px;
+                                @include Max($D-S) {
+                                    flex: 0 0 30px;
+                                    padding-left: 10px;
+                                    margin-left: 0 !important;
+                                }
+                            }
+                        }
+                        &.visual-cue {
+                            margin-bottom: 0;
+                        }
+                    }
+                    .k-switch {
+                        @include Max($D-S) {
+                            margin-left: 2.5rem;
+                        }
+                    }
+                    @include Max($iPh-L) {
+                        flex-wrap: wrap;
+                    }
+                    .reason {
+                        flex: 1;
+                        padding-right: 0 !important;
+                        > label {
+                            display: flex;
+                            flex-wrap: wrap;
+                            > span {
+                                flex: 0 0 90px !important;
+
+                                &.read-only {
+                                    padding-top: 0.75rem;
+                                    color: $c-D-Blue !important;
+                                }
+                            }
+                            .multireasons {
+                                flex: 1;
+                            }
+                        }
+                        @media all and (max-width: 1340px) {
+                            flex: 0 0 100%;
+                            margin-top: 1.5rem;
+                        }
+                        @include Max($iPh-L) {
+                            flex: 0 0 100%;
+                            margin-top: 1.5rem;
+                        }
+                    }
+                }
+                .link-ico-btn {
+                    border: 1px solid;
+                    border-radius: 3px;
+                }
+                @include Max($D-S) {
+                    padding-left: 0;
+                    flex: 0 0 100%;
+                }
+                &.asgnmt-moblize {
+                    .options {
+                        .k-form-inline {
+                            @media all and (max-width: 560px) {
+                                margin-top: 1.5rem;
+                            }
+                        }
+                    }
+                }
+                &.reasons {
+                    .options {
+                        @media all and (max-width: 1340px) {
+                            flex-wrap: wrap;
+                        }
+                    }
+                }
+                @include iehack() {
+                    kendo-multiselect.k-multiselect .k-multiselect-wrap {
+                        min-height: 4.5rem;
+                    }
+                }
+            }
+            @include Max($D-S) {
+                padding: 2rem;
+            }
+        }
+    }
+    .k-dialog {
+        max-width: initial !important;
+    }
+}
+.Safari {
+    &.mobile,
+    &.tablet {
+        .surgeResponse {
+            .scrollable-content {
+                @include respond-to-Min-Max(740px, 421px) {
+                    padding-right: 0 !important;
+                }
+                padding-right: 10px !important;
+            }
+        }
+    }
+}
+.manageSRLicence-popup {
+    @include Max($D-S) {
+        dd {
+            .form-group {
+                display: flex;
+                align-items: center;
+                height: 100%;
+                input {
+                    &.visual-cue {
+                        position: relative;
+                    }
+                }
+            }
+        }
+    }
+    .radio-group {
+        display: flex;
+        @include Max($MD-P) {
+            flex-direction: column;
+            .k-radio-label {
+                padding-top: 1px;
+            }
+        }
+        div {
+            padding-right: 1.5rem;
+            @include Max($MD-P) {
+                padding-right: 0;
+                padding-bottom: 6px;
+            }
+            input {
+                margin: 0;
+                height: auto !important;
+            }
+            input[type='radio'] {
+                display: none !important;
+            }
+        }
+    }
+    .edit-textbox {
+        padding: 0;
+        margin: 0;
+        .k-textbox {
+            margin: 0 !important;
+            box-shadow: none !important;
+        }
+        .visual-cue {
+            top: 0;
+            background-color: $c-White !important;
+        }
+    }
+    @include Min($D-S) {
+        .k-grid tr.k-alt {
+            .k-switch .k-switch-label-on:before {
+                background-color: #f5f5f5;
+            }
+        }
+        .k-grid tr:hover {
+            .k-switch .k-switch-label-on:before {
+                background-color: $c-M-Blue;
+                color: $c-White;
+            }
+            .k-radio + .k-radio-label {
+                color: $c-White;
+            }
+        }
+    }
+    .upload-doc {
+        display: flex;
+        justify-content: flex-end;
+        padding-bottom: 1rem;
+        a {
+            border: 1px solid $c-Blk-30;
+            border-radius: 3px;
+            padding: 0 2px;
+            line-height: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            width: 24px;
+            max-width: 24px;
+            justify-content: center;
+            cursor: pointer;
+        }
+    }
+    @include Max($D-S) {
+        .k-checkbox-label {
+            font-size: 11px;
+            padding-top: 2px;
+            margin: 0;
+        }
+        .k-switch .k-switch-label-off:before {
+            font-size: 11px;
+            right: 10px;
+            top: 2px;
+        }
+        .k-switch {
+            margin-left: 24px;
+            margin-bottom: 8px;
+            margin-top: 6px;
+        }
+        .k-switch .k-switch-label-on:before {
+            font-size: 11px;
+            top: 2px;
+        }
+    }
+}
+.surgeResponse ~ .k-dialog-wrapper .k-window.k-dialog {
+    max-width: inherit;
+}
+// .page-loader.manage-surge-loader {
+//     .k-i-loading {
+//         &:after, &:before {
+//             border-color: #222;
+//             border-top-color: transparent;
+//             border-bottom-color: transparent;
+//         }
+//     }
+// }
+body.manage-surge {
+    .k-overlay {
+        background-color: $c-Blk-30;
+    }
+}

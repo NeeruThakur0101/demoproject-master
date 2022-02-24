@@ -1,0 +1,9 @@
+.k-window-actions {
+    margin: calc( -1 * ( 4px + 1px ) );
+    line-height: 1;
+    display: none !important;
+    flex-direction: row;
+    flex-shrink: 0;
+    align-items: center;
+    vertical-align: top;
+}

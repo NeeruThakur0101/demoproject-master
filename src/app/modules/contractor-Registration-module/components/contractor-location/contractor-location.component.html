@@ -1,0 +1,310 @@
+<main appGridlayout *ngIf="pageContent" [hidden]="showPage" [class.internal-user]="ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent?.Location_Info.Contractor_Locations_Header" [comments]="crComments"></app-page-title>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <form class="k-form-inline h-100 contractor-loc">
+                <section class="middle-section contractor-location">
+                    <div class="white-block">
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="510" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <div class="white-block">
+                                        <!-- scroll bar open -->
+                                        <!-- <perfect-scrollbar><div> -->
+                                        <div class="contractor-location-inner">
+                                            <!-- content  start-->
+                                            <section class="white-block">
+                                                <section class="grid-top-bar">
+                                                    <div>
+                                                        <H3>{{ pageContent.Location_Info.Contractor_Locations_Header }}</H3>
+                                                        <p>
+                                                            {{ pageContent.Location_Info.Please_add_facilIties }}
+                                                        </p>
+                                                    </div>
+                                                    <div>
+                                                        <button
+                                                            kendoButton
+                                                            type="button"
+                                                            [disabled]="(ContrID == 0 && loggedInUserType == 'Internal') || accessReadonly"
+                                                            (click)="openDialogForm('ADD')"
+                                                            [primary]="true"
+                                                        >
+                                                            {{ pageContent.Location_Info.Add_Location_Model }}
+                                                        </button>
+                                                    </div>
+                                                </section>
+
+                                                <kendo-grid
+                                                    media="(min-width: 901px)"
+                                                    [pageSize]="pageSize"
+                                                    [skip]="skip"
+                                                    [pageable]="pageObj"
+                                                    [style.height.%]="100"
+                                                    filterable="menu"
+                                                    [filter]="filter"
+                                                    (filterChange)="filterChange($event)"
+                                                    #grid
+                                                    [kendoGridBinding]="gridData"
+                                                    (pageChange)="onPageChange($event)"
+                                                    [sortable]="{
+                                                        allowUnsort: allowUnsort,
+                                                        mode: 'single'
+                                                    }"
+                                                    [sort]="sort"
+                                                    [selectable]="{ mode: 'single' }"
+                                                    class="responsive-grid cont-location-grid desktop-mode"
+                                                >
+                                                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                        <ng-template kendoGridCellTemplate let-dataItem>
+                                                            <!-- template for mobile -->
+                                                            <h2 class="tbl-card-title"><strong>ID:</strong> {{ dataItem.SerialNumber }}</h2>
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Location_Info.Location_Name }} </strong>
+                                                                </dt>
+                                                                <dd>
+                                                                    <a [class]="dataItem.isFacilityTypeORLocationName == true ? 'visual-cue' : 'none'" (click)="openDialogForm('EDIT', dataItem)">{{
+                                                                        dataItem.FacilityTypeORLocationName
+                                                                    }}</a>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Location_Info.Street_Address }}</strong>
+                                                                </dt>
+                                                                <dd>
+                                                                    <span [class]="dataItem.isLocationStreetAddress == true ? 'visual-cue' : 'none'">{{ dataItem.LocationStreetAddress }}</span>
+                                                                </dd>
+                                                            </dl>
+
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Location_Info.City }}</strong>
+                                                                </dt>
+                                                                <dd>
+                                                                    <span [class]="dataItem.isCity == true ? 'visual-cue' : 'none'">{{ dataItem.City }}</span>
+                                                                </dd>
+                                                            </dl>
+
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Location_Info.State }}</strong>
+                                                                </dt>
+                                                                <dd>
+                                                                    <span [class]="dataItem.isStateName == true ? 'visual-cue' : 'none'">{{ dataItem.StateName }}</span>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Location_Info.FacilIty_Type }}</strong>
+                                                                </dt>
+                                                                <dd>
+                                                                    <span [class]="dataItem.isContractorFacilityTypeName == true ? 'visual-cue' : 'none'">{{
+                                                                        dataItem.ContractorFacilityTypeName
+                                                                    }}</span>
+                                                                </dd>
+                                                            </dl>
+                                                            <dl>
+                                                                <dt>
+                                                                    <strong>{{ pageContent.Location_Info.Location_Type }}</strong>
+                                                                </dt>
+                                                                <dd>
+                                                                    <span [class]="dataItem.isContractorLocationTypeName == true ? 'visual-cue' : 'none'">{{
+                                                                        dataItem.ContractorLocationTypeName
+                                                                    }}</span>
+                                                                </dd>
+                                                            </dl>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-messages
+                                                        pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                        noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                    >
+                                                    </kendo-grid-messages>
+                                                    <kendo-grid-column media="(min-width: 901px)" field="SerialNumber" title="#" width="60" [filterable]="false"> </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="FacilityTypeORLocationName" title="{{ pageContent.Location_Info.Location_Name }}" width="190">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+
+                                                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                            <a [class]="dataItem.isFacilityTypeORLocationName == true ? 'visual-cue' : 'none'" (click)="openDialogForm('EDIT', dataItem)">{{
+                                                                dataItem.FacilityTypeORLocationName
+                                                            }}</a>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="LocationStreetAddress" title="{{ pageContent.Location_Info.Street_Address }}" width="170">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+
+                                                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                            <span [class]="dataItem.isLocationStreetAddress == true ? 'visual-cue' : 'none'">{{ dataItem.LocationStreetAddress }}</span>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="City" title="{{ pageContent.Location_Info.City }}" width="120">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+
+                                                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                            <span [class]="dataItem.isCity == true ? 'visual-cue' : 'none'">{{ dataItem.City }}</span>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="StateName" title="{{ pageContent.Location_Info.State }}" width="120">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+
+                                                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                            <span [class]="dataItem.isStateName == true ? 'visual-cue' : 'none'">{{ dataItem.StateName }}</span>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="ContractorFacilityTypeName" title="{{ pageContent.Location_Info.FacilIty_Type }}" width="160">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+
+                                                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                            <span [class]="dataItem.isContractorFacilityTypeName == true ? 'visual-cue' : 'none'">{{
+                                                                dataItem.ContractorFacilityTypeName ? dataItem.ContractorFacilityTypeName : 'N/A'
+                                                            }}</span>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+
+                                                    <kendo-grid-column media="(min-width: 901px)" field="ContractorLocationTypeName" title="{{ pageContent.Location_Info.Location_Type }}" width="180">
+                                                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                            <app-multicheck-filter
+                                                                [isPrimitive]="true"
+                                                                [field]="column.field"
+                                                                [filterService]="filterService"
+                                                                [currentFilter]="filter"
+                                                                [data]="distinctPrimitive(column.field)"
+                                                            ></app-multicheck-filter>
+                                                        </ng-template>
+
+                                                        <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                            <span [class]="dataItem.isContractorLocationTypeName == true ? 'visual-cue' : 'none'">{{ dataItem.ContractorLocationTypeName }}</span>
+                                                        </ng-template>
+                                                    </kendo-grid-column>
+                                                </kendo-grid>
+                                            </section>
+                                            <section class="white-block bottom-block">
+                                                <section class="flex-5-5">
+                                                    <div class="col">
+                                                        <label>{{ pageContent.Location_Info.Do_You_Have_Other_Locations }}</label>
+                                                        <div kendoTooltip class="right" position="right">
+                                                            <span class="ico-hammer" title="{{ pageContent.Location_Info.Hammer1 }}"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <kendo-switch
+                                                            [disabled]="(ContrID == 0 && loggedInUserType == 'Internal') || accessReadonly"
+                                                            ngDefaultControl
+                                                            [(ngModel)]="isOtherLocationApplied"
+                                                            [ngModelOptions]="{ standalone: true }"
+                                                        ></kendo-switch>
+                                                        <small>{{ pageContent.Location_Info.If_Yes_Please_add }}</small>
+                                                    </div>
+                                                </section>
+                                                <section class="flex-5-5">
+                                                    <div class="col">
+                                                        <label>{{ pageContent.Location_Info.Have_Other_Locations_SatellIte_Offices }}</label>
+                                                        <div kendoTooltip class="right" position="right">
+                                                            <span class="ico-hammer" title="{{ pageContent.Location_Info.Hammer2 }}"></span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <kendo-switch
+                                                            [disabled]="(ContrID == 0 && loggedInUserType == 'Internal') || accessReadonly"
+                                                            ngDefaultControl
+                                                            [(ngModel)]="isOtherLocationSatelite"
+                                                            [ngModelOptions]="{ standalone: true }"
+                                                        ></kendo-switch>
+                                                        <small>{{ pageContent.Location_Info.If_Yes_Please_add }}</small>
+                                                    </div>
+                                                </section>
+                                            </section>
+                                            <!-- content close -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- content close -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="bottom-section">
+                    <section
+                        class="action-buttons"
+                        *ngIf="
+                            ContrID === 0 || (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal' && loggedInUserType !== 'Internal')
+                        "
+                    >
+                        <button kendoButton type="button" (click)="onback()">
+                            {{ pageContent.Location_Info.Back }}
+                        </button>
+                        <button kendoButton type="button" (click)="onSubmit()" [primary]="true">
+                            {{ loggedInUserType !== 'Internal' ? pageContent.Location_Info.Contractor_Locations_Save : 'Next' }}
+                        </button>
+                    </section>
+
+                    <section class="action-buttons" *ngIf="ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'">
+                        <button kendoButton [attr.disabled]="(ContrID === 0 && loggedInUserType === 'Internal') || accessReadonly ? '' : null" type="button" (click)="onSave()" [primary]="true">
+                            {{ pageContent.Location_Info.Save }}
+                        </button>
+                    </section>
+                </section>
+            </form>
+            <!-- middle content area close -->
+            <!-- bottom block open -->
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>
+<ng-container #container></ng-container>

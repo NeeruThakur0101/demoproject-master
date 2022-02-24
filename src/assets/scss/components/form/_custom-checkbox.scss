@@ -1,0 +1,77 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the checkbox component.
+// -----------------------------------------------------------------------------
+
+// .custom-check {
+//     input[type="checkbox"] {
+//       display: none;
+//     }
+//     label {
+//       position: relative;
+//       padding-left: 40px;
+//       padding-right: 40px;
+//       cursor: pointer;
+      
+//       &:before {
+//         content: 'yes';
+//         position: absolute;
+//         left: 0;
+//         transition: all 0.3s ease-in;
+//         font-weight: bold;
+        
+//       }
+      
+//       &:after {
+//         content: 'No';
+//         position: absolute;
+//         right: 0;
+//         transition: all 0.3s  ease;
+//       }
+      
+//       span {
+//         display: inline-block;
+//         width: 40px;
+//         border-radius: 10px;
+//         height: 5px;
+//         background-color: grey;
+//         position: relative;
+        
+//         &:after {
+//           content: '';
+//           width: 10px;
+//           height: 10px;
+//           border-radius: 100%;
+//           background-color: black;
+//           position: absolute;
+//           left: 0;
+//           top: -3px;
+//           transition-duration: 1s;
+//     transition-delay: .3s;
+    
+//         }
+//       }
+//     }
+    
+//     input[type="checkbox"]:checked {
+      
+//       & + label {
+//         &:after {
+//           color: red;
+//           font-weight: bold;
+//         }
+//         &:before {
+//           font-weight: normal;
+//         }
+        
+//         span {
+          
+//         background-color: pink;
+//            &:after {
+//              //right: 0;
+//              left: 100%;
+//              background-color: red;
+//              }
+//         }
+//       }
+//     }
+//   }

@@ -1,0 +1,298 @@
+<!-- <div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div> -->
+<main appGridlayout *ngIf="!hidePage" class="employee-information internalLanding-page" [class.internal-user]="loginDetails[0].ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <h1>{{ pageContent.Employee_Info.Employee_Info_Page_Header }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+
+            <section class="middle-section">
+                <div class="white-block">
+                    <form class="k-form-inline h-100 employee-block-wrapper" [ngClass]="formOff ? 'active' : ''">
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div>-->
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content">
+                                <section class="h-100">
+                                    <!-- two columns -->
+                                    <div class="employee-chart">
+                                        <button class="form-off" (click)="changeClass()" [attr.disabled]="readonlyMode == true ? '' : null"></button>
+                                        <section class="white-block h-100">
+                                            <h2>{{ pageContent.Employee_Info.Employee_Info_Viewing }} {{ contractorName }}</h2>
+                                            <div>
+                                                <h2 class="vet-count">
+                                                    {{ pageContent.Employee_Info.Employee_Info_Current_Veteran_Count }} <span>{{ veteranCount }}</span>
+                                                </h2>
+                                            </div>
+                                            <section class="pie-chart-wrapper">
+                                                <kendo-chart (seriesClick)="onSeriesClick($event)" [attr.disabled]="readonlyMode == true ? '' : null">
+                                                    <kendo-chart-legend position="bottom" orientation="horizontal" [markers]="{ width: 15, height: 15 }"> </kendo-chart-legend>
+                                                    <kendo-chart-area [margin]="10"> </kendo-chart-area>
+                                                    <kendo-chart-series>
+                                                        <kendo-chart-series-item
+                                                            type="pie"
+                                                            [data]="pieData"
+                                                            categoryField="RoleName"
+                                                            field="Percentage"
+                                                            [labels]="{ visible: false, content: labelContent }"
+                                                        >
+                                                            <kendo-chart-series-item-tooltip>
+                                                                <ng-template let-value="value" let-dataItem="dataItem">
+                                                                    <div class="tooltip-chart" (click)="TooltipClick(dataItem.RoleName)">
+                                                                        <div class="tooltip-row">
+                                                                            <div>{{ pageContent.Employee_Info.Employee_Info_Type }}</div>
+                                                                            <div>
+                                                                                <strong>{{ dataItem.RoleName }}</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="tooltip-row">
+                                                                            <div>{{ pageContent.Employee_Info.Employee_Info_Count }}</div>
+                                                                            <div>
+                                                                                <strong>{{ dataItem.Rolecount }} ({{ value }}%)</strong>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </ng-template>
+                                                            </kendo-chart-series-item-tooltip>
+                                                        </kendo-chart-series-item>
+                                                    </kendo-chart-series>
+                                                </kendo-chart>
+                                            </section>
+                                        </section>
+                                    </div>
+                                    <div class="employee-listing">
+                                        <section class="white-block h-100">
+                                            <section class="grid-top-bar">
+                                                <div>
+                                                    <h2>{{ pageContent.Employee_Info.Employee_Info_Employee_Listing }}</h2>
+                                                </div>
+                                                <div class="ownership-action">
+                                                    <button class="btn-refresh" kendoButton (click)="refress()" [primary]="true" *ngIf="refressflag" [disabled]="readonlyMode">
+                                                        <i></i>
+                                                    </button>
+
+                                                    <button class="delete-owner" kendoButton type="button" [primary]="false" [disabled]="IsDisable" (click)="deleteEmployee($event)">
+                                                        {{ pageContent.Employee_Info.Emp_Delete_Employee_Button }}
+                                                    </button>
+
+                                                    <button kendoButton (click)="addEmployee('ADD')" [primary]="true" [disabled]="readonlyMode">
+                                                        {{ pageContent.Employee_Info.Employee_Info_Dialog_Header }}
+                                                    </button>
+                                                </div>
+                                            </section>
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                class="responsive-grid employeeInfo-grid desktop-mode"
+                                                [kendoGridBinding]="gridData"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: 'single'
+                                                }"
+                                                [sort]="sort"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                [attr.disabled]="readonlyMode == true ? '' : null"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <span>{{ pageContent.Employee_Info.Employee_Info_ID }}</span> {{ dataItem.Srno }}
+                                                        </h2>
+                                                        <dl>
+                                                            <dt><strong>Select</strong></dt>
+                                                            <dd>
+                                                                <div kendoTooltip tooltipClass="chkbox-tooltip" class="top" position="top" [class.disable-tip]="dataItem.Disableflag">
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        id="{{ dataItem.Srno }}"
+                                                                        class="k-checkbox"
+                                                                        (click)="checkboxClick($event, dataItem)"
+                                                                        [disabled]="dataItem.Disableflag"
+                                                                    />
+
+                                                                    <label class="k-checkbox-label" for="{{ dataItem.Srno }}"></label>
+                                                                    <div data-title="{{ this.pageContent.Employee_Info.Emp_Checkbox_Tooltip_Msg }}" *ngIf="dataItem.Disableflag"></div>
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Name }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <div *ngIf="dataItem.EditFlag == true">
+                                                                    <a (click)="addEmployee('EDIT', dataItem)">{{ dataItem.Name }}</a>
+                                                                </div>
+                                                                <div *ngIf="dataItem.EditFlag == false">
+                                                                    {{ dataItem.Name }}
+                                                                </div>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Phone }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.Phone }}</dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Role }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.EmployeeRoleTranslated }}</dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+
+                                                <kendo-grid-column media="(min-width: 901px)" field="" title="" width="40">
+                                                    <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                        <div kendoTooltip tooltipClass="chkbox-tooltip" class="top" position="top" [class.disable-tip]="dataItem.Disableflag">
+                                                            <input
+                                                                type="checkbox"
+                                                                id="{{ dataItem.Srno }}"
+                                                                class="k-checkbox"
+                                                                (click)="checkboxClick($event, dataItem)"
+                                                                [disabled]="dataItem.Disableflag"
+                                                            />
+
+                                                            <label class="k-checkbox-label" for="{{ dataItem.Srno }}"></label>
+                                                            <div title="{{ this.pageContent.Employee_Info.Emp_Checkbox_Tooltip_Msg }}" *ngIf="dataItem.Disableflag"></div>
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="Srno" title="#" width="60" media="(min-width: 901px)" [filterable]="false">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="PRNL_ID" title="#" width="70" media="(min-width: 901px)" [filterable]="false" *ngIf="visible">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    field="Name"
+                                                    title="{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Name }}"
+                                                    width="160"
+                                                    [filterable]="true"
+                                                    media="(min-width: 901px)"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <div *ngIf="dataItem.EditFlag == true">
+                                                            <a (click)="addEmployee('EDIT', dataItem)">{{ dataItem.Name }}</a>
+                                                        </div>
+                                                        <div *ngIf="dataItem.EditFlag == false">
+                                                            {{ dataItem.Name }}
+                                                        </div>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="Email"
+                                                    title="{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Email }}"
+                                                    width="220"
+                                                    [filterable]="true"
+                                                    media="(min-width: 901px)"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="Phone"
+                                                    title="{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Phone }}"
+                                                    width="120"
+                                                    [filterable]="true"
+                                                    media="(min-width: 901px)"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.Phone | phone }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    field="EmployeeRoleTranslated"
+                                                    title="{{ pageContent.Employee_Info.Employee_Info_Grid_Header_Role }}"
+                                                    width="140"
+                                                    [filterable]="true"
+                                                    media="(min-width: 901px)"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitive(column.field)"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </section>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <!-- </div></perfect-scrollbar> -->
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>

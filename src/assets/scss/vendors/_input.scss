@@ -1,0 +1,252 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Input Component
+// ----------------------------------------------------------------------------
+
+.k-textbox::selection,
+.k-textbox .k-input::selection {
+    color: $c-White;
+    background-color: $c-D-Blue;
+}
+input.err,
+kendo-maskedtextbox.err input,
+.k-autocomplete.err .k-searchbar .k-input,
+input.ng-invalid:not(.ng-untouched) {
+    box-shadow: 0 2px 0 0 $c-Error !important;
+    border: 1px solid $c-Error !important;
+    background-color: $c-White !important;
+}
+.k-window-action {
+    .k-icon {
+        font-size: 20px;
+    }
+}
+.k-autocomplete,
+.k-textarea,
+.k-combobox,
+.k-dateinput,
+.k-datepicker,
+.k-datetimepicker,
+.k-dropdown,
+.k-multiselect,
+.k-numerictextbox,
+.k-maskedtextbox,
+.k-timepicker,
+.k-dropdowntree {
+    @extend %W-100;
+}
+/* text box*/
+.k-textbox-container {
+    @extend %W-100;
+    > .k-label {
+        top: calc(1.0714285714em + 1.5rem);
+
+        @include Max($MD-P) {
+            top: calc(1.0714285714em + 1.7rem);
+        }
+        left: 10px;
+        right: 0;
+        font-size: 12px;
+        color: $c-D-Blue;
+        font-weight: bold;
+        transition: all 0.3s ease;
+        transform: none;
+        max-width: 95%;
+    }
+
+    &:not(.k-state-empty),
+    &.k-state-focused {
+        > .k-label {
+            transform: translateY(-28px);
+            font-weight: bold;
+            left: 0;
+        }
+    }
+    &.k-state-empty {
+        > .k-label {
+            font-size: 1.4rem;
+        }
+        &.k-state-focused {
+            > .k-label {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+.k-form-inline {
+    .k-form-field {
+        &.required {
+            > span:first-child {
+                &:after {
+                    @extend %astrict;
+                }
+            }
+        }
+    }
+}
+
+.cont-loc.dropzone-area {
+    > label {
+        &:after {
+            @extend %astrict;
+        }
+    }
+}
+
+.required {
+    .k-label {
+        &:after {
+            @extend %astrict;
+        }
+    }
+}
+.dynamic-field {
+    .required {
+        .k-label {
+            &:after {
+                @extend %astrict;
+            }
+        }
+    }
+    .k-button {
+        margin-top: 1rem;
+    }
+}
+.countryValidation {
+    .k-label {
+        &:after {
+            display: none !important;
+        }
+    }
+}
+.floating-labels .k-textbox-container[required] {
+    > .k-label {
+        &:after {
+            @extend %astrict;
+        }
+    }
+    .err-msg {
+        margin-bottom: 0 !important;
+    }
+    .k-textbox {
+        &.err {
+            margin-bottom: 2rem !important;
+        }
+    }
+}
+.k-form-field[required] {
+    > span:first-child {
+        &:after {
+            @extend %astrict;
+        }
+    }
+}
+/* Numeric Text Box */
+.k-numerictextbox .k-numeric-wrap {
+    background: none;
+    border: none;
+    .k-select {
+        height: 38px;
+        position: absolute;
+        right: 0;
+        background-color: transparent;
+        background: none !important;
+        .k-state-active {
+            box-shadow: none;
+            background: none;
+        }
+    }
+}
+
+.k-state-disabled,
+.k-widget[disabled] {
+    opacity: 1;
+    filter: none;
+}
+.k-state-disabled input,
+.k-widget[disabled] input,
+input:disabled,
+.k-dropdown-wrap.k-state-disabled,
+input[disabled] {
+    box-shadow: 0 2px 0 0 $c-Disable-Shadow; //#e7e4e0;
+    background-color: $c-Disable-Bg-Color !important; // #f8f8f8 !important;
+    color: $c-Disable-Color !important; //#909090 !important;
+    border: 1px solid $c-Disable-Bdr !important; // #e5e2df !important;
+    opacity: 0.8 !important;
+}
+.k-dropdown-wrap.k-state-disabled {
+    opacity: 1 !important;
+    background: #f5f5f5 !important;
+    border: 0px !important;
+
+    .k-input,
+    .k-select {
+        color: #a6a6a6 !important;
+    }
+}
+
+.Safari {
+    input:disabled,
+    input[disabled] {
+        color: $c-Dg-90 !important; //#909090 !important;
+    }
+}
+.k-searchbar .k-input:focus {
+    border: none !important;
+}
+/* Masked Text Box */
+.k-maskedtextbox {
+    &.ng-dirty.ng-invalid {
+        .k-textbox {
+            box-shadow: 0 2px 0 0 $c-Error !important;
+            border-color: $c-Error !important;
+            background-color: $c-White !important;
+        }
+    }
+}
+.k-text-selection ::selection,
+.k-chart ::selection,
+.k-sparkline ::selection,
+.k-stockchart ::selection,
+kendo-scrollview.k-scrollview-wrap ::selection,
+div.k-scrollview ::selection,
+.k-pdf-viewer ::selection,
+.k-mediaplayer ::selection,
+.k-chat ::selection,
+.k-scheduler ::selection,
+.k-spreadsheet ::selection,
+.k-splitter ::selection,
+.k-card ::selection,
+.k-panelbar ::selection,
+.k-pager-wrap ::selection,
+.k-breadcrumb ::selection,
+.k-notification ::selection,
+.k-drawer ::selection,
+.k-window ::selection,
+.k-rating ::selection,
+.k-maskedtextbox ::selection,
+.k-multiselect ::selection,
+.k-dropdowntree ::selection,
+.k-dropdown ::selection,
+.k-dateinput ::selection,
+.k-datepicker ::selection,
+.k-datetimepicker ::selection,
+.k-timepicker ::selection,
+.k-combobox ::selection,
+.k-flatcolorpicker ::selection,
+.k-numerictextbox ::selection,
+.k-progressbar ::selection,
+.k-pane-wrapper ::selection,
+.k-view ::selection,
+.k-block ::selection,
+.k-panel ::selection {
+    background-color: $c-D-Blue;
+}
+
+/*.k-dropdown-wrap:read-only:not([readonly="false"]), input.k-textbox:read-only:not([readonly="false"]),*/
+input.k-textbox:disabled,
+.k-dateinput-wrap .k-input:read-only:not([readonly='false']),
+.k-textbox-container + .k-datepicker + .k-label {
+    // background-color: $c-Blk-05 !important;
+    position: relative;
+}

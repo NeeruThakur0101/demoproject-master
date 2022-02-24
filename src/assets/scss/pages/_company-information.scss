@@ -1,0 +1,115 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Company Page
+// -----------------------------------------------------------------------------
+.company-information {
+
+    .flex-5-5 {
+        @include grid(100, 10px, 'flx', 2, 900, 1, 768, 1, 520, 1);
+        padding-top: 10px !important;
+
+        .tool-with-input {
+            input.k-textbox {
+                padding-right: 85px;
+            }
+        } 
+
+    }
+    > .white-block {
+        @include Max($D-S) {
+            margin-top: 0;
+        }
+        .flex-6-4,
+        .bottom-block {
+            .col {
+                .k-form-field {
+                    > span {
+                        //flex: 0 0 calc(50% + 10px);
+                        width: calc(50% + 10px) !important;
+                        @include Max(980px) {
+                            //flex: 0 0 calc(100% - 220px);
+                            flex: 0 0 calc(100% - 0px);
+                        }
+                        @include Max($MD-L) {
+                            flex: 0 0 100%;
+                        }
+                    }
+                    > section {
+                        width: calc(50% - 10px) !important;
+                        //flex:1;
+                        kendo-datepicker,
+                        .k-textbox {
+                            width: 100% !important;
+                            max-width: 190px;
+                        }
+                    }
+                }
+            }
+            @include Max($M-XL) {
+                padding-top: 0;
+            }
+        }
+    }
+    > .flex-5-5 {
+        > .col {
+            margin-bottom: 0;
+            @include Max(980px) {
+                margin-bottom: 2rem;
+            }
+            > .white-block {
+                @include Max($iPh-L) {
+                    padding: 0 1.5rem 2.5rem;
+                }
+            }
+        }
+    }
+    .k-switch {
+        padding-top: 1rem;
+        margin-left: 3rem;
+    }
+    .moisture-block {
+        .moisture-block-wrapper {
+            padding: 0 1rem;
+        }
+        .k-form-field {
+            @include grid(100, 10px, 'flx', 3, 1240, 2, 768, 2, 640, 1);
+            padding-bottom: 5px !important;
+            .col {
+                margin-bottom: 5px;
+                padding: 0;
+            }
+        }
+        @include Max($iPh-L) {
+            padding-top: 10px !important;
+        }
+    }
+    .k-tooltip-validation.required {
+        display: flex;
+        justify-content: flex-start;
+        padding-left: calc(50% + 10px) !important;
+        @include respond-to-Min-Max(1045px, 701px) {
+            width: 100%;
+            padding: 5px 60px 0 0;
+            margin: 0;
+        }
+        @include Max($MD-L) {
+            // justify-content: flex-start;
+            padding: 0 !important;
+        }
+    }
+    // .k-state-disabled + .tools a,
+    // .tools.disable-rep a {
+    //     cursor: not-allowed;
+    //     opacity: 0.6;
+    // }
+}
+@include Max($iPh-P) {
+    .lang-franch {
+        .company-info-page {
+            .federal-tax {
+                .tool-with-input .tools {
+                    top: 58px;
+                }
+            }
+        }
+    }
+}

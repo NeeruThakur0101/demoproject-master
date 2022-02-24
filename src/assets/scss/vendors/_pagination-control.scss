@@ -1,0 +1,14 @@
+
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Pagination Component
+// ----------------------------------------------------------------------------
+
+
+pagination-controls {
+    margin-top: 10px;
+    display: block;
+
+    .ngx-pagination .current {
+        background-color:$c-D-Blue;
+    }
+}

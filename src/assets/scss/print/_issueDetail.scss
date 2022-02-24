@@ -1,0 +1,118 @@
+@media print {
+    
+    body, html {
+        height: initial !important;
+
+        @include iehack {
+            height: auto !important;
+        }
+    }
+
+    main>.outer-block>.inner-block .middle-section>.white-block,
+    main>.outer-block>.inner-block {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+    }
+    .issue-detail-page {
+        margin-top: 2rem !important;
+        height: initial !important;
+
+        @include iehack {
+            height: auto !important;
+        }
+        .k-tabstrip>.k-content {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+        .issue-detail-scroll .scroll-inner .k-tabstrip .tab-content-scroll,
+        .middle-section,
+        main>.outer-block>.inner-block .middle-section>.white-block {
+            height: initial !important;
+            @include iehack {
+                height: auto !important;
+            }
+        }
+        .print-page,
+        .close-page,
+        .issue-detail-footer,
+        .accordT,
+        .inner-navigation {
+            display: none !important;
+        }
+        .accordT+.col {
+            display: block !important;
+        }
+        .scrollable-content {
+            width: 100% !important;
+            padding: 0 !important;
+        }
+        .issue-detail-scroll .scroll-inner .k-tabstrip .three-block-form .col>section {
+            border: none !important;
+            padding-bottom: 0 !important;
+            margin-bottom: 0 !important;
+        }
+        .issue-detail-scroll {
+            .k-tabstrip-items {
+                .k-item {
+                    .l-link {
+                        border: none !important;
+                        padding: 0 !important;
+                    }
+                    &.k-state-active {
+                        display: block !important;
+                    }
+                    display: none !important;
+                }
+            }
+        }
+
+
+
+        //.addNoteResponse
+
+        .page-title {
+            display: block !important;
+            margin-top: 1.5rem;
+        }
+
+        .k-action-buttons {
+            display: none;
+        }
+
+        .addNoteResponse {
+            height: initial !important;
+
+            .scrollable-content {
+                height: initial !important;
+            }
+
+            .conditional-block, .file-notes-elements {
+                border:none !important;
+
+                
+            }
+
+            .conditional-block {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+            .file-notes-elements {
+                padding-left: 0;
+                padding-right: 0;
+                margin-top: -1rem;
+            }
+
+            .pending-issue-msg {
+                margin-top: 0;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+        }
+    }
+
+    .issue-detail-page .top-detail-bar {
+        position: relative;
+    }
+}

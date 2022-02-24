@@ -1,0 +1,152 @@
+<kendo-dialog-titlebar class="hasDialog" [minWidth]="580" [width]="100">
+    <h1>{{ header }} {{ pageContent.Job_Volume_Info.Job_Volume_Informations_Page_Header }}</h1>
+    <button type="button" (click)="closePopupAddJob('cancel')">&times;</button>
+</kendo-dialog-titlebar>
+<form [formGroup]="jobForm" (ngSubmit)="onSubmit()">
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <section class="white-block">
+                    <section class="form-block floating-labels">
+                        <div class="form-control" [class.readonly]="isYearDiabled">
+                            <div class="block-data"></div>
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.Type_Year_In_YYYY_Format }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isYear == true ? 'visual-cue' : ''"
+                                    formControlName="year"
+                                    [class.readonly]="isYearDiabled"
+                                    (paste)="onPaste()"
+                                    [readonly]="isYearDiabled || disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal')  "
+                                    (blur)="validateYear($event.target.value)"
+                                    (keypress)="numberOnly($event)"
+                                    maxlength="4"
+                                    [ngClass]="{ err: submitted && jobFormControl.year.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.year.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.year.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.Per_Residential_Insurance_Restoration }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isResInsRestoPer == true ? 'visual-cue' : ''"
+                                    formControlName="residentialInsurance"
+                                    maxlength="3"
+                                    [readonly]="(newIncomingData && newIncomingData.isResInsRestoPer == true && internalEmployee == true) || disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal')  "
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="onPaste()"
+                                    (blur)="checkPercentageValue($event.target.value)"
+                                    [ngClass]="{ err: submitted && jobFormControl.residentialInsurance.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.residentialInsurance.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.residentialInsurance.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.Per_Commercial_Insurance_Restoration }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isComInsResPer == true ? 'visual-cue' : ''"
+                                    formControlName="commercialInsurance"
+                                    maxlength="3"
+                                    [readonly]="(newIncomingData && newIncomingData.isComInsResPer == true && internalEmployee == true)|| disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') "
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="onPaste()"
+                                    (blur)="checkPercentageValue($event.target.value)"
+                                    [ngClass]="{ err: submitted && jobFormControl.commercialInsurance.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.commercialInsurance.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.commercialInsurance.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.Per_Residential_Remodeling }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isResRemodelPer == true ? 'visual-cue' : ''"
+                                    formControlName="residentialRemodeling"
+                                    maxlength="3"
+                                    [readonly]="(newIncomingData && newIncomingData.isResRemodelPer == true && internalEmployee == true)|| disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') "
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="onPaste()"
+                                    (blur)="checkPercentageValue($event.target.value)"
+                                    [ngClass]="{ err: submitted && jobFormControl.residentialRemodeling.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.residentialRemodeling.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.residentialRemodeling.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.Per_Commercial_Remodeling }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isComRemodelPer == true ? 'visual-cue' : ''"
+                                    formControlName="commercialRemodeling"
+                                    maxlength="3"
+                                    [readonly]="(newIncomingData && newIncomingData.isComRemodelPer == true && internalEmployee == true)|| disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') "
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="onPaste()"
+                                    (blur)="checkPercentageValue($event.target.value)"
+                                    [ngClass]="{ err: submitted && jobFormControl.commercialRemodeling.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.commercialRemodeling.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.commercialRemodeling.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.$_Largest_Single_Job }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isLargestSingle == true ? 'visual-cue' : ''"
+                                    formControlName="largetSingleJob"
+                                    maxlength="10"
+                                    [readonly]="(newIncomingData && newIncomingData.isLargestSingle == true && internalEmployee == true)|| disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') "
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="onPaste()"
+                                    [ngClass]="{ err: submitted && jobFormControl.largetSingleJob.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.largetSingleJob.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.largetSingleJob.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Job_Volume_Info.$_Average_Job_Amount }}">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncomingData && newIncomingData.isAverageJob == true ? 'visual-cue' : ''"
+                                    formControlName="avgJobAmount"
+                                    maxlength="10"
+                                    [readonly]="(newIncomingData && newIncomingData.isAverageJob == true && internalEmployee == true)|| disableInternalAccess ||   (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') "
+                                    (keypress)="numberOnly($event)"
+                                    (paste)="onPaste()"
+                                    [ngClass]="{ err: submitted && jobFormControl.avgJobAmount.errors }"
+                                />
+                                <div *ngIf="submitted && jobFormControl.avgJobAmount.errors" class="invalid-feedback">
+                                    <div *ngIf="jobFormControl.avgJobAmount.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="closePopupAddJob('cancel')">{{ pageContent.Job_Volume_Info.Job_Volume_Cancel }}</button>
+        <button kendoButton type="submit" [disabled]="loggedInUserType !== 'Internal' && IsRowDisable" [primary]="true">{{ pageContent.Job_Volume_Info.Job_Volume_Save }}</button>
+    </div>
+</form>

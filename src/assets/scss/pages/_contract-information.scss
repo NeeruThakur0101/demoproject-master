@@ -1,0 +1,213 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Contact Info Page
+// -----------------------------------------------------------------------------
+.contract-information {
+    padding-top: 2rem;
+    .flex-5-5 {
+        @include grid(100, 10px, 'flx', 2, 1340, 1, 768, 1, 520, 1);
+        padding-top: 15px !important;
+
+        .tool-with-input {
+            .k-textbox {
+                padding-right: 5.5rem !important;
+            }
+
+            &.two-btn {
+                .k-textbox {
+                    padding-right: 8.7rem !important;
+                }
+                
+            }
+        }
+       
+    }
+    .k-form-inline {
+        padding: 1.6rem;
+        @include Max($MD-L) {
+            padding-top: 0;
+            .helper {
+                padding-top: 10px;
+            }
+        }
+        .k-form-field {
+            position: relative;
+            @include Max($MD-L) {
+                flex-wrap: wrap;
+                margin-bottom: 0;
+            }
+            .k-switch {
+                margin-top: 10px;
+                margin-left: 30px;
+                @include Max($MD-L) {
+                    margin-bottom: 15px;
+                }
+            }
+        }
+        .action-buttons {
+            position: fixed;
+            bottom: 35px;
+            left: 0;
+            right: 0;
+            opacity: 1;
+        }
+        .email-row {
+            padding-bottom: 10px;
+            .tools {
+                padding: 0;
+                button {
+                    width: 40px;
+                    height: 40px;
+                    &.add {
+                        border-left: 1px solid $c-Bdr-L;
+                        margin-left: -1px;
+                    }
+                }
+            }
+        }
+
+        .err-msg.comp {
+            padding-left: 45%;
+            text-align: left;
+
+            @include Max($MD-L) {
+                padding-left: 0;
+                padding-top: 1rem;
+            }
+        }
+    }
+
+ 
+
+
+}
+.cont-info-page {
+    height: calc(100% - 80px) !important;
+    > .white-block {
+        @include iehack {
+            padding-bottom: 10px !important;
+        }
+    }
+    .scrollable-content-wrapper {
+        .scrollable-content {
+            width: 100%;
+        }
+        .scroll-inner {
+            height: 100%;
+            .contract-information {
+                height: 100%;
+                .k-tabstrip {
+                    height: 100%;
+                    .k-state-active {
+                        form {
+                            height: 100%;
+
+                             label:not(.full-width) > span:first-child:not(.err-msg):not(.label) {
+                                width:47%;
+                            }
+                            label > input, .tool, label > .k-dropdown {
+                                width: calc(100% - 47%) !important;
+
+                                @include respond-to-Max($MD-L) {
+                                    width: 100% !important;
+                                }
+                            }
+                         label .tool > input {
+                            width: 100% !important;
+                         }
+                            .action-buttons {
+                                bottom: 90px;
+                                //bottom: 35px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .k-tabstrip-items {
+        .k-item {
+            .k-link {
+                position: relative;
+                padding: 0 !important;
+                strong {
+                    padding: 5px 12px;
+                    font-weight: normal;
+                }
+                strong.visual-cue {
+                    color: $c-V-Que !important;
+                    background-color: $c-VQ-Bg !important;
+                    border: 1px solid $c-V-Que !important;
+                    border-radius: 5px;
+                }
+            }
+        }
+    }
+    > .white-block {
+        padding: 0;
+        background-color: transparent !important;
+        border: none;
+        position: relative;
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: $c-Wh-05;
+            border: 1px solid $c-Bdr-L; // #d4cfc8;
+            padding: 1.5rem 2rem 2rem;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+    }
+    .k-tabstrip .k-tabstrip-items .disable-tab {
+        pointer-events: none;
+        opacity: 0.8;
+    }
+}
+
+.contact-info-page {
+    @media all and (max-width: 1240px), (max-height: 700px) {
+        height: auto;
+        min-height: 100%;
+        .action-buttons {
+            position: relative !important;
+            bottom: 0 !important;
+        }
+    }
+    .action-buttons {
+        button {
+            min-width: 11rem;
+            @include Max(400px) {
+                min-width: 9rem;
+                padding: 0 1rem;
+            }
+        }
+    }
+}
+.lang-french {
+    @include Max($MD-P) {
+        .contact-info-page {
+            .action-buttons {
+                button {
+                    min-width: auto;
+                }
+            }
+        }
+    }
+}
+.Safari {
+    &.mobile,
+    &.tablet {
+        .contact-info-page {
+            .scrollable-content {
+                padding-right: 10px !important;
+            }
+        }
+    }
+}
+@include Max(540px) {
+    @include iehack() {
+    }
+}

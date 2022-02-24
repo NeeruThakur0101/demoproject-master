@@ -1,0 +1,208 @@
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Company_Info.Repository }}</h1>
+        <button type="button" (click)="onClose()">&times;</button>
+</kendo-dialog-titlebar>
+
+<!-- popup content section -->
+<div appGridlayout class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block reository">
+            <!-- popup content -->
+            <section class="white-block">
+                <!-- form block starts -->
+                <section class="form-block">
+                    <div class="form-control">
+                        <kendo-dropdownlist [data]="listItems" [(ngModel)]="defaultItem"
+                            [textField]="'ContractorDocumentTypeTitleTranslated'"
+                            [valueField]="'ContractorDocumentTypeID'" (valueChange)="valueChange($event)">
+                            <ng-template kendoDropDownListNoDataTemplate>
+                                <h4>
+                                    {{ pageContent.General_Keys.No_Data_Found}}
+                                </h4>
+                            </ng-template>
+                        </kendo-dropdownlist>
+
+                        <kendo-upload #myUpload [saveUrl]="uploadSaveUrl" [removeUrl]="uploadRemoveUrl"
+                            [autoUpload]="false" (select)="selectEventHandler($event)" [restrictions]="fileRestriction"
+                            (remove)="removeEventHandler($event)" (uploadProgress)="uploadProgressEvent($event)"
+                            (complete)="completeEventHandler()" (clear)="clearEventHandler($event)">
+                            <kendo-upload-messages select="{{ pageContent.Company_Info.Select_files }}"
+                                dropFilesHere="{{ pageContent.Company_Info.Drop_Your_Files_Here }}">
+                            </kendo-upload-messages>
+                            <ng-template kendoUploadFileTemplate let-files let-state="state">
+                                <div class="selectFileList" *ngFor="let image of selectedFiles">
+                                    <div class="selectFileCont" *ngIf="image.uid == files[0].uid">
+                                        <figure>
+                                            <img width="50px" [src]="image.preview" />
+                                        </figure>
+                                        <div>
+                                            <label class="repos-image">{{ image.name }} </label>
+                                            <div>Size : {{ image.size }}</div>
+                                        </div>
+
+                                        <div class="close-btn">
+                                            <button (click)="remove(myUpload, files[0].uid)" class="k-button">
+                                                <span class="k-icon k-i-delete"></span>
+                                            </button>
+                                        </div>
+                                        <kendo-progressbar class="k-upload-pct" *ngIf="image.uploadProgress"
+                                            [value]="image.uploadProgress" style="height: 10px"> </kendo-progressbar>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </kendo-upload>
+                    </div>
+                </section>
+            </section>
+            <!-- first section-->
+            <section class="white-block">
+                <!-- form block starts -->
+                <section class="form-block">
+                    <div class="form-control">
+                        <h2>{{ pageContent.Company_Info.Document_Uploaded_by_Contractor }}</h2>
+
+                        <section class="repo-listing">
+                            <div class="repo-list-inner">
+                                <ul class="uploaded-documents">
+                                    <li class="col" *ngFor="let data of listItems">
+                                        <div (click)="getDocumentList(data.ContractorDocumentTypeTitle)">
+                                            <input type="radio" id="doc_{{ data.ContractorDocumentTypeID }}"
+                                                [checked]="data.Checked" class="k-radio" name="contractor" />
+                                            <label class="" for="doc_{{ data.ContractorDocumentTypeID }}">
+                                                <span>{{ data.Count }}</span>
+                                                <small>{{ data.ContractorDocumentTypeTitleTranslated }}</small>
+                                            </label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </section>
+            <!-- second section-->
+            <section class="white-block">
+                <!-- form block starts -->
+                <section class="form-block">
+                    <div class="form-control">
+                        <h2>{{ pageContent.Company_Info.Documents_uploaded_by_Contractor_Connection }} <sup>&reg;</sup>
+                        </h2>
+                        <section class="repo-listing by-cc">
+                            <div class="repo-list-inner">
+                                <ul class="cc-documents">
+                                    <li class="col">
+                                        <div>
+                                            <input type="radio" class="k-radio" name="contractor" />
+                                            <label class="">
+                                                <span>0</span>
+                                                <small>{{ pageContent.Company_Info.Corporate }}</small>
+                                            </label>
+                                        </div>
+                                    </li>
+                                    <li class="col">
+                                        <div>
+                                            <a href="https://apps2.contractorconnection.com/NetworkCommunicationsLibrary/Home/Newsletter"
+                                                target="_blank"><small>{{
+                                                    pageContent.Company_Info.Network_Communications_Library
+                                                    }}</small></a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </section>
+            <!-- third section-->
+            <section class="white-block">
+                <kendo-grid media="(min-width: 901px)" class="responsive-grid job-volume-grid desktop-mode"
+                    [pageSize]="pageSize" [pageable]="pageObj" #grid [kendoGridBinding]="gridData" [skip]="skip"
+                    [style.height.%]="90" filterable="menu" [filter]="filter" (filterChange)="filterChange($event)"
+                    (pageChange)="onPageChange($event)" [selectable]="{ mode: 'single' }" [data]="gridView" [sortable]="{
+                    allowUnsort: allowUnsort,
+                    mode: multiple ? 'multiple' : 'single'
+                }" [sort]="sort">
+                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- template for mobile -->
+                            <h2 class="tbl-card-title"><strong>{{ pageContent.Company_Info.Document_ID }}</strong> {{
+                                dataItem.DocId }}</h2>
+                            <dl>
+                                <dt><strong>{{ pageContent.Company_Info.Name }} </strong></dt>
+                                <dd>
+                                    <a (click)="downloadFile(dataItem.DocName, dataItem.folderName)">{{ dataItem.DocName
+                                        }}</a>
+                                    >
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Company_Info.Date }}</strong>
+                                </dt>
+                                <dd>
+                                    {{ dataItem.UploadedDate | date: 'MM/dd/yyyy' }}
+                                </dd>
+                            </dl>
+
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Company_Info.Uploaded_By }}</strong>
+                                </dt>
+                                <dd>
+                                    {{ dataItem.UploadedBy }}
+                                </dd>
+                            </dl>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <!-- For PC version starts here -->
+
+                    <kendo-grid-column field="DocId" title="#" width="15" media="(min-width: 901px)"
+                        [filterable]="false"> </kendo-grid-column>
+                    <kendo-grid-column field="DocName" title="{{ pageContent.Company_Info.Name }}" width="50"
+                        media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+                            let-filterService="filterService">
+                            <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                [filterService]="filterService" [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"></app-multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <a (click)="downloadFile(dataItem.DocName, dataItem.folderName)">{{ dataItem.DocName }}</a>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="UploadedDate" title="{{ pageContent.Company_Info.Date }}" width="30"
+                        media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+                            let-filterService="filterService">
+                            <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                [filterService]="filterService" [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"></app-multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            {{ dataItem.UploadedDate | date: 'MM/dd/yyyy' }}
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column field="UploadedBy" title="{{ pageContent.Company_Info.Uploaded_By }}" width="50"
+                        media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+                            let-filterService="filterService">
+                            <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                [filterService]="filterService" [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"></app-multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                        noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}">
+                    </kendo-grid-messages>
+                </kendo-grid>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton (click)="onClickCancel()">{{ pageContent.Company_Info.Cancel_Company_Info }}</button>
+</div>

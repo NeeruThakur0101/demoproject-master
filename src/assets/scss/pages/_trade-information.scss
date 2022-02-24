@@ -1,0 +1,546 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Trade Information Page
+// -----------------------------------------------------------------------------
+.trade-information {
+    ////
+    .ex-table-v-wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+    @include Min(1200px) {
+        .ex-table-wrapper:not(.horizontal-scroll) {
+            max-height: 30rem;
+            overflow: hidden;
+            width: calc(100% + 12px);
+        }
+    }
+    @include Max(1200px) {
+        .ex-table-wrapper {
+            max-height: 31.2rem !important;
+            overflow: hidden;
+            width: calc(100% + 12px);
+            &.row-1 {
+                width: 100%;
+            }
+        }
+    }
+    @include Max(667px) {
+        .ex-table-wrapper {
+            &.row-1 {
+                width: calc(100% + 12px) !important ;
+            }
+        }
+    }
+
+    .d-table-wrapper {
+        &.ex-table {
+            max-width: 100%;
+            overflow-x: auto;
+            max-height: 312px;
+            padding-bottom: 1.5rem;
+            .d-col {
+                flex: 0 0 200px;
+                max-width: 200px;
+            }
+        }
+    }
+    .ex-table-wrapper {
+        @include Min($D-N) {
+            &.row-1 {
+                max-height: 130px;
+            }
+            &.row-2 {
+                max-height: 200px;
+            }
+            &.row-3 {
+                max-height: 300px;
+            }
+            &.row-4 {
+                max-height: 300px;
+            }
+            &.row-5 {
+                max-height: 300px;
+            }
+        }
+        @media all and (max-width: 1210px) {
+            &.row-1 {
+                max-height: 130px;
+            }
+            &.row-2 {
+                max-height: 210px;
+            }
+        }
+        .d-table {
+            .d-table-hd,
+            .d-table-row {
+                .d-col {
+                    input {
+                        margin-bottom: 0;
+                    }
+                    .textarea-wrapp {
+                        overflow: hidden;
+                        padding-bottom: 3px;
+                        &.has-scroll {
+                            .k-textarea {
+                                width: calc(100% + 12px);
+                                height: 80px;
+                            }
+                        }
+                    }
+                    textarea.k-textarea {
+                        width: 100%;
+                        margin: 0;
+                        resize: none;
+                        min-height: 3.5rem;
+                        height: auto;
+                        padding: 0.75rem 1rem;
+                        border-radius: 0;
+                        @extend %box-shadow;
+                    }
+                    .k-textbox {
+                        // line-height: 2.5rem;
+                        // height: 2.5rem !important;
+                        // top: -3px;
+                        // margin: 0 0 -4px;
+                        position: relative;
+                        padding-top: 2px;
+                        text-align: center;
+                    }
+                    .k-checkbox {
+                        height: initial !important;
+                        width: initial;
+                    }
+                    &:first-child {
+                        flex: 0 0 25%;
+                        max-width: 25%;
+                        label {
+                            display: block;
+                        }
+                        + .d-col {
+                            flex: 0 0 25%;
+                            max-width: 25%;
+                            + .d-col {
+                                flex: 0 0 10%;
+                                max-width: 10%;
+                                text-align: center;
+                                + .d-col {
+                                    flex: 0 0 20%;
+                                    max-width: 20%;
+                                    text-align: center;
+                                    .k-dropdown {
+                                        margin-bottom: 0;
+                                    }
+                                    .k-dropdown .k-input {
+                                        display: block;
+                                        line-height: 3.8rem !important;
+                                    }
+                                    + .d-col {
+                                        flex: 0 0 20%;
+                                        max-width: 20%;
+                                        text-align: center;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    @include Max($D-N) {
+                    }
+                }
+            }
+            .d-table-hd {
+                @include Max(1200px) {
+                    display: none;
+                }
+                .d-col {
+                    div {
+                        display: block;
+                        padding-top: 5px;
+                    }
+                    &:nth-child(6),
+                    &:nth-child(7) {
+                        background-color: $c-L-Blue !important;
+                        border-top: 1px solid $c-L-Gry;
+                        text-align: center;
+                    }
+                    &:nth-child(7) {
+                        border-right: 1px solid $c-L-Gry;
+                        text-align: center;
+                    }
+                }
+            }
+            .d-table-row {
+                @include Max(1200px) {
+                    width: 100%;
+                    display: flex;
+                    flex-wrap: wrap;
+                    margin-bottom: 20px;
+                    border: 1px solid #d7d2cb;
+                    border-bottom: 0px;
+                    .d-col {
+                        flex: 0 0 100% !important;
+                        max-width: 100% !important;
+                        border: none;
+                        position: relative;
+                        padding-left: 205px;
+                        border-bottom: 1px solid #d7d2cb;
+                        min-height: 41px;
+                        &:before {
+                            content: '';
+                            position: absolute;
+                            left: 0;
+                            top: 0;
+                            width: 190px;
+                            background-color: rgba($c-Blk, 0.03);
+                            padding: 10px;
+                            text-align: left;
+                            border-right: 1px solid #d7d2cb;
+                            bottom: 0;
+                            box-sizing: border-box;
+                        }
+                        label {
+                            margin-left: 0;
+                        }
+                    }
+                }
+                @include Max($iPh-L) {
+                    .d-col {
+                        flex: 0 0 100% !important;
+                        max-width: 100% !important;
+                        border: none;
+                        position: relative;
+                        padding: 50px 10px 10px 10px !important;
+                        min-height: 80px;
+                        border-bottom: 1px solid #d7d2cb;
+                        &:before {
+                            border-bottom: 1px solid #d7d2cb;
+                            right: 0;
+                            width: auto;
+                            border-right: none;
+                            bottom: auto;
+                        }
+                    }
+                }
+                .d-col {
+                    &:nth-child(6) {
+                        border-left: 0px;
+                        position: relative;
+                        text-align: center;
+                        label {
+                            margin-right: -10px;
+                        }
+                        @include Min($D-N) {
+                            &:after {
+                                content: '';
+                                width: 2px;
+                                top: 0;
+                                bottom: 0;
+                                left: 0;
+                                background-color: $c-White;
+                                display: block;
+                                position: absolute;
+                            }
+                        }
+                    }
+                    &:nth-child(7) {
+                        text-align: center;
+                        label {
+                            margin-right: -10px;
+                        }
+                        @include Min($D-N) {
+                            border-right: 1px solid $c-L-Gry;
+                        }
+                    }
+                }
+            }
+            @include Max(1200px) {
+                border: none;
+            }
+        }
+        &:not(.table-scroll) {
+            .d-table {
+                .d-table-row {
+                    @include Max(1200px) {
+                        .d-col {
+                            &:before {
+                                content: attr(data-label);
+                            }
+                            label {
+                                margin-left: 0;
+                            }
+                            &:first-child {
+                                // &:before {
+                                //     content: 'Trade';
+                                // }
+                                + .d-col {
+                                    // &:before {
+                                    //     content: 'Program';
+                                    // }
+                                    + .d-col {
+                                        text-align: left;
+                                        input {
+                                            width: 80px;
+                                        }
+                                        // &:before {
+                                        //     content: '%Sub';
+                                        // }
+                                        + .d-col {
+                                            .k-dropdown {
+                                                margin: 0;
+                                            }
+                                            text-align: left;
+                                            // &:before {
+                                            //     content: 'Single Trade';
+                                            // }
+                                            + .d-col {
+                                                text-align: left;
+                                                // &:before {
+                                                //     content: 'Consumer Services Trade';
+                                                // }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        &.table-scroll {
+            .d-table {
+                .d-table-row {
+                    @include Max(1200px) {
+                        width: 100%;
+                        display: flex;
+                        flex-wrap: wrap;
+                        margin-bottom: 20px;
+                        border: 1px solid #d7d2cb;
+                        border-bottom: 0px;
+                        .d-col {
+                            flex: 0 0 100% !important;
+                            max-width: 100% !important;
+                            border: none;
+                            position: relative;
+                            padding-left: 205px;
+                            border-bottom: 1px solid #d7d2cb;
+                            min-height: 41px;
+                            &:before {
+                                content: '';
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                                width: 175px;
+                                background-color: rgba($c-Blk, 0.03);
+                                padding: 10px;
+                                text-align: left;
+                                border-right: 1px solid #d7d2cb;
+                                bottom: 0;
+                            }
+                            label {
+                                margin-left: 0;
+                            }
+                            &:first-child {
+                                // &:before {
+                                //     content: 'Trade';
+                                // }
+                                + .d-col {
+                                    // &:before {
+                                    //     content: 'Program';
+                                    // }
+                                    + .d-col {
+                                        text-align: left;
+                                        input {
+                                            width: 80px;
+                                        }
+                                        // &:before {
+                                        //     content: '%Sub';
+                                        // }
+                                        + .d-col {
+                                            .k-dropdown {
+                                                margin: 0;
+                                            }
+                                            text-align: left;
+                                            // &:before {
+                                            //     content: 'Sub-Out Reason';
+                                            // }
+                                            + .d-col {
+                                                text-align: left;
+                                                // &:before {
+                                                //     content: 'Sub-Out Comment';
+                                                // }
+                                                + .d-col {
+                                                    text-align: left;
+                                                    // &:before {
+                                                    //     content: 'Single Trade';
+                                                    // }
+                                                    + .d-col {
+                                                        text-align: left;
+                                                        // &:before {
+                                                        //     content: 'Consumer Services Trade';
+                                                        // }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    @include Max($iPh-L) {
+                        .d-col {
+                            &:before {
+                                width: auto;
+                                right: 0;
+                                height: 40px;
+                                box-sizing: border-box;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    ///
+    .k-panelbar {
+        .k-state-default {
+            h3 {
+                small {
+                    display: none;
+                }
+            }
+            &.k-state-expanded {
+                h3 {
+                    small {
+                        display: inline-block;
+                    }
+                }
+                .k-header {
+                    .k-icon {
+                        @include Max(450px) {
+                            top: 10px;
+                        }
+                    }
+                }
+            }
+        }
+        .k-item {
+            .k-header {
+                .k-icon {
+                    top: 13px;
+                    margin-top: 0;
+                    @include Max($D-N) {
+                        top: 9px;
+                    }
+                    @include Max(450px) {
+                        top: 8px;
+                    }
+                }
+                h3 {
+                    width: 100%;
+                    padding-right: 40px;
+                    position: relative;
+                    strong {
+                        text-transform: initial;
+                        font-weight: 500;
+                        letter-spacing: 0.5px;
+                        small {
+                            text-transform: none;
+                            font-weight: 400;
+                            font-style: italic;
+                            letter-spacing: 0;
+                            font-size: 90%;
+                        }
+                    }
+                    .counter {
+                        position: absolute;
+                        top: -4px;
+                        right: 0;
+                        background-color: $c-Rem;
+                        border-radius: 100%;
+                        width: 25px;
+                        height: 25px;
+                        text-align: center;
+                        line-height: 25px;
+                        font-size: 12px;
+                        color: $c-White;
+                        &.visual-cue:hover {
+                            color: $c-White !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // .scrollable-content {
+    //     padding-right: 5px;
+    // }
+    @include Max($Tab-P) {
+        .bottom-section,
+        .action-buttons {
+            position: relative !important;
+            //bottom: -1.5px !important;
+        }
+        .scrollable-content-wrapper.has-scroll {
+            .scrollable-content {
+                width: 100%;
+            }
+        }
+    }
+}
+
+.mobile {
+    .trade-information {
+        @include Max(480px) {
+            .ex-table-wrapper {
+                width: 100%;
+            }
+        }
+    }
+}
+.trade-information-page {
+    .h-100 {
+        height: calc(100% - 80px);
+        .trade-information {
+            height: calc(100% - 45px) !important;
+        }
+    }
+}
+.lang-french {
+    .trade-information {
+        ////
+        .ex-table-wrapper {
+            @include Min($D-N) {
+                &.row-1 {
+                    max-height: 150px;
+                }
+                &.row-2 {
+                    max-height: 235px;
+                }
+                &.row-3 {
+                    max-height: 300px;
+                }
+                &.row-4 {
+                    max-height: 300px;
+                }
+                &.row-5 {
+                    max-height: 300px;
+                }
+            }
+            @media all and (max-width: 1152px) {
+                &.row-1 {
+                    max-height: 150px;
+                }
+            }
+        }
+    }
+}
+.Safari {
+    .trade-information .ex-table-wrapper {
+        width: 100%;
+    }
+}
+app-trade-information + .k-tooltip-wrapper .k-tooltip {
+    margin-right: -15px;
+}

@@ -1,0 +1,205 @@
+<main appGridlayout class="ContractorOperations" [class.internal-user]="_srvAuth.Profile.ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <h1>{{ pageContent.Contractor_Operation.Contractor_Operations_Page }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <section class="middle-section">
+                <div class="white-block">
+                    <form class="k-form-inline h-100">
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content">
+                                <section class="white-block">
+                                    <section class="grid-top-bar">
+                                        <div></div>
+                                        <div>
+                                            <button *ngIf="editRecertDatePvlg" class="k-icon k-i-track-changes-enable k-primary edit-recertifiation" (click)="editRecertDate()">
+                                                <i></i>
+                                            </button>
+                                            <button kendobutton="" type="button" class="k-button k-primary" (click)="openEventPop()">
+                                                {{ pageContent.Contractor_Operation.Add_Event }}
+                                            </button>
+                                        </div>
+                                    </section>
+                                    <section class="cont-operation-wrap" *ngIf="!Page.showData">
+                                        <kendo-grid
+                                            media="(min-width: 901px)"
+                                            [kendoGridBinding]="Page.grid"
+                                            class="responsive-grid contractor-op-grid desktop-mode"
+                                            [filter]="filter"
+                                            filterable="menu"
+                                            (filterChange)="filterChange($event)"
+                                            [pageSize]="pageSize"
+                                            [skip]="skip"
+                                            [style.height.%]="100"
+                                            [sortable]="{
+                                                allowUnsort: allowUnsort,
+                                                mode: 'single'
+                                            }"
+                                            [sort]="sort"
+                                            [resizable]="false"
+                                            [pageable]="pageObj"
+                                        >
+                                            <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Contractor_Operation.Items }}">
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <!-- template for mobile -->
+                                                    <h2 class="tbl-card-title">
+                                                        <strong>{{ pageContent.Contractor_Operation.Managament }}</strong>
+                                                        <a *ngIf="dataItem.HyperLinkFlg" (click)="openHyperLinkPopup(dataItem)">
+                                                            {{ dataItem.ContractorMgmtEventType }}
+                                                        </a>
+                                                        <span *ngIf="!dataItem.HyperLinkFlg">
+                                                            {{ dataItem.ContractorMgmtEventType }}
+                                                        </span>
+                                                    </h2>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Contractor_Operation.Event_Group }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ContractorMgmtEventGroupName }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Contractor_Operation.Date }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ContractorMgmtEventDate | date: 'MM/dd/yyyy' }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Contractor_Operation.User }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.EventUserName }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt><strong></strong></dt>
+                                                        <dd class="action">
+                                                            <a [href]="dataItem.ReportURL" *ngIf="dataItem.PrintFlag" class="k-icon k-i-print" target="_blank">
+                                                                <i></i>
+                                                            </a>
+                                                            <!-- <a
+                                                                href="https://reports.contractorconnection.com/ReportsDisplay11.5/PDF_Report.aspx?param1={{
+                                                                    dataItem.Contr_ID
+                                                                }}&param2=NOMORE&param3=&param4=NOMORE&param5=NOMORE&param6=NOMORE&param7=NOMORE&param8=NOMORE&param9=NOMORE&param10=NOMORE&param11=NOMORE&param12=NOMORE&param13=NOMORE&param14=NOMORE&param15=NOMORE&CRname=ZetaFaxContrApplication-2098r.rpt&CRcheck=NEEDED"
+                                                                *ngIf="dataItem.PrintFlag && dataItem.ContractorMgmtEventType == 'Recert Returned'"
+                                                                class="k-icon k-i-print"
+                                                                target="_blank"
+                                                            >
+                                                                <i></i>
+                                                            </a> -->
+                                                            <a *ngIf="dataItem.EmailFlag" class="k-icon k-i-email" (click)="openEmail(dataItem)">
+                                                                <i></i>
+                                                            </a>
+                                                        </dd>
+                                                    </dl>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-messages
+                                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                            >
+                                            </kendo-grid-messages>
+                                            <kendo-grid-column
+                                                field="ContractorMgmtEventType"
+                                                title="{{ pageContent.Contractor_Operation.Managament }}"
+                                                width="200"
+                                                media="(min-width: 901px)"
+                                                class="event-link"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <a *ngIf="dataItem.HyperLinkFlg" (click)="openHyperLinkPopup(dataItem)">
+                                                        {{ dataItem.ContractorMgmtEventType }}
+                                                    </a>
+                                                    <span *ngIf="!dataItem.HyperLinkFlg">
+                                                        {{ dataItem.ContractorMgmtEventType }}
+                                                    </span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="ContractorMgmtEventGroupName" title="{{ pageContent.Contractor_Operation.Event_Group }}" width="140" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    {{ dataItem.ContractorMgmtEventGroupName }}
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="ContractorMgmtEventDate" title="{{ pageContent.Contractor_Operation.Date }}" width="80" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitiveEventDate(column.field)"
+                                                    >
+                                                    </multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    {{ dataItem.ContractorMgmtEventDate | date: 'MM/dd/yyyy' }}
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="EventUserName" title="{{ pageContent.Contractor_Operation.User }}" width="120" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    {{ dataItem.EventUserName }}
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="action" title="" width="40" media="(min-width: 901px)" class="action" [filterable]="false" [sortable]="false">
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <a [href]="dataItem.ReportURL" *ngIf="dataItem.PrintFlag" class="k-icon k-i-print" target="_blank">
+                                                        <i></i>
+                                                    </a>
+                                                    <!-- <a
+                                                        href="https://reports.contractorconnection.com/ReportsDisplay11.5/PDF_Report.aspx?param1={{
+                                                            dataItem.Contr_ID
+                                                        }}&param2=NOMORE&param3=&param4=NOMORE&param5=NOMORE&param6=NOMORE&param7=NOMORE&param8=NOMORE&param9=NOMORE&param10=NOMORE&param11=NOMORE&param12=NOMORE&param13=NOMORE&param14=NOMORE&param15=NOMORE&CRname=ZetaFaxContrApplication-2098r.rpt&CRcheck=NEEDED"
+                                                        *ngIf="dataItem.PrintFlag && dataItem.ContractorMgmtEventType == 'Recert Returned'"
+                                                        class="k-icon k-i-print"
+                                                        target="_blank"
+                                                    >
+                                                        <i></i>
+                                                    </a> -->
+                                                    <a *ngIf="dataItem.EmailFlag" class="k-icon k-i-email" (click)="openEmail(dataItem)">
+                                                        <i></i>
+                                                    </a>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                        </kendo-grid>
+                                    </section>
+                                </section>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>

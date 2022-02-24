@@ -1,0 +1,270 @@
+<div class="scrollable-content-wrapper" #commentBlock max-height="340" min-Height="621">
+    <div class="scrollable-content">
+        <div class="scroll-inner" #commentArea>
+            <section class="grid-wrapper">
+                <kendo-grid
+                    id="productsGrid"
+                    [kendoGridBinding]="_additionalGrid"
+                    [style.height.%]="100"
+                    [navigable]="true"
+                    class="responsive-grid credential-grid edit-kendo-grid desktop-mode additonal-grid"
+                    [filter]="filter"
+                    filterable="menu"
+                    (filterChange)="filterChange($event)"
+                    [pageSize]="pageSize"
+                    [skip]="skip"
+                    [sortable]="{ allowUnsort: true, mode: 'single' }"
+                    [sort]="sort"
+                    (sortChange)="sortChange()"
+                    [resizable]="false"
+                    [pageable]="pageObj"
+                    media="(min-width: 901px)"
+                >
+                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <!-- template for mobile -->
+                            <h2 class="tbl-card-title">
+                                <strong>{{ pageContent?.Credentialing_Information.Credential_Items }}:</strong>
+                                {{ dataItem.MetricTypeName }}
+                            </h2>
+
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Vendor }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <div *ngIf="dataItem.CredentialingFirm && !dataItem.VendorID">
+                                        <kendo-combobox
+                                            [name]="'vendor_' + rowIndex"
+                                            [data]="listItems"
+                                            [textField]="'VendorName'"
+                                            [valueField]="'VendorID'"
+                                            [(ngModel)]="dataItem.CredentialingFirm"
+                                            [allowCustom]="allowCustom"
+                                            [valuePrimitive]="true"
+                                            [kendoDropDownFilter]="filterSettings"
+                                        >
+                                            <ng-template kendoComboBoxNoDataTemplate>
+                                                {{ pageContent.General_Keys.No_Data_Found }}
+                                            </ng-template>
+                                        </kendo-combobox>
+                                    </div>
+                                    <div *ngIf="dataItem.VendorID || !dataItem.CredentialingFirm">
+                                        <kendo-combobox
+                                            [name]="'vendor_' + rowIndex"
+                                            [data]="listItems"
+                                            [textField]="'VendorName'"
+                                            [valueField]="'VendorID'"
+                                            [(ngModel)]="dataItem.VendorID"
+                                            [allowCustom]="allowCustom"
+                                            [valuePrimitive]="true"
+                                            [kendoDropDownFilter]="filterSettings"
+                                        >
+                                            <ng-template kendoComboBoxNoDataTemplate>
+                                                {{ pageContent.General_Keys.No_Data_Found }}
+                                            </ng-template>
+                                        </kendo-combobox>
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Report_Number }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <div>
+                                        <input
+                                            #reportValue
+                                            onKeyPress="if(this.value.length==7) return false;"
+                                            (keypress)="keyPress($event, reportValue.value)"
+                                            name="reportNumber"
+                                            kendoTextBox
+                                            [(ngModel)]="dataItem.ReportNumber"
+                                        />
+                                    </div>
+                                </dd>
+                            </dl>
+
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Expiration_Date }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <kendo-datepicker (keyup)="keyPressDateChk($event, rowIndex)" format="MM/dd/yyyy" [(ngModel)]="dataItem.ExpirationDateNew">
+                                        <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                    </kendo-datepicker>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Due }}</strong>
+                                </dt>
+                                <dd>{{ dataItem.Due }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Action }}</strong>
+                                </dt>
+                                <dd class="action">
+                                    <button class="ico-save" (click)="onSaveAdditional(dataItem, rowIndex)"><i></i>Save</button>
+                                </dd>
+                            </dl>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages
+                        pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                        noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                    >
+                    </kendo-grid-messages>
+                    <kendo-grid-column width="380" field="MetricTypeName" title="{{ pageContent?.Credentialing_Information.Credential_Items }}" media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column width="180" field="VendorID" class="edit-col-input" title="{{ pageContent?.Credentialing_Information.Vendor }}" media="(min-width: 901px)" [filterable]="false">
+                        <!-- <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService"> -->
+                        <!-- <multicheck-filter
+                    [isPrimitive]="true"
+                    [field]="column.field"
+                    [filterService]="filterService"
+                    [currentFilter]="filter"
+                    [data]="distinctPrimitive(column.field)"
+                ></multicheck-filter> -->
+                        <!-- </ng-template> -->
+
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div *ngIf="dataItem.CredentialingFirm && !dataItem.VendorID">
+                                <kendo-combobox
+                                    [name]="'vendor_' + rowIndex"
+                                    [data]="listItems"
+                                    [textField]="'VendorName'"
+                                    [valueField]="'VendorID'"
+                                    [(ngModel)]="dataItem.CredentialingFirm"
+                                    [allowCustom]="allowCustom"
+                                    [valuePrimitive]="true"
+                                    [kendoDropDownFilter]="filterSettings"
+                                >
+                                    <ng-template kendoComboBoxNoDataTemplate>
+                                        {{ pageContent.General_Keys.No_Data_Found }}
+                                    </ng-template>
+                                </kendo-combobox>
+                            </div>
+                            <div *ngIf="dataItem.VendorID || !dataItem.CredentialingFirm">
+                                <kendo-combobox
+                                    [name]="'vendor_' + rowIndex"
+                                    [data]="listItems"
+                                    [textField]="'VendorName'"
+                                    [valueField]="'VendorID'"
+                                    [(ngModel)]="dataItem.VendorID"
+                                    [allowCustom]="allowCustom"
+                                    [valuePrimitive]="true"
+                                    [kendoDropDownFilter]="filterSettings"
+                                >
+                                    <ng-template kendoComboBoxNoDataTemplate>
+                                        {{ pageContent.General_Keys.No_Data_Found }}
+                                    </ng-template>
+                                </kendo-combobox>
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        width="180"
+                        field="ReportNumber"
+                        class="edit-col-input"
+                        title="{{ pageContent?.Credentialing_Information.Report_Number }}"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                    >
+                        <!-- <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                <multicheck-filter
+                    [isPrimitive]="true"
+                    [field]="column.field"
+                    [filterService]="filterService"
+                    [currentFilter]="filter"
+                    [data]="distinctPrimitive(column.field)"
+                ></multicheck-filter>
+            </ng-template> -->
+
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div>
+                                <input
+                                    #reportValue
+                                    onKeyPress="if(this.value.length==7) return false;"
+                                    (keypress)="keyPress($event, reportValue.value)"
+                                    [name]="'reportNumber' + rowIndex"
+                                    kendoTextBox
+                                    [(ngModel)]="dataItem.ReportNumber"
+                                />
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        width="200"
+                        field="ExpirationDate"
+                        editor="date"
+                        title="{{ pageContent?.Credentialing_Information.Expiration_Date }}"
+                        class="edit-col-input editDate"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <kendo-datepicker (keyup)="keyPressDateChk($event, rowIndex)" [(ngModel)]="dataItem.ExpirationDateNew" format="MM/dd/yyyy">
+                                <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                            </kendo-datepicker>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="100"
+                        field="Due"
+                        class="due"
+                        title="{{ pageContent?.Credentialing_Information.Due }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="120"
+                        class="action"
+                        field="$"
+                        title="{{ pageContent?.Credentialing_Information.Action }}"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                        [sortable]="false"
+                    >
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <button class="ico-save" (click)="onSaveAdditional(dataItem, rowIndex)"><i></i>Save</button>
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </section>
+        </div>
+    </div>
+</div>

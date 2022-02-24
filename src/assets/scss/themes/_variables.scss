@@ -1,0 +1,224 @@
+// ----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// ----------------------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
+// Base Font Size
+// ----------------------------------------------------------------------------
+
+$bs-Fnt-Size: 10px;
+
+// ----------------------------------------------------------------------------
+// Base colors
+// ----------------------------------------------------------------------------
+
+$c-White: white;
+$c-Blk: black;
+
+// ----------------------------------------------------------------------------
+// Custom Theme Colors
+// ----------------------------------------------------------------------------
+
+$c-D-Blue: #002f87;
+$c-M-Blue: #0072ce;
+$c-L-Blue: #e5f0fa;
+$c-D-Gry: #464646;
+$c-L-Gry: #d7d2cb;
+$c-V-Que: orange;
+$c-VQ-Bg: #fff8e5;
+$c-Off-White: #f5f5f5;
+
+// ----------------------------------------------------------------------------
+// Denotive/Information Colors
+// ----------------------------------------------------------------------------
+
+$c-Success: #4ab657; // #15a126;
+$c-Error: #e6294b; //#E6294B;
+$c-Warn: #e9ab2e; //#E9AB2E;
+$c-Info: #028ee1; //#028EE1;
+$c-Rem: #e6294b; //#DB0A5B;
+
+// ----------------------------------------------------------------------------
+// Default Link Color
+// ----------------------------------------------------------------------------
+
+$c-Bs-Link: $c-D-Blue; // #DB0A5B;
+$c-Bs-Link-Hover: $c-D-Blue;
+$c-Bs-Link-Active: $c-D-Blue;
+
+// ----------------------------------------------------------------------------
+// Black Color Shades
+// ----------------------------------------------------------------------------
+
+$c-Blk-01: rgba($c-Blk, 0.01);
+$c-Blk-02: rgba($c-Blk, 0.02);
+$c-Blk-03: rgba($c-Blk, 0.03);
+$c-Blk-04: rgba($c-Blk, 0.04);
+$c-Blk-05: rgba($c-Blk, 0.05);
+$c-Blk-06: rgba($c-Blk, 0.06);
+$c-Blk-07: rgba($c-Blk, 0.07);
+$c-Blk-08: rgba($c-Blk, 0.08);
+$c-Blk-09: rgba($c-Blk, 0.09);
+$c-Blk-10: rgba($c-Blk, 0.1);
+$c-Blk-20: rgba($c-Blk, 0.2);
+$c-Blk-30: rgba($c-Blk, 0.3);
+$c-Blk-40: rgba($c-Blk, 0.4);
+$c-Blk-50: rgba($c-Blk, 0.5);
+$c-Blk-60: rgba($c-Blk, 0.6);
+$c-Blk-70: rgba($c-Blk, 0.7);
+$c-Blk-80: rgba($c-Blk, 0.8);
+$c-Blk-90: rgba($c-Blk, 0.9);
+
+// ----------------------------------------------------------------------------
+// Dark Grey Color Shades
+// ----------------------------------------------------------------------------
+
+$c-Dg-01: rgba($c-D-Gry, 0.01);
+$c-Dg-02: rgba($c-D-Gry, 0.02);
+$c-Dg-03: rgba($c-D-Gry, 0.03);
+$c-Dg-04: rgba($c-D-Gry, 0.04);
+$c-Dg-05: rgba($c-D-Gry, 0.05);
+$c-Dg-06: rgba($c-D-Gry, 0.06);
+$c-Dg-07: rgba($c-D-Gry, 0.07);
+$c-Dg-08: rgba($c-D-Gry, 0.08);
+$c-Dg-09: rgba($c-D-Gry, 0.09);
+$c-Dg-10: rgba($c-D-Gry, 0.1);
+$c-Dg-20: rgba($c-D-Gry, 0.2);
+$c-Dg-30: rgba($c-D-Gry, 0.3);
+$c-Dg-40: rgba($c-D-Gry, 0.4);
+$c-Dg-50: rgba($c-D-Gry, 0.5);
+$c-Dg-60: rgba($c-D-Gry, 0.6);
+$c-Dg-70: rgba($c-D-Gry, 0.7);
+$c-Dg-80: rgba($c-D-Gry, 0.8);
+$c-Dg-90: rgba($c-D-Gry, 0.9);
+
+// ----------------------------------------------------------------------------
+// White Color Shades
+// ----------------------------------------------------------------------------
+
+$c-Wh-01: rgba($c-White, 0.1);
+$c-Wh-02: rgba($c-White, 0.2);
+$c-Wh-03: rgba($c-White, 0.3);
+$c-Wh-04: rgba($c-White, 0.4);
+$c-Wh-05: rgba($c-White, 0.5);
+$c-Wh-06: rgba($c-White, 0.6);
+$c-Wh-07: rgba($c-White, 0.7);
+$c-Wh-08: rgba($c-White, 0.8);
+$c-Wh-09: rgba($c-White, 0.9);
+
+// ----------------------------------------------------------------------------
+// Border Colors
+// ----------------------------------------------------------------------------
+
+$c-Bdr-D: lighten($c-Blk, 50%); // #7f7f7f;
+$c-Bdr-L: lighten($c-Blk, 80%); //#d4cfc8;
+$c-Bdr-Lb: $c-L-Blue; //#a3d9f7;
+$c-gry: $c-Bdr-L;
+
+// ----------------------------------------------------------------------------
+// Input text style Color
+// ----------------------------------------------------------------------------
+
+$c-Inp-Color: $c-D-Gry;
+$c-Inp-Bg-Color: $c-L-Blue;
+$c-Inp-Bdr-Color: $c-Bdr-L;
+$c-Inp-Focus-Bdr-Color: $c-Bdr-D;
+
+// ----------------------------------------------------------------------------
+// Buttons style Color
+// ----------------------------------------------------------------------------
+
+$c-P-Btn-Bg: $c-D-Blue; // primary button
+$c-S-Btn-Bg: $c-D-Gry; // secondary button
+$c-Btn-Shadow: $c-Blk; // button shadow
+$c-Btn-Bdr-Color: darken(
+    $color: $c-D-Blue,
+    $amount: 10%,
+);
+$c-Btn-RO-Bg: $c-Blk; // read only button
+$c-B-Hover-Bg: $c-Blk; // button hover
+$c-B-Hover-Clr: $c-White; // button hover color
+
+// ----------------------------------------------------------------------------
+// Cancel Buttons style Color
+// ----------------------------------------------------------------------------
+
+$c-Cancel-Bg-color: $c-D-Gry;
+$c-Cancel-Color: $c-White;
+$c-Cancel-Bdr-Color: $c-Btn-Bdr-Color;
+$c-Cancel-Hover-Bg-Color: lighten(
+    $color: $c-D-Gry,
+    $amount: 15%,
+);
+
+// ----------------------------------------------------------------------------
+// Buttons - Disabled Theme
+// ----------------------------------------------------------------------------
+
+$c-Disable-Shadow: lighten($c-Blk, 90%); // #e7e4e0;
+$c-Disable-Bdr: #cccccc; //lighten($c-Blk, 90%); // #e5e2df;
+$c-Disable-Bg-Color: lighten($c-Blk, 95%); //#f8f8f8;
+$c-Disable-Color: lighten($c-Blk, 55%); //#bfbfbf;
+
+// ----------------------------------------------------------------------------
+// Grid Colors
+// ----------------------------------------------------------------------------
+$c-Grid-HDR-Bg: $c-D-Blue;
+$c-Grid-HDR-Lnk: $c-White;
+$c-Grid-Bdr: $c-Blk-08;
+$c-Grid-Link: $c-Bs-Link;
+$c-Grid-Sel-Tr-Bg: $c-Blk-02;
+$c-Grid-Sel-Hover-Txt: $c-White;
+
+$c-Grid-Pgr-Bg: $c-White;
+$c-Grid-pg-Link: $c-Bs-Link;
+$c-Grid-pg-Link-Hover: lighten($c-L-Gry, 15);
+$c-Grid-Pgr-Sel-Bg: $c-D-Blue;
+$c-Grid-Pgr-Sel: $c-White;
+
+$c-Grid-Title: $c-White;
+$c-Grid-Title-Bg: $c-D-Blue;
+
+// ----------------------------------------------------------------------------
+// Breadcrumb Panel Colors
+// ----------------------------------------------------------------------------
+
+$bg-Act-Bcrm: #b2bccf;
+$c-BrdCrm-Link: $c-White;
+$c-BrdCrm-D-Bg: $c-Blk;
+$c-BrdCrm-A-Bg: $c-M-Blue;
+$c-Arrow-Bdr: $c-L-Blue;
+
+// ----------------------------------------------------------------------------
+// width
+// ----------------------------------------------------------------------------
+
+$max-width: 100%;
+$pop-max-width: 778px;
+
+// ----------------------------------------------------------------------------
+// Breakpoints
+// ----------------------------------------------------------------------------
+
+$Mac: 1920px;
+$D-B: 1520px;
+$D-M: 1366px;
+$D-N: 1024px;
+$D-S: 900px;
+
+$T-XL: 980px;
+$M-XL: 680px;
+
+$Tab-L: 1024px;
+$Tab-P: 768px;
+
+$iPh-L: 667px;
+$iPh-P: 480px;
+
+$MD-P: 540px;
+$MD-L: 720px;
+
+$G-L: 640px;
+$G-P: 320px;
+
+$M-L: 480px;

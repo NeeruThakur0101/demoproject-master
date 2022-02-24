@@ -1,0 +1,174 @@
+<div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div>
+<kendo-dialog-titlebar class="hasDialog">
+    <h1>{{ pageContent.Ops_History_Detail.Ops_History_Details }} ({{ dataItem.ChangeTypeTranslated }}) {{ dataItem.EventNameTranslated }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- popup content -->
+            <section class="white-block">
+                <!-- form block starts -->
+                <section class="form-block">
+                    <div class="form-control">
+                        <kendo-textbox-container required floatingLabel="{{ pageContent.Ops_History_Detail.Contractor }}">
+                            <input kendoTextBox [value]="'(' + dataItem.Contr_Id + ') ' + loginDetails[0].CompanyName" [readonly]="true" disabled />
+                        </kendo-textbox-container>
+                    </div>
+                    <section class="history-timestamp">
+                        <div>{{ pageContent.Ops_History_Detail.Changed_Date }} {{ dataItem.ChangeDate }}</div>
+                    </section>
+                    <section>
+                        <kendo-grid
+                            media="(min-width: 901px)"
+                            class="responsive-grid OpsHistoryDetail-grid desktop-mode"
+                            [kendoGridBinding]="gridOpsHistoryData"
+                            [filter]="filterOpsHistory"
+                            filterable="menu"
+                            (filterChange)="filterOpsHistoryChange($event)"
+                            [pageSize]="pageSize"
+                            [skip]="skip"
+                            [style.height.%]="100"
+                            [sortable]="{
+                                allowUnsort: allowUnsort,
+                                mode: 'single'
+                            }"
+                            [sort]="sort"
+                            [resizable]="false"
+                            [pageable]="pageObj"
+                            (cellClick)="openProfile()"
+                        >
+                            <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Ops_History_Detail.Items }}">
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <!-- template for mobile -->
+                                    <h2 *ngIf="!fieldDifferent" class="tbl-card-title">
+                                        <a *ngIf="dataItem?.isEditable" (click)="openEditDialog(dataItem)">
+                                            {{ dataItem.FieldName }}
+                                        </a>
+                                        <span *ngIf="!dataItem?.isEditable">
+                                            {{ dataItem.FieldName }}
+                                        </span>
+                                    </h2>
+                                    <h2 *ngIf="fieldDifferent" class="tbl-card-title">
+                                        <a *ngIf="dataItem?.isEditable" (click)="openEditDialog(dataItem)">
+                                            {{ dataItem.DisplayName }}
+                                        </a>
+                                        <span *ngIf="!dataItem?.isEditable">
+                                            {{ dataItem.DisplayName }}
+                                        </span>
+                                    </h2>
+                                    <dl>
+                                        <dt>
+                                            <strong>{{ pageContent.Ops_History_Detail.Old_Value }} </strong>
+                                        </dt>
+                                        <dd>{{ dataItem.OldValue }}</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>
+                                            <strong>{{ pageContent.Ops_History_Detail.New_Value }}</strong>
+                                        </dt>
+                                        <dd>{{ dataItem.NewValue }}</dd>
+                                    </dl>
+                                </ng-template>
+                            </kendo-grid-column>
+
+                            <kendo-grid-column
+                                field="FieldName"
+                                title="{{ pageContent.Ops_History_Detail.Contractor_Central_Field }}"
+                                width="{{ Contractor_Central_Field }}"
+                                media="(min-width: 901px)"
+                            >
+                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                    <multicheck-filter
+                                        [isPrimitive]="true"
+                                        [field]="column.field"
+                                        [filterService]="filterService"
+                                        [currentFilter]="filter"
+                                        [data]="distinctPrimitiveOpsHistory(column.field)"
+                                    ></multicheck-filter>
+                                </ng-template>
+
+                                <ng-template *ngIf="!fieldDifferent" kendoGridCellTemplate let-dataItem>
+                                    <a *ngIf="dataItem?.isEditable" (click)="openEditDialog(dataItem)">
+                                        {{ dataItem.FieldName }}
+                                    </a>
+                                    <span *ngIf="!dataItem?.isEditable">
+                                        {{ dataItem.FieldName }}
+                                    </span>
+                                </ng-template>
+                                <ng-template *ngIf="fieldDifferent" kendoGridCellTemplate let-dataItem>
+                                    <a *ngIf="dataItem?.isEditable" (click)="openEditDialog(dataItem)">
+                                        {{ dataItem.DisplayName }}
+                                    </a>
+                                    <span *ngIf="!dataItem?.isEditable">
+                                        {{ dataItem.DisplayName }}
+                                    </span>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-messages
+                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                            >
+                            </kendo-grid-messages>
+
+                            <kendo-grid-column field="OldValue" title="{{ pageContent.Ops_History_Detail.Old_Value }}" width="150" [filterable]="true" media="(min-width: 901px)">
+                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                    <multicheck-filter
+                                        [isPrimitive]="true"
+                                        [field]="column.field"
+                                        [filterService]="filterService"
+                                        [currentFilter]="filter"
+                                        [data]="distinctPrimitiveOpsHistory(column.field)"
+                                    ></multicheck-filter>
+                                </ng-template>
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <div class="scrollable-content-wrapper">
+                                        <div class="scrollable-content">
+                                            <div class="scroll-inner">
+                                                <div *ngIf="dataItem.FieldName === 'ContractorMoistureData'" [innerHTML]="dataItem.OldValue"></div>
+                                                <!-- <div *ngIf="dataItem.FieldName !== 'ContractorMoistureData'">{{dataItem.OldValue}}</div> -->
+                                                <div *ngIf="dataItem.FieldName !== 'ContractorMoistureData'" [innerHTML]="dataItem.OldValue"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </kendo-grid-column>
+                            <kendo-grid-column width="150" field="NewValue" title="{{ pageContent.Ops_History_Detail.New_Value }}" [filterable]="true" media="(min-width: 901px)">
+                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                    <multicheck-filter
+                                        [isPrimitive]="true"
+                                        [field]="column.field"
+                                        [filterService]="filterService"
+                                        [currentFilter]="filter"
+                                        [data]="distinctPrimitiveOpsHistory(column.field)"
+                                    ></multicheck-filter>
+                                </ng-template>
+                                <ng-template kendoGridCellTemplate let-dataItem>
+                                    <div class="scrollable-content-wrapper">
+                                        <div class="scrollable-content">
+                                            <div class="scroll-inner">
+                                                <div *ngIf="dataItem.FieldName === 'ContractorMoistureData'" [innerHTML]="dataItem.NewValue"></div>
+                                                <!-- <div *ngIf="dataItem.FieldName !== 'ContractorMoistureData'">{{dataItem.NewValue}}</div> -->
+                                                <div *ngIf="dataItem.FieldName !== 'ContractorMoistureData'" [innerHTML]="dataItem.NewValue"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </kendo-grid-column>
+                        </kendo-grid>
+                    </section>
+                </section>
+            </section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton (click)="closeOpHis()">{{ pageContent.Ops_History_Detail.Cancel }}</button>
+    <button *ngIf="!dataItem.Event" kendoButton (click)="processCall('Approve')" [primary]="true">{{ pageContent.Ops_History_Detail.Approve }}</button>
+    <button *ngIf="!dataItem.Event" kendoButton (click)="processCall('Disapprove')" [primary]="true">{{ pageContent.Ops_History_Detail.Disapprove }}</button>
+</div>
+<!-- </kendo-dialog> -->

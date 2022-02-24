@@ -1,0 +1,45 @@
+// -----------------------------------------------------------------------------
+// This file contains all typography classes.
+// -----------------------------------------------------------------------------
+
+body,
+html {
+    font-size: $bs-Fnt-Size;
+    @media all and (max-width:540px) {
+        font-size: 9px;
+    }
+}
+body {
+    font-family: $bs-Font;
+    font-size: 1.4rem;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: $c-M-Blue;
+    color: $c-D-Blue;
+}
+h2 {
+    font-size: 1.6rem;
+    color: $c-D-Blue;
+    padding-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.4rem;
+    color: $c-D-Blue;
+    padding-bottom: 2rem;
+}
+
+h4 {
+    font-size: 1.4rem;
+}
+
+p {
+    padding-bottom: 1.5rem;
+    font-size: 1.4rem;
+    &:last-child {
+        padding-bottom: 0;
+    }
+}

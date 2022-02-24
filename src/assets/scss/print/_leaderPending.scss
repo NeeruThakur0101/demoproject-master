@@ -1,0 +1,94 @@
+@media print {
+
+  body, html {
+    height: auto;
+  }
+  .leader-pending-page {
+
+    
+
+    >.outer-block {
+      padding: 0;
+      background-color: #fff;
+
+      >.inner-block {
+        border:none;
+        box-shadow: none;
+        padding: 0px;
+
+        .top-section {
+          display: none;
+        }
+
+        >.middle-section {
+          height: auto;
+
+          >.white-block {
+            height: auto;
+            padding: 0;
+
+            .inner-navigation {
+              display: none;
+            }
+            .pending-issue-types {
+              display: none;
+            }
+            >h2 {
+              text-align: center;
+            }
+            .print {
+              display: none;
+            }
+            >.scroll-outer {
+              height: auto;
+              padding: 0;
+              box-shadow: none;
+
+              .leader-form-wrapper {
+                display: none;
+              }
+              
+
+              .leader-pending-scroll {
+                height: auto;
+                margin: 0;
+                width: 100%;
+                overflow: visible;
+                overflow: initial;
+
+                .leader-pendingBlock {
+                  aside {
+                    width: 100%;
+                    padding: 0;
+
+                    .chartScreen {
+                      display: none;
+                    }
+
+                    .printChart {
+                      opacity: 1;
+                      right: auto;
+                      position: relative;
+                     
+                      height: auto;
+                      display: block;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+    &:not(.active) {
+
+    }
+
+    &.active {
+
+    }
+  }
+}

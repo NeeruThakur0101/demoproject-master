@@ -1,0 +1,669 @@
+<main appGridlayout [class.internal-user]="ContrID > 0" [hidden]="hidePage">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Financial_Information.Financial_Information" [comments]="crComments"></app-page-title>
+            </section>
+            <form class="k-form-inline h-100">
+                <section class="middle-section fiscal-information financial">
+                    <div class="white-block">
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="510" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="white-block">
+                                        <section class="grid-top-bar">
+                                            <div>
+                                                <H2>{{ pageContent.Financial_Information.Financial_Summary }}</H2>
+                                            </div>
+                                            <div>
+                                                <button
+                                                    kendoButton
+                                                    type="button"
+                                                    [disabled]="(ContrID == 0 && loggedInUserType == 'Internal') || disableInternalAccess === true"
+                                                    (click)="openAddFinancialpopup('', 'ADD')"
+                                                    [primary]="true"
+                                                >
+                                                    {{ pageContent.Financial_Information.Add_Financial_Data }}
+                                                </button>
+                                            </div>
+                                        </section>
+
+                                        <kendo-grid
+                                            media="(min-width: 901px)"
+                                            #grid
+                                            [kendoGridBinding]="gridData"
+                                            [pageSize]="pageSize"
+                                            [skip]="skip"
+                                            [pageable]="pageObj"
+                                            [resizable]="true"
+                                            [style.height.%]="100"
+                                            (pageChange)="onPageChange($event)"
+                                            filterable="menu"
+                                            [filter]="filter"
+                                            (filterChange)="filterChange($event)"
+                                            [selectable]="{ mode: 'single' }"
+                                            [data]="gridView"
+                                            [sortable]="{
+                                                allowUnsort: allowUnsort,
+                                                mode: multiple ? 'multiple' : 'single'
+                                            }"
+                                            [sort]="sort"
+                                            class="responsive-grid fiscal-info-grid desktop-mode"
+                                        >
+                                            <!--  mobile code -->
+
+                                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <!-- template for mobile -->
+                                                    <h2 class="tbl-card-title">
+                                                        <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_SNo }}</strong> {{ dataItem.ROW_NO }}
+                                                    </h2>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Year }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <a [class]="dataItem.isYear == true ? 'visual-cue' : 'none'" (click)="openAddFinancialpopup($event, 'EDIT', dataItem)">{{
+                                                                dataItem.FinancialYear
+                                                            }}</a>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Revenue }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.TotalRevenue }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Expenses }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.TotalExpenses }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Net_Income }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <span [class]="dataItem.isNetIncome == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.NetIncome < 0 }">{{
+                                                                dataItem.NetIncome | currency
+                                                            }}</span>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Assets }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.TotalCurrentAssets }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Liabilities }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.TotalCurrentLiabilities }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Long_Term_Debt }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <span [class]="dataItem.isLongTermDebt == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.LongTermDebt < 0 }">{{
+                                                                dataItem.LongTermDebt | currency
+                                                            }}</span>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_Equity }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <span [class]="dataItem.isEquity == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.Equity < 0 }">{{
+                                                                dataItem.Equity | currency
+                                                            }}</span>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_CR }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <span [class]="dataItem.isCredit == true ? 'visual-cue' : 'none'">{{ dataItem.CreditRatio }}%</span>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Financial_Information.Financial_Grid_Header_DTE }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <span [class]="dataItem.isDebtTo == true ? 'visual-cue' : 'none'">{{ dataItem.DebtToEquityRatio }}%</span>
+                                                        </dd>
+                                                    </dl>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px)"
+                                                field="ROW_NO"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_SNo }}"
+                                                width="60"
+                                                [filterable]="false"
+                                            >
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column width="100" media="(min-width: 901px)" field="FinancialYear" title="{{ pageContent.Financial_Information.Financial_Grid_Header_Year }}">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                    <a [class]="dataItem.isYear == true ? 'visual-cue' : 'none'" (click)="openAddFinancialpopup($event, 'EDIT', dataItem)">
+                                                        {{ dataItem.FinancialYear }}</a
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 1501px)"
+                                                field="TotalRevenue"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Revenue }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalRevenue == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalRevenue < 0
+                                                        }"
+                                                        >{{ dataItem.TotalRevenue | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="TotalRevenue"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Revenue }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalRevenue == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalRevenue < 0
+                                                        }"
+                                                        >{{ dataItem.TotalRevenue | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 1501px)"
+                                                field="TotalExpenses"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Expenses }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalExpenses == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalExpenses < 0
+                                                        }"
+                                                        >{{ dataItem.TotalExpenses | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="TotalExpenses"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Expenses }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalExpenses == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalExpenses < 0
+                                                        }"
+                                                        >{{ dataItem.TotalExpenses | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 1501px)"
+                                                field="NetIncome"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Net_Income }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isNetIncome == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.NetIncome < 0
+                                                        }"
+                                                        >{{ dataItem.NetIncome | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="NetIncome"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Net_Income }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isNetIncome == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.NetIncome < 0
+                                                        }"
+                                                        >{{ dataItem.NetIncome | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 1501px)"
+                                                field="TotalCurrentAssets"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Assets }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalCurrentAssets == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalCurrentAssets < 0
+                                                        }"
+                                                        >{{ dataItem.TotalCurrentAssets | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="TotalCurrentAssets"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Assets }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalCurrentAssets == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalCurrentAssets < 0
+                                                        }"
+                                                        >{{ dataItem.TotalCurrentAssets | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width:1501px)"
+                                                field="TotalCurrentLiabilities"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Liabilities }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalCurrentLiabilities == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalCurrentLiabilities < 0
+                                                        }"
+                                                        >{{ dataItem.TotalCurrentLiabilities | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="TotalCurrentLiabilities"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Total_Liabilities }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isTotalCurrentLiabilities == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.TotalCurrentLiabilities < 0
+                                                        }"
+                                                        >{{ dataItem.TotalCurrentLiabilities | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width:1501px)"
+                                                field="LongTermDebt"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Long_Term_Debt }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isLongTermDebt == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.LongTermDebt < 0
+                                                        }"
+                                                        >{{ dataItem.LongTermDebt | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="LongTermDebt"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Long_Term_Debt }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isLongTermDebt == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{
+                                                            'red text-bold': dataItem.LongTermDebt < 0
+                                                        }"
+                                                        >{{ dataItem.LongTermDebt | currency }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width:1501px)"
+                                                field="Equity"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Equity }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isEquity == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.Equity < 0 }">{{
+                                                        dataItem.Equity | currency
+                                                    }}</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="Equity"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_Equity }}"
+                                                width="{{ totalRevenueWidths }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isEquity == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.Equity < 0 }">{{
+                                                        dataItem.Equity | currency
+                                                    }}</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width:1501px)"
+                                                field="CreditRatio"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_CR }}"
+                                                width="{{ financialGridHeaderCR }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isCredit == true ? 'visual-cue' : 'none'">{{ dataItem.CreditRatio }}%</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="CreditRatio"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_CR }}"
+                                                width="{{ financialGridHeaderCR }}"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isCredit == true ? 'visual-cue' : 'none'">{{ dataItem.CreditRatio }}%</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width:1501px)"
+                                                field="DebtToEquityRatio"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_DTE }}"
+                                                width="95"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isDebtTo == true ? 'visual-cue' : 'none'">{{ dataItem.DebtToEquityRatio }}%</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                media="(min-width: 901px) and (max-width: 1500px)"
+                                                field="DebtToEquityRatio"
+                                                title="{{ pageContent.Financial_Information.Financial_Grid_Header_DTE }}"
+                                                width="100"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isDebtTo == true ? 'visual-cue' : 'none'">{{ dataItem.DebtToEquityRatio }}%</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-messages pagerItems="{{ this.pageContent.General_Keys.Items }}" pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}" noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"> </kendo-grid-messages>
+                                        </kendo-grid>
+                                    </section>
+                                    <section class="flex-5-5" *ngIf="loggedInUserType === 'Internal'">
+                                        <div class="col">
+                                            <section class="bottom-block">
+                                                <label *ngIf="reviewData && reviewData[0]">
+                                                    {{ pageContent.Financial_Information.Financial_Last_Reviewed_By }}
+                                                    <strong>{{ reviewData[0]?.FinancialReviewer }}</strong>
+                                                    on
+                                                    <strong>{{ reviewData[0]?.FinancialReviewDate | date: 'MM/dd/yyyy' }}</strong></label
+                                                >
+                                                <P>
+                                                    <button kendoButton [primary]="true" (click)="reviewFinancial()" [disabled]="ContrID == 0 && loggedInUserType == 'Internal'">
+                                                        {{ pageContent.Financial_Information.Financial_Button_Review_Financial }}
+                                                    </button></P
+                                                >
+                                            </section>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section
+                    class="bottom-section"
+                    *ngIf="
+                        _srvAuthentication.Profile.ContrID === 0 || (_srvAuthentication.Profile.ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                    "
+                >
+                    <section class="action-buttons">
+                        <button kendoButton type="button" (click)="onBack()">
+                            {{ pageContent.Financial_Information.Global_Button_Back }}
+                        </button>
+                        <button kendoButton type="button" (click)="onSaveNext()" [primary]="true">
+                            {{ saveNext }}
+                        </button>
+                    </section>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>
+<ng-container #container></ng-container>

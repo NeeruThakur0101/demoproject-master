@@ -1,0 +1,174 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the header of the site/application.
+// -----------------------------------------------------------------------------
+
+.top-section {
+    height: 80px;
+    position: relative;
+    h1 {
+        span.cr-info {
+            color: $c-Rem; //$c-Bs-Link;
+            border-radius: 100%;
+            border: 1px solid $c-Rem; //$c-Bs-Link;
+            @extend %trans;
+            line-height: 2.8rem;
+            text-align: center;
+            display: inline-block;
+            width: 3rem;
+            height: 3rem;
+            font-size: 1.3rem;
+            background-color: $c-Rem; //$c-Bs-Link;
+            color: $c-White;
+            position: relative;
+            top: -1px;
+            &:hover {
+                background-color: $c-D-Gry;
+                border: 1px solid $c-D-Gry;
+            }
+        }
+        .ico-hammer {
+            position: relative;
+            top: 3px;
+        }
+    }
+    @include Max(720px) {
+        display: flex;
+        flex-direction: column;
+    }
+    .top-action-tools {
+        position: absolute;
+        top: -3px;
+        right: 0;
+        display: flex;
+
+        @include Max($M-L) {
+            top: -1px;
+
+            button {
+                .k-icon {
+                    font-size: 1.35rem;
+                }
+            }
+        }
+    }
+    .btn-logout,
+    .btn-home,
+    .btn-search,
+    .btn-admin {
+        width: 2.2rem !important;
+        height: 2.2rem !important;
+        margin-top: 4px;
+        padding: 0 !important;
+        margin-left: 6px;
+        background-color: $c-D-Blue;
+        border-radius: 5px !important;
+
+        @include Max($MD-P) {
+            line-height: 2.8rem !important;
+        }
+    }
+    .btn-admin {
+        line-height: 1rem !important;
+    }
+    .btn-search span {
+        position: relative;
+        top: -3px;
+        font-weight: 600;
+        font-size: 1.4rem;
+
+        @include Max($MD-P) {
+            top: -4px;
+        }
+    }
+    .jumpTo {
+        width: 28rem;
+        label {
+            white-space: nowrap;
+            padding-right: 10px;
+            padding-top: 3px;
+        }
+        kendo-dropdownlist {
+            height: 3rem;
+        }
+        .k-dropdown {
+            margin-bottom: 0;
+            .k-dropdown-wrap {
+                background-color: $c-White !important;
+            }
+            .k-dropdown-wrap > .k-input {
+                height: 3rem !important;
+            }
+        }
+        @media all and (max-width: 640px) {
+            top: 33px;
+        }
+    }
+}
+
+/* edge hack  */
+.MS-Edge-Chromium {
+    .top-section {
+        .btn-search span {
+            top: -2.5px;
+        }
+    }
+}
+
+/* header section for Internal Landing Page */
+.internalLanding-page {
+    .top-section {
+        position: relative;
+        .ico-admin {
+            position: absolute;
+            right: 0;
+            top: 0;
+            border: 1px solid;
+            border-radius: 5px;
+            height: 3.5rem;
+            line-height: 3.5rem;
+            border-radius: 5px;
+            background-color: $c-L-Blue;
+            color: $c-D-Blue;
+            border: 1px solid $c-Bdr-L;
+            padding: 0 15px;
+            font-weight: 600;
+            font-size: 1.3rem;
+            text-decoration: none;
+            background-color: $c-Wh-05;
+            @extend %trans;
+            small {
+                font-size: 100%;
+                margin-left: 5px;
+                @media all and (max-width: 560px) {
+                    display: none;
+                }
+            }
+            i {
+                top: 3px;
+                left: 0;
+            }
+            &:hover {
+                background-color: darken($color: $c-M-Blue, $amount: 10);
+                color: $c-White;
+                i {
+                    @include bg('ico-admin-w.svg', '', '', 20px);
+                }
+            }
+            @media all and (max-width: 560px) {
+                padding: 0 5px 0 8px;
+            }
+        }
+    }
+    .top-section {
+        @include Max(720px) {
+            .breadcrumb {
+                order: -1;
+                padding-bottom: 1rem;
+            }
+            .top-action-tools {
+                justify-content: flex-end;
+                padding-bottom: 1rem;
+            }
+        }
+    }
+}

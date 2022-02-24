@@ -1,0 +1,24 @@
+<div *ngIf="loadingState" class="page-loader">
+    <span class="k-i-loading"></span>
+</div>
+<router-outlet></router-outlet>
+<kendo-dialog *ngIf="showAlert" title="{{ pageContent.General_Keys.Session_Timeout }}" (close)="logout()" [minWidth]="500" [width]="500">
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <section class="white-block">
+                    <div class="modal-alert info-alert">
+                        <p>
+                            {{ pageContent.General_Keys.Inactivity_line1 }} {{ countSeconds }} {{ pageContent.General_Keys.Inactivity_line1_2 }}<br />
+                            {{ pageContent.General_Keys.Inactivity_line2 }}
+                        </p>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <button kendoButton (click)="stay()">{{ pageContent.General_Keys.Stay }}</button>
+        <button kendoButton (click)="logout()">{{ pageContent.General_Keys.Logout }}</button>
+    </div>
+</kendo-dialog>

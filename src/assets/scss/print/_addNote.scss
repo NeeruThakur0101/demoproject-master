@@ -1,0 +1,39 @@
+@media print {
+    .top-detail-bar {
+        padding-left: 0;
+        position: relative;
+        
+    }
+    * {
+        overflow: visible;
+    }
+
+    .issue-detail-page {
+        &.add-note-page {
+            .conditional-block {
+                border: none;
+                padding: 0;
+            }
+
+            .condition-block {
+                margin-bottom: -20px;
+                padding-bottom: 0;
+            }
+
+            .pending-issue-msg {
+                margin-top: 3rem;
+                page-break-before: always;
+            }
+
+            
+
+            .page-title {
+                padding-left: 0 !important
+            }
+
+            .k-action-buttons {
+                display: none;
+            }
+        }
+    }
+}

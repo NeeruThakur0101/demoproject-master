@@ -1,0 +1,25 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the button component.
+// -----------------------------------------------------------------------------
+
+.btn-primary {
+    @extend %btn;
+}
+
+.btn-secondary {
+    @extend %btn;
+}
+
+.btn-outlined {
+    @extend %btn;
+}
+
+.btn-blank {
+    @extend %btn;
+}
+
+.btn-cta {
+    font-size: 1.5rem;
+}
+
+

@@ -1,0 +1,223 @@
+<div class="scrollable-content-wrapper" #commentBlock max-height="360" min-Height="621">
+    <div class="scrollable-content">
+        <div class="scroll-inner" #commentArea>
+            <section class="grid-wrapper">
+                <kendo-grid
+                    [kendoGridBinding]="_licenseGrid"
+                    [style.height.%]="100"
+                    [navigable]="true"
+                    class="responsive-grid credential-grid license-grid edit-kendo-grid desktop-mode"
+                    [filter]="filter"
+                    filterable="menu"
+                    (filterChange)="filterChange($event)"
+                    [pageSize]="pageSize"
+                    [skip]="skip"
+                    [sortable]="{ allowUnsort: true, mode: 'single' }"
+                    [sort]="sort"
+                    (sortChange)="sortChange()"
+                    [data]="gridView"
+                    [resizable]="false"
+                    [pageable]="pageObj"
+                    media="(min-width: 901px)"
+                >
+                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <!-- template for mobile -->
+                            <h2 class="tbl-card-title">
+                                <strong>{{ pageContent?.Credentialing_Information.Credential_Items }}:</strong>
+                                {{ dataItem.State }}
+                            </h2>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.License_Type }}:</strong>
+                                </dt>
+                                <dd>{{ dataItem.LicenseTypeName }}</dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.License_Number }}:</strong>
+                                </dt>
+                                <dd class="edit-field" *ngIf="group && isControl" [formGroup]="group">
+                                    <div>
+                                        <input
+                                            maxlength="50"
+                                            [class]="dataItem.isLicenseNumber == true ? 'visual-cue' : 'none'"
+                                            [attr.disabled]="(_srvCredential.loggedInUserType == 'Internal' && (dataItem.isLicenseNumber ? true : false)) || dataItem.IsRowDisable ? '' : null"
+                                            name="LicenseNumber"
+                                            [(ngModel)]="dataItem.LicenseNumber"
+                                            formControlName="licenseNo{{ rowIndex }}"
+                                            kendoTextBox
+                                        />
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Expiration_Date }}:</strong>
+                                </dt>
+                                <dd class="edit-field" *ngIf="group && isControl" [formGroup]="group">
+                                    <kendo-datepicker
+                                        [readonly]="_srvCredential.loggedInUserType == 'Internal' ? false : true"
+                                        [(ngModel)]="dataItem.ExpirationDateNew"
+                                        name="ExpirationDate"
+                                        format="MM/dd/yyyy"
+                                        formControlName="expiryDate{{ rowIndex }}"
+                                        (keyup)="keyPress($event, rowIndex)"
+                                    >
+                                        <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                    </kendo-datepicker>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent?.Credentialing_Information.Due }}:</strong>
+                                </dt>
+                                <dd>{{ dataItem.Due }}</dd>
+                            </dl>
+                            <dl>
+                                <dt></dt>
+                                <dd class="action">
+                                    <button
+                                        class="ico-save"
+                                        [disabled]="!isSaving || readonlyUserAccess || (dataItem.IsRowDisable && _srvCredential.loggedInUserType !== 'Internal')"
+                                        (click)="onSaveLicense(dataItem, rowIndex)"
+                                    >
+                                        <i></i>Save
+                                    </button>
+                                </dd>
+                            </dl>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages
+                        pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                        noRecords="{{ pageContent.General_Keys.General_No_Record_Available }}"
+                    >
+                    </kendo-grid-messages>
+                    <kendo-grid-column width="250" field="State" title="{{ pageContent?.Credentialing_Information.State }}" media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column width="250" field="LicenseTypeName" title="{{ pageContent?.Credentialing_Information.License_Type }}" media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        width="250"
+                        field="LicenseNumber"
+                        class="edit-col-input codeColumn coverageColumn"
+                        format="{0:c}"
+                        title="{{ pageContent?.Credentialing_Information.License_Number }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template width="200" kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div *ngIf="group && isControl" [formGroup]="group">
+                                <input
+                                    maxlength="50"
+                                    [attr.disabled]="(_srvCredential.loggedInUserType == 'Internal' && (dataItem.isLicenseNumber ? true : false)) || dataItem.IsRowDisable ? '' : null"
+                                    [class]="dataItem.isLicenseNumber == true ? 'visual-cue' : 'none'"
+                                    name="LicenseNumber"
+                                    formControlName="licenseNo{{ rowIndex }}"
+                                    [(ngModel)]="dataItem.LicenseNumber"
+                                    kendoTextBox
+                                />
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        width="220"
+                        field="ExpirationDate"
+                        editor="date"
+                        title="{{ pageContent?.Credentialing_Information.Expiration_Date }}"
+                        media="(min-width: 901px)"
+                        class="edit-col-input editDate"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter [isPrimitive]="true" [field]="column.field" [filterService]="filterService" [currentFilter]="filter" [data]="distinctPrimitive(column.field)">
+                            </multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div *ngIf="group && isControl" [formGroup]="group">
+                                <kendo-datepicker
+                                    [readonly]="_srvCredential.loggedInUserType == 'Internal' ? false : true"
+                                    name="ExpirationDate"
+                                    formControlName="expiryDate{{ rowIndex }}"
+                                    format="MM/dd/yyyy"
+                                    [(ngModel)]="dataItem.ExpirationDateNew"
+                                    (keyup)="keyPress($event, rowIndex)"
+                                    [class.read-only]="_srvCredential.loggedInUserType == 'Internal' ? false : true"
+                                >
+                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                </kendo-datepicker>
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="100"
+                        field="Due"
+                        class="due"
+                        title="{{ pageContent?.Credentialing_Information.Due }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="120"
+                        class="action"
+                        field="$"
+                        title="{{ pageContent?.Credentialing_Information.Action }}"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                        [sortable]="false"
+                    >
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div>
+                                <button
+                                    class="ico-save"
+                                    [disabled]="!isSaving || readonlyUserAccess || (dataItem.IsRowDisable && _srvCredential.loggedInUserType !== 'Internal')"
+                                    (click)="onSaveLicense(dataItem, rowIndex)"
+                                >
+                                    <i></i>Save
+                                </button>
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                </kendo-grid>
+            </section>
+        </div>
+    </div>
+</div>

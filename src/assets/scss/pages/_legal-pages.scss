@@ -1,0 +1,127 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Legal Page Page
+// -----------------------------------------------------------------------------
+
+.legal-pages {
+    textarea {
+        height: 180px !important;
+    }
+}
+kendo-dialog {
+    &.legal-popup {
+        @include Max(1240px) {
+            padding: 0 20px;
+        }
+        .k-window.k-dialog {
+            @include Max(1240px) {
+                min-width: 100% !important;
+                width: calc(100% - 40px) !important;
+                margin: 0 20px;
+                max-width: 1200px !important;
+            }
+        }
+        .legal-popup-topbaar {
+            position: relative;
+            > div {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                min-height: 30px;
+                @include Max($D-N) {
+                    flex-direction: column;
+                    align-items: flex-start;
+                    padding-bottom: 1rem;
+                }
+                h3 {
+                    display: inline-block;
+                    padding-bottom: 0;
+                    span {
+                        font-weight: normal;
+                        color: $c-Blk;
+                    }
+                    &:first-child {
+                        padding-right: 3rem;
+                    }
+                }
+            }
+            .k-button {
+                position: absolute;
+                top: 0;
+                right: 0;
+                @include Max( $Tab-P) {
+                    position: relative;
+                }
+
+                background-color: rgba($c-M-Blue, 0.8) !important;
+                border: 1px solid $c-M-Blue !important;
+
+                &:hover {
+                    border: 1px solid $c-Blk !important;
+                }
+            }
+        }
+
+        &.flag {
+            &.in-active {
+                .k-window {
+                    min-width: 500px !important;
+
+                    .element-block {
+                        > .col {
+                            &:first-child {
+                                flex: 0 0 100%;
+                            }
+                            &:last-child {
+                                display: none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+.top-buttons-block {
+    padding-bottom: 2rem;
+    button {
+        margin-right: 10px;
+    }
+}
+.legal-popup-topbaar {
+    .litigation-listing {
+        padding: 0;
+        height: 118px;
+        margin-bottom: 20px;
+
+        ul {
+           @extend %W-100; 
+        }
+        > div {
+            height: auto;
+        }
+
+        ul > li > div.visual-cue {
+            border: 1px solid $c-VQ-Bg;
+
+            label:before {
+                color:$c-V-Que;
+            }
+            small {
+                color:$c-V-Que;
+            }
+
+            button span  {
+                color:$c-V-Que;
+            }
+
+            input[type=radio]:checked + label {
+                background-color:$c-V-Que;
+                color: $c-White;
+            }
+
+            input[type=radio]:checked + label + button span {
+                color: $c-White;
+            }
+        }
+    }
+}

@@ -1,0 +1,73 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Validation Page
+// -----------------------------------------------------------------------------
+
+.validation-grid {
+    margin-bottom: 3rem;
+    min-height: 250px;
+    & + .white-block {
+        margin-top: 0;
+    }
+
+    @include respond-to-Min-Max(1070px, 901px) {
+        .k-pager-wrap {
+            top: -11px;
+        }
+    }
+}
+.valid-company {
+    margin-top: 0;
+    padding-top: 1rem;
+
+    h2 {
+        padding-bottom: 2rem;
+    }
+    .col {
+        margin-bottom: 1.5rem;
+    }
+
+    .k-tooltip-validation {
+        padding: 0;
+        margin: -5px 0 0;
+    }
+
+    .k-form-field {
+        >span {
+            @media all and (max-width:1410px) {
+                padding-right:20px !important;
+            }
+        }
+    }
+}
+.disable-name {
+    position: absolute;
+    @include iehack() {
+        position: relative;
+    }
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+    &:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        display: block;
+    }
+}
+// .validation-page {
+//     .scrollable-content {
+//         padding-right: 5px;
+//     }
+// }
+.Safari {
+    .validation-page .scrollable-content {
+        padding-right: 10px;
+    }
+}

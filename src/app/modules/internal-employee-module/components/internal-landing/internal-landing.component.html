@@ -1,0 +1,1890 @@
+<!-- <div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div> -->
+<main appGridlayout class="internalLanding-page main-page">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header [fromPage]="fromPage"></app-header>
+                <h1>{{ pageContent.Internal_Landing.Page_Header }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <section class="middle-section">
+                <div class="white-block">
+                    <form class="k-form-inline h-100">
+                        <!-- scroll bar open -->
+                        <!-- <perfect-scrollbar><div> -->
+                        <!-- <div class="scrollable-content-wrapper" #commentBlock max-height="490" min-Height="621">
+                                <div class="scrollable-content">
+                                    <div class="scroll-inner" #commentArea> -->
+
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner">
+                                    <section class="white-block">
+                                        <div class="medallions">
+                                            <swiper class="swiper-container" [config]="config" #usefulSwiper>
+                                                <div *ngFor="let slide of slides" class="swiper-slide" (click)="medallionsClick(slide.name, $event, '')" style="height: 78px">
+                                                    <div>
+                                                        <figure class="{{ slide.class }}"></figure>
+                                                        <section>
+                                                            <h2>{{ slide.name }}</h2>
+                                                            <span *ngIf="slide.count >= 0">{{ slide.count }}</span>
+                                                            <span *ngIf="slide.count < 0" class="loader-icon">
+                                                                <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg">
+                                                                    <circle id="c" fill="none" stroke-width="8" stroke-linecap="round" stroke="#002F87" cx="45" cy="45" r="30" />
+                                                                </svg>
+                                                            </span>
+                                                        </section>
+                                                    </div>
+                                                </div>
+                                            </swiper>
+                                            <div class="project-control">
+                                                <div id="js-next" class="swiper-button-next" (click)="medallionsNextClick($event)"></div>
+                                                <div id="js-prev" class="swiper-button-prev" (click)="medallionsPrevClick($event)"></div>
+                                            </div>
+                                        </div>
+
+                                        <!----- app submitted -------->
+                                        <div class="landing-grid-wrap" id="appSubmitted" *ngIf="appSubmited">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataAppSubmitted"
+                                                class="responsive-grid internal-landing-grid desktop-mode app-submitted-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeAS($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                (sortChange)="sortChangeAppSubmitted()"
+                                                [sort]="sort"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Apps Submitted')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_State }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <span>{{ dataItem.StateAbbreviationName }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Submit_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.SubmitDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'appSubmited')"
+                                                                    [(value)]="dataItem.LastFollowupDateNew"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_App_Type }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                                    <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                                    <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                                </strong>
+                                                                <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAS(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Apps Submitted')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="StateAbbreviationName" title="{{ pageContent.Internal_Landing.Grid_Header_State }}" width="120" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAS(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span>
+                                                            {{ dataItem.StateAbbreviationName }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="SubmitDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Submit_Date }}"
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAS(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.SubmitDate | date: 'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowupDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAS(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'appSubmited')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAS(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" class="re-assigned" (click)="openReassign(dataItem)">{{ dataItem.Rep }} </a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="AppType" title="{{ pageContent.Internal_Landing.Grid_Header_App_Type }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAS(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                            <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                            <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                        </strong>
+                                                        <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+                                        <!-------end of app  submitted ---------------------------------------------------------------------------->
+
+                                        <!--app updates submitted --------->
+                                        <div class="landing-grid-wrap" id="appUpdateSubmited" *ngIf="appUpdateSubmited">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataAppUpdateSubmitted"
+                                                class="responsive-grid internal-landing-grid desktop-mode appUpdatesubmitted-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeAppUpdateSubmitted($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                [sort]="sort"
+                                                (sortChange)="sortChangeAppUpdatesSubmitted()"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Apps Update Submitted')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_State }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <span>{{ dataItem.StateAbbreviationName }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Update_Submit_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.SubmitDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'Apps Update Submitted')"
+                                                                    [(value)]="dataItem.LastFollowupDateNew"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_App_Type }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                                    <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                                    <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                                </strong>
+                                                                <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppUpdateSubmitted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Apps Update Submitted')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="StateAbbreviationName" title="{{ pageContent.Internal_Landing.Grid_Header_State }}" width="120" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppUpdateSubmitted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span>
+                                                            {{ dataItem.StateAbbreviationName }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="SubmitDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Update_Submit_Date }}"
+                                                    width="200"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppUpdateSubmitted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.SubmitDate | date: 'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowupDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppUpdateSubmitted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'Apps Update Submitted')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppUpdateSubmitted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" class="re-assigned" (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="AppType" title="{{ pageContent.Internal_Landing.Grid_Header_App_Type }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppUpdateSubmitted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                            <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                            <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                        </strong>
+                                                        <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+                                        <!---------------------end of app updates submitted ------------------>
+
+                                        <!------- app Started ------->
+                                        <div class="landing-grid-wrap" *ngIf="appStarted">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="appstartedVal"
+                                                class="responsive-grid internal-landing-grid desktop-mode appStarted-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeAppstarted($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                (sortChange)="sortChangeAppStarted()"
+                                                [sort]="sort"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Internal_Landing.Grid_Header_Items }}">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Apps Started')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_State }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.StateAbbreviationName }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Start_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.StartedDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'appStarted')"
+                                                                    [(value)]="dataItem.LastFollowupDateNew"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_App_Type }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                                    <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                                    <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                                </strong>
+                                                                <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Apps Started')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="StateAbbreviationName" title="{{ pageContent.Internal_Landing.Grid_Header_State }}" width="120" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.StateAbbreviationName }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="StartedDate" title="{{ pageContent.Internal_Landing.Grid_Header_Start_Date }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.StartedDate | date: 'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowupDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'appStarted')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.Rep }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="AppType" title="{{ pageContent.Internal_Landing.Grid_Header_App_Type }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                            <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                            <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                        </strong>
+                                                        <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+
+                                        <!---------------------------------------- app Update Started ----------------------------------------------------------------------->
+                                        <div class="landing-grid-wrap" *ngIf="appUpdateStarted">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="appUpdatestartedVal"
+                                                class="responsive-grid internal-landing-grid desktop-mode appUpdateStarted-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeAppUpdatestarted($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                [sort]="sort"
+                                                (sortChange)="sortChangeAppUpdatesStarted()"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                    *ngIf="this.CounterAppStarted === 0"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Internal_Landing.Grid_Header_Items }}">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Apps Update Started')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_State }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.StateAbbreviationName }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Update_Start_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.StartedDate }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'Apps Update Started')"
+                                                                    [(value)]="dataItem.LastFollowupDateNew"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_App_Type }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                                    <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                                    <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                                </strong>
+                                                                <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveUpdateAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Apps Update Started')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="StateAbbreviationName" title="{{ pageContent.Internal_Landing.Grid_Header_State }}" width="120" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveUpdateAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.StateAbbreviationName }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="StartedDate" title="{{ pageContent.Internal_Landing.Grid_Header_Update_Start_Date }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveUpdateAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.StartedDate | date: 'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowupDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveUpdateAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'Apps Update Started')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveUpdateAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" (click)="openReassign(dataItem)"> {{ dataItem.Rep }} </a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="AppType" title="{{ pageContent.Internal_Landing.Grid_Header_App_Type }}" width="180" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveUpdateAppstarted(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <strong *ngIf="dataItem.AppType == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                            <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.AppType }}</span> -->
+                                                            <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                        </strong>
+
+                                                        <span *ngIf="dataItem.AppType != 'MULTIPLE'">{{ dataItem.AppType }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+                                        <!---------------------------------------- end of app Update Started ----------------------------------------------------------------------->
+
+                                        <!---------------- coverage area --------->
+                                        <div class="landing-grid-wrap" *ngIf="coverageArea">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataCoverageArea"
+                                                class="responsive-grid internal-landing-grid desktop-mode coverageArea-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeCA($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                [sort]="sort"
+                                                (sortChange)="sortChangeCoverage()"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Internal_Landing.Grid_Header_Items }}">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Coverage Area')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_AIS }}</strong>
+                                                            </dt>
+                                                            <dd class="status">
+                                                                <span>{{ dataItem.AIS }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Change_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.ChangedDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.LastFollowUpDate }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Change_Type }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.ChangeType }}
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCA(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Coverage Area')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="AISTranslated"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_AIS }}"
+                                                    width="120"
+                                                    media="(min-width: 901px)"
+                                                    class="status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCA(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span [class]="dataItem.AIS == 'Active' ? 'active' : dataItem.AIS == 'Suspended' ? 'suspend' : 'inactive'">
+                                                            <!-- {{ dataItem.AIS }} -->
+                                                            {{ dataItem.AISTranslated }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    field="ChangedDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Change_Date }}"
+                                                    width="180"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCA(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span class="hide-me">
+                                                            {{ dataItem.ChangedDate | date: 'MM/dd/yyyy' }}
+                                                        </span>
+                                                        <span>
+                                                            {{ dataItem.ChangedDate | date: 'MM/dd/yyyy' }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowUpDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="140"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCA(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'coverageArea')"
+                                                            [(value)]="dataItem.LastFollowUpDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCA(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" (click)="openReassign(dataItem)">{{ dataItem.Rep }} </a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="ChangeType"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Change_Type }}"
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    [sortable]="false"
+                                                    [filterable]="false"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCA(column.field)"
+                                                            [filterable]="false"
+                                                            [sortable]="false"
+                                                        ></multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span> {{ dataItem.ChangeType }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+                                        <!------------------------------------------------- end of coverage area ---------------------------------------------------------->
+
+                                        <!-- profile changes ----->
+                                        <div class="landing-grid-wrap" *ngIf="profileChanges">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataProfileChanges"
+                                                class="responsive-grid internal-landing-grid desktop-mode profileChanges-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangePC($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                (sortChange)="sortChangeProfile()"
+                                                [sort]="sort"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Internal_Landing.Grid_Header_Items }}">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Profile Changes')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_AIS }}</strong>
+                                                            </dt>
+                                                            <dd class="status">
+                                                                <span [class]="dataItem.AIS == 'Active' ? 'active' : dataItem.AIS == 'Suspended' ? 'suspend' : 'inactive'">
+                                                                    <!-- {{ dataItem.AIS }} -->
+                                                                    {{ dataItem.AISTranslated }}
+                                                                </span>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Change_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.ChangedDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'profileChanges')"
+                                                                    [(value)]="dataItem.LastFollowupDateNew"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Change_Type }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.ChangeType }}
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitivePC(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Profile Changes')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="AISTranslated"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_AIS }}"
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitivePC(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span [class]="dataItem.AIS == 'Active' ? 'active' : dataItem.AIS == 'Suspended' ? 'suspend' : 'inactive'">
+                                                            <!-- {{ dataItem.AIS }} -->
+                                                            {{ dataItem.AISTranslated }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="ChangedDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Change_Date }}"
+                                                    width="140"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitivePC(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.ChangedDate | date: 'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowUpDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="170"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitivePC(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'profileChanges')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitivePC(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" (click)="openReassign(dataItem)">{{ dataItem.Rep }} </a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="ChangeType" title="{{ pageContent.Internal_Landing.Grid_Header_Change_Type }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitivePC(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span> {{ dataItem.ChangeType }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+
+                                        <!-- Legal Issues   -->
+                                        <div class="landing-grid-wrap" *ngIf="LegalIssue">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataLegalIssues"
+                                                class="responsive-grid internal-landing-grid desktop-mode legalIssue-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeLI($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                (sortChange)="sortChangeLegal()"
+                                                [sort]="sort"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Profile Changes')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Issue_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.IssueDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'Legal Issues')"
+                                                                    [(value)]="dataItem.LastFollowupDate"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Legal_Issue }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <strong *ngIf="dataItem.LegalIssue == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                                    <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.LegalIssue }}</span> -->
+                                                                    <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                                </strong>
+                                                                <span *ngIf="dataItem.LegalIssue != 'MULTIPLE'">{{ dataItem.LegalIssue }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" [title]="pageContent.Internal_Landing.Grid_Header_Contractor" width="250" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveLI(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Legal Issues')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="IssueDate"
+                                                    [title]="pageContent.Internal_Landing.Grid_Header_Issue_Date"
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveLI(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        {{ dataItem.IssueDate | date: 'MM/dd/yyyy' }}
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="LastFollowUpDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}"
+                                                    width="200"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveLI(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'Legal Issues')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="Rep" [title]="pageContent.Internal_Landing.Grid_Header_Rep" width="250" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveLI(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="LegalIssue" [title]="pageContent.Internal_Landing.Grid_Header_Legal_Issue" width="220" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveLI(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <strong *ngIf="dataItem.LegalIssue == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                            <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.LegalIssue }}</span> -->
+                                                            <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                        </strong>
+                                                        <span *ngIf="dataItem.LegalIssue != 'MULTIPLE'">{{ dataItem.LegalIssue }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+
+                                        <!-- app Recert -->
+                                        <div class="landing-grid-wrap" *ngIf="recerts">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataRecertTab"
+                                                class="responsive-grid internal-landing-grid desktop-mode appRecerts-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeRT($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                [sort]="sort"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="{{ pageContent.Internal_Landing.Grid_Header_Items }}">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}: </strong>
+                                                            <a (click)="openContractor1(dataItem, 'Profile Changes')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Milestone_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.MilestoneDate | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Recert_Status }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                {{ dataItem.RecertStatus }}
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveRT(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a (click)="openContractor1(dataItem, 'Recerts')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column
+                                                    field="MilestoneDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Milestone_Date }}"
+                                                    width="180"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveRT(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span class="hide-me">
+                                                            {{ dataItem.MilestoneDate | date: 'MM/dd/yyyy' }}
+                                                        </span>
+                                                        <span>
+                                                            {{ dataItem.MilestoneDate | date: 'MM/dd/yyyy' }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="160" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveRT(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" (click)="openReassign(dataItem)"> {{ dataItem.Rep }} </a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-column field="RecertStatus" title="{{ pageContent.Internal_Landing.Grid_Header_Recert_Status }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveRT(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span> {{ dataItem.RecertStatus }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+                                        <!-- app currentCalls -->
+                                        <div *ngIf="callsTab" class="landing-grid-wrap">
+                                            <kendo-grid
+                                                media="(min-width: 901px)"
+                                                [kendoGridBinding]="gridDataCalls"
+                                                class="responsive-grid internal-landing-grid desktop-mode currentCalls-grid"
+                                                [filter]="filter"
+                                                filterable="menu"
+                                                (filterChange)="filterChangeCalls($event)"
+                                                [pageSize]="pageSize"
+                                                [skip]="skip"
+                                                [style.height.%]="100"
+                                                [sortable]="{
+                                                    allowUnsort: allowUnsort,
+                                                    mode: multiple ? 'multiple' : 'single'
+                                                }"
+                                                [sort]="sort"
+                                                (sortChange)="sortChangeCalls($event)"
+                                                [resizable]="false"
+                                                [pageable]="pageObj"
+                                            >
+                                                <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- template for mobile -->
+                                                        <h2 class="tbl-card-title">
+                                                            <strong>{{ pageContent.Internal_Landing.Grid_Header_Contractor }}:</strong>
+                                                            <a (click)="openContractor1(dataItem, 'Current Calls')">{{ dataItem.ContractorName }}</a>
+                                                        </h2>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_AIS }}</strong>
+                                                            </dt>
+                                                            <dd class="status">
+                                                                <span [class]="dataItem.AIS == 'Active' ? 'active' : dataItem.AIS == 'Suspended' ? 'suspend' : 'inactive'">
+                                                                    <!-- {{ dataItem.AIS }} -->
+                                                                    {{ dataItem.AISTranslated }}
+                                                                </span>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Due_Date }}</strong>
+                                                            </dt>
+                                                            <dd>{{ dataItem.DateDue | date: 'MM/dd/yyyy' }}</dd>
+                                                        </dl>
+                                                        <dl class="selectDate">
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <kendo-datepicker
+                                                                    (valueChange)="handleClickCell($event, dataItem, 'Current Calls')"
+                                                                    [(value)]="dataItem.LastFollowupDateNew"
+                                                                    name="datepicker"
+                                                                    [min]="min"
+                                                                    format="MM/dd/yyyy"
+                                                                    [readOnlyInput]="true"
+                                                                >
+                                                                    <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                                </kendo-datepicker>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Grid_Header_Rep }}</strong>
+                                                            </dt>
+                                                            <dd *ngIf="!repFlag">
+                                                                <a (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                            </dd>
+                                                            <dd *ngIf="repFlag">
+                                                                {{ dataItem.Rep }}
+                                                            </dd>
+                                                        </dl>
+                                                        <dl>
+                                                            <dt>
+                                                                <strong>{{ pageContent.Internal_Landing.Deliverable_Dues }}</strong>
+                                                            </dt>
+                                                            <dd>
+                                                                <strong *ngIf="dataItem.DeliverableDue == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                                    <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.DeliverableDue }}</span> -->
+                                                                    <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                                </strong>
+                                                                <span *ngIf="dataItem.DeliverableDue != 'MULTIPLE'">{{ dataItem.DeliverableDue }}</span>
+                                                            </dd>
+                                                        </dl>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                                <kendo-grid-messages
+                                                    pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                    pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                    noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                >
+                                                </kendo-grid-messages>
+
+                                                <kendo-grid-column field="ContractorName" title="{{ pageContent.Internal_Landing.Grid_Header_Contractor }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCalls(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- <a>{{ dataItem.ContractorName }}</a> -->
+                                                        <a (click)="openContractor1(dataItem, 'Current Calls')">{{ dataItem.ContractorName }}</a>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    field="AISTranslated"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_AIS }}"
+                                                    width="160"
+                                                    media="(min-width: 901px)"
+                                                    class="status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCalls(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span [class]="dataItem.AIS == 'Active' ? 'active' : dataItem.AIS == 'Suspended' ? 'suspend' : 'inactive'">
+                                                            <!-- {{ dataItem.AIS }} -->
+                                                            {{ dataItem.AISTranslated }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    field="DateDueFilterNew"
+                                                    title="{{ pageContent.Internal_Landing.Due_Date }}"
+                                                    width="180"
+                                                    media="(min-width: 901px)"
+                                                    class="due-status"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-duedate-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCalls(column.field)"
+                                                        >
+                                                        </multicheck-duedate-filter>
+                                                    </ng-template>
+
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <span>
+                                                            {{ dataItem.DateDue | date: 'MM/dd/yyyy' }}
+                                                        </span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column
+                                                    field="LastFollowUpDate"
+                                                    title="{{ pageContent.Internal_Landing.Grid_Header_Next_Follow_Up }} "
+                                                    width="180"
+                                                    media="(min-width: 901px)"
+                                                    class="selectDate"
+                                                >
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCalls(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <kendo-datepicker
+                                                            (valueChange)="handleClickCell($event, dataItem, 'Current Calls')"
+                                                            [(value)]="dataItem.LastFollowupDateNew"
+                                                            name="datepicker"
+                                                            [min]="min"
+                                                            format="MM/dd/yyyy"
+                                                            [readOnlyInput]="true"
+                                                        >
+                                                            <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                                        </kendo-datepicker>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="Rep" title="{{ pageContent.Internal_Landing.Grid_Header_Rep }}" width="170" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCalls(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <a *ngIf="!repFlag" (click)="openReassign(dataItem)">{{ dataItem.Rep }}</a>
+                                                        <ng-container *ngIf="repFlag">{{ dataItem.Rep }}</ng-container>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+
+                                                <kendo-grid-column field="DeliverableDue" title="{{ pageContent.Internal_Landing.Deliverable_Dues }}" width="200" media="(min-width: 901px)">
+                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                        <multicheck-filter
+                                                            [isPrimitive]="true"
+                                                            [field]="column.field"
+                                                            [filterService]="filterService"
+                                                            [currentFilter]="filter"
+                                                            [data]="distinctPrimitiveCalls(column.field)"
+                                                        >
+                                                        </multicheck-filter>
+                                                    </ng-template>
+                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                        <!-- <span>{{ dataItem.DeliverableDue }}</span> -->
+                                                        <strong *ngIf="dataItem.DeliverableDue == 'MULTIPLE'" kendoTooltip tooltipClass="multiple-tip" position="top">
+                                                            <!-- <span title="{{ dataItem.HoverValue }}">{{ dataItem.DeliverableDue }}</span> -->
+                                                            <span title="{{ dataItem.HoverValue }}">{{ pageContent.Internal_Landing.Multiple }}</span>
+                                                        </strong>
+                                                        <span *ngIf="dataItem.DeliverableDue != 'MULTIPLE'">{{ dataItem.DeliverableDue }}</span>
+                                                    </ng-template>
+                                                </kendo-grid-column>
+                                            </kendo-grid>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>

@@ -1,0 +1,11 @@
+
+{
+    "Questionnaire" : {
+       "Checked" : null,
+       "HighValue" : 1000,
+       "DollarValue" : 2000,
+       "Cost_25" : 3000,
+       "Cost_50" : 4000,
+       "Cost_100" : 5000
+    }
+}

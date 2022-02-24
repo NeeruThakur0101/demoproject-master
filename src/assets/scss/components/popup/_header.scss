@@ -1,0 +1,16 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the popup header.
+// -----------------------------------------------------------------------------
+.popup-header, kendo-dialog-titlebar {
+    background-color: $c-M-Blue !important;
+    border:1px solid $c-D-Blue !important;
+    border-radius: 1rem 1rem 0 0 !important;
+    padding: 0 2rem !important;
+    min-height: 5rem;
+    position: relative;
+
+    h1 {
+        color: $c-White;
+        font-weight: normal;
+    }
+}

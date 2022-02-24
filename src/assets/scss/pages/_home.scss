@@ -1,0 +1,15 @@
+// -----------------------------------------------------------------------------
+// This file contains styles that are specific to the home page.
+// -----------------------------------------------------------------------------
+
+.signup-popup {
+    .k-window-titlebar {
+        .k-window-actions {
+            display: none !important;
+        }
+    }
+}
+
+.k-progress-status-wrap {
+    background-color: $c-D-Blue !important;
+}

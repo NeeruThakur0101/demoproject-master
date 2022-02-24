@@ -1,0 +1,413 @@
+<main appGridlayout [class.internal-user]="_srvAuthentication.Profile.ContrID > 0" [hidden]="hidePage">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Job_Volume_Info.Job_Volume_Informations_Page_Header" [comments]="crComments"></app-page-title>
+            </section>
+
+            <form class="k-form-inline h-100 jobVolume-form">
+                <section class="middle-section">
+                    <div class="white-block">
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="510" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <div class="scrollable-content">
+                                        <section class="volume-information">
+                                            <section class="flex-3-7">
+                                                <div class="col">
+                                                    <section class="white-block h-100">
+                                                        <h2>{{ pageContent.Job_Volume_Info.Current_Year_Breakdown }}</h2>
+                                                        <section class="pie-chart-wrapper">
+                                                            <kendo-chart [seriesColors]="['#01B8AA', '#374649', '#FD625E', '#F2C80F']" (legendItemClick)="onLegendItemClick($event)">
+                                                                <kendo-chart-legend position="bottom" orientation="horizontal" [markers]="{ width: 15, height: 15 }"> </kendo-chart-legend>
+                                                                <kendo-chart-area [margin]="0"> </kendo-chart-area>
+                                                                <kendo-chart-series>
+                                                                    <kendo-chart-series-item
+                                                                        type="pie"
+                                                                        [data]="pieData"
+                                                                        categoryField="key"
+                                                                        field="value"
+                                                                        [labels]="{ visible: false, content: labelContent }"
+                                                                    >
+                                                                        <kendo-chart-series-item-tooltip>
+                                                                            <ng-template let-dataItem="dataItem">
+                                                                                <div class="tooltip-chart">
+                                                                                    <div class="tooltip-row">
+                                                                                        <div>{{ dataItem.key }}</div>
+                                                                                        <div>
+                                                                                            <strong>{{ dataItem.value }} %</strong>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </ng-template>
+                                                                        </kendo-chart-series-item-tooltip>
+
+                                                                        <kendo-chart-series-item-labels position="auto" [visual-cue]="labelVisual"> </kendo-chart-series-item-labels>
+                                                                    </kendo-chart-series-item>
+                                                                </kendo-chart-series>
+                                                            </kendo-chart>
+                                                        </section>
+                                                    </section>
+                                                </div>
+                                                <div class="col">
+                                                    <section class="white-block h-100">
+                                                        <section class="grid-top-bar">
+                                                            <div>
+                                                                <h2>{{ pageContent.Job_Volume_Info.Job_Volume_Informations_Page_Header }}</h2>
+                                                            </div>
+                                                            <div>
+                                                                <button
+                                                                    kendoButton
+                                                                    type="button"
+                                                                    [disabled]="(_srvAuthentication.Profile.ContrID == 0 && loggedInUserType == 'Internal') || disableInternalAccess === true"
+                                                                    (click)="openAddJobVolumeDialog('', 'ADD')"
+                                                                    [primary]="true"
+                                                                >
+                                                                    {{ pageContent.Job_Volume_Info.Add_Job_Volume }}
+                                                                </button>
+                                                            </div>
+                                                        </section>
+                                                        <kendo-grid
+                                                            media="(min-width: 901px)"
+                                                            class="responsive-grid job-volume-grid desktop-mode"
+                                                            [pageSize]="pageSize"
+                                                            [pageable]="pageObj"
+                                                            #grid
+                                                            [kendoGridBinding]="gridData"
+                                                            [skip]="skip"
+                                                            [style.height.%]="90"
+                                                            filterable="menu"
+                                                            [filter]="filter"
+                                                            (filterChange)="filterChange($event)"
+                                                            (pageChange)="onPageChange($event)"
+                                                            [selectable]="{ mode: 'single' }"
+                                                            [data]="gridView"
+                                                            [sortable]="{
+                                                                allowUnsort: allowUnsort,
+                                                                mode: multiple ? 'multiple' : 'single'
+                                                            }"
+                                                            [sort]="sort"
+                                                        >
+                                                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                                    <!-- template for mobile -->
+                                                                    <h2 class="tbl-card-title"><strong>Serial No:</strong> {{ dataItem.serial_no }}</h2>
+                                                                    <dl>
+                                                                        <dt><strong>Year</strong></dt>
+                                                                        <dd>
+                                                                            <a
+                                                                                [attr.disabled]="
+                                                                                    (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') || disableInternalAccess ? '' : null
+                                                                                "
+                                                                                [class.disable-name]="
+                                                                                    (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal' ? true : false) ||
+                                                                                    disableInternalAccess === true
+                                                                                "
+                                                                                [class]="dataItem.isYear == true ? 'visual-cue' : 'none'"
+                                                                                (click)="openAddJobVolumeDialog($event, 'EDIT', dataItem)"
+                                                                                >{{ dataItem.Year }}</a
+                                                                            >
+                                                                        </dd>
+                                                                    </dl>
+
+                                                                    <dl>
+                                                                        <dt>
+                                                                            <strong>{{ pageContent.Job_Volume_Info.Insurance }} (%) Res</strong>
+                                                                        </dt>
+                                                                        <dd>
+                                                                            <span [class]="dataItem.isResInsRestoPer == true ? 'visual-cue' : 'none'">{{
+                                                                                dataItem.ResidentialInsuranceRestorationInPercentage
+                                                                            }}</span>
+                                                                        </dd>
+                                                                    </dl>
+
+                                                                    <dl>
+                                                                        <dt>
+                                                                            <strong>{{ pageContent.Job_Volume_Info.Insurance }} (%) Com</strong>
+                                                                        </dt>
+                                                                        <dd>
+                                                                            <span [class]="dataItem.isComInsResPer == true ? 'visual-cue' : 'none'">{{
+                                                                                dataItem.CommercialInsuranceRestorationInPercentage
+                                                                            }}</span>
+                                                                        </dd>
+                                                                    </dl>
+
+                                                                    <dl>
+                                                                        <dt>
+                                                                            <strong>{{ pageContent.Job_Volume_Info.Remodeling }} (%) Res</strong>
+                                                                        </dt>
+                                                                        <dd>
+                                                                            <span [class]="dataItem.isResRemodelPer == true ? 'visual-cue' : 'none'">{{
+                                                                                dataItem.ResidentialRemodellingInPercentage
+                                                                            }}</span>
+                                                                        </dd>
+                                                                    </dl>
+
+                                                                    <dl>
+                                                                        <dt>
+                                                                            <strong>{{ pageContent.Job_Volume_Info.Remodeling }} (%) Com</strong>
+                                                                        </dt>
+                                                                        <dd>
+                                                                            <span [class]="dataItem.isComRemodelPer == true ? 'visual-cue' : 'none'">{{
+                                                                                dataItem.CommercialRemodellingInPercentage
+                                                                            }}</span>
+                                                                        </dd>
+                                                                    </dl>
+
+                                                                    <dl>
+                                                                        <dt>
+                                                                            <strong>{{ pageContent.Job_Volume_Info.Avg_Job_Amount }}</strong>
+                                                                        </dt>
+                                                                        <dd>
+                                                                            <span [class]="dataItem.isAverageJob == true ? 'visual-cue' : 'none'">${{ dataItem.AverageJobAmountInYear }}</span>
+                                                                        </dd>
+                                                                    </dl>
+
+                                                                    <dl>
+                                                                        <dt>
+                                                                            <strong>{{ pageContent.Job_Volume_Info.Largest_Single_Job }}</strong>
+                                                                        </dt>
+                                                                        <dd>
+                                                                            <span [class]="dataItem.isLargestSingle == true ? 'visual-cue' : 'none'">${{ dataItem.LargestSingleJobInYear }}</span>
+                                                                        </dd>
+                                                                    </dl>
+                                                                </ng-template>
+                                                            </kendo-grid-column>
+
+                                                            <!-- For PC version starts here -->
+
+                                                            <kendo-grid-column media="(min-width: 901px)" field="serial_no" title="#" width="60" [filterable]="false"> </kendo-grid-column>
+
+                                                            <kendo-grid-column media="(min-width: 901px)" class="set-filter" field="Year" title="{{ pageContent.Job_Volume_Info.Year }}" width="110">
+                                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                    <app-multicheck-filter
+                                                                        [isPrimitive]="true"
+                                                                        [field]="column.field"
+                                                                        [filterService]="filterService"
+                                                                        [currentFilter]="filter"
+                                                                        [data]="distinctPrimitive(column.field)"
+                                                                    ></app-multicheck-filter>
+                                                                </ng-template>
+
+                                                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                                    <a [class]="dataItem.isYear == true ? 'visual-cue' : 'none'" (click)="openAddJobVolumeDialog($event, 'EDIT', dataItem)">{{
+                                                                        dataItem.Year
+                                                                    }}</a>
+                                                                    <!-- <a
+                                                                        [attr.disabled]="
+                                                                            (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal') || disableInternalAccess ? '' : null
+                                                                        "
+                                                                        [class.disable-name]="
+                                                                            (_srvAuthentication.Profile.ContrID === 0 && loggedInUserType === 'Internal' ? true : false) ||
+                                                                            disableInternalAccess === true
+                                                                        "
+                                                                        [class]="dataItem.isYear == true ? 'visual-cue' : 'none'"
+                                                                        (click)="openAddJobVolumeDialog($event, 'EDIT', dataItem)"
+                                                                        >{{ dataItem.Year }}</a
+                                                                    > -->
+                                                                </ng-template>
+                                                            </kendo-grid-column>
+
+                                                            <kendo-grid-column-group title="{{ pageContent.Job_Volume_Info.Insurance }} (%)" media="(min-width: 901px)">
+                                                                <kendo-grid-column field="ResidentialInsuranceRestorationInPercentage" title="Res" width="110">
+                                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                        <app-multicheck-filter
+                                                                            [isPrimitive]="true"
+                                                                            [field]="column.field"
+                                                                            [filterService]="filterService"
+                                                                            [currentFilter]="filter"
+                                                                            [data]="distinctPrimitive(column.field)"
+                                                                        ></app-multicheck-filter>
+                                                                    </ng-template>
+
+                                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                                        <span [class]="dataItem.isResInsRestoPer == true ? 'visual-cue' : 'none'">{{
+                                                                            dataItem.ResidentialInsuranceRestorationInPercentage
+                                                                        }}</span>
+                                                                    </ng-template>
+                                                                </kendo-grid-column>
+
+                                                                <kendo-grid-column media="(min-width: 901px)" field="CommercialInsuranceRestorationInPercentage" title="Com" width="110">
+                                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                        <app-multicheck-filter
+                                                                            [isPrimitive]="true"
+                                                                            [field]="column.field"
+                                                                            [filterService]="filterService"
+                                                                            [currentFilter]="filter"
+                                                                            [data]="distinctPrimitive(column.field)"
+                                                                        ></app-multicheck-filter>
+                                                                    </ng-template>
+
+                                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                                        <span [class]="dataItem.isComInsResPer == true ? 'visual-cue' : 'none'">{{
+                                                                            dataItem.CommercialInsuranceRestorationInPercentage
+                                                                        }}</span>
+                                                                    </ng-template>
+                                                                </kendo-grid-column>
+                                                            </kendo-grid-column-group>
+
+                                                            <kendo-grid-column-group media="(min-width: 901px)" title="{{ pageContent.Job_Volume_Info.Remodeling }} (%)">
+                                                                <kendo-grid-column field="ResidentialRemodellingInPercentage" title="Res" width="110">
+                                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                        <app-multicheck-filter
+                                                                            [isPrimitive]="true"
+                                                                            [field]="column.field"
+                                                                            [filterService]="filterService"
+                                                                            [currentFilter]="filter"
+                                                                            [data]="distinctPrimitive(column.field)"
+                                                                        ></app-multicheck-filter>
+                                                                    </ng-template>
+
+                                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                                        <span [class]="dataItem.isResRemodelPer == true ? 'visual-cue' : 'none'">{{
+                                                                            dataItem.ResidentialRemodellingInPercentage
+                                                                        }}</span>
+                                                                    </ng-template>
+                                                                </kendo-grid-column>
+                                                                <kendo-grid-column media="(min-width: 901px)" field="CommercialRemodellingInPercentage" title="Com" width="110">
+                                                                    <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                        <app-multicheck-filter
+                                                                            [isPrimitive]="true"
+                                                                            [field]="column.field"
+                                                                            [filterService]="filterService"
+                                                                            [currentFilter]="filter"
+                                                                            [data]="distinctPrimitive(column.field)"
+                                                                        ></app-multicheck-filter>
+                                                                    </ng-template>
+
+                                                                    <ng-template kendoGridCellTemplate let-dataItem>
+                                                                        <span [class]="dataItem.isComRemodelPer == true ? 'visual-cue' : 'none'">{{ dataItem.CommercialRemodellingInPercentage }}</span>
+                                                                    </ng-template>
+                                                                </kendo-grid-column>
+                                                            </kendo-grid-column-group>
+
+                                                            <kendo-grid-column
+                                                                media="(min-width: 901px)"
+                                                                field="AverageJobAmountInYear"
+                                                                title="{{ pageContent.Job_Volume_Info.Avg_Job_Amount }}"
+                                                                width="{{ avgJobAmount }}"
+                                                            >
+                                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                    <app-multicheck-filter
+                                                                        [isPrimitive]="true"
+                                                                        [field]="column.field"
+                                                                        [filterService]="filterService"
+                                                                        [currentFilter]="filter"
+                                                                        [data]="distinctPrimitive(column.field)"
+                                                                    ></app-multicheck-filter>
+                                                                </ng-template>
+
+                                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                                    <span [class]="dataItem.isAverageJob == true ? 'visual-cue' : 'none'">${{ dataItem.AverageJobAmountInYear }}</span>
+                                                                </ng-template>
+                                                            </kendo-grid-column>
+
+                                                            <kendo-grid-column
+                                                                media="(min-width: 901px)"
+                                                                field="LargestSingleJobInYear"
+                                                                title="{{ pageContent.Job_Volume_Info.Largest_Single_Job }}"
+                                                                width="{{ largestSingleJob }}"
+                                                            >
+                                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                                    <app-multicheck-filter
+                                                                        [isPrimitive]="true"
+                                                                        [field]="column.field"
+                                                                        [filterService]="filterService"
+                                                                        [currentFilter]="filter"
+                                                                        [data]="distinctPrimitive(column.field)"
+                                                                    ></app-multicheck-filter>
+                                                                </ng-template>
+
+                                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                                    <span [class]="dataItem.isLargestSingle == true ? 'visual-cue' : 'none'">${{ dataItem.LargestSingleJobInYear }}</span>
+                                                                </ng-template>
+                                                            </kendo-grid-column>
+                                                            <kendo-grid-messages
+                                                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                                            >
+                                                            </kendo-grid-messages>
+                                                        </kendo-grid>
+                                                    </section>
+                                                </div>
+                                            </section>
+                                            <section class="white-block">
+                                                <section class="">
+                                                    <div class="scrollable-horizontal">
+                                                        <div class="scrollable-content">
+                                                            <div class="scroll-inner">
+                                                                <div class="col">
+                                                                    <h2>{{ pageContent.Job_Volume_Info.Current_Year_Breakdown }}</h2>
+
+                                                                    <kendo-chart *ngIf="barData.length > 0">
+                                                                        <kendo-chart-legend position="right" [markers]="{ width: 15, height: 15 }" orientation="vertical"> </kendo-chart-legend>
+                                                                        <kendo-chart-area [height]="150"> </kendo-chart-area>
+
+                                                                        <kendo-chart-category-axis>
+                                                                            <kendo-chart-category-axis-item [categories]="[pageContent.Job_Volume_Info.Current_Year]"> </kendo-chart-category-axis-item>
+                                                                        </kendo-chart-category-axis>
+
+                                                                        <kendo-chart-value-axis>
+                                                                            <kendo-chart-value-axis-item>
+                                                                                <kendo-chart-value-axis-item-labels [content]="currencyLabel"> </kendo-chart-value-axis-item-labels>
+                                                                            </kendo-chart-value-axis-item>
+                                                                        </kendo-chart-value-axis>
+
+                                                                        <kendo-chart-series>
+                                                                            <kendo-chart-series-item
+                                                                                [type]="isMobile || isTab ? 'column' : 'bar'"
+                                                                                name="{{ pageContent.Job_Volume_Info.Avg_Job_Amount }}"
+                                                                                [gap]="2"
+                                                                                [spacing]="1"
+                                                                                *ngIf="barData != []"
+                                                                                [data]="[barData[1].value]"
+                                                                            >
+                                                                                <kendo-chart-series-item-tooltip background="#ff6358"> </kendo-chart-series-item-tooltip>
+                                                                            </kendo-chart-series-item>
+
+                                                                            <kendo-chart-series-item
+                                                                                [type]="isMobile || isTab ? 'column' : 'bar'"
+                                                                                *ngIf="barData != []"
+                                                                                name="{{ pageContent.Job_Volume_Info.Largest_Single_Job }}"
+                                                                                [data]="[barData[0].value]"
+                                                                            >
+                                                                                <kendo-chart-series-item-tooltip background="#ffd246"> </kendo-chart-series-item-tooltip>
+                                                                            </kendo-chart-series-item>
+                                                                        </kendo-chart-series>
+                                                                    </kendo-chart>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                            </section>
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section
+                    class="action-buttons"
+                    *ngIf="
+                        _srvAuthentication.Profile.ContrID === 0 || (_srvAuthentication.Profile.ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                    "
+                >
+                    <button kendoButton type="button" (click)="onBack()">
+                        {{ pageContent.Job_Volume_Info.Back }}
+                    </button>
+                    <button kendoButton type="button" (click)="onSaveNext()" [primary]="true">
+                        {{ saveNext }}
+                    </button>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>
+<ng-container #container></ng-container>

@@ -1,0 +1,206 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+@mixin before($cont, $w, $h, $disp, $pos, $img, $top, $left) {
+    content: $cont;
+    width: $w;
+    height: $h;
+    display: $disp;
+    position: $pos;
+    @include bg($img, '', '', $w);
+    top: $top;
+    left: $left;
+}
+@mixin iehack() {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content;
+    }
+}
+@mixin firefox() {
+    @-moz-document url-prefix() {
+        @content;
+    }
+}
+@mixin safarihack() {
+    .selector:not(*:root) {
+        @content;
+    }
+}
+
+// flex-box
+@mixin flx-J-C($jc) {
+    @if $jc == 'right' {
+        justify-content: flex-end;
+    }
+    @if $jc == 'center' {
+        justify-content: center;
+    }
+}
+
+// background
+@mixin bg($img, $rep, $clr, $size) {
+    @if $img != '' {
+        background: {
+            image: url('../images/' + $img);
+            @if $rep==x {
+                repeat: repeat-x;
+            } @else if $rep==y {
+                repeat: repeat-y;
+            }
+            @if $rep==a {
+                repeat: repeat;
+            } @else {
+                repeat: no-repeat;
+            }
+            color: $clr;
+            size: $size;
+        }
+    }
+}
+// $D-XL: 1920px;
+// $D-L : 1520px;
+// $D-N: 1024px;
+// $T-XL: 980px;
+//  $Tab-P: 768px;
+// $M-XL: 680px;
+// $M-L: 480px;
+// $M-N: 320px;
+
+// media query
+
+@mixin respond-to-Max($media) {
+    @media all and (max-width: $media) {
+        @content;
+    }
+}
+@mixin respond-to-Min-Max($media, $media1) {
+    @media all and (max-width: $media) and (min-width: $media1) {
+        @content;
+    }
+}
+@mixin respond-to-Min($media) {
+    @media all and (min-width: $media + 1) {
+        @content;
+    }
+}
+
+// min width: 900px
+@mixin Min($val) {
+    @media all and (min-width: $val + 1) {
+        @content;
+    }
+}
+
+//max-width: 900px
+@mixin Max($val) {
+    @media all and (max-width: $val) {
+        @content;
+    }
+}
+
+@mixin iehack() {
+    @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        @content;
+    }
+}
+
+// border -radius
+@mixin rad($s) {
+    border-radius: $s;
+}
+// grid system
+@mixin grid($width, $gp, $flx, $col, $dkt, $dkt-col, $tab, $t-col, $Mob, $m-col) {
+    //  width: percentage($width)/100;
+    padding: $gp 0;
+    @if ($flx == 'flx') {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0px -$gp;
+    }
+    @if ($col != null) {
+        .col {
+            flex: 0 0 percentage($width/$col) / 100 !important;
+            max-width: percentage($width/$col) / 100 !important;
+            padding: 0 $gp;
+            @if ($dkt != null) {
+                @media all and (max-width: $dkt+px) {
+                    flex: 0 0 percentage($width/$dkt-col) / 100 !important;
+                    max-width: percentage($width/$dkt-col) / 100 !important;
+                }
+            }
+            @if ($tab != null) {
+                @media all and (max-width: $tab+px) {
+                    flex: 0 0 percentage($width/$t-col) / 100 !important;
+                    max-width: percentage($width/$t-col) / 100 !important;
+                }
+            }
+            @if ($Mob != null) {
+                @media all and (max-width: $Mob+px) {
+                    flex: 0 0 percentage($width/$m-col) / 100 !important;
+                    max-width: percentage($width/$m-col) / 100 !important;
+                }
+            }
+        }
+    }
+}
+/*
+.div {
+  @include grid(100, 10px,"flx", 4, 1024, 3, 768, 2, 520, 1);
+}
+*/
+@mixin gridTwoColOdd($width, $gp, $flx, $col-1, $col-2, $tab, $t-col, $Mob, $m-col) {
+    // width: percentage($width)/100;
+    padding: $gp 0;
+    @if ($flx == 'flx') {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -$gp;
+    }
+
+    @if ($col-1 != null) {
+        .col {
+            padding: 0 $gp;
+            @if ($tab != null) {
+                @media all and (max-width: $tab+px) {
+                    flex: 0 0 percentage($t-col/$width) !important;
+                    max-width: percentage($t-col/$width) !important;
+                }
+            }
+            @if ($Mob != null) {
+                @media all and (max-width: $Mob+px) {
+                    flex: 0 0 percentage($m-col/$width) !important;
+                    max-width: percentage($m-col/$width) !important;
+                }
+            }
+            flex: 0 0 percentage($col-1/$width);
+            max-width: percentage($col-1/$width);
+            margin-bottom: $gp;
+            &:first-child {
+                flex: 0 0 percentage($col-1/$width);
+                max-width: percentage($col-1/$width);
+                //margin-bottom: $gp;
+                + .col {
+                    flex: 0 0 percentage($col-2/$width);
+                    max-width: percentage($col-2/$width);
+                }
+            }
+        }
+    }
+}
+
+@mixin Width-M($val) {
+    width: calc(100% - #{$val});
+}
+@mixin Width-P($val) {
+    width: calc(100% + #{$val});
+}
+
+@mixin Height-M($val) {
+    height: calc(100% - #{$val});
+}
+@mixin Height-M-I($val) {
+    height: calc(100% - #{$val}) !important;
+}
+@mixin Height-P($val) {
+    height: calc(100% + #{$val});
+}

@@ -1,0 +1,91 @@
+<div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div>
+<kendo-dialog-titlebar class="hasDialog">
+  <h1>{{pageContent.Operation_Add_Event.Add_Event}}</h1>
+  <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<form [formGroup]="addEventFrom" (ngSubmit)="onSubmit(EventTypeName.value)">
+  <!-- popup content section -->
+  <div class="popup-content">
+    <div class="outer-block">
+      <div class="inner-block">
+        <!-- popup content -->
+        <section class="white-block">
+          <!-- form block starts -->
+          <section class="form-block floating-labels">
+            <div class="form-control">
+              <kendo-textbox-container floatingLabel="{{pageContent.Operation_Add_Event.Contractor_ID}}">
+                <input kendoTextBox [readonly]="true" disabled value="{{_srvAuth.Profile.ContrID}}" />
+              </kendo-textbox-container>
+            </div>
+            <div class="form-control">
+              <kendo-textbox-container floatingLabel="{{pageContent.Operation_Add_Event.Contractor_Name}}">
+                <input kendoTextBox [readonly]="true" disabled value="{{_srvAuth.Profile.CompanyName}}" />
+              </kendo-textbox-container>
+            </div>
+            <div class="form-control">
+              <kendo-textbox-container required floatingLabel="{{pageContent.Operation_Add_Event.Event_Group}}">
+                <kendo-dropdownlist formControlName="EventGroup" [ngClass]="{
+                   err : submitted && eventform.EventGroup.errors
+                  }" [data]="EventGroup" [valuePrimitive]="true" textField="EventGroupName" valueField="EventGroupID"
+                  (selectionChange)="selectionChange($event)">
+                  <ng-template kendoDropDownListNoDataTemplate>
+                    <h4>
+                        {{ pageContent.General_Keys.No_Data_Found}}
+                    </h4>
+                </ng-template>
+                </kendo-dropdownlist>
+                <div *ngIf="submitted && eventform.EventGroup.errors" class="invalid-feedback">
+                  <div *ngIf="eventform.EventGroup.errors.required" class="err-msg">EventGroup is required</div>
+                </div>
+              </kendo-textbox-container>
+            </div>
+            <div class="form-control">
+              <kendo-textbox-container required floatingLabel="{{pageContent.Operation_Add_Event.Event_Type}}">
+                <kendo-dropdownlist formControlName="EventType"
+                  [ngClass]="{ err: submitted && eventform.EventType.errors }" [data]="EventTypeData"
+                  textField="EventTypeNameTranslated" valueField="EventTypeID" [valuePrimitive]="true"
+                  (selectionChange)="selectionChangeType($event)" #EventTypeName>
+                  <ng-template kendoDropDownListNoDataTemplate>
+                    <h4>
+                        {{ pageContent.General_Keys.No_Data_Found}}
+                    </h4>
+                </ng-template>
+                </kendo-dropdownlist>
+                <div *ngIf="submitted && eventform.EventType.errors" class="invalid-feedback">
+                  <div *ngIf="eventform.EventType.errors.required" class="err-msg">EventType is required</div>
+                </div>
+              </kendo-textbox-container>
+            </div>
+
+            <div class="form-control" *ngIf="this.Territorycount>0">
+              <kendo-textbox-container required floatingLabel="{{pageContent.Operation_Add_Event.Related_Event}}">
+                <kendo-multiselect formControlName="EventTerritory"
+                  [ngClass]="{ err: submitted && eventform.EventTerritory.errors }" [data]="EventTerritoryData"
+                  (removeTag)="onRemoveTag($event)" [textField]="'DataTypeName'"
+                  [valueField]="'ContractorCentralDataTypeID'" [autoClose]="false"
+                  (valueChange)="selectionChangeTerritory($event)">
+
+                  <ng-template kendoMultiSelectItemTemplate let-dataItem>
+                    <input type="checkbox" class="k-checkbox" [checked]="isItemSelected(dataItem.text)">
+                    <label class="k-checkbox-label">{{ dataItem.DataTypeName }}</label>
+                  </ng-template>
+                </kendo-multiselect>
+
+                <div *ngIf="submitted && eventform.EventTerritory.errors" class="invalid-feedback">
+                  <div *ngIf="eventform.EventTerritory.errors.required" class="err-msg">EventTerritory is required</div>
+                </div>
+
+              </kendo-textbox-container>
+            </div>
+          </section>
+        </section>
+      </div>
+    </div>
+  </div>
+  <!-- footer section -->
+  <div class="popup-footer">
+    <button kendoButton (click)="close()">{{pageContent.Operation_Add_Event.Cancel}}</button>
+    <button kendoButton [primary]="true">{{pageContent.Operation_Add_Event.Save}}</button>
+  </div>
+</form>

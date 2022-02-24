@@ -1,0 +1,346 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Vertical Accordian.
+// -----------------------------------------------------------------------------
+.vertical-accord {
+    list-style: none;
+    min-height: 200px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    margin-right: 0;
+    @include Max(1140px) {
+        flex-direction: column;
+    }
+    li {
+        flex: 0 0 70px;
+        height: 100%;
+        position: relative;
+        display: flex;
+        @include Max(1140px) {
+            height: auto;
+            flex-direction: column;
+            flex-wrap: wrap;
+            padding-right: 0 !important;
+            flex: 0 0 50px;
+        }
+        &:after {
+            content: '';
+            position: absolute;
+            background: url(../images/rgt-arrow.png);
+            width: 18px;
+            height: 16px;
+            top: 60%;
+            right: 7px;
+            transform: translateY(-60%);
+            display: block;
+            background-size: 100%;
+            @include Max(1140px) {
+                top: 23px;
+                right: 12px;
+                background: url(../images/w-rgt-arrow.png);
+                background-size: contain;
+                width: 17px;
+            }
+        }
+        &:last-child {
+            margin-right: 0;
+            flex: 0 0 40px;
+            &:after {
+                @include Min(1141px) {
+                    display: none;
+                }
+            }
+            &.active {
+                padding-right: 0;
+            }
+        }
+        > span {
+            flex: 0 0 40px;
+            position: relative;
+            display: flex;
+            @include Max(1140px) {
+                flex-direction: column;
+                flex-wrap: wrap;
+            }
+            > input[type='radio'] {
+                display: none;
+            }
+            > label {
+                margin-top: 50px;
+                cursor: pointer;
+                top: 0;
+                position: absolute;
+                display: block;
+                font-size: 20px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                padding: 0;
+                padding: 0;
+                width: 40px;
+                min-height: auto;
+                line-height: initial;
+                align-items: initial;
+                border: 1px solid $c-White;
+                border-radius: 0;
+                color: $c-White;
+                position: relative;
+                background-color: $c-M-Blue;
+                position: relative;
+                margin-left: 0 !important;
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: -2.5px;
+                    left: -2.5px;
+                    right: -2px;
+                    bottom: -2px;
+                    border: 1px solid $c-M-Blue;
+                    border-radius: 0 !important;
+                    width: auto !important;
+                    height: auto !important;
+                    transform: none !important;
+                    @include Max(1140px) {
+                        border-radius: 0 5px 0 0 !important;
+                    }
+                }
+                &:before {
+                    display: none;
+                }
+                em {
+                    transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+                    top: 50%;
+                    left: 50%;
+                    position: absolute;
+                    font-style: normal;
+                    display: block;
+                    padding: 0;
+                    font-size: 100%;
+                    font-weight: 600;
+                    color: $c-White;
+                    z-index: 1;
+                    font-size: 1.3rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.1rem;
+                    white-space: nowrap;
+                    @include Max(1140px) {
+                        position: relative;
+                        transform: none !important;
+                        top: auto;
+                        left: auto;
+                        height: 40px;
+                        padding: 0 15px;
+                        line-height: 40px;
+                    }
+                    @include Max($MD-P) {
+                        font-size: 10px;
+                    }
+                }
+                &:hover {
+                    background-color: $c-D-Blue;
+                    &:after {
+                        border: 1px solid $c-D-Blue;
+                        background-color: transparent;
+                    }
+                }
+                .counter {
+                    position: absolute;
+                    top: -44px;
+                    left: -1px;
+                    right: -1px;
+                    text-align: center;
+                    background-color: $c-M-Blue;
+                    border-radius: 5px 5px 0 0;
+                    height: 40px;
+                    line-height: 40px;
+                    border: 1px solid $c-White;
+                    font-size: 13px;
+                    &:after {
+                        content: '';
+                        position: absolute;
+                        top: -3px;
+                        left: -2.5px;
+                        right: -2px;
+                        bottom: -2px;
+                        border: 1px solid $c-M-Blue;
+                        border-radius: 5px 5px 0 0;
+                        @include Max(1140px) {
+                            border-radius: 5px 0 0 5px;
+                        }
+                    }
+                    @include Max(1140px) {
+                        top: auto;
+                        right: initial;
+                        width: 40px;
+                        border-radius: 5px 0 0 5px;
+                        left: -45px;
+                    }
+                    &.visual-cue {
+                        line-height: 40px !important;
+                        color: $c-White !important;
+                    }
+                }
+                @include Max(1140px) {
+                    flex: 0 0 calc(100% - 45px);
+                    width: calc(100% - 45px);
+                    margin: 0 0 0 45px;
+                    border-radius: 0 5px 0 0;
+                    left: 45px;
+                }
+            }
+            input[type='radio'] {
+                &:checked {
+                    + label {
+                        background-color: $c-D-Blue;
+                        &:after {
+                            background-color: transparent;
+                        }
+                        .counter {
+                            &:after {
+                                border: 1px solid $c-Rem; //$c-Bs-Link;
+                            }
+                        }
+                        + section {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+        section {
+            flex: 0;
+            display: none;
+            position: absolute;
+            .vertical-accord-content {
+                width: 100%;
+                height: 100%;
+                > h3 {
+                    text-transform: uppercase;
+                    border-radius: 5px 5px 0px 0px;
+                    background-color: $c-D-Blue;
+                    color: $c-White;
+                    text-align: center;
+                    font-weight: 400;
+                    font-size: 1.7rem;
+                    line-height: 45px;
+                    padding-bottom: 0;
+                    margin-top: 5px;
+                    @include Max(640px) {
+                        font-size: 1.2rem;
+                    }
+                }
+                .header-info {
+                    color: rgba($c-D-Gry, 0.75);
+                    padding: 10px;
+                    border-left: 1px solid $c-L-Gry;
+                    border-right: 1px solid $c-L-Gry;
+                    font-weight: 400;
+                    font-style: italic;
+                }
+                .legal-table {
+                    display: flex;
+                    position: relative;
+                    width: 100%;
+                    @include Max(1140px) {
+                        border-radius: 0 0 5px 5px;
+                        border-bottom: 1px solid $c-L-Gry;
+                    }
+                }
+            }
+        }
+        &.active {
+            flex: 1;
+            @include Max(1140px) {
+                flex: 0 0 400px;
+                @include iehack() {
+                    flex: 0 0 450px;
+                }
+            }
+            padding-right: 30px;
+            &:after {
+                @include Max(1140px) {
+                    transform: translateY(-60%) rotate(90deg);
+                }
+            }
+            > span {
+                display: flex;
+                flex: 0 0 100%;
+                label {
+                    flex: 0 0 40px;
+                    position: relative;
+                    margin-left: 0;
+                }
+                > section {
+                    display: flex !important;
+                    flex: 1;
+                    height: 100%;
+                    padding: 0 0 0 30px;
+                    position: relative;
+                    @include Max(1140px) {
+                        padding: 5px 0 15px;
+                    }
+                    @include Max(640px) {
+                        height: auto;
+                    }
+                    &:before {
+                        content: '';
+                        position: absolute;
+                        background: url(../images/lft-arrow.png);
+                        width: 18px;
+                        height: 16px;
+                        top: 60%;
+                        left: 7px;
+                        transform: translateY(-60%);
+                        display: block;
+                        background-size: 100%;
+                        @include Max(1140px) {
+                            background: url(../images/top-arrow.png);
+                            left: 50%;
+                            top: 19px;
+                            height: 19px;
+                            transform: translate(-50% -0%);
+                            display: none;
+                        }
+                    }
+                }
+            }
+            .counter {
+                background-color: $c-Rem; //$c-Bs-Link;
+            }
+        }
+        &.activeItem {
+            @include iehack() {
+                @include Max(1140px) {
+                    > span {
+                        width: 100%;
+                        > section {
+                            display: block;
+                            position: relative;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.lastElement {
+            margin-right: 0;
+            flex: 0 0 40px;
+            &:after {
+                @include Min(1141px) {
+                    display: none;
+                }
+            }
+            &.active {
+                padding-right: 0;
+                flex: 1;
+            }
+        }
+    }
+}
+
+.Safari {
+    .vertical-accord li section .vertical-accord-content .legal-table {
+        overflow: hidden;
+    }
+}

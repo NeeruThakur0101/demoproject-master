@@ -1,0 +1,214 @@
+<kendo-dialog-titlebar class="hasDialog" [minWidth]="580" [width]="100">
+    <h1>{{ header }} {{ pageContent.Reference_Info.References_Header }}</h1>
+    <button type="button" (click)="closeAddReference('cancel')">&times;</button>
+</kendo-dialog-titlebar>
+<form [formGroup]="referenceForm" (ngSubmit)="onSubmit(scrollTarget)">
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block">
+                <section class="white-block">
+                    <section class="form-block floating-labels">
+                        <div class="form-control" class="hide"></div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Reference_Info.Reference_Type }}">
+                                <kendo-dropdownlist
+                                    #dropdownlist
+                                    formControlName="ReferenceTypeNumber"
+                                    [class]="newIncoming && newIncoming.isReferenceTypeNumber == true ? 'visual-cue' : ''"
+                                    [data]="ReferenceTypeData"
+                                    [disabled]="newIncoming && newIncoming.isReferenceTypeNumber == true && loggedInUserType == 'Internal'"
+                                    textField="ReferenceTypeNameTranslated"
+                                    valueField="ReferenceTypeNameTranslated"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterType($event)"
+                                    [valuePrimitive]="true"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferenceTypeNumber.errors }"
+                                    (selectionChange)="referenceRoleId($event)"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <h4>
+                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                    </h4>
+                                </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && referenceFormControl.ReferenceTypeNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferenceTypeNumber.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control" #scrollTarget>
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Reference_Info.Type_Reference_Name }}">
+                                <input
+                                    [class]="newIncoming && newIncoming.isReferenceName == true ? 'visual-cue' : ''"
+                                    kendoTextBox
+                                    type="text"
+                                    formControlName="ReferenceName"
+                                    [attr.disabled]="newIncoming && newIncoming.isReferenceName == true && loggedInUserType == 'Internal' ? '' : null"
+                                    trim="blur"
+                                    maxlength="50"
+                                    min="0"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferenceName.errors }"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.ReferenceName.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferenceName.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container *ngIf="isResidential" required floatingLabel="{{ pageContent.Reference_Info.Reference_Company }}">
+                                <input
+                                    [class]="newIncoming && newIncoming.isReferenceCompanyName == true ? 'visual-cue' : ''"
+                                    kendoTextBox
+                                    formControlName="ReferenceCompanyName"
+                                    trim="blur"
+                                    [attr.disabled]="newIncoming && newIncoming.isReferenceCompanyName == true && loggedInUserType == 'Internal' ? '' : null"
+                                    maxlength="80"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferenceCompanyName.errors }"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.ReferenceCompanyName.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferenceCompanyName.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container *ngIf="isResidential" required floatingLabel="{{ pageContent.Reference_Info.Reference_Position }}">
+                                <input
+                                    [class]="newIncoming && newIncoming.isReferencePosition == true ? 'visual-cue' : ''"
+                                    kendoTextBox
+                                    formControlName="ReferencePosition"
+                                    trim="blur"
+                                    [attr.disabled]="newIncoming && newIncoming.isReferencePosition == true && loggedInUserType == 'Internal' ? '' : null"
+                                    maxlength="100"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferencePosition.errors }"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.ReferencePosition.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferencePosition.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Reference_Info.Ref_Phone }}">
+                                <input
+                                    kendoTextBox
+                                    [mask]="mobileNumberMask"
+                                    formControlName="ReferencePhoneNumber"
+                                    [class]="newIncoming && newIncoming.isReferencePhoneNumber == true ? 'visual-cue' : ''"
+                                    (keypress)="isNumber($event)"
+                                    [attr.disabled]="newIncoming && newIncoming.isReferencePhoneNumber == true && loggedInUserType == 'Internal' ? '' : null"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferencePhoneNumber.errors }"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.ReferencePhoneNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferencePhoneNumber.errors.required" class="err-msg"></div>
+                                    <div *ngIf="referenceFormControl.ReferencePhoneNumber.errors.pattern" class="err-msg">
+                                        {{ pageContent.Reference_Info.Please_Enter_Valid_Phone_Number_Format }}
+                                    </div>
+                                    <div *ngIf="referenceFormControl.ReferencePhoneNumber.errors.minlength">
+                                        {{ pageContent.Reference_Info.Phone_Number_must_be_at_least_10_characters_long }}
+                                    </div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container required floatingLabel="{{ pageContent.Reference_Info.Ref_Email }}">
+                                <input
+                                    [class]="newIncoming && newIncoming.isReferenceEmail == true ? 'visual-cue' : ''"
+                                    type="email"
+                                    kendoTextBox
+                                    formControlName="ReferenceEmail"
+                                    trim="blur"
+                                    [attr.disabled]="newIncoming && newIncoming.isReferenceEmail == true && loggedInUserType == 'Internal' ? '' : null"
+                                    maxlength="100"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferenceEmail.errors }"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.ReferenceEmail.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferenceEmail.errors.required" class="err-msg"></div>
+                                    <div *ngIf="referenceFormControl.ReferenceEmail.errors.pattern" class="err-msg comp">{{ pageContent.Reference_Info.Valid_Email }}</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container *ngIf="isJob" required floatingLabel="{{ pageContent.Reference_Info.Type_of_job }}">
+                                <kendo-dropdownlist
+                                    #dropdown2
+                                    formControlName="JobType"
+                                    [class]="newIncoming && newIncoming.isJobType == true ? 'visual-cue' : ''"
+                                    [data]="JobTypeData"
+                                    textField="TradeName"
+                                    valueField="TradeName"
+                                    [attr.disabled]="newIncoming && newIncoming.isJobType == true && loggedInUserType == 'Internal' ? '' : null"
+                                    [filterable]="true"
+                                    (filterChange)="handleFilterJob($event)"
+                                    [valuePrimitive]="true"
+                                    (selectionChange)="changeJobType($event)"
+                                    [ngClass]="{ err: submitted && referenceFormControl.JobType.errors }"
+                                >
+                                <ng-template kendoDropDownListNoDataTemplate>
+                                    <h4>
+                                        {{ pageContent.General_Keys.No_Data_Found}}
+                                    </h4>
+                                </ng-template>
+                                </kendo-dropdownlist>
+                                <div *ngIf="submitted && referenceFormControl.JobType.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.JobType.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container *ngIf="isAdditionalContact" floatingLabel="{{ pageContent.Reference_Info.Additional_Contact_Name }}">
+                                <input
+                                    kendoTextBox
+                                    formControlName="AdditionalContactName"
+                                    trim="blur"
+                                    maxlength="50"
+                                    [ngClass]="{ err: submitted && referenceFormControl.AdditionalContactName.errors }"
+                                    [class]="newIncoming && newIncoming.isAdditionalContactName == true ? 'visual-cue' : ''"
+                                    [attr.disabled]="newIncoming && newIncoming.isAdditionalContactName == true && loggedInUserType == 'Internal' ? '' : null"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.AdditionalContactName.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.AdditionalContactName.errors.required" class="err-msg"></div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+
+                        <div class="form-control">
+                            <kendo-textbox-container floatingLabel="Comments" *ngIf="isContractor == 'false'">
+                                <input
+                                    kendoTextBox
+                                    [class]="newIncoming && newIncoming.isReferenceComment == true ? 'visual-cue' : ''"
+                                    formControlName="ReferenceComment"
+                                    trim="blur"
+                                    [attr.disabled]="newIncoming && newIncoming.isReferenceComment == true && internalEmployee == true ? '' : null"
+                                    maxlength="500"
+                                    [ngClass]="{ err: submitted && referenceFormControl.ReferenceComment.errors }"
+                                />
+                                <div *ngIf="submitted && referenceFormControl.ReferenceComment.errors" class="invalid-feedback">
+                                    <div *ngIf="referenceFormControl.ReferenceComment.errors.required" class="err-msg"></div>
+                                    <div *ngIf="referenceFormControl.ReferenceComment.errors.pattern" class="err-msg">Please Enter A Comment</div>
+                                </div>
+                            </kendo-textbox-container>
+                        </div>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+    <div class="popup-footer">
+        <button kendoButton type="button" (click)="closeAddReference('cancel')">
+            {{ pageContent.Reference_Info.Ref_Cancel }}
+        </button>
+        <button kendoButton [disabled]="accessReadonly || (loggedInUserType !== 'Internal' && IsRowDisable)" [primary]="true">
+            {{ pageContent.Reference_Info.Ref_Save }}
+        </button>
+        <button kendoButton type="button" *ngIf="loginDetails[0].ContrID == 0" [disabled]="disableSaveNext" [primary]="true" (click)="onSubmitAndNext()">
+            {{ pageContent.Reference_Info.Ref_Save_Next }}
+        </button>
+    </div>
+</form>

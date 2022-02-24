@@ -1,0 +1,106 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Filter Menu Component
+// ----------------------------------------------------------------------------
+
+.k-filter-menu {
+    ul {
+        position: absolute;
+        top: 18px;
+        width: 265px;
+        li {
+            padding: 6px 12px;
+            .k-checkbox-label {
+                position: relative;
+                padding-left: 25px;
+                display: flex;
+                word-break: break-all;
+                flex-wrap: wrap;
+
+                &:before,
+                &:after {
+                    top: 0px;
+                }
+
+                p {
+                    padding-bottom: 0.75rem;
+                }
+            }
+        }
+    }
+}
+
+@include iehack() {
+    kendo-grid-filter-menu {
+        .k-grid-filter {
+            top: 4px;
+            z-index: 10;
+        }
+    }
+    .k-header.k-filterable {
+        .k-link {
+            margin-right: 20px;
+        }
+    }
+}
+
+.k-filter-menu-container {
+    width: 28rem;
+    height: 28rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.lang-french {
+    .k-filter-menu-container {
+        .k-action-buttons {
+            button {
+                position: relative;
+                &:before {
+                    position: absolute;
+                    color: $c-White;
+                    content: '';
+                    display: block;
+
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    font-size: 1.5rem;
+                    line-height: 2.8rem;
+                    opacity: 1;
+                }
+            }
+            button[type='reset'] {
+                &:before {
+                    content: 'Dégager';
+                    background-color: $c-S-Btn-Bg;
+                }
+
+                &:hover {
+                    &:before {
+                        background-color: $c-B-Hover-Bg;
+                    }
+                }
+            }
+            button[type='submit'] {
+                &:before {
+                    content: 'Filtre';
+                    background-color: $c-P-Btn-Bg;
+                }
+
+                &:hover {
+                    &:before {
+                        background-color: $c-B-Hover-Bg;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.Safari {
+    .k-filter-menu-container {
+        width: 27rem;
+    }
+}

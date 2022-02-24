@@ -1,0 +1,275 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Veteran Information Page
+// -----------------------------------------------------------------------------
+
+.veteranInformation {
+    .veteranInfo {
+        margin-bottom: 2rem;
+        //height: 36rem;
+        .flex-4-6 {
+            height: 100%;
+            .col {
+                &:first-child {
+                    margin-bottom: 0;
+                    > section {
+                        height: 100%;
+                    }
+                }
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+            @include Max ($D-N) {
+                .col {
+                    flex: 0 0 100% !important;
+                    max-width: 100% !important;
+                }
+            }
+        }
+        .multilingual {
+            .err-msg {
+                margin-top: -18px;
+                margin-left: 2.5rem;
+                @include Max($D-N) {
+                    padding-top: 2rem;
+                    padding-bottom: 0;
+                    margin: 0 0 -15px;
+                }
+            }
+            @include Max($Tab-P) {
+                h2 {
+                    text-align: center;
+                }
+            }
+            kendo-tabstrip {
+                height: calc(100% - 35px);
+            }
+            .k-content {
+                .language-wrapper {
+                    overflow: hidden;
+                    width: 100%;
+                    max-height: 220px;
+                    min-height: 220px;
+
+                    ul {
+                        padding: 2rem 1.5rem 2.5rem;
+                        display: flex;
+                        flex-wrap: wrap;
+                        @extend %Width-112;
+                        overflow-y: scroll;
+                        max-height: 220px;
+                        min-height: 220px;
+                        &.setHeight {
+                            
+                            @include Min($D-N) {
+                                max-height: 188px;
+                                min-height: 188px;
+                            }
+                        }
+                        @include Min(1696px) {
+                            width: calc(100% + 13px);
+                        }
+                        @include Min(1900px) {
+                            width: calc(100% + 15px);
+                        }
+                        li {
+                            flex: 0 0 50%;
+                            list-style: none;
+                            padding-bottom: 1rem;
+                            @media all and (max-width: 450px) {
+                                flex: 0 0 100%;
+                            }
+                        }
+    
+                        
+                    }
+
+                    &.errorLanguage {
+                        ul {
+                            max-height: 175px;
+                            min-height: 175px; 
+                        }
+                    }
+
+
+                }
+                
+            }
+            @include Max($D-N) {
+                margin-bottom: 2rem;
+                height: auto !important;
+            }
+        }
+        .guidelines {
+            padding: 2rem 1rem 1rem 2rem;
+            max-width: 410px;
+            width: 100%;
+            margin: 2rem auto 0;
+            border: 1px solid #d4cfc8;
+            border-radius: 5px;
+            background-color: rgba($c-L-Blue, 0.25);
+            .guidelines-list {
+                display: flex;
+                flex-wrap: wrap;
+                h3 {
+                    //flex: 0 0 200px;
+                    flex:1;
+                    margin: 0;
+                    padding: 0 0 1.5rem;
+                    @include Max(580px) {
+                        flex: 0 0 calc(100% - 30px);
+                    }
+                }
+                > span {
+                    flex: 0 0 30px;
+                    span {
+                        display: block;
+                        height: 20px;
+                        width: 20px;
+                    }
+                    @include Max(580px) {
+                        order: -1;
+                    }
+                }
+                div {
+                    flex: 0 0 135px;
+                    .k-switch .k-switch-label-on:before {
+                        background-color: #f8fbfe;
+                    }
+                    @include Max(580px) {
+                        flex: 0 0 100%;
+                        padding-bottom: 2.5rem;
+                        margin-left: 0px;
+                    }
+                }
+            }
+            @include Max($D-N) {
+                margin-bottom: 1rem;
+            }
+        }
+    }
+    .veteranPledge {
+        text-align: center;
+        min-height: 130px;
+        .err-msg {
+            top: 0;
+            margin: 8px 0 0 0;
+        }
+        .pledge {
+            border: 1px solid $c-Bdr-L; //#d4cfc8;
+            border-radius: 5px;
+            background-color: rgba($c-L-Blue, 0.25);
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+            h2 {
+                padding-bottom: 0;
+                font-size: 1.4rem;
+                line-height: 2.5rem;
+                color: $c-D-Gry;
+                @include Max($MD-P) {
+                    line-height: 3.5rem;
+                }
+                strong {
+                    font-weight: 600;
+                    color: $c-D-Blue;
+                }
+            }
+        }
+        .k-datepicker {
+            display: inline-block;
+            width: 140px;
+            .k-picker-wrap {
+                background-color: transparent;
+                box-shadow: none;
+            }
+            &:hover {
+                background-color: transparent;
+            }
+            .k-select {
+                height: 20px;
+                width: 20px;
+                right: 5px;
+            }
+            .k-icon {
+                font-size: 14px;
+            }
+        }
+        .k-textbox,
+        .k-dateinput-wrap .k-input {
+            display: inline-block;
+            margin: 0 !important;
+            background-color: transparent !important;
+            padding: 0 !important;
+            height: 2rem !important;
+            line-height: 2rem !important;
+            border: none !important;
+            box-shadow: none !important;
+            border-bottom: 1px solid !important;
+            text-align: center;
+        }
+        .k-textbox {
+            width: 50px !important;
+        }
+        .k-dateinput-wrap .k-input {
+            width: 150px !important;
+            text-align: left;
+            padding-left: 10px !important;
+        }
+    }
+}
+.Safari {
+    &.mobile,
+    &.tablet {
+        .veteranInformation {
+            .scrollable-content {
+                @include respond-to-Min-Max(740px, 421px) {
+                    padding-right: 0 !important;
+                }
+                @include Max(420px) {
+                    padding-right: 5px !important;
+                }
+            }
+        }
+    }
+}
+.vet-count {
+    color: $c-D-Gry;
+    font-size: 1.3rem;
+    padding-bottom: 0;
+    border: 1px solid $c-Bdr-L;
+    border-radius: 5px;
+    padding: 6px 10px;
+    display: inline-block;
+    background-color: rgba($c-Bdr-L, 0.15);
+    span {
+        display: inline-block;
+        padding: 1px 5px;
+        background-color: $c-D-Blue;
+        color: $c-White;
+        border-radius: 5px;
+    }
+}
+.tablet,
+.mobile {
+    @include Max($D-N) {
+        .veteranInfo .flex-4-6 {
+            margin-right: 0;
+        }
+        .veteranPledge {
+            margin-right: 10px;
+        }
+    }
+}
+.veteran-page {
+    .scrollable-content {
+        @include Min(1600px) {
+            width: 100%;
+        }
+    }
+}
+
+.lang-french {
+    .veteranInformation .veteranInfo .guidelines {
+        max-width:540px;
+    } 
+}

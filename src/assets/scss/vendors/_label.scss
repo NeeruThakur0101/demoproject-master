@@ -1,0 +1,20 @@
+// -----------------------------------------------------------------------------
+// This file contains label classes.
+// -----------------------------------------------------------------------------
+
+label {
+    padding-bottom: 5px;
+    font-size: 1.4rem;
+    color: $c-D-Blue;
+        font-weight: bold;
+        padding-bottom: 0;
+    em {
+      color: $c-Error;
+      font-weight: bold;
+      padding-left: 3px;
+      
+      display: inline;
+      font-size: 120%;
+    }
+  }
+

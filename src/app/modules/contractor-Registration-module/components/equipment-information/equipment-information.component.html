@@ -1,0 +1,106 @@
+<main appGridlayout *ngIf="pageContent" [class.internal-user]="contrID > 0" [hidden]="hidePage">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Equip_Info.Equipment_Information_Page_Header" [comments]="crComments"></app-page-title>
+            </section>
+            <!-- content -->
+
+            <!-- middle content area open -->
+            <section class="middle-section equip-page">
+                <section class="white-block contract-information equipment-information">
+                    <div class="scrollable-content-wrapper" #commentBlock max-height="490" min-Height="621">
+                        <div class="scrollable-content">
+                            <div class="scroll-inner" #commentArea>
+                                <!-- tab section start-->
+                                <kendo-tabstrip tabAlignment="center" *ngIf="_eqpSrv.PageObject && _eqpSrv.PageObject.length">
+                                    <!-- first tab start -->
+
+                                    <kendo-tabstrip-tab
+                                        (click)="tabClick()"
+                                        *ngFor="let tab of _eqpSrv.PageObject; let i = index"
+                                        [title]="tab.EquipmentTypeName"
+                                        [selected]="tab.EquipmentTypeID == true"
+                                    >
+                                        <ng-template kendoTabTitle>
+                                            <span [ngClass]="tab.IsVisualFlag ? 'visual-cue' : 'none'">{{ tab.Count }}</span>
+                                        </ng-template>
+
+                                        <ng-template kendoTabContent>
+                                            <form class="k-form-inline" [formGroup]="formGroup" *ngIf="showControls">
+                                                <section class="flex-4-6" *ngFor="let item of tab.Equipments; let j = index">
+                                                    <div class="col">
+                                                        <h2>{{ item.EQPL_TX }}</h2>
+                                                    </div>
+                                                    <div class="col">
+                                                        <section class="flex-5-5">
+                                                            <div class="col">
+                                                                <label class="k-form-field">
+                                                                    <span class="label">{{ pageContent?.Equip_Info?.Automobiles_Own }}</span>
+                                                                    <input
+                                                                        class="k-textbox"
+                                                                        #ownlength
+                                                                        maxlength="5"
+                                                                        (paste)="onPaste($event)"
+                                                                        (keypress)="keyPress($event, ownlength.value)"
+                                                                        (blur)="processEquipment($event, item, 'own')"
+                                                                        [formControlName]="'own_' + item.EQPL_ID_NB"
+                                                                        [ngClass]="ownVisualFlag[item.EQPL_ID_NB] == true ? 'visual-cue' : 'none'"
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                            <div class="col">
+                                                                <label class="k-form-field">
+                                                                    <span class="label">{{ pageContent?.Equip_Info?.Automobiles_Lease }}</span>
+                                                                    <input
+                                                                        class="k-textbox"
+                                                                        maxlength="5"
+                                                                        #leaselength
+                                                                        (paste)="onPaste($event)"
+                                                                        (keypress)="keyPress($event, leaselength.value)"
+                                                                        (blur)="processEquipment($event, item, 'lease')"
+                                                                        [formControlName]="'lease_' + item.EQPL_ID_NB"
+                                                                        [ngClass]="leaseVisualFlag[item.EQPL_ID_NB] == true ? 'visual-cue' : 'none'"
+                                                                    />
+                                                                </label>
+                                                            </div>
+                                                        </section>
+                                                    </div>
+                                                </section>
+                                                <section class="white-block blue-box" *ngIf="tab.EquipmentTypeID == true">
+                                                    <div class="app-type-option">
+                                                        <p>{{ pageContent.Equip_Info.Are_The_Company_Vehicles_Marked }}</p>
+                                                        <kendo-switch name="FD" formControlName="vehicleToggle" [ngClass]="vehicleVisualToggle === true ? 'visual-cue' : 'none'"></kendo-switch>
+                                                    </div>
+                                                </section>
+                                            </form>
+                                        </ng-template>
+                                    </kendo-tabstrip-tab>
+                                </kendo-tabstrip>
+
+                                <!-- tab section close -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </section>
+            <section class="action-buttons" *ngIf="contrID === 0 || (loginDetails[0].ContrID > 0 && _auth.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')">
+                <button kendoButton (click)="backButtonClick()">
+                    {{ pageContent.Equip_Info.Global_Button_Back }}
+                </button>
+                <button kendoButton (click)="_auth.Profile.EventName !== 'No Event' ? onSave() : onSaveNext()" [primary]="true">
+                    {{ saveAndNextBtn }}
+                </button>
+            </section>
+
+            <section class="action-buttons" *ngIf="contrID > 0 && _auth.Profile.EventName === 'No Event'">
+                <button kendoButton primary="true" (click)="onSave()" [disabled]="saveBtnDisable">
+                    {{ pageContent.Equip_Info.Global_Button_Save }}
+                </button>
+            </section>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader repository-popup"></div>
+<ng-container #container></ng-container>

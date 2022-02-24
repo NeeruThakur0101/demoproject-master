@@ -1,0 +1,242 @@
+<div class="scrollable-content-wrapper" #commentBlock max-height="360" min-Height="621">
+    <div class="scrollable-content">
+        <div class="scroll-inner" #commentArea>
+            <section class="grid-wrapper">
+                <kendo-grid
+                    id="productsGrid"
+                    [kendoGridBinding]="insuranceGrid"
+                    [style.height.%]="100"
+                    [navigable]="true"
+                    class="responsive-grid credential-grid insurance-grid edit-kendo-grid desktop-mode"
+                    [filter]="filter"
+                    filterable="menu"
+                    (filterChange)="filterChange($event)"
+                    [pageSize]="pageSize"
+                    [skip]="skip"
+                    [sortable]="{ allowUnsort: true, mode: 'single' }"
+                    (sortChange)="sortChangeInsurance()"
+                    [data]="gridView"
+                    [resizable]="false"
+                    [pageable]="pageObj"
+                    media="(min-width: 901px)"
+                    [rowClass]="rowCallback"
+                    (pageChange)="pageChange($event)"
+                >
+                    <kendo-grid-column media="(max-width:900px)" title="Items">
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <!-- template for mobile -->
+                            <h2 class="tbl-card-title">
+                                <strong>{{ pageContent.Credentialing_Information.Credential_Items }}:</strong>
+                                {{ dataItem.MetricTypeName }}
+                            </h2>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Insurance_Carrier }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <div>
+                                        <input
+                                            name="InsuranceCarrier"
+                                            maxlength="1000"
+                                            [disabled]="(dataItem.isInsuranceCarrier == true && internalEmployee == true) || readonlyUserAccess || dataItem.IsRowDisable"
+                                            kendoTextBox
+                                            [class.visual-cue]="dataItem.isInsuranceCarrier == true && dataItem.InsuranceCarrier !== ''"
+                                            [(ngModel)]="dataItem.InsuranceCarrier"
+                                        />
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Coverage_Amount }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <div>
+                                        <input
+                                            name="CoverageAmount"
+                                            type="number"
+                                            (focusout)="amountFocusOut($event)"
+                                            (keypress)="coverageAmount($event)"
+                                            [disabled]="(dataItem.isCoverageAmount == true && internalEmployee == true) || readonlyUserAccess || dataItem.IsRowDisable"
+                                            kendoTextBox
+                                            [class.visual-cue]="dataItem.isCoverageAmount && dataItem.CoverageAmount !== ''"
+                                            [(ngModel)]="dataItem.CoverageAmount"
+                                        />
+                                    </div>
+                                </dd>
+                            </dl>
+                            <dl class="full-width">
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Expiration_Date }}</strong>
+                                </dt>
+                                <dd class="edit-field">
+                                    <kendo-datepicker
+                                        [class.read-only]="internalEmployee != true"
+                                        [readonly]="internalEmployee != true || readonlyUserAccess"
+                                        [(ngModel)]="dataItem.ExpirationDateNew"
+                                        format="MM/dd/yyyy"
+                                    >
+                                        <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                                    </kendo-datepicker>
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Due }}</strong>
+                                </dt>
+                                <dd>{{ dataItem.Due }}</dd>
+                            </dl>
+                            <dl>
+                                <dt>
+                                    <strong>{{ pageContent.Credentialing_Information.Action }}</strong>
+                                </dt>
+                                <dd class="action">
+                                    <!-- <button class="ico-save"><i></i>Save</button> -->
+                                    <button class="ico-save" [disabled]="readonlyUserAccess || (dataItem.IsRowDisable && internalEmployee != true)" (click)="onSaveData(dataItem)"><i></i>Save</button>
+                                </dd>
+                            </dl>
+                        </ng-template>
+                    </kendo-grid-column>
+
+                    <kendo-grid-column width="370" field="MetricTypeName" title="{{ pageContent.Credentialing_Information.Credential_Items }} " media="(min-width: 901px)">
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <app-multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></app-multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        width="220"
+                        field="InsuranceCarrier"
+                        class="edit-col-input editDate codeColumn carrierColumn"
+                        format="{0:c}"
+                        title="{{ pageContent.Credentialing_Information.Insurance_Carrier }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <div>
+                                <input
+                                    name="InsuranceCarrier"
+                                    maxlength="1000"
+                                    [disabled]="(dataItem.isInsuranceCarrier == true && internalEmployee == true) || readonlyUserAccess || dataItem.IsRowDisable"
+                                    kendoTextBox
+                                    [class.visual-cue]="dataItem.isInsuranceCarrier == true && dataItem.InsuranceCarrier !== ''"
+                                    [(ngModel)]="dataItem.InsuranceCarrier"
+                                />
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        width="220"
+                        field="CoverageAmount"
+                        format="{0:c}"
+                        editor="numeric"
+                        title="{{ pageContent.Credentialing_Information.Coverage_Amount }}"
+                        class="coverageAmt edit-col-input codeColumn coverageColumn"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <div>
+                                <input
+                                    name="CoverageAmount"
+                                    type="number"
+                                    (focusout)="amountFocusOut($event)"
+                                    (keypress)="coverageAmount($event)"
+                                    [disabled]="(dataItem.isCoverageAmount == true && internalEmployee == true) || readonlyUserAccess || dataItem.IsRowDisable ? '' : null"
+                                    kendoTextBox
+                                    [class.visual-cue]="dataItem.isCoverageAmount && dataItem.CoverageAmount !== ''"
+                                    [(ngModel)]="dataItem.CoverageAmount"
+                                />
+                            </div>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        width="180"
+                        [headerStyle]="{ 'text-align': 'left' }"
+                        field="ExpirationDate"
+                        editor="date"
+                        title="{{ pageContent.Credentialing_Information.Expiration_Date }}"
+                        class="edit-col-input editDate"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <!-- this component is used for date filter to handle null or search null dates -->
+                            <multicheck-filter [isPrimitive]="true" [field]="column.field" [filterService]="filterService" [currentFilter]="filter" [data]="distinctPrimitive(column.field)">
+                            </multicheck-filter>
+                        </ng-template>
+                        <ng-template kendoGridCellTemplate let-dataItem>
+                            <kendo-datepicker
+                                [class.read-only]="internalEmployee != true"
+                                [readonly]="internalEmployee != true || readonlyUserAccess"
+                                [(ngModel)]="dataItem.ExpirationDateNew"
+                                format="MM/dd/yyyy"
+                            >
+                                <kendo-datepicker-messages toggle="{{ pageContent.General_Keys.Toggle_Calender }}"></kendo-datepicker-messages>
+                            </kendo-datepicker>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="100"
+                        field="Due"
+                        class="due"
+                        title="{{ pageContent.Credentialing_Information.Due }}"
+                        media="(min-width: 901px)"
+                    >
+                        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                            <multicheck-filter
+                                [isPrimitive]="true"
+                                [field]="column.field"
+                                [filterService]="filterService"
+                                [currentFilter]="filter"
+                                [data]="distinctPrimitive(column.field)"
+                            ></multicheck-filter>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-column
+                        [headerStyle]="{ 'text-align': 'center' }"
+                        width="120"
+                        class="action"
+                        field="$"
+                        title="{{ pageContent.Credentialing_Information.Action }}"
+                        media="(min-width: 901px)"
+                        [filterable]="false"
+                        [sortable]="false"
+                    >
+                        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                            <button class="ico-save" [disabled]="readonlyUserAccess || (dataItem.IsRowDisable && internalEmployee != true)" (click)="onSaveData(dataItem)"><i></i>Save</button>
+                        </ng-template>
+                    </kendo-grid-column>
+                    <kendo-grid-messages
+                        pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                        pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                        noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                    >
+                    </kendo-grid-messages>
+                </kendo-grid>
+            </section>
+        </div>
+    </div>
+</div>

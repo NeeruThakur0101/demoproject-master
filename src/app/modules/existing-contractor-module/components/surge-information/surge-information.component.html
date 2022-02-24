@@ -1,0 +1,400 @@
+<main appGridlayout class="surgeResponse" [hidden]="showPage" [class.internal-user]="ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Surge_Info.Surge_Header" [comments]="crComments"> </app-page-title>
+            </section>
+            <div [formGroup]="formGroup" class="k-form-inline h-100">
+                <section class="middle-section surge-page">
+                    <div class="white-block">
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="500">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="white-block">
+                                        <section class="surge-response-wrap">
+                                            <section class="response-wrap">
+                                                <div class="response">
+                                                    <span class="surge-tip-wrap" kendoTooltip position="top" tooltipClass="surge-tip">
+                                                        <a title="{{ pageContent.Surge_Info.mobilization_text }}"><img src="assets/images/ico-hammer.png" width="16" /></a
+                                                    ></span>
+                                                    <span>{{ pageContent.Surge_Info.wiling_to_mobilize }}</span>
+                                                </div>
+                                                <div class="response-options reasons">
+                                                    <div class="options">
+                                                        <kendo-switch
+                                                            formControlName="willingToMobilizeFlg"
+                                                            [attr.disabled]="
+                                                                ((visualCue.WillingToMobilizeFlag == true ||
+                                                                    visualCue.HoursToMobilize === true ||
+                                                                    visualCue.ReasonFields === true ||
+                                                                    visualCue.MobilizeTrades ||
+                                                                    visualCue.ExpandTrades) &&
+                                                                    loggedInUserType === 'Internal') ||
+                                                                jsonDataObject?.IsWillingToMobilizeFlagDisable ||
+                                                                jsonDataObject?.IsMobilizeTradesDisable ||
+                                                                jsonDataObject?.IsExpandTradesDisable ||
+                                                                jsonDataObject?.IsMobilizeMinimumDisable ||
+                                                                jsonDataObject?.IsHoursToMobilizeDisable ||
+                                                                blockGroup3
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            [class]="
+                                                                visualCue.WillingToMobilizeFlag === true ||
+                                                                visualCue.HoursToMobilize === true ||
+                                                                visualCue.ReasonFields === true ||
+                                                                visualCue.MobilizeMinimum === true ||
+                                                                visualCue.MobilizeTrades ||
+                                                                visualCue.ExpandTrades
+                                                                    ? 'visual-cue'
+                                                                    : 'none'
+                                                            "
+                                                        >
+                                                        </kendo-switch>
+                                                        <div class="ico-block">
+                                                            <a
+                                                                [ngStyle]="{ 'pointer-events': accessReadonly === true ? 'none' : 'auto' }"
+                                                                (click)="openCoverage('Mobilize')"
+                                                                class="ico-globe link-ico-btn"
+                                                                ><i></i
+                                                            ></a>
+                                                        </div>
+
+                                                        <div [hidden]="formGroup.value.willingToMobilizeFlg" class="k-form-inline reason">
+                                                            <label class="k-form-field">
+                                                                <span class="read-only">{{ pageContent.Surge_Info.Reason }}<em>*</em></span>
+                                                                <div class="multireasons">
+                                                                    <kendo-multiselect
+                                                                        [clearButton]="false"
+                                                                        (removeTag)="onRemoveTag($event, 'ReasonGroup'); isRemoved = true"
+                                                                        [ngClass]="{
+                                                                            err: formGroup.controls.reasonsMultiselect.invalid && formSubmitted
+                                                                        }"
+                                                                        formControlName="reasonsMultiselect"
+                                                                        [disabled]="(visualCue.ReasonFields === true && loggedInUserType === 'Internal') || blockGroup3 ? true : false"
+                                                                        [class]="visualCue.ReasonFields === true ? 'visual-cue' : 'none'"
+                                                                        textField="Reason"
+                                                                        valueField="ReasonID"
+                                                                        [data]="reasonsData"
+                                                                        (valueChange)="valueChange($event, 'ReasonID', ''); isRemoved = false"
+                                                                        [(ngModel)]="reasonFields"
+                                                                    ></kendo-multiselect>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap">
+                                            <section class="response-wrap">
+                                                <div class="response">
+                                                    <span class="surge-tip-wrap" kendoTooltip position="top" tooltipClass="surge-tip">
+                                                        <a title="{{ pageContent.Surge_Info.expand_coverage_text }}"><img src="assets/images/ico-hammer.png" width="16" /></a
+                                                    ></span>
+                                                    <span>{{ pageContent.Surge_Info.willing_to_expand }}</span>
+                                                </div>
+                                                <div class="response-options">
+                                                    <div class="options">
+                                                        <kendo-switch
+                                                            [attr.disabled]="
+                                                                ((visualCue.WillingToExpandFlag == true || visualCue.ExpandDistance === true || visualCue.MobilizeTrades || visualCue.ExpandTrades) &&
+                                                                    loggedInUserType === 'Internal') ||
+                                                                jsonDataObject?.IsWillingToExpandFlagDisable ||
+                                                                jsonDataObject?.IsMobilizeTradesDisable ||
+                                                                jsonDataObject?.IsExpandTradesDisable ||
+                                                                jsonDataObject?.IsExpandDistanceDisable
+                                                                    ? ''
+                                                                    : null
+                                                            "
+                                                            [class]="
+                                                                visualCue.WillingToExpandFlag === true || visualCue.ExpandDistance === true || visualCue.MobilizeTrades || visualCue.ExpandTrades
+                                                                    ? 'visual-cue'
+                                                                    : 'none'
+                                                            "
+                                                            formControlName="willingToExpandFlg"
+                                                        ></kendo-switch>
+                                                        <div class="ico-block">
+                                                            <a
+                                                                [ngStyle]="{ 'pointer-events': accessReadonly === true ? 'none' : 'auto' }"
+                                                                (click)="openCoverage('Expand')"
+                                                                class="ico-globe link-ico-btn"
+                                                                ><i></i
+                                                            ></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap" *ngIf="formGroup.value.willingToMobilizeFlg">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.minimum_no_of_assignment }}</div>
+                                                <div class="response-options asgnmt-moblize">
+                                                    <div class="options">
+                                                        <kendo-switch
+                                                            name="minimumNumber"
+                                                            [attr.disabled]="
+                                                                (visualCue.MobilizeMinimum == true && loggedInUserType === 'Internal') || jsonDataObject?.IsMobilizeMinimumDisable ? '' : null
+                                                            "
+                                                            [class]="visualCue.MobilizeMinimum === true ? 'visual-cue' : 'none'"
+                                                            [(ngModel)]="minimumChecked"
+                                                            formControlName="minimizeFlag"
+                                                        >
+                                                        </kendo-switch>
+                                                        <div class="k-form-inline" *ngIf="formGroup.controls.minimizeFlag.value">
+                                                            <label class="k-form-field" required>
+                                                                <span>{{ pageContent.Surge_Info.Min }}</span>
+                                                                <input
+                                                                    (keypress)="numberOnly($event)"
+                                                                    [ngClass]="{
+                                                                        err: formGroup.controls.mobilizeMinimum.invalid && formSubmitted
+                                                                    }"
+                                                                    [attr.disabled]="
+                                                                        (visualCue.MobilizeMinimum == true && loggedInUserType === 'Internal') || jsonDataObject?.IsMobilizeMinimumDisable ? '' : null
+                                                                    "
+                                                                    [class]="visualCue.MobilizeMinimum === true ? 'visual-cue' : 'none'"
+                                                                    class="k-textbox"
+                                                                    maxlength="5"
+                                                                    formControlName="mobilizeMinimum"
+                                                                />
+                                                            </label>
+                                                        </div>
+                                                        <div *ngIf="formGroup.controls.mobilizeMinimum.errors?.maxlength && formSubmitted">
+                                                            <div>This field should must not contain more than 5 values.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap" *ngIf="formGroup.value.willingToMobilizeFlg">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.how_many_hours }}</div>
+                                                <div class="response-options">
+                                                    <div class="options">
+                                                        <div class="k-form-inline">
+                                                            <label class="k-form-field" required>
+                                                                <span>{{ pageContent.Surge_Info.Hours }}</span>
+                                                                <input
+                                                                    (keypress)="numberOnly($event)"
+                                                                    [ngClass]="{
+                                                                        err: formGroup.controls.hourstoMobilize.invalid && formSubmitted
+                                                                    }"
+                                                                    [attr.disabled]="
+                                                                        (visualCue.HoursToMobilize == true && loggedInUserType === 'Internal') || jsonDataObject?.IsHoursToMobilizeDisable ? '' : null
+                                                                    "
+                                                                    [class]="visualCue.HoursToMobilize === true ? 'visual-cue' : 'none'"
+                                                                    class="k-textbox"
+                                                                    maxlength="5"
+                                                                    formControlName="hourstoMobilize"
+                                                                />
+                                                            </label>
+                                                        </div>
+                                                        <div *ngIf="formGroup.controls.hourstoMobilize.errors?.maxlength && formSubmitted">
+                                                            <div>This field should not contain more than 5 values.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap" *ngIf="showWillToExpand">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.how_many_miles }}</div>
+                                                <div class="response-options">
+                                                    <div class="options">
+                                                        <div class="k-form-inline">
+                                                            <label class="k-form-field" required>
+                                                                <span>{{ pageContent.Surge_Info.Miles }}</span>
+                                                                <input
+                                                                    #inputValue
+                                                                    class="k-textbox"
+                                                                    (keypress)="numberOnly($event)"
+                                                                    [ngClass]="{
+                                                                        err: formGroup.controls.expandDistance.invalid && formSubmitted
+                                                                    }"
+                                                                    [attr.disabled]="
+                                                                        (visualCue.ExpandDistance == true && loggedInUserType === 'Internal') || jsonDataObject?.IsExpandDistanceDisable ? '' : null
+                                                                    "
+                                                                    [class]="visualCue.ExpandDistance === true ? 'visual-cue' : 'none'"
+                                                                    maxlength="5"
+                                                                    formControlName="expandDistance"
+                                                                    value=""
+                                                                />
+                                                            </label>
+                                                        </div>
+                                                        <div *ngIf="formGroup.controls.expandDistance.errors?.maxlength && formSubmitted">
+                                                            <div>This field should must not contain more than 5 values.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap" *ngIf="formGroup.controls.willingToMobilizeFlg.value || this.formGroup.controls.willingToExpandFlg.value">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.trade_equipped }} <span style="color: red; font-size: 15px">*</span></div>
+                                                <div class="response-options">
+                                                    <div class="options multi-select with-icon">
+                                                        <div class="k-form-inline">
+                                                            <label class="k-form-field">
+                                                                <kendo-multiselect
+                                                                    [clearButton]="false"
+                                                                    formControlName="tradeMultiselect"
+                                                                    [disabled]="
+                                                                        ((visualCue.MobilizeTrades || visualCue.ExpandTrades) == true && loggedInUserType === 'Internal') ||
+                                                                        jsonDataObject?.IsMobilizeTradesDisable ||
+                                                                        jsonDataObject?.IsExpandTradesDisable
+                                                                            ? true
+                                                                            : false
+                                                                    "
+                                                                    [class]="visualCue.MobilizeTrades || visualCue.ExpandTrades ? 'visual-cue' : 'none'"
+                                                                    (valueChange)="tradeTypeUpdate($event)"
+                                                                    [(ngModel)]="tradesFields"
+                                                                    textField="tradeDesc"
+                                                                    valueField="TradeListID"
+                                                                    [data]="tradesData"
+                                                                >
+                                                                </kendo-multiselect>
+                                                            </label>
+                                                        </div>
+                                                        <div class="ico-block" *ngIf="originalDBdata?.ManageSurgeResponseFlag" (click)="openLicenseDialog()">
+                                                            <a class="ico-trade link-ico-btn"><i></i></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.willing_to_host }}</div>
+                                                <div class="response-options">
+                                                    <div class="options multi-select with-switch">
+                                                        <div class="switch-wrap">
+                                                            <kendo-switch
+                                                                formControlName="hostControlSwitch"
+                                                                [(ngModel)]="checkedHostNetwork"
+                                                                [attr.disabled]="(visualCue.HostNetwork == true && loggedInUserType === 'Internal') || blockGroup1 ? '' : null"
+                                                                [class]="visualCue.HostNetwork === true ? 'visual-cue' : 'none'"
+                                                                (valueChange)="updateHostNetworkFlag($event)"
+                                                            >
+                                                            </kendo-switch>
+                                                        </div>
+                                                        <div class="k-form-inline">
+                                                            <label class="k-form-field">
+                                                                <kendo-multiselect
+                                                                    [clearButton]="false"
+                                                                    (removeTag)="onRemoveTag($event, 'HostNetworkGroup'); isRemoved = true"
+                                                                    *ngIf="showHostNetworkInput"
+                                                                    [ngClass]="{
+                                                                        err: formGroup.controls.hostNetworkMultiSelect.invalid && formSubmitted
+                                                                    }"
+                                                                    [disabled]="(visualCue.HostNetwork == true && loggedInUserType === 'Internal') || blockGroup1 ? true : false"
+                                                                    [class]="visualCue.HostNetwork === true ? 'visual-cue' : 'none'"
+                                                                    formControlName="hostNetworkMultiSelect"
+                                                                    valueField="HostNetworkID"
+                                                                    textField="HostNetwork"
+                                                                    [data]="hostNetworkData"
+                                                                    (valueChange)="valueChange($event, 'HostNetworkID', ''); isRemoved = false"
+                                                                    [(ngModel)]="networksFields"
+                                                                ></kendo-multiselect>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.share_resources }}</div>
+                                                <div class="response-options">
+                                                    <div class="options multi-select with-switch">
+                                                        <div class="switch-wrap">
+                                                            <kendo-switch
+                                                                [(ngModel)]="checkedSharedNetwork"
+                                                                [class]="visualCue.SharedNetwork === true ? 'visual-cue' : 'none'"
+                                                                [attr.disabled]="(visualCue.SharedNetwork == true && loggedInUserType === 'Internal') || blockGroup2 ? '' : null"
+                                                                formControlName="sharedResources"
+                                                                (valueChange)="updateSharedResources($event)"
+                                                            >
+                                                            </kendo-switch>
+                                                        </div>
+                                                        <div
+                                                            class="k-form-inline"
+                                                            [ngClass]="{
+                                                                err: formGroup.controls.sharedResorceMultiSelect.invalid && formSubmitted
+                                                            }"
+                                                        >
+                                                            <label class="k-form-field">
+                                                                <kendo-multiselect
+                                                                    [clearButton]="false"
+                                                                    (removeTag)="onRemoveTag($event, 'SharedNetworkGroup'); isRemoved = true"
+                                                                    *ngIf="showSharedNetworkInput"
+                                                                    [disabled]="(visualCue.SharedNetwork == true && loggedInUserType === 'Internal') || blockGroup2 ? true : false"
+                                                                    formControlName="sharedResorceMultiSelect"
+                                                                    [class]="visualCue.SharedNetwork === true ? 'visual-cue' : 'none'"
+                                                                    textField="SharedNetwork"
+                                                                    valueField="SharedNetworkID"
+                                                                    (valueChange)="valueChange($event, 'SharedNetworkID', ''); isRemoved = false"
+                                                                    [(ngModel)]="sharedNetworkValue"
+                                                                    [data]="sharedNetworkData"
+                                                                ></kendo-multiselect>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                        <section class="surge-response-wrap">
+                                            <section class="response-wrap">
+                                                <div class="response">{{ pageContent.Surge_Info.contingency_plan }}</div>
+                                                <div class="response-options">
+                                                    <div class="options">
+                                                        <div class="switch-wrap">
+                                                            <kendo-switch
+                                                                formControlName="contingencyFileFlg"
+                                                                [attr.disabled]="
+                                                                    (visualCue.ContingencyFileYesNo == true && loggedInUserType === 'Internal') || jsonDataObject?.IsContingencyFileYesNoDisable
+                                                                        ? ''
+                                                                        : null
+                                                                "
+                                                                [class]="visualCue.ContingencyFileYesNo ? 'visual-cue' : 'none'"
+                                                            >
+                                                            </kendo-switch>
+                                                        </div>
+                                                        <div class="k-form-inline">
+                                                            <div class="ico-block">
+                                                                <a [ngStyle]="{ 'pointer-events': accessReadonly === true ? 'none' : 'auto' }" (click)="uploadFile()" class="ico-upload link-ico-btn"
+                                                                    ><i></i
+                                                                ></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </section>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bottom-section">
+                    <section class="action-buttons" *ngIf="_srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal'">
+                        <button kendoButton (click)="backButtonClick()">
+                            {{ pageContent.Surge_Info.Back }}
+                        </button>
+                        <button kendoButton (click)="save()" [primary]="true">
+                            {{ pageContent.Surge_Info.Save_Next }}
+                        </button>
+                    </section>
+                    <section class="action-buttons" *ngIf="_srvAuthentication.Profile.EventName === 'No Event'">
+                        <button kendoButton [disabled]="accessReadonly" [primary]="true" (click)="save()">
+                            {{ pageContent.Surge_Info.Save }}
+                        </button>
+                    </section>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>

@@ -1,0 +1,91 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Table structure.
+// -----------------------------------------------------------------------------
+
+.d-table {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid $c-L-Gry;
+    border-right: 1px solid $c-L-Gry;
+    .d-col {
+        padding: 10px;
+        border-bottom: 1px solid $c-L-Gry;
+    }
+    .d-table-hd {
+        background-color: $c-L-Blue;
+        border-top: 1px solid $c-L-Gry;
+        .d-col {
+            font-weight: 600;
+            color: $c-D-Blue;
+            border-right: 1px solid $c-L-Gry;
+            min-height: 42px;
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+    .d-table-row,
+    .d-table-hd,
+    .d-table-content {
+        display: flex;
+        width: 100%;
+        max-width: 100%;
+    }
+    .d-table-row {
+        .d-col {
+            border-right: 1px solid $c-L-Gry;
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+    .d-table-content {
+        display: flex;
+        flex-direction: column;
+    }
+    &.has-scroll {
+        .d-table-hd {
+            width: calc(100% - 7px);
+            position: relative;
+            padding-right: 10px;
+            &:after {
+                content: '';
+                position: absolute;
+                width: 20px;
+                top: -1px;
+                right: -7px;
+                bottom: 0;
+                background-color: $c-L-Blue;
+                height: 41px;
+                border-top: 1px solid $c-L-Gry;
+                border-bottom: 1px solid $c-L-Gry;
+                border-right: 1px solid $c-L-Gry;
+            }
+        }
+    }
+}
+.d-table-wrapper {
+    display: block;
+    width: 100%;
+}
+.d-table-content-wrapper {
+    &.has-scroll {
+        width: 100%;
+        overflow: hidden;
+        .d-table-wrapper {
+            @extend %Width-112;
+            @include iehack() {
+                width: calc(100% + 13px);
+            }
+        }
+    }
+}
+.d-table-content-wrapper {
+    &.has-scroll {
+        width: 100%;
+        overflow: hidden;
+        .d-table-wrapper {
+            width: 100%;
+        }
+    }
+}

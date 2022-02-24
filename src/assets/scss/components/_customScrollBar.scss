@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to custom scroll bar.
+// -----------------------------------------------------------------------------
+
+.scrollable-content-wrapper {
+    @include Min($MD-P) {
+        overflow: hidden;
+        height: 100%;
+    }
+    @extend %W-100;
+    .scrollable-content {
+        @extend %W-100;
+        padding: 10px;
+        position: relative;
+
+        @include Min($MD-P) {
+            max-height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            height: 100%;
+        }
+    }
+    @include Min($MD-P) {
+        &.has-scroll {
+            //padding: 10px 5px 10px 10px; // global change for responsive grid
+            .scrollable-content {
+                width: calc(100% + 12px);
+                @include firefox() {
+                    width: calc(100% + 13px);
+                }
+
+                @include iehack() {
+                    width: calc(100% + 12.5px);
+                }
+
+                @media all and (min-width: 1537px) {
+                    width: calc(100% + 13px);
+                }
+                @media all and (min-width: 1920px) {
+                    width: calc(100% + 15px);
+                }
+            }
+        }
+    }
+
+    @media all and (max-height: 700px) {
+        .scrollable-content {
+            width: 100% !important;
+        }
+    }
+
+    &.has-scroll-mac {
+        //padding: 10px 5px 10px 10px; // global change for responsive grid
+        .scrollable-content {
+            //@extend %Width-112;
+            width: 100% !important;
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                width: calc(100% + 12.5px);
+            }
+            @media all and (min-width: 1537px) {
+                width: calc(100% + 13px);
+            }
+            @media all and (min-width: 1920px) {
+                width: calc(100% + 15px);
+            }
+        }
+    }
+}
+
+.Safari,
+.mobile {
+    .has-scroll-mac,
+    .scrollable-content-wrapper.has-scroll {
+        .scrollable-content {
+            //width: calc(100% + 12px) !important;
+            width: 100% !important;
+        }
+    }
+}
+
+.popup-content {
+    @media all and (min-height: 400px) {
+        .scrollable-content-wrapper.has-scroll .scrollable-content {
+            width: calc(100% + 12px) !important;
+        }
+    }
+}

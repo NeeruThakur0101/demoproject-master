@@ -1,0 +1,119 @@
+<main [class.internal-user]="loginDetails[0]?.ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Questionnaire.Contractor_Questionnaire" [comments]="crComments"> </app-page-title>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <form
+                *ngIf="!showData"
+                class="k-form-inline h-100"
+                #f="ngForm"
+                (ngSubmit)="OnSubmit(QuestionnarireFormGroup.value, QuestionnarireFormGroup.valid)"
+                [formGroup]="QuestionnarireFormGroup"
+                name="form"
+                novalidate
+            >
+                <section class="middle-section questionnaire-page">
+                    <div class="white-block">
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="505" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="white-block">
+                                        <section class="media">
+                                            <h2>{{ pageContent.Questionnaire.Please_answer }}</h2>
+                                        </section>
+
+                                        <section class="question-wrapper">
+                                            <div formGroupName="ContractorQuestionnaire">
+                                                <div formArrayName="ParentContractorQuestions">
+                                                    <div *ngFor="let parent of formParentDetails?.controls; let i = index">
+                                                        <div class="question-block select-option" [formGroupName]="i">
+                                                            <div class="col">
+                                                                <h2>{{ parent.controls.QuestionTypeName.value }}</h2>
+                                                            </div>
+
+                                                            <div class="col">
+                                                                <kendo-switch
+                                                                    formControlName="QuestionAnswer"
+                                                                    [disabled]="
+                                                                        (isInternal && (formParentDetails.controls[0]['controls'].visualCue.value || ChildParentVisualCue)) ||
+                                                                        parent.controls.IsQuestionAnswerDisable.value ||
+                                                                        toggleDisable
+                                                                    "
+                                                                    [class]="formParentDetails.controls[0]['controls'].visualCue.value || ChildParentVisualCue === true ? 'visual-cue' : 'none'"
+                                                                >
+                                                                </kendo-switch>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <h3>{{ pageContent.Questionnaire.Height_Net_Worth }}</h3>
+
+                                            <div class="wrapper" [class.readonly]="!formParentDetails.controls[0]['controls'].QuestionAnswer.value">
+                                                <div formGroupName="ContractorQuestionnaire">
+                                                    <div formArrayName="ChildContractorQuestions">
+                                                        <div *ngFor="let child of formDetails.controls; let i = index">
+                                                            <div class="question-block k-form-inline" [formGroupName]="i">
+                                                                <div class="col k-form-field required">
+                                                                    <span>{{ child.controls.QuestionTypeName.value }}</span>
+                                                                </div>
+
+                                                                <div class="col">
+                                                                    <input
+                                                                        [readonly]="!formParentDetails.controls[0]['controls'].QuestionAnswer.value"
+                                                                        formControlName="QuestionAnswer"
+                                                                        [attr.disabled]="
+                                                                            (isInternal && formDetails.controls[i]['controls'].visualCue.value) || child.controls.IsQuestionAnswerDisable.value
+                                                                                ? ''
+                                                                                : null
+                                                                        "
+                                                                        trim="blur"
+                                                                        (keypress)="numberOnly($event)"
+                                                                        (paste)="numberOnly($event)"
+                                                                        maxlength="5"
+                                                                        [class]="formDetails.controls[i]['controls'].visualCue.value === true ? 'visual-cue' : 'none'"
+                                                                        [ngClass]="{ err: submitted && formDetails.controls[i]['controls'].QuestionAnswer.errors }"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="bottom-section">
+                    <section class="action-buttons" *ngIf="_srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal'">
+                        <button kendoButton type="button" [disabled]="isInternal && formParentDetails.controls[0]['controls'].visualCue.value" (click)="backButtonClick()">
+                            {{ pageContent.Surge_Info.Back }}
+                        </button>
+                        <button kendoButton type="submit" [primary]="true">
+                            {{ pageContent.Surge_Info.Save_Next }}
+                        </button>
+                    </section>
+                    <section class="action-buttons" *ngIf="_srvAuthentication.Profile.EventName === 'No Event'">
+                        <button kendoButton [primary]="true" [disabled]="(isInternal && formParentDetails.controls[0]['controls'].visualCue.value) || accessReadonly" type="submit">
+                            {{ pageContent.Surge_Info.Save }}
+                        </button>
+                    </section>
+                </section>
+            </form>
+            <!-- middle content area close -->
+            <!-- bottom block open -->
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>
+<ng-container #container></ng-container>

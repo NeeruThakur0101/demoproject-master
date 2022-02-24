@@ -1,0 +1,28 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the footer of the popup.
+// -----------------------------------------------------------------------------
+
+.popup-footer, kendo-dialog-actions {
+    background-color: $c-M-Blue !important;
+    border:1px solid $c-D-Blue !important;
+    border-radius: 0 0 1rem 1rem !important;
+    padding: 1rem 2rem 1rem 1rem!important;
+    min-height: 5rem;
+    @extend %flx-wrap;
+    @include flx-J-C(right);
+    input, button {
+        margin-left: 10px;
+    }
+}
+.popup-footer {
+    button {
+        min-width: 13rem;
+        @include iehack() {
+            min-width: 120px;
+        }
+
+        @include Max($MD-P) {
+            min-width: auto;
+        }
+    }
+}

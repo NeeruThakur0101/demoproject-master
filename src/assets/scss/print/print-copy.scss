@@ -1,0 +1,89 @@
+@media print {
+    .leader-pending-page .middle-section .white-block > h2,
+    .leader-pending-page {
+  
+        .form-off, .top-section, .inner-navigation, .pending-issue-types, .leader-form-wrapper {
+          display: none !important;
+        }
+  
+        .scroll-inner .white-block {
+          box-shadow: none !important;
+        }
+  
+      &:not(.active) {
+        max-width: 700px;
+        width: 700px;
+  
+        .white-block.scroll-outer {
+          box-shadow: none !important;
+          border: none !important;
+  
+          .leader-form-wrapper {
+            display: none !important;
+          }
+        }
+  
+        .leader-pendingBlock > aside {
+          padding: 0 !important;
+          width: 100%;
+          max-width: 100%;
+          padding-right: 100px;
+        }
+  
+        .top-section,
+        .inner-navigation,
+        .pending-issue-types,
+        .leader-pendingBlock > section,
+        .print {
+          display: none;
+        }
+  
+        .leader-pending-scroll,
+        .scrollable-content,
+        .scroll-inner {
+          width: 100%;
+          padding: 0;
+        }
+  
+        .middle-section .white-block > h2 {
+          padding-bottom: 2rem !important;
+        }
+  
+        .chartScreen {
+          display: none;
+          position: absolute;
+        }
+  
+        .printChart {
+          display: block !important;
+          padding-left: 4rem;
+        }
+      }
+  
+      &.active {
+        .printChart, .chartScreen {
+          display: block !important;
+        }
+        .chartScreen {
+          position: absolute;
+          display: none;
+          height: 0;
+          width: 0;
+          overflow: hidden;
+        }
+  
+        .printChart {
+          opacity: 1;
+          position: relative;
+          right: initial;
+        }
+  
+      }
+  }
+  
+    kendo-chart,
+    .k-chart {
+      width: initial;
+    }
+  }
+  

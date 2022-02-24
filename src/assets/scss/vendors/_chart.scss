@@ -1,0 +1,45 @@
+// ----------------------------------------------------------------------------
+// This file contains rules for Kendo Chart Component
+// ----------------------------------------------------------------------------
+
+$c-Chart-Tooltip-Row-Bg: $c-Wh-02;
+$c-Chart-Tooltip-Row-Border-Bottom: $c-Wh-02;
+
+
+
+.k-chart {
+    svg {
+        cursor: pointer;
+    }
+}
+.k-chart-tooltip {
+    padding: 5px;
+}
+.tooltip-chart {
+    width: 270px;
+    cursor: pointer;
+    .tooltip-row {
+        display: flex;
+        div {
+            white-space: nowrap;
+            &:first-child {
+                flex: 0 0 40%;
+                background-color: $c-Chart-Tooltip-Row-Bg;
+                padding: 5px;
+                + div {
+                    flex: 0 0 60%;
+                    text-align: left;
+                    padding: 5px 0 5px 10px;
+                    border-bottom: 2px solid $c-Chart-Tooltip-Row-Border-Bottom;
+                }
+            }
+            margin-bottom: 2px;
+        }
+        &:last-of-type {
+            div {
+                margin-bottom: 0;
+                border: none !important;
+            }
+        }
+    }
+}

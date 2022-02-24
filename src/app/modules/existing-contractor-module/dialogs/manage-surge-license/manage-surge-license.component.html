@@ -1,0 +1,348 @@
+<kendo-dialog-titlebar class="hasDialog" *ngIf="!showMainPage">
+    <h1>{{ pageContent.Manage_Surge_Info.Manage_Surge_Response_Licences }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+<form name="form" (ngSubmit)="f.form.valid && save(f)" #f="ngForm" novalidate *ngIf="!showMainPage">
+    <!-- popup content section -->
+    <div class="popup-content">
+        <div class="outer-block">
+            <div class="inner-block manageSRLicence-popup">
+                <!-- popup content -->
+                <section class="white-block">
+                    <div class="upload-doc">
+                        <a class="ico-upload" (click)="openRepo()"><i></i></a>
+                    </div>
+                    <kendo-grid
+                        media="(min-width: 901px)"
+                        [kendoGridBinding]="gridData"
+                        class="responsive-grid desktop-mode"
+                        [filter]="filter"
+                        filterable="menu"
+                        (filterChange)="filterChange($event)"
+                        [pageSize]="pageSize"
+                        [skip]="skip"
+                        [style.height.%]="100"
+                        [sortable]="{
+                            allowUnsort: allowUnsort,
+                            mode: multiple ? 'multiple' : 'single'
+                        }"
+                        [sort]="sort"
+                        [resizable]="false"
+                        [pageable]="pageObj"
+                    >
+                        <!-- (sortChange)="sortChange($event)" -->
+                        <kendo-grid-column media="(max-width:900px)" title="Items">
+                            <ng-template kendoGridCellTemplate let-dataItem>
+                                <!-- template for mobile -->
+                                <h2 class="tbl-card-title">
+                                    <span>{{ pageContent.Manage_Surge_Info.State }}:</span>
+                                    {{ dataItem.USStateAbbreviation }}
+                                </h2>
+                                <dl>
+                                    <dt>
+                                        <strong>{{ pageContent.Manage_Surge_Info.Required_License }}</strong>
+                                    </dt>
+                                    <dd>{{ dataItem.ContrLicenseName }}</dd>
+                                </dl>
+
+                                <dl>
+                                    <dt><strong></strong></dt>
+                                    <dd>
+                                        <section class="radio-group">
+                                            <div *ngFor="let radio of radioArray; let rowIndex = index">
+                                                <input
+                                                    [class]="Profile.ContrID > 0 && (dataItem.yesCue === true || dataItem.noCue === true || dataItem.partnerCue === true) ? 'visual-cue' : 'none'"
+                                                    [attr.disabled]="
+                                                        (Profile.USER_TYPE == 'Internal' &&
+                                                            (dataItem.yesCue === true ||
+                                                                dataItem.noCue === true ||
+                                                                dataItem.partnerCue === true ||
+                                                                dataItem.LicenseNumberCue === true ||
+                                                                dataItem.LicenseCompanyNameCue === true)) ||
+                                                        dataItem.IsLicenseNumberDisable ||
+                                                        dataItem.IsLicenseCompanyNameDisable ||
+                                                        dataItem.IsLicenseRequiredTypeNumberDisable
+                                                            ? ''
+                                                            : null
+                                                    "
+                                                    type="radio"
+                                                    [value]="radio.TypeTitleID"
+                                                    [checked]="dataItem.LicenseRequiredTypeNumber == radio.TypeTitleID"
+                                                    [(ngModel)]="dataItem.LicenseRequiredTypeNumber"
+                                                    [ngModelOptions]="{ standalone: true }"
+                                                    [id]="'ch1_' + radio.TypeTitleID + rowIndex"
+                                                    [name]="'LicenseRequiredTypeNumber' + rowIndex + '-' + radio.TypeTitleID"
+                                                    class="k-radio"
+                                                />
+                                                <label class="k-radio-label" [for]="'ch1_' + radio.TypeTitleID + rowIndex">{{ radio.TypeTitleName }}</label>
+                                            </div>
+                                        </section>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        <strong>{{ pageContent.Manage_Surge_Info.License_Company_DBA_Name }}</strong>
+                                    </dt>
+                                    <dd>
+                                        <div class="form-group">
+                                            <input
+                                                kendoTextBox
+                                                [attr.disabled]="
+                                                    (Profile.USER_TYPE == 'Internal' &&
+                                                        (dataItem.LicenseCompanyNameCue === true || dataItem.yesCue === true || dataItem.noCue === true || dataItem.partnerCue === true)) ||
+                                                    dataItem.LicenseRequiredTypeNumber == '13' ||
+                                                    dataItem.IsLicenseNumberDisable ||
+                                                    dataItem.IsLicenseCompanyNameDisable ||
+                                                    dataItem.IsLicenseRequiredTypeNumberDisable
+                                                        ? ''
+                                                        : null
+                                                "
+                                                maxlength="150"
+                                                #LicenseCompanyName="ngModel"
+                                                type="text"
+                                                trim="blur"
+                                                [value]="dataItem.LicenseRequiredTypeNumber == '13' ? '' : dataItem.LicenseCompanyName == 'null' ? null : dataItem.LicenseCompanyName"
+                                                [(ngModel)]="dataItem.LicenseCompanyName"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                [class]="
+                                                    dataItem.LicenseCompanyName !== null && dataItem.LicenseCompanyName != '' && Profile.ContrID > 0 && dataItem.LicenseCompanyNameCue === true
+                                                        ? 'visual-cue'
+                                                        : 'none'
+                                                "
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        f.submitted &&
+                                                        (dataItem.LicenseCompanyName === null || dataItem.LicenseCompanyName === '') &&
+                                                        (dataItem.LicenseRequiredTypeNumber == 12 || dataItem.LicenseRequiredTypeNumber == 14)
+                                                }"
+                                                [required]="dataItem.LicenseRequiredTypeNumber != '13' ? 'required' : null"
+                                            />
+                                            <!-- [id]="'lc_' + rowIndex"  [name]="'LicenseCompanyName_' + rowIndex"-->
+                                        </div>
+                                    </dd>
+                                </dl>
+                                <dl>
+                                    <dt>
+                                        <strong>{{ pageContent.Manage_Surge_Info.License }}</strong>
+                                    </dt>
+                                    <dd>
+                                        <div class="form-group">
+                                            <input
+                                                [attr.disabled]="
+                                                    (Profile.USER_TYPE == 'Internal' &&
+                                                        (dataItem.LicenseNumberCue === true || dataItem.yesCue === true || dataItem.noCue === true || dataItem.partnerCue === true)) ||
+                                                    dataItem.LicenseRequiredTypeNumber == '13' ||
+                                                    dataItem.IsLicenseNumberDisable ||
+                                                    dataItem.IsLicenseCompanyNameDisable ||
+                                                    dataItem.IsLicenseRequiredTypeNumberDisable
+                                                        ? ''
+                                                        : null
+                                                "
+                                                maxlength="50"
+                                                kendoTextBox
+                                                [value]="dataItem.LicenseRequiredTypeNumber == '13' ? '' : dataItem.LicenseNumber == 'null' ? null : dataItem.LicenseNumber"
+                                                type="text"
+                                                trim="blur"
+                                                [(ngModel)]="dataItem.LicenseNumber"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                #LicenseNumber="ngModel"
+                                                [class]="
+                                                    Profile.ContrID > 0 && dataItem.LicenseNumberCue === true && dataItem.LicenseNumber !== null && dataItem.LicenseNumber != '' ? 'visual-cue' : 'none'
+                                                "
+                                                [ngClass]="{
+                                                    'is-invalid':
+                                                        f.submitted &&
+                                                        (dataItem.LicenseNumber === null || dataItem.LicenseNumber === '') &&
+                                                        (dataItem.LicenseRequiredTypeNumber == 12 || dataItem.LicenseRequiredTypeNumber == 14)
+                                                }"
+                                                [required]="dataItem.LicenseRequiredTypeNumber != '13' ? 'required' : null"
+                                            />
+                                            <!-- [name]="'LicenseNumber_' + rowIndex" [id]="'ln_' + rowIndex" -->
+                                        </div>
+                                    </dd>
+                                </dl>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="USStateAbbreviation" [filterable]="false" title="{{ pageContent.Manage_Surge_Info.State }}" width="35" media="(min-width: 901px)">
+                            <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                <multicheck-filter
+                                    [isPrimitive]="true"
+                                    [field]="column.field"
+                                    [filterService]="filterService"
+                                    [currentFilter]="filter"
+                                    [data]="distinctPrimitive(column.field)"
+                                ></multicheck-filter>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="ContrLicenseName" [filterable]="false" title="{{ pageContent.Manage_Surge_Info.Required_License }}" width="60" media="(min-width: 901px)">
+                            <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                <multicheck-filter
+                                    [isPrimitive]="true"
+                                    [field]="column.field"
+                                    [filterService]="filterService"
+                                    [currentFilter]="filter"
+                                    [data]="distinctPrimitive(column.field)"
+                                ></multicheck-filter>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-messages
+                            pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                            pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                            noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                        >
+                        </kendo-grid-messages>
+                        <kendo-grid-column field="radioLabel" title="" width="120" media="(min-width: 901px)" [filterable]="false">
+                            <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                <section class="radio-group">
+                                    <div *ngFor="let radio of radioArray">
+                                        <input
+                                            [class]="Profile.ContrID > 0 && (dataItem.yesCue === true || dataItem.noCue === true || dataItem.partnerCue === true) ? 'visual-cue' : 'none'"
+                                            [attr.disabled]="
+                                                (Profile.USER_TYPE == 'Internal' &&
+                                                    (dataItem.yesCue === true ||
+                                                        dataItem.noCue === true ||
+                                                        dataItem.partnerCue === true ||
+                                                        dataItem.LicenseNumberCue === true ||
+                                                        dataItem.LicenseCompanyNameCue === true)) ||
+                                                dataItem.IsLicenseNumberDisable ||
+                                                dataItem.IsLicenseCompanyNameDisable ||
+                                                dataItem.IsLicenseRequiredTypeNumberDisable
+                                                    ? ''
+                                                    : null
+                                            "
+                                            type="radio"
+                                            [value]="radio.TypeTitleID"
+                                            [checked]="dataItem.LicenseRequiredTypeNumber == radio.TypeTitleID"
+                                            [(ngModel)]="dataItem.LicenseRequiredTypeNumber"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [id]="'ch1_' + radio.TypeTitleID + rowIndex"
+                                            [name]="'LicenseRequiredTypeNumber' + rowIndex + '-' + radio.TypeTitleID"
+                                            class="k-radio"
+                                        />
+                                        <label class="k-radio-label" [for]="'ch1_' + radio.TypeTitleID + rowIndex">{{ radio.TypeTitleName }}</label>
+                                    </div>
+                                </section>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column
+                            field="LicenseCompanyName"
+                            [filterable]="false"
+                            title="{{ pageContent.Manage_Surge_Info.License_Company_DBA_Name }}"
+                            width="90"
+                            media="(min-width: 901px)"
+                            class="edit-textbox"
+                        >
+                            <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                <multicheck-filter
+                                    [isPrimitive]="true"
+                                    [field]="column.field"
+                                    [filterService]="filterService"
+                                    [currentFilter]="filter"
+                                    [data]="distinctPrimitive(column.field)"
+                                ></multicheck-filter>
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                                <div class="form-group">
+                                    <input
+                                        kendoTextBox
+                                        [attr.disabled]="
+                                            (Profile.USER_TYPE == 'Internal' &&
+                                                (dataItem.LicenseCompanyNameCue === true || dataItem.yesCue === true || dataItem.noCue === true || dataItem.partnerCue === true)) ||
+                                            dataItem.LicenseRequiredTypeNumber == '13' ||
+                                            dataItem.IsLicenseNumberDisable ||
+                                            dataItem.IsLicenseCompanyNameDisable ||
+                                            dataItem.IsLicenseRequiredTypeNumberDisable
+                                                ? ''
+                                                : null
+                                        "
+                                        maxlength="150"
+                                        [name]="'LicenseCompanyName_' + rowIndex"
+                                        #LicenseCompanyName="ngModel"
+                                        [id]="'lc_' + rowIndex"
+                                        type="text"
+                                        trim="blur"
+                                        [value]="dataItem.LicenseRequiredTypeNumber == '13' ? '' : dataItem.LicenseCompanyName == 'null' ? null : dataItem.LicenseCompanyName"
+                                        [(ngModel)]="dataItem.LicenseCompanyName"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        [class]="
+                                            dataItem.LicenseCompanyName !== null && dataItem.LicenseCompanyName != '' && Profile.ContrID > 0 && dataItem.LicenseCompanyNameCue === true
+                                                ? 'visual-cue'
+                                                : 'none'
+                                        "
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                f.submitted &&
+                                                (dataItem.LicenseCompanyName === null || dataItem.LicenseCompanyName === '') &&
+                                                (dataItem.LicenseRequiredTypeNumber == 12 || dataItem.LicenseRequiredTypeNumber == 14)
+                                        }"
+                                        [required]="dataItem.LicenseRequiredTypeNumber != '13' ? 'required' : null"
+                                    />
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+
+                        <kendo-grid-column field="LicenseNumber" [filterable]="false" title="{{ pageContent.Manage_Surge_Info.License }}" width="60" media="(min-width: 901px)" class="edit-textbox">
+                            <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                <multicheck-filter
+                                    [isPrimitive]="true"
+                                    [field]="column.field"
+                                    [filterService]="filterService"
+                                    [currentFilter]="filter"
+                                    [data]="distinctPrimitive(column.field)"
+                                ></multicheck-filter>
+                            </ng-template>
+
+                            <ng-template kendoGridCellTemplate let-dataItem="dataItem" let-rowIndex="rowIndex">
+                                <div>
+                                    <input
+                                        [attr.disabled]="
+                                            (Profile.USER_TYPE == 'Internal' &&
+                                                (dataItem.LicenseNumberCue === true || dataItem.yesCue === true || dataItem.noCue === true || dataItem.partnerCue === true)) ||
+                                            dataItem.LicenseRequiredTypeNumber == '13' ||
+                                            dataItem.IsLicenseNumberDisable ||
+                                            dataItem.IsLicenseCompanyNameDisable ||
+                                            dataItem.IsLicenseRequiredTypeNumberDisable
+                                                ? ''
+                                                : null
+                                        "
+                                        maxlength="50"
+                                        kendoTextBox
+                                        [value]="dataItem.LicenseRequiredTypeNumber == '13' ? '' : dataItem.LicenseNumber == 'null' ? null : dataItem.LicenseNumber"
+                                        [name]="'LicenseNumber_' + rowIndex"
+                                        [id]="'ln_' + rowIndex"
+                                        type="text"
+                                        trim="blur"
+                                        [(ngModel)]="dataItem.LicenseNumber"
+                                        [ngModelOptions]="{ standalone: true }"
+                                        #LicenseNumber="ngModel"
+                                        [class]="Profile.ContrID > 0 && dataItem.LicenseNumberCue === true && dataItem.LicenseNumber !== null && dataItem.LicenseNumber != '' ? 'visual-cue' : 'none'"
+                                        [ngClass]="{
+                                            'is-invalid':
+                                                f.submitted &&
+                                                (dataItem.LicenseNumber === null || dataItem.LicenseNumber === '') &&
+                                                (dataItem.LicenseRequiredTypeNumber == 12 || dataItem.LicenseRequiredTypeNumber == 14)
+                                        }"
+                                        [required]="dataItem.LicenseRequiredTypeNumber != '13' ? 'required' : null"
+                                    />
+                                </div>
+                            </ng-template>
+                        </kendo-grid-column>
+                    </kendo-grid>
+
+                    <!-- form block starts -->
+                </section>
+            </div>
+        </div>
+    </div>
+    <!-- footer section -->
+    <div class="popup-footer">
+        <button kendoButton (click)="close()">{{ pageContent.Manage_Surge_Info.Cancel }}</button>
+        <button kendoButton type="submit" [primary]="true">{{ pageContent.Manage_Surge_Info.Save }}</button>
+    </div>
+</form>
+<!-- </kendo-dialog> -->

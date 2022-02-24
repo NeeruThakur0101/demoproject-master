@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Reference Page
+// -----------------------------------------------------------------------------
+// .ref-info-form {
+//     height: calc(100% - 80px);
+// }
+
+.reference-info-grid {
+    thead {
+        th {
+            &:nth-child(4),
+            &:nth-child(6),
+            &:nth-child(7),
+            &:nth-child(8) {
+                text-align: left;
+            }
+        }
+    }
+    tbody {
+        tr {
+            td {
+                &:nth-child(4),
+                &:nth-child(6),
+                &:nth-child(7),
+                &:nth-child(8) {
+                    text-align: left;
+                }
+            }
+        }
+    }
+    th,
+    td {
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7),
+        &:nth-child(8),
+        &:nth-child(9) {
+            text-align: center;
+        }
+    }
+    @include Max(1380px) {
+        .k-pager-wrap {
+            top: -11px;
+        }
+    }
+}
+.reference-information {
+
+    // @include Min(521px) {
+    //     .bottom-section {
+    //         position: fixed;
+    //         left: 0;
+    //         right: 0;
+    //         padding-top: .75rem;
+    //     }
+    // }
+    
+
+    // &.middle-section {
+    //     height: calc(100% - 45px) !important;
+    // }
+    // .scrollable-content {
+    //     width: calc(100% + 12px);
+    //     @media all and (min-width: 1537px) {
+    //         width: 100%;
+    //     }
+    // }
+}
+.reference-additional-info {
+    display: flex;
+    justify-content: center;
+    padding: 0 0 1rem;
+    > div {
+        max-width: 900px;
+        p {
+            text-align: center;
+        }
+    }
+}
+.Safari {
+    .reference-information .scrollable-content {
+        width: 100%;
+        > .white-block {
+            margin-right: 0;
+        }
+    }
+}

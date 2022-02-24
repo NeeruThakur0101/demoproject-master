@@ -1,0 +1,50 @@
+// form
+.k-widget.k-state-invalid > .k-dateinput-wrap, .k-widget.k-state-invalid > .k-dropdown-wrap, .k-widget.k-state-invalid > .k-picker-wrap, .k-widget.k-state-invalid > .k-multiselect-wrap, .k-widget.k-state-invalid > .k-numeric-wrap, .ng-invalid.ng-touched > .k-dateinput-wrap, .ng-invalid.ng-touched > .k-dropdown-wrap, .ng-invalid.ng-touched > .k-picker-wrap, .ng-invalid.ng-touched > .k-multiselect-wrap, .ng-invalid.ng-touched > .k-numeric-wrap, .ng-invalid.ng-dirty > .k-dateinput-wrap, .ng-invalid.ng-dirty > .k-dropdown-wrap, .ng-invalid.ng-dirty > .k-picker-wrap, .ng-invalid.ng-dirty > .k-multiselect-wrap, .ng-invalid.ng-dirty > .k-numeric-wrap {
+    color: $c-D-Gry;
+}
+
+.success-block {
+    h2 {
+        padding-bottom: 2rem;
+    }
+    h3 {
+        margin: 0;
+        padding: 0 0 0.25rem;
+    font-weight: normal;
+    }
+    p {
+        a {
+            &.btn {
+                @extend %txt-btn;
+            }
+        }
+    }
+}
+.signup-captcha {
+    margin-bottom:20px;
+}
+
+.block-data {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: transparent;
+    z-index: 1000;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    cursor: not-allowed;
+    display: none;
+}
+
+// readonly field
+
+input.readonly {
+    pointer-events: none;
+}
+.form-control.readonly {
+    position: relative;
+    .block-data {
+        display: block;
+    }
+}

@@ -1,0 +1,1020 @@
+<main class="contact-info-page" [class.internal-user]="_srvAuthentication.Profile.ContrID > 0" *ngIf="showHtml">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Contact_Information.Contact_Information_Page_Header"
+                    [comments]="crComments"></app-page-title>
+            </section>
+            <!-- content -->
+
+            <!-- middle content area open -->
+            <section *ngIf="showPage" class="middle-section cont-info-page">
+                <div class="white-block">
+                    <!-- <perfect-scrollbar><div> -->
+                    <div class="scrollable-content-wrapper">
+                        <div class="scrollable-content">
+                            <div class="scroll-inner">
+                                <section class="white-block contract-information">
+                                    <!-- tab section start-->
+                                    <kendo-tabstrip (tabSelect)="tabChanged($event)" tabAlignment="center"
+                                        #kendoTabStripInstance="kendoTabStrip">
+                                        <!-- first tab start -->
+                                        <kendo-tabstrip-tab [selected]="true" [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': phoneNumberCue == true }">{{
+                                                    pageContent.Contact_Information.Phone_Numbers_Tab_Header }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="userForm"
+                                                    (submit)="saveUser(1, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <div class="col">
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Phone_Numbers_Tab_Office_Phone_Number
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="contactFormControl.Office.value !== '' && visualCueObject.ContactNumbers[0]?.visualCue == true ? 'visual-cue' : 'none'"
+                                                                    [readonly]="
+                                                                        (visualCueObject.ContactNumbers[0]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal' ? true : false
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.ContactNumbers[0]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsOfficeContactDisable) ? '' : null
+                                                                    " [mask]="mobileNumberMask"
+                                                                    (keypress)="isNumber($event)" class="k-textbox"
+                                                                    formControlName="Office" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted1 && contactFormControl.Office.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted1 && contactFormControl.Office.errors"
+                                                                    class="err">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="contactFormControl.Office.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Phone_Numbers_Tab_Alternate_Contact_Number
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="contactFormControl.Alternate.value !== '' && visualCueObject.ContactNumbers[1]?.visualCue == true ? 'visual-cue' : 'none'"
+                                                                    [readonly]="
+                                                                        (visualCueObject.ContactNumbers[1]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal' ? true : false
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.ContactNumbers[1]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsAlternateContactDisable) ? '' : null
+                                                                    " [mask]="mobileNumberMask" type="text"
+                                                                    class="k-textbox" formControlName="Alternate"
+                                                                    (keypress)="isNumber($event)" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted1 && contactFormControl.Alternate.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted1 && contactFormControl.Alternate.errors"
+                                                                    class="err">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="contactFormControl.Alternate.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Phone_Numbers_Tab_Emergency_Phone_Number
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="contactFormControl.Emergency.value !== '' && visualCueObject.ContactNumbers[2]?.visualCue == true ? 'visual-cue' : 'none'"
+                                                                    [readonly]="
+                                                                        (visualCueObject.ContactNumbers[2]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal' ? true : false
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.ContactNumbers[2]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsEmergencyContactDisable) ? '' : null
+                                                                    " [mask]="mobileNumberMask" type="text"
+                                                                    class="k-textbox" formControlName="Emergency"
+                                                                    (keypress)="isNumber($event)" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted1 && contactFormControl.Emergency.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted1 && contactFormControl.Emergency.errors"
+                                                                    class="err">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="contactFormControl.Emergency.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Phone_Numbers_Tab_Fax_Number
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="visualCueObject.ContactNumbers[3]?.visualCue == true ? 'visual-cue' : 'none'"
+                                                                    [readonly]="
+                                                                        (visualCueObject.ContactNumbers[3]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal' ? true : false
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.ContactNumbers[3]?.visualCue == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsFaxContactDisable) ? '' : null
+                                                                    " [mask]="mobileNumberMask" type="text"
+                                                                    class="k-textbox" formControlName="Fax"
+                                                                    (keypress)="isNumber($event)" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted1 && contactFormControl.Fax.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted1 && contactFormControl.Fax.errors"
+                                                                    class="err">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="contactFormControl.Fax.errors"></div>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </section>
+                                                    <section class="action-buttons">
+                                                        <button *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " kendoButton type="button" (click)="onBackClick()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+
+                                                        <button *ngIf="!readonlyMode"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            kendoButton type="submit" [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+
+                                        <!-- second tab start -->
+                                        <kendo-tabstrip-tab [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': emailTabCue == true }">{{
+                                                    pageContent.Contact_Information.Emails_Tab_Header }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="emailForm"
+                                                    (submit)="saveUser(2, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <p class="helper">
+                                                            {{ pageContent.Contact_Information.Emails_Tab_Emails_Text }}
+                                                        </p>
+                                                        <div class="col">
+                                                            <div class="email-row" formArrayName="emails"
+                                                                *ngFor="let option of emailForm.get('emails')['controls']; let i = index">
+                                                                <span [formGroupName]="i">
+                                                                    <label class="k-form-field tool-with-input required"
+                                                                        [class.two-btn]="i ===this.getEmailArrayLen()-1 && i!==0 && this.getEmailArrayLen()!==5">
+                                                                        <span>{{
+                                                                            pageContent.Contact_Information.Emails_Tab_Email_Address
+                                                                            }} {{ i + 1 }}:</span>
+                                                                        <input [class]="
+                                                                                loginDetails[0].ContrID > 0 &&
+                                                                                emailForm.controls.emails['controls'][i].value !== '' &&
+                                                                                visualCueObject.Emails[i].visualCue == true
+                                                                                    ? 'visual-cue'
+                                                                                    : 'none'
+                                                                            " [attr.disabled]="
+                                                                                ((ContrID === 0 || visualCueObject.Emails[i].visualCue == true || emailTabCueArr[i] === true) && loggedInUserType == 'Internal') || (visualCueObject.IsContractorEmailsDisable) || (this.loginDetails[0].ContrID > 0 && !this.$pagePrivilege.editAccess && this.$pagePrivilege.readonlyAccess)
+                                                                                    ? ''
+                                                                                    : null
+                                                                            " trim="blur" maxlength="60"
+                                                                            class="k-textbox" formControlName="value"
+                                                                            type="text" [ngClass]="{
+                                                                                'err ng-invalid ng-touched': submitted2 && option.controls.value.errors
+                                                                            }" />
+
+                                                                        <div class="tools">
+                                                                            <button type="button"
+                                                                                [attr.disabled]="((ContrID === 0 || emailTabCueArr[i] === true) && loggedInUserType == 'Internal') || (visualCueObject.IsContractorEmailsDisable) || (this.loginDetails[0].ContrID > 0 && !this.$pagePrivilege.editAccess && this.$pagePrivilege.readonlyAccess) ? '' : null"
+                                                                                *ngIf="emailForm.controls.emails['length'] > 1"
+                                                                                (click)="removeMail(i)">
+                                                                                <!-- emailForm['controls'].emails.removeAt(i) removeMail(i)-->
+                                                                                <span
+                                                                                    class="minus k-icon k-i-minus"></span>
+                                                                            </button>
+                                                                            <button type="button"
+                                                                                *ngIf="i + 1 == emailForm.controls.emails['length'] && emailForm.controls.emails['length'] <= 4"
+                                                                                (click)="addField()" class="add"
+                                                                                [attr.disabled]="((ContrID === 0 || emailTabCue === true) && loggedInUserType == 'Internal') || (visualCueObject.IsContractorEmailsDisable) || (this.loginDetails[0].ContrID > 0 && !this.$pagePrivilege.editAccess && this.$pagePrivilege.readonlyAccess) ? '' : null">
+                                                                                <!-- [attr.disabled]="(ContrID === 0 || emailTabCue === true) && loggedInUserType == 'Internal' ? '' : null" -->
+                                                                                <span class="k-icon k-i-plus"></span>
+                                                                            </button>
+                                                                        </div>
+                                                                    </label>
+                                                                    <div *ngIf="submitted2 && emailForm.controls.emails['controls'][i].invalid && option.controls.value.errors"
+                                                                        class="err comp k-tooltip-validation">
+                                                                        <div class="err-msg"
+                                                                            *ngIf="emailForm.controls.emails['controls'][i].invalid && option.controls.value.errors.required">
+                                                                        </div>
+                                                                        <div class="err-msg comp"
+                                                                            *ngIf="option.controls.value.errors.pattern">
+                                                                            {{
+                                                                            pageContent.Contact_Information.Valid_Format
+                                                                            }}
+                                                                        </div>
+                                                                    </div>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+
+                                                    <section class="action-buttons">
+                                                        <button kendoButton type="button" *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " (click)="prevTab()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+                                                        <button *ngIf="!readonlyMode" kendoButton type="submit"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+                                        <!-- new tab start -->
+                                        <kendo-tabstrip-tab [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': primaryContactTabCue == true }">{{
+                                                    pageContent.Contact_Information.Primary_Contact_Tab_Header
+                                                    }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="cccContactForm"
+                                                    (submit)="saveUser(3, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <div class="col">
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Primary_Contact_Contact_Tab_Name
+                                                                    }}</span>
+                                                                <input [class]="
+                                                                        cccContactFormControl.CrawfordContractorConnectionContactName.value !== '' &&
+                                                                        (visualCueObject.CrawfordContractorConnectionContactName == true || visualCueObject.CrawfordContractorConnectionContactEmail == true)
+                                                                            ? 'visual-cue'
+                                                                            : 'none'
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.CrawfordContractorConnectionContactName == true || visualCueObject.CrawfordContractorConnectionContactNumber == true || 
+                                                                        visualCueObject.CrawfordContractorConnectionContactEmail == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsCrawfordContractorConnectionContactNameDisable) ? '' : null
+                                                                    " type="text" maxlength="30" trim="blur"
+                                                                    class="k-textbox"
+                                                                    formControlName="CrawfordContractorConnectionContactName"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted7 && cccContactFormControl.CrawfordContractorConnectionContactName.errors
+                                                                    }" />
+                                                            </label>
+                                                            <div *ngIf="submitted7 && cccContactFormControl.CrawfordContractorConnectionContactName.errors"
+                                                                class="err k-tooltip-validation">
+                                                                <div class="err-msg"
+                                                                    *ngIf="cccContactFormControl.CrawfordContractorConnectionContactName.errors.required">
+                                                                </div>
+                                                                <div class="err-msg"
+                                                                    *ngIf="cccContactFormControl.CrawfordContractorConnectionContactName.errors.pattern">
+                                                                    {{ pageContent.Contact_Information.Enter_Valid_Name
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <label class="k-form-field required">
+                                                                <span>{{ pageContent.Contact_Information.Contact_Number
+                                                                    }}</span>
+                                                                <input [class]="
+                                                                        cccContactFormControl.CrawfordContractorConnectionContactNumber.value !== '' &&
+                                                                        (visualCueObject.CrawfordContractorConnectionContactNumber == true || visualCueObject.CrawfordContractorConnectionContactEmail == true)
+                                                                            ? 'visual-cue'
+                                                                            : 'none'
+                                                                    " [readonly]="
+                                                                        (visualCueObject.CrawfordContractorConnectionContactNumber == true || ContrID === 0) && loggedInUserType == 'Internal'
+                                                                            ? true
+                                                                            : false
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.CrawfordContractorConnectionContactName == true || visualCueObject.CrawfordContractorConnectionContactNumber == true || 
+                                                                        visualCueObject.CrawfordContractorConnectionContactEmail == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsCrawfordContractorConnectionContactNumberDisable)
+                                                                            ? ''
+                                                                            : null
+                                                                    " [mask]="mobileNumberMask" type="text"
+                                                                    (keypress)="isNumber($event)" class="k-textbox"
+                                                                    formControlName="CrawfordContractorConnectionContactNumber"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted7 && cccContactFormControl.CrawfordContractorConnectionContactNumber.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted7 && cccContactFormControl.CrawfordContractorConnectionContactNumber.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="cccContactFormControl.CrawfordContractorConnectionContactNumber.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Contact_Tab_Contact_Email
+                                                                    }}</span>
+                                                                <div class="tool">
+                                                                    <input [class]="
+                                                                        cccContactFormControl.CrawfordContractorConnectionContactEmail.value !== '' &&
+                                                                        visualCueObject.CrawfordContractorConnectionContactEmail == true
+                                                                            ? 'visual-cue'
+                                                                            : 'none'
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.CrawfordContractorConnectionContactName == true || visualCueObject.CrawfordContractorConnectionContactNumber == true || 
+                                                                        visualCueObject.CrawfordContractorConnectionContactEmail == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsCrawfordContractorConnectionContactEmailDisable)
+                                                                            ? ''
+                                                                            : null
+                                                                    " trim="blur" class="k-textbox" type="text"
+                                                                        maxlength="60" kendoTextBox
+                                                                        (keyup)="keyupEmail($event)"
+                                                                        formControlName="CrawfordContractorConnectionContactEmail"
+                                                                        [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted7 && cccContactFormControl.CrawfordContractorConnectionContactEmail.errors
+                                                                    }" />
+
+                                                                </div>
+
+
+                                                            </label>
+                                                            <div *ngIf="submitted7 && cccContactFormControl.CrawfordContractorConnectionContactEmail.errors"
+                                                                class="err comp k-tooltip-validation">
+                                                                <div class="err-msg"
+                                                                    *ngIf="cccContactFormControl.CrawfordContractorConnectionContactEmail.errors.required">
+                                                                </div>
+                                                                <div class="err-msg comp"
+                                                                    *ngIf="cccContactFormControl.CrawfordContractorConnectionContactEmail.errors.pattern">
+                                                                    {{
+                                                                    pageContent.Contact_Information.Enter_Valid_Format
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Primary_Training_Contact_Email
+                                                                    }}</span>
+                                                                <input [class]="
+                                                                        cccContactFormControl.CrawfordContractorConnectionTrainingContact.value !== '' &&
+                                                                        visualCueObject.CrawfordContractorConnectionTrainingContact == true
+                                                                            ? 'visual-cue'
+                                                                            : 'none'
+                                                                    " [attr.disabled]="
+                                                                        ((visualCueObject.CrawfordContractorConnectionTrainingContact == true || ContrID === 0) && loggedInUserType == 'Internal') ||  (visualCueObject.IsCrawfordContractorConnectionTrainingContactDisable)
+                                                                            ? ''
+                                                                            : null
+                                                                    " type="text" maxlength="60" trim="blur"
+                                                                    class="k-textbox"
+                                                                    formControlName="CrawfordContractorConnectionTrainingContact"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted7 && cccContactFormControl.CrawfordContractorConnectionTrainingContact.errors
+                                                                    }" />
+                                                            </label>
+                                                            <div *ngIf="submitted7 && cccContactFormControl.CrawfordContractorConnectionTrainingContact.errors"
+                                                                class="err comp k-tooltip-validation">
+                                                                <div class="err-msg"
+                                                                    *ngIf="cccContactFormControl.CrawfordContractorConnectionTrainingContact.errors.required">
+                                                                </div>
+                                                                <div class="err-msg comp"
+                                                                    *ngIf="cccContactFormControl.CrawfordContractorConnectionTrainingContact.errors.pattern">
+                                                                    {{
+                                                                    pageContent.Contact_Information.Enter_Valid_Format
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    <section class="action-buttons">
+                                                        <button kendoButton type="button" *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " (click)="prevTab()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+                                                        <button *ngIf="!readonlyMode" kendoButton type="submit"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+
+                                        <!-- third tab start -->
+
+                                        <kendo-tabstrip-tab [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': billingContactTabCue == true }">{{
+                                                    pageContent.Contact_Information.Billing_Contact_Tab_Header
+                                                    }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="contactForm"
+                                                    (submit)="saveUser(4, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <div class="col">
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Contact_Tab_Company
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="companyFormControl.company.value !== '' && visualCueObject.BillingCompanyName == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.BillingCompanyName == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingCompanyNameDisable) ? '' : null"
+                                                                    trim="blur" type="text" class="k-textbox"
+                                                                    formControlName="company" maxlength="100" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted3 && companyFormControl.company.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted3 && companyFormControl.company.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="companyFormControl.company.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Contact_Tab_Contact_Name
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="companyFormControl.cName.value !== '' && visualCueObject.BillingContactName == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.BillingContactName == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingContactNameDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox"
+                                                                    formControlName="cName" type="text" maxlength="100"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted3 && companyFormControl.cName.errors
+                                                                    }" />
+                                                                <!-- pattern="^[a-zA-Z ,.'-]+$"  -->
+                                                                <div *ngIf="submitted3 && companyFormControl.cName.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="companyFormControl.cName.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Contact_Tab_Contact_Phone
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="companyFormControl.cPhone.value !== '' && visualCueObject.BillingPhone == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.BillingPhone == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingPhoneDisable) ? '' : null"
+                                                                    [readonly]="(visualCueObject.BillingPhone == true || ContrID === 0) && loggedInUserType == 'Internal' ? true : false"
+                                                                    [mask]="mobileNumberMask" type="text"
+                                                                    class="k-textbox" formControlName="cPhone"
+                                                                    (keypress)="isNumber($event)" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted3 && companyFormControl.cPhone.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted3 && companyFormControl.cPhone.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="companyFormControl.cPhone.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Contact_Tab_Contact_Fax
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="companyFormControl.cFax.value !== '' && visualCueObject.BillingFax == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.BillingFax == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingFaxDisable) ? '' : null"
+                                                                    [readonly]="(visualCueObject.BillingFax == true || ContrID === 0) && loggedInUserType == 'Internal' ? true : false"
+                                                                    [mask]="mobileNumberMask" class="k-textbox"
+                                                                    type="text" formControlName="cFax"
+                                                                    (keypress)="isNumber($event)" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted3 && companyFormControl.cFax.errors
+                                                                    }" />
+
+                                                                <div *ngIf="submitted3 && companyFormControl.cFax.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="companyFormControl.cFax.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Contact_Tab_Contact_Email
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="companyFormControl.cEmail.value !== '' && visualCueObject.BillingEmail == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.BillingEmail == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingEmailDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    formControlName="cEmail" maxlength="60" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted3 && companyFormControl.cEmail.errors
+                                                                    }" />
+                                                            </label>
+
+                                                            <div *ngIf="submitted3 && companyFormControl.cEmail.errors"
+                                                                class="err comp k-tooltip-validation">
+                                                                <div class="err-msg"
+                                                                    *ngIf="companyFormControl.cEmail.errors.required">
+                                                                </div>
+                                                                <div class="err-msg comp"
+                                                                    *ngIf="companyFormControl.cEmail.errors.pattern">
+                                                                    {{
+                                                                    pageContent.Contact_Information.Enter_Valid_Format
+                                                                    }}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </section>
+                                                    <section class="action-buttons">
+                                                        <button kendoButton type="button" *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " (click)="prevTab()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+                                                        <button *ngIf="!readonlyMode" kendoButton type="submit"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+
+                                        <!-- fourth tab start -->
+                                        <kendo-tabstrip-tab [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': physicalAddressTabCue == true }">{{
+                                                    pageContent.Contact_Information.Physical_Address_Tab_Header
+                                                    }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="addressForm"
+                                                    (submit)="saveUser(5, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <div class="col">
+                                                            <label class="k-form-field tool-with-input required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_Street_Address
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="addressFormcontrol.StreetAddress.value !== '' && visualCueObject.Address[0]?.StreetAddress == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[0]?.StreetAddress == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsPhysicalStreetAddressDisable) ? '' : null"
+                                                                    trim="blur" maxlength="50" placeholder="" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted4 && addressFormcontrol.StreetAddress.errors
+                                                                    }" (keydown)="setSwitchValue()" class="k-textbox"
+                                                                    type="text" formControlName="StreetAddress" />
+
+                                                                <div>
+                                                                    <div *ngIf="submitted4 && addressFormcontrol.StreetAddress.errors"
+                                                                        class="err k-tooltip-validation">
+                                                                        <div class="err-msg"
+                                                                            *ngIf="addressFormcontrol.StreetAddress.errors.required">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_Street_Address_2
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="visualCueObject.Address[0]?.StreetAddress2 == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="
+                                                                        ((visualCueObject.Address[0]?.StreetAddress2 == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsPhysicalStreetAddress2Disable) ? '' : null
+                                                                    " (keydown)="setSwitchValue()" trim="blur"
+                                                                    class="k-textbox" type="text" maxlength="50"
+                                                                    formControlName="StreetAddress2" />
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_City
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="addressFormcontrol.City.value !== '' && visualCueObject.Address[0]?.City == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[0]?.City == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsPhysicalCityDisable) ? '' : null"
+                                                                    (keydown)="setSwitchValue()" trim="blur"
+                                                                    class="k-textbox" type="text" formControlName="City"
+                                                                    maxlength="30" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted4 && addressFormcontrol.City.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted4 && addressFormcontrol.City.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="addressFormcontrol.City.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_State_Province
+                                                                    }}</span>
+
+                                                                <kendo-dropdownlist
+                                                                    [class]="addressFormcontrol.State.value !== '' && visualCueObject.Address[0]?.State == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[0]?.State == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsPhysicalStateDisable) ? '' : null"
+                                                                    #dropdownlist formControlName="State" [data]="state"
+                                                                    textField="Name" valueField="Abbreviation"
+                                                                    [filterable]="true" (focus)="onFocus($event)"
+                                                                    (mousedown)="onMousedown($event)"
+                                                                    (mouseup)="onMouseup($event)"
+                                                                    (filterChange)="handleFilterState($event)"
+                                                                    (valueChange)="setSwitchValue()" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted4 && addressFormcontrol.State.errors
+                                                                    }" [valuePrimitive]="true">
+                                                                    <ng-template kendoDropDownListNoDataTemplate>
+                                                                        <h4>
+                                                                            {{ pageContent.General_Keys.No_Data_Found}}
+                                                                        </h4>
+                                                                    </ng-template>
+                                                                </kendo-dropdownlist>
+                                                                <div *ngIf="submitted4 && addressFormcontrol.State.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="addressFormcontrol.State.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_Postal_Code
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="addressFormcontrol.PostalCode.value !== '' && visualCueObject.Address[0]?.PostalCode == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[0]?.PostalCode == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsPhysicalPostalCodeDisable) ? '' : null"
+                                                                    (keydown)="setSwitchValue()" trim="blur"
+                                                                    class="k-textbox" type="text"
+                                                                    (keypress)="postalCodeValidatior($event)"
+                                                                    formControlName="PostalCode" maxlength="9"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted4 && addressFormcontrol.PostalCode.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted4 && addressFormcontrol.PostalCode.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="addressFormcontrol.PostalCode.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field" *ngIf="ContrID === 0">
+                                                                <!-- <label class="k-form-field"> -->
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_Use_as_Mailing_Address
+                                                                    }}</span>
+                                                                <kendo-switch
+                                                                    [attr.disabled]="ContrID === 0 && loggedInUserType == 'Internal' ? '' : null"
+                                                                    (valueChange)="mailingAddress($event)"
+                                                                    formControlName="IsMailingAddressPhysicalAddressSame">
+                                                                </kendo-switch>
+                                                            </label>
+                                                            <label class="k-form-field" *ngIf="ContrID === 0">
+                                                                <!-- <label class="k-form-field"> -->
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Physical_Address_Tab_Use_as_Billing_Address
+                                                                    }}</span>
+                                                                <kendo-switch
+                                                                    [attr.disabled]="ContrID === 0 && loggedInUserType == 'Internal' ? '' : null"
+                                                                    (valueChange)="billingAddress($event)"
+                                                                    formControlName="IsBillingAddressPhysicalAddressSame">
+                                                                </kendo-switch>
+                                                            </label>
+                                                        </div>
+                                                    </section>
+
+                                                    <section class="action-buttons">
+                                                        <button kendoButton type="button" *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " (click)="prevTab()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+                                                        <button *ngIf="!readonlyMode" kendoButton type="submit"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+
+                                        <!-- fifth tab start -->
+                                        <kendo-tabstrip-tab [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': mailingAddressTabCue == true }">{{
+                                                    pageContent.Contact_Information.Mailing_Address_Tab_Header
+                                                    }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="mailingForm"
+                                                    (submit)="saveUser(6, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <div class="col">
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Mailing_Address_Tab_Street_Address
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="mailingFormControl.StreetAddress.value !== '' && visualCueObject.Address[1]?.StreetAddress == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[1]?.StreetAddress == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsMailingStreetAddressDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    formControlName="StreetAddress" maxlength="50"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted5 && mailingFormControl.StreetAddress.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted5 && mailingFormControl.StreetAddress.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="mailingFormControl.StreetAddress.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Mailing_Address_Tab_Street_Address_2
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="visualCueObject.Address[1]?.StreetAddress2 == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="
+                                                                        ((visualCueObject.Address[1]?.StreetAddress2 == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsMailingStreetAddress2Disable) ? '' : null
+                                                                    " trim="blur" class="k-textbox" type="text"
+                                                                    formControlName="StreetAddress2" maxlength="50" />
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Mailing_Address_Tab_City
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="mailingFormControl.City.value !== '' && visualCueObject.Address[1]?.City == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[1]?.City == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsMailingCityDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    formControlName="City" maxlength="30" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted5 && mailingFormControl.City.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted5 && mailingFormControl.City.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="mailingFormControl.City.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Mailing_Address_Tab_State_Province
+                                                                    }}</span>
+                                                                <kendo-dropdownlist
+                                                                    [class]="mailingFormControl.State.value !== '' && visualCueObject.Address[1]?.State == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[1]?.State == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsMailingStateDisable) ? '' : null"
+                                                                    #dropdownlist formControlName="State" [data]="state"
+                                                                    textField="Name" valueField="Abbreviation"
+                                                                    [filterable]="true" (focus)="onFocus($event)"
+                                                                    (mousedown)="onMousedown($event)"
+                                                                    (mouseup)="onMouseup($event)"
+                                                                    (filterChange)="handleFilterState($event)"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted5 && mailingFormControl.State.errors
+                                                                    }" [valuePrimitive]="true">
+                                                                    <ng-template kendoDropDownListNoDataTemplate>
+                                                                        <h4>
+                                                                            {{ pageContent.General_Keys.No_Data_Found}}
+                                                                        </h4>
+                                                                    </ng-template>
+                                                                </kendo-dropdownlist>
+                                                                <div *ngIf="submitted5 && mailingFormControl.State.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="mailingFormControl.State.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Mailing_Address_Tab_Postal_Code
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="mailingFormControl.PostalCode.value !== '' && visualCueObject.Address[1]?.PostalCode == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[1]?.PostalCode == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsMailingPostalCodeDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    (keypress)="postalCodeValidatior($event)"
+                                                                    formControlName="PostalCode" maxlength="9"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted5 && mailingFormControl.PostalCode.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted5 && mailingFormControl.PostalCode.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="mailingFormControl.PostalCode.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </section>
+
+                                                    <section class="action-buttons">
+                                                        <button kendoButton type="button" *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " (click)="prevTab()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+                                                        <button *ngIf="!readonlyMode" kendoButton type="submit"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+
+                                        <!-- sixth tab start -->
+
+                                        <kendo-tabstrip-tab [cssClass]="formValidityCheck()">
+                                            <ng-template kendoTabTitle>
+                                                <strong [ngClass]="{ 'visual-cue': billingAddressTabCue == true }">{{
+                                                    pageContent.Contact_Information.Billing_Address_Tab_Header
+                                                    }}</strong>
+                                            </ng-template>
+                                            <ng-template kendoTabContent>
+                                                <form class="k-form-inline" [formGroup]="billingForm"
+                                                    (submit)="saveUser(7, 'none')">
+                                                    <section class="flex-5-5">
+                                                        <div class="col">
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Address_Tab_Street_Address
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="billingFormControl.StreetAddress.value !== '' && visualCueObject.Address[2]?.StreetAddress == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[2]?.StreetAddress == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingStreetAddressDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    formControlName="StreetAddress" maxlength="50"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted6 && billingFormControl.StreetAddress.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted6 && billingFormControl.StreetAddress.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="billingFormControl.StreetAddress.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Address_Tab_Street_Address_2
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="visualCueObject.Address[2]?.StreetAddress2 == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="
+                                                                        ((visualCueObject.Address[2]?.StreetAddress2 == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingStreetAddress2Disable) ? '' : null
+                                                                    " trim="blur" class="k-textbox" type="text"
+                                                                    maxlength="50" formControlName="StreetAddress2" />
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Address_Tab_City
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="billingFormControl.City.value !== '' && visualCueObject.Address[2]?.City == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[2]?.City == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingCityDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    formControlName="City" maxlength="30" [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted6 && billingFormControl.City.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted6 && billingFormControl.City.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="billingFormControl.City.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Address_Tab_State_Province
+                                                                    }}</span>
+                                                                <kendo-dropdownlist
+                                                                    [class]="billingFormControl.State.value !== '' && visualCueObject.Address[2]?.State == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[2]?.State == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingStateDisable) ? '' : null"
+                                                                    #dropdownlist (focus)="onFocus($event)"
+                                                                    (mousedown)="onMousedown($event)"
+                                                                    (mouseup)="onMouseup($event)"
+                                                                    formControlName="State" [data]="state"
+                                                                    textField="Name" valueField="Abbreviation"
+                                                                    [filterable]="true"
+                                                                    (filterChange)="handleFilterState($event)"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted6 && billingFormControl.State.errors
+                                                                    }" [valuePrimitive]="true">
+                                                                    <ng-template kendoDropDownListNoDataTemplate>
+                                                                        <h4>
+                                                                            {{ pageContent.General_Keys.No_Data_Found}}
+                                                                        </h4>
+                                                                    </ng-template>
+                                                                </kendo-dropdownlist>
+                                                                <div *ngIf="submitted6 && billingFormControl.State.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="billingFormControl.State.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                            <label class="k-form-field required">
+                                                                <span>{{
+                                                                    pageContent.Contact_Information.Billing_Address_Tab_Postal_Code
+                                                                    }}</span>
+                                                                <input
+                                                                    [class]="billingFormControl.PostalCode.value !== '' && visualCueObject.Address[2]?.PostalCode == true ? 'visual-cue' : 'none'"
+                                                                    [attr.disabled]="((visualCueObject.Address[2]?.PostalCode == true || ContrID === 0) && loggedInUserType == 'Internal') || (visualCueObject.IsBillingPostalCodeDisable) ? '' : null"
+                                                                    trim="blur" class="k-textbox" type="text"
+                                                                    (keypress)="postalCodeValidatior($event)"
+                                                                    maxlength="9" formControlName="PostalCode"
+                                                                    [ngClass]="{
+                                                                        'err ng-invalid ng-touched': submitted6 && billingFormControl.PostalCode.errors
+                                                                    }" />
+                                                                <div *ngIf="submitted6 && billingFormControl.PostalCode.errors"
+                                                                    class="err k-tooltip-validation">
+                                                                    <div class="err-msg"
+                                                                        *ngIf="billingFormControl.PostalCode.errors.required">
+                                                                    </div>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </section>
+                                                    <section class="action-buttons">
+                                                        <button kendoButton type="button" *ngIf="
+                                                                loginDetails[0].ContrID == 0 ||
+                                                                (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                                                            " (click)="prevTab()">
+                                                            {{ pageContent.Contact_Information.Email_Tab_Back }}
+                                                        </button>
+                                                        <button *ngIf="!readonlyMode" kendoButton type="submit"
+                                                            [disabled]="loginDetails[0].ContrID > 0 && (!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess)"
+                                                            [primary]="true" [innerHTML]="
+                                                                loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event'
+                                                                    ? pageContent.Contact_Information.Global_Button_Save
+                                                                    : pageContent.Contact_Information.Global_Button_SaveAndNext
+                                                            "></button>
+
+                                                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()"
+                                                            kendoButton [primary]="true">{{
+                                                            pageContent.Contact_Information.Next }}</button>
+                                                    </section>
+                                                </form>
+                                            </ng-template>
+                                        </kendo-tabstrip-tab>
+                                    </kendo-tabstrip>
+                                </section>
+                            </div>
+                            <!-- content close -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- middle content area close -->
+        </div>
+    </div>
+    <!-- google map dialog -->
+</main>
+<kendo-dialog *ngIf="showMap" title="Google Map" [minWidth]="778" [width]="778">
+    <div class="popup-content" style="height: 500px; text-align: center">
+        <div #mapDiv id="map" style="width: 100%; position: inherit; height: 100%"></div>
+    </div>
+    <div class="popup-footer">
+        <button kendoButton>{{ pageContent.Contact_Information.Cancel }}</button>
+    </div>
+</kendo-dialog>
+<div kendoDialogContainer class="popup-loader"></div>

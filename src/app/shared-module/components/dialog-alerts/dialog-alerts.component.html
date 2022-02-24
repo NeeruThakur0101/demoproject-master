@@ -1,0 +1,15 @@
+<kendo-dialog-titlebar>
+    <h1>{{ pageContent.General_Keys.General_Alert }}</h1>
+</kendo-dialog-titlebar>
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="white-block" [innerHTML]="alertMessage"></section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton type="button" [primary]="true" (click)="close()">{{ pageContent.General_Keys.General_Ok }}</button>
+</div>

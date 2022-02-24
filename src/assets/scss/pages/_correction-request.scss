@@ -1,0 +1,113 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Contractor Operation Page
+// -----------------------------------------------------------------------------
+
+.correction-request {
+    > .scrollable-content {
+        padding-left: 0;
+    }
+    .correction-request-tbl {
+        .correction-request-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            padding: 1rem;
+            border-bottom: none;
+            border-bottom: 1px solid $c-Bdr-L; //#d4cfc8;
+            padding-left: 0;
+            &:last-child {
+                border-bottom: 0px;
+                padding-bottom: 0px;
+            }
+            &:first-child {
+                border-top: 0px;
+                padding-top: 0px;
+            }
+            > div {
+                &:first-child {
+                    flex: 0 0 50%;
+                    padding-top: 5px;
+                    max-width: 50%;
+                    word-break: break-word;
+                    padding-right: 10px;
+                    label {
+                        span {
+                            color: $c-D-Gry;
+                        }
+                    }
+                    .k-checkbox-label {
+                        padding-left: calc(16px + 5px);
+                        margin-left: 0;
+                        display: block;
+                        @include Min(521px) {
+                            padding-right: 1.5rem;
+                        }
+                    }
+                    + div {
+                        flex: 0 0 50%;
+                        max-width: 50%;
+                        input {
+                            margin-bottom: 0;
+                        }
+                        @include Max($MD-P) {
+                            padding-top: 1.5rem;
+                            padding-bottom: 0.5rem;
+                        }
+                    }
+                }
+                @include Max($MD-P) {
+                    flex: 0 0 100% !important;
+                }
+            }
+            textarea {
+                height: 70px;
+                padding: 10px 15px;
+                margin: 0;
+            }
+        }
+    }
+    > .scrollable-content {
+        max-height: 40rem;
+    }
+}
+.edit-recertifiation {
+    padding: 0 8px 0 5px !important;
+    cursor: pointer;
+}
+.correction-request-list {
+    padding: 5px 0 0;
+    ul {
+        list-style: none;
+        li {
+            position: relative;
+            &:before {
+                width: 1em;
+                height: 1em;
+                outline: 0;
+                font-size: 16px;
+                font-family: 'WebComponentsIcons';
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                line-height: 1;
+                content: '\e018';
+                opacity: 0.7;
+                top: 1.25px;
+                position: absolute;
+                left: -20px;
+            }
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid $c-Blk-05;
+            word-break: break-all;
+            &:last-child {
+                border-bottom: 0;
+                margin-bottom: 0;
+                padding-bottom: 0;
+            }
+        }
+    }
+    > .scrollable-content {
+        max-height: 15rem;
+    }
+}

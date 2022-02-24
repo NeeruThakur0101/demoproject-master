@@ -1,0 +1,293 @@
+<main [hidden]="showPage" appGridlayout [class.internal-user]="ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Reference_Info.References_Header" [comments]="crComments"> </app-page-title>
+            </section>
+            <form class="k-form-inline h-100">
+                <section class="middle-section ownership-information reference-information">
+                    <div class="white-block">
+                        <section class="scrollable-content-wrapper" #commentBlock max-height="510">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="white-block">
+                                        <section class="grid-top-bar">
+                                            <div>
+                                                <h2>{{ pageContent.Reference_Info.References_Header }}</h2>
+                                            </div>
+                                            <div>
+                                                <button
+                                                    kendoButton
+                                                    [disabled]="(ContrID === 0 && loggedInUserType === 'Internal') || accessReadonly"
+                                                    (click)="openAddReferenceDialog('ADD')"
+                                                    primary="true"
+                                                >
+                                                    {{ pageContent.Reference_Info.Add_Reference }}
+                                                </button>
+                                            </div>
+                                        </section>
+                                        <section class="reference-additional-info">
+                                            <div>
+                                                <p>
+                                                    {{ pageContent.Reference_Info.Please_provide_three_references }}
+                                                    <span *ngFor="let ref of referenceTypeData"
+                                                        >{{ ref.ReferenceTypeNameTranslated }}
+                                                        <span [class]="ref.ReferenceCount >= 3 ? 'green' : 'red'"> ({{ ref.ReferenceCount }}) </span>
+                                                    </span>
+                                                    . {{ pageContent.Reference_Info.These_references_are_required }} <span class="green">{{ pageContent.Reference_Info.References_Thank_You }}</span>
+                                                </p>
+                                            </div>
+                                        </section>
+                                        <kendo-grid
+                                            #grid
+                                            [kendoGridBinding]="referenceProducts"
+                                            [pageSize]="pageSize"
+                                            [skip]="skip"
+                                            [pageable]="pageObj"
+                                            [resizable]="true"
+                                            [style.height.%]="100"
+                                            filterable="menu"
+                                            [filter]="filter"
+                                            (filterChange)="filterChange($event)"
+                                            [selectable]="{ mode: 'single' }"
+                                            [data]="gridView"
+                                            [sortable]="{
+                                                allowUnsort: allowUnsort,
+                                                mode: 'single'
+                                            }"
+                                            [sort]="sort"
+                                            media="(min-width: 901px)"
+                                            class="responsive-grid reference-info-grid desktop-mode"
+                                        >
+                                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <!-- template for mobile -->
+                                                    <h2 class="tbl-card-title"><strong>Sr. No:</strong> {{ dataItem.SrNo }}</h2>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Type }} </strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReferenceTypeNumber }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Name }}</strong>
+                                                        </dt>
+
+                                                        <dd>
+                                                            <a
+                                                                [class.disable-name]="(ContrID === 0 && loggedInUserType === 'Internal') || accessReadonly ? true : false"
+                                                                [class]="dataItem.ReferenceName == true ? 'visual-cue' : 'none'"
+                                                                (click)="openAddReferenceDialog('EDIT', dataItem)"
+                                                                >{{ dataItem.ReferenceName }}</a
+                                                            >
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Email }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReferenceEmail }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Phone }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReferencePhoneNumber }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Company }} </strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReferenceCompanyName }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Position }} </strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReferencePosition }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Reference_Info.Ref_Job_Type }} </strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.JobType }}</dd>
+                                                    </dl>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <!-- <kendo-grid-column field="SrNo" title="#" width="75" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column> -->
+
+                                            <kendo-grid-column media="(min-width: 901px)" field="SrNo" title="#" width="60" [filterable]="false"> </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReferenceTypeNumber" title="{{ pageContent.Reference_Info.Ref_Type }}" width="150" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isReferenceTypeNumber === true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.ReferenceTypeNumber < 0 }">{{
+                                                        dataItem.ReferenceTypeNumber
+                                                    }}</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReferenceName" title="{{ pageContent.Reference_Info.Ref_Name }}" width="200" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem="dataItem">
+                                                    <a [class]="dataItem.isReferenceName == true ? 'visual-cue' : 'none'" (click)="openAddReferenceDialog('EDIT', dataItem)">{{
+                                                        dataItem.ReferenceName
+                                                    }}</a>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReferenceEmail" title="{{ pageContent.Reference_Info.Ref_Email }}" width="190" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isReferenceEmail == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.ReferenceEmail < 0 }">{{
+                                                        dataItem.ReferenceEmail
+                                                    }}</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReferencePhoneNumber" title="{{ pageContent.Reference_Info.Ref_Phone }}" width="140" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isReferencePhoneNumber == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{ 'red text-bold': dataItem.ReferencePhoneNumber < 0 }"
+                                                        >{{ dataItem.ReferencePhoneNumber }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReferenceCompanyName" title="{{ pageContent.Reference_Info.Ref_Company }}" width="150" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span
+                                                        [class]="dataItem.isReferenceCompanyName == true ? 'visual-cue' : 'none'"
+                                                        [ngClass]="{ 'red text-bold': dataItem.ReferenceCompanyName < 0 }"
+                                                        >{{ dataItem.ReferenceCompanyName == '' ? 'N/A' : dataItem.ReferenceCompanyName }}</span
+                                                    >
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReferencePosition" title="{{ pageContent.Reference_Info.Ref_Position }}" width="160" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isReferencePosition == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.ReferencePosition < 0 }">{{
+                                                        dataItem.ReferencePosition == '' ? 'N/A' : dataItem.ReferencePosition
+                                                    }}</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="JobType" title="{{ pageContent.Reference_Info.Ref_Job_Type }}" width="160" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    >
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <span [class]="dataItem.isJobType == true ? 'visual-cue' : 'none'" [ngClass]="{ 'red text-bold': dataItem.JobType < 0 }">{{
+                                                        dataItem.JobType
+                                                    }}</span>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-messages
+                                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}"
+                                            >
+                                            </kendo-grid-messages>
+                                        </kendo-grid>
+                                    </section>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+                <section class="bottom-section" *ngIf="ContrID === 0 || (loginDetails[0].ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')">
+                    <section class="action-buttons">
+                        <button kendoButton (click)="onBackClick()">
+                            {{ pageContent.Reference_Info.Ref_Back }}
+                        </button>
+                        <button kendoButton (click)="onSaveNext()" primary="true">
+                            {{ saveNext }}
+                        </button>
+                    </section>
+                </section>
+            </form>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>
+<ng-container #container></ng-container>

@@ -1,0 +1,58 @@
+<kendo-dialog-titlebar class="hasDialog" *ngIf="corrReqFields.length">
+    <h1 *ngIf="path !== 'Login'">{{ pageContent?.Operation_Correction_Request?.Correction_Request }}</h1>
+    <h1 *ngIf="path === 'Login'">{{ EventName }}</h1>
+    <button type="button" (click)="close()">&times;</button>
+</kendo-dialog-titlebar>
+
+<!-- popup content section -->
+<div class="popup-content" *ngIf="corrReqFields.length">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- popup content -->
+            <section class="white-block">
+                <!-- form block starts -->
+                <div class="scrollable-content-wrapper correction-request" #commentBlock max-height="400">
+                    <div class="scrollable-content">
+                        <div class="scroll-inner" #commentArea>
+                            <section *ngIf="readonly" class="correction-request-tbl">
+                                <section class="correction-request-row" *ngFor="let pageName of corrReqFields">
+                                    <div>
+                                        <label class="k-label"
+                                            ><span>{{ pageName?.ApplicationPageNameTranslated }}</span></label
+                                        >
+                                    </div>
+                                    <div class="correction-request-list">
+                                        <ul>
+                                            <li *ngFor="let comment of pageName?.Comment">{{ comment?.Comment }}</li>
+                                        </ul>
+                                    </div>
+                                </section>
+                            </section>
+                            <section *ngIf="!readonly" class="correction-request-tbl" [formGroup]="formGroup">
+                                <section class="correction-request-row" *ngFor="let item of corrReqFields; let i = index">
+                                    <div>
+                                        <input type="checkbox" id="{{ i }}" class="k-checkbox cmt-chk" formControlName="chk_{{ i }}" (change)="cmtAddedChange()" />
+                                        <label class="k-checkbox-label" for="{{ i }}">{{ item.ApplicationPageName }}</label>
+                                    </div>
+                                    <div>
+                                        <textarea kendoTextBox #txt formControlName="cmt_{{ i }}" (keypress)="onKeyPress($event, txt.value)"></textarea>
+                                    </div>
+                                </section>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+                <!-- form block close -->
+            </section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer" *ngIf="!readonly && corrReqFields.length">
+    <button kendoButton (click)="close()">{{ pageContent?.Operation_Correction_Request?.Cancel }}</button>
+    <button kendoButton (click)="onSave()" [primary]="true">{{ pageContent?.Operation_Correction_Request?.Save }}</button>
+</div>
+<div class="popup-footer" *ngIf="readonly && corrReqFields.length">
+    <button kendoButton (click)="okClick()">{{ pageContent?.Operation_Correction_Request?.Ok }}</button>
+</div>
+<!-- </kendo-dialog> -->

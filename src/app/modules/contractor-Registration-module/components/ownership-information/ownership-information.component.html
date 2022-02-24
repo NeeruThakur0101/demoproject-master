@@ -1,0 +1,562 @@
+<main appGridlayout *ngIf="!hidePage" [class.internal-user]="_srvAuthentication.Profile.ContrID > 0"
+    [class.hasGrid]="!showExchangeSymbolSection">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <app-page-title [pageName]="pageContent.Ownership_Info.Ownership_Information" [comments]="crComments">
+                </app-page-title>
+            </section>
+
+            <form [formGroup]="ownershipForm" (ngSubmit)="onSubmit()" class="k-form-inline h-100 ownership-info">
+                <section class="middle-section ownership-information">
+                    <div class="white-block">
+                        <div class="scrollable-content-wrapper" #commentBlock max-height="490" min-Height="621">
+                            <div class="scrollable-content">
+                                <div class="scroll-inner" #commentArea>
+                                    <section class="white-block">
+                                        <section class="flex-8-2">
+                                            <div class="col">
+                                                <label class="k-form-field required">
+                                                    <span>{{ pageContent.Ownership_Info.What_Your_Ownership_Structure
+                                                        }}</span>
+                                                    <kendo-dropdownlist
+                                                        [class]="ownershipInfoFormControl.OwnershipStructure.value !== null && visualCue.OwnershipStructureCue == true ? 'visual-cue' : 'none'"
+                                                        [attr.disabled]="
+                                                            (visualCue.OwnershipStructureCue == true && loggedInUserType == 'Internal') ||
+                                                            checkVisualCueExists == true ||
+                                                            disableOwnerDropdown === true ||
+                                                            (ContrID === 0 && loggedInUserType == 'Internal') ||
+                                                            ownershipData?.IsOwnershipStructureDisable
+                                                                ? ''
+                                                                : null
+                                                        " formControlName="OwnershipStructure" [data]="OwnerStructure"
+                                                        textField="OwnerStructureDescTranslated"
+                                                        valueField="OwnerStructureID" [valuePrimitive]="true"
+                                                        [filterable]="true" (filterChange)="handleFilterOwner($event)"
+                                                        (selectionChange)="structureIDChange($event)"
+                                                        [defaultItem]="defaultItem" #dropdownlist
+                                                        (focus)="onFocus($event)" (mousedown)="onMousedown($event)"
+                                                        (mouseup)="onMouseup($event)" [ngClass]="{
+                                                            err: submitted && ownershipInfoFormControl.OwnershipStructure.errors
+                                                        }">
+                                                        <ng-template kendoDropDownListNoDataTemplate> {{
+                                                            this.pageContent.DropDown_NoData_Msg.Message }}
+                                                        </ng-template>
+                                                    </kendo-dropdownlist>
+                                                    <div *ngIf="submitted && ownershipInfoFormControl.OwnershipStructure.errors"
+                                                        class="err-msg k-tooltip-validation">
+                                                        <div
+                                                            *ngIf="ownershipInfoFormControl.OwnershipStructure.errors.required">
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                                <label class="k-form-field required" *ngIf="showExchangeSymbolSection">
+                                                    <span>{{ pageContent.Ownership_Info.Ownership_Exchange_Listing
+                                                        }}</span>
+                                                    <input
+                                                        [class]="ownershipInfoFormControl.ExchangeListing.value !== null && visualCue.ExchangeListingCue == true ? 'visual-cue' : 'none'"
+                                                        [attr.disabled]="
+                                                            ((visualCue.ExchangeListingCue == true || ContrID === 0) && loggedInUserType == 'Internal') || ownershipData?.IsExchangeListingDisable
+                                                                ? ''
+                                                                : null
+                                                        " #listing maxlength="50" formControlName="ExchangeListing"
+                                                        type="text" trim="blur" class="k-textbox" [ngClass]="{
+                                                            err: submitted && ownershipInfoFormControl.ExchangeListing.errors
+                                                        }" />
+                                                    <div *ngIf="submitted && ownershipInfoFormControl.ExchangeListing.errors"
+                                                        class="err-msg k-tooltip-validation">
+                                                        <div
+                                                            *ngIf="ownershipInfoFormControl.ExchangeListing.errors.required">
+                                                            Listing</div>
+                                                    </div>
+                                                </label>
+
+                                                <label class="k-form-field required" *ngIf="showExchangeSymbolSection">
+                                                    <span>{{ pageContent.Ownership_Info.Ownership_Stock_Symbol }}</span>
+                                                    <input
+                                                        [class]="ownershipInfoFormControl.StockSymbol.value !== null && visualCue.StockSymbolCue == true ? 'visual-cue' : 'none'"
+                                                        [attr.disabled]="
+                                                            ((visualCue.StockSymbolCue == true || ContrID === 0) && loggedInUserType == 'Internal') || ownershipData?.IsStockSymbolDisable ? '' : null
+                                                        " #stock maxlength="30" trim="blur"
+                                                        formControlName="StockSymbol" type="text" class="k-textbox"
+                                                        [ngClass]="{
+                                                            err: submitted && ownershipInfoFormControl.StockSymbol.errors
+                                                        }" />
+                                                    <div *ngIf="submitted && ownershipInfoFormControl.StockSymbol.errors"
+                                                        class="err-msg k-tooltip-validation">
+                                                        <div
+                                                            *ngIf="ownershipInfoFormControl.StockSymbol.errors.required">
+                                                            Stock Symbol</div>
+                                                    </div>
+                                                </label>
+                                                <label class="k-form-field required">
+                                                    <span>{{
+                                                        pageContent.Ownership_Info.Years_Months_Company_Has_Under_Ownership
+                                                        }}</span>
+                                                    <div class="two-column">
+                                                        <div class="col">
+                                                            <input [class]="
+                                                                    ownershipInfoFormControl.YearsInCurrentOwnership.value !== null && visualCue.YearsInCurrentOwnershipCue == true
+                                                                        ? 'visual-cue'
+                                                                        : 'none'
+                                                                " [attr.disabled]="
+                                                                    ((visualCue.YearsInCurrentOwnershipCue == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    ownershipData?.IsYearsInCurrentOwnershipDisable
+                                                                        ? ''
+                                                                        : null
+                                                                " pattern="^[0-9][0-9]?$|^100$"
+                                                                (keypress)="isNumber($event)" maxlength="3" #year
+                                                                class="k-textbox"
+                                                                formControlName="YearsInCurrentOwnership" type="text"
+                                                                placeholder="{{ pageContent.Ownership_Info.Year }}"
+                                                                [ngClass]="{
+                                                                    err: submitted && ownershipInfoFormControl.YearsInCurrentOwnership.errors
+                                                                }" />
+                                                            <div *ngIf="submitted && ownershipInfoFormControl.YearsInCurrentOwnership.errors"
+                                                                class="err-msg k-tooltip-validation">
+                                                                <div
+                                                                    *ngIf="ownershipInfoFormControl.YearsInCurrentOwnership.errors.required">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col">
+                                                            <input [class]="
+                                                                    ownershipInfoFormControl.MonthsInCurrentOwnership.value !== null && visualCue.MonthsInCurrentOwnershipCue == true
+                                                                        ? 'visual-cue'
+                                                                        : 'none'
+                                                                " [attr.disabled]="
+                                                                    ((visualCue.MonthsInCurrentOwnershipCue == true || ContrID === 0) && loggedInUserType == 'Internal') ||
+                                                                    ownershipData?.IsMonthsInCurrentOwnershipDisable
+                                                                        ? ''
+                                                                        : null
+                                                                " #month class="k-textbox" pattern="^([0-9]|1[011])$"
+                                                                (keypress)="isNumber($event)" maxlength="2"
+                                                                formControlName="MonthsInCurrentOwnership" type="text"
+                                                                placeholder="{{ pageContent.Ownership_Info.Month }}"
+                                                                [ngClass]="{
+                                                                    err: submitted && ownershipInfoFormControl.MonthsInCurrentOwnership.errors
+                                                                }" />
+                                                            <div *ngIf="submitted && ownershipInfoFormControl.MonthsInCurrentOwnership.errors"
+                                                                class="err-msg k-tooltip-validation">
+                                                                <div
+                                                                    *ngIf="ownershipInfoFormControl.MonthsInCurrentOwnership.errors.required">
+                                                                </div>
+                                                                <div class="err-msg comp"
+                                                                    *ngIf="ownershipInfoFormControl.MonthsInCurrentOwnership.errors.pattern">
+                                                                    Enter number between 1-11</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </section>
+                                    </section>
+                                    <section *ngIf="!showExchangeSymbolSection" class="white-block"
+                                        [class.ownershipGrid]="!showExchangeSymbolSection">
+                                        <section class="grid-top-bar">
+                                            <div>
+                                                <h3>{{ pageContent.Ownership_Info.Owner_Principal_List }}</h3>
+                                            </div>
+                                            <div class="ownership-action">
+                                                <button class="delete-owner"
+                                                    [disabled]="!dataArr.length || disableDialog('add') || disableBtnCtr <= 0"
+                                                    kendoButton type="button" [primary]="false"
+                                                    (click)="deleteEmployeeClicked()">
+                                                    {{ pageContent.Ownership_Info.Delete_Owner }}
+                                                </button>
+
+                                                <button [attr.disabled]="disableDialog('add')" kendoButton type="button"
+                                                    (click)="openDialogForm('e', 'ADD', '', dataArr)" [primary]="true">
+                                                    {{ pageContent.Ownership_Info.Add_New_Owner_Principal }}
+                                                </button>
+                                            </div>
+                                        </section>
+                                        <kendo-grid media="(min-width: 901px)" *ngIf="data.length" [pageSize]="pageSize"
+                                            [skip]="skip" [selectable]="{ mode: 'single' }"
+                                            (pageChange)="pageChange($event)" [kendoGridBinding]="gridData" [sortable]="{
+                                               allowUnsort: allowUnsort,
+                                                mode: 'single'
+                                            }" [sort]="sort" [pageable]="pageObj" [resizable]="true"
+                                            [style.height.%]="100" filterable="menu" [filter]="filter"
+                                            (filterChange)="filterChange($event)" [selectable]="{ mode: 'single' }"
+                                            class="responsive-grid noteTabGrid desktop-mode">
+                                            <!--  mobile code -->
+                                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <!-- template for mobile -->
+                                                    <h2 class="tbl-card-title"><strong>ID: </strong>{{ rowIndex + 1 }}
+                                                    </h2>
+
+                                                    <dl>
+                                                        <dt><strong>Select</strong></dt>
+                                                        <dd>
+                                                            <input [disabled]="
+                                                                    dataItem.IsDeletedFlag === true ||
+                                                                    (dataItem.IsRecoveredFlag === true && loggedInUserType === 'Internal') ||
+                                                                    dataItem.IsRowDisable === true
+                                                                " type="checkbox" [id]="rowIndex + 1"
+                                                                class="k-checkbox"
+                                                                (change)="checkedRow($event, dataItem)" />
+                                                            <label class="k-checkbox-label"
+                                                                [for]="rowIndex + 1"></label>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Name_Ownership
+                                                                }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <div
+                                                                [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.OwnershipNameCue === true ? 'visual-cue' : 'none'">
+                                                                <a
+                                                                    (click)="openDialogForm($event, 'EDIT', dataItem, dataArr)">{{
+                                                                    dataItem.OwnershipName }}</a>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Email_Ownership
+                                                                }}</strong>
+                                                        </dt>
+                                                        <dd class="email-address">
+                                                            <div
+                                                                [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ContactEmailCue === true ? 'visual-cue' : 'none'">
+                                                                <span>{{ dataItem.ContactEmail }}</span>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Phone_Ownership
+                                                                }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <div
+                                                                [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ContactPhoneCue == true ? 'visual-cue' : 'none'">
+                                                                <span>{{ dataItem.ContactPhone }}</span>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Role }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <div
+                                                                [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ContrEmployeeTypeIdCue == true ? 'visual-cue' : 'none'">
+                                                                <span>{{
+                                                                    dataItem.ContrEmployeeTypeId === 1
+                                                                    ? 'Principal'
+                                                                    : dataItem.ContrEmployeeTypeId === 2
+                                                                    ? 'Owner'
+                                                                    : dataItem.ContrEmployeeTypeId === 9
+                                                                    ? 'Primary Owner'
+                                                                    : dataItem.ContrEmployeeTypeId
+                                                                    }}</span>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Ownership }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <div
+                                                                [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.OwnershipPercentageCue == true ? 'visual-cue' : 'none'">
+                                                                <span>{{ dataItem.OwnershipPercentage }}%</span>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Active }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <div
+                                                                [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ActiveFlagCue == true ? 'visual-cue' : 'none'">
+                                                                <span>{{ dataItem.ActiveFlag }}</span>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Veteran }}</strong>
+                                                        </dt>
+                                                        <dd>
+                                                            <div [class]="
+                                                                    _srvAuthentication.Profile.ContrID > 0 && (dataItem.VeteranFlagCue == true || dataItem.VeteranMilitaryAffiliationDataCue == true)
+                                                                        ? 'visual-cue'
+                                                                        : 'none'
+                                                                ">
+                                                                <span>{{ dataItem.VeteranFlag }}</span>
+                                                            </div>
+                                                        </dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Ownership_Info.Legal_Flag }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.LegalIssueFlag }}</dd>
+                                                    </dl>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <!-- desktop code -->
+                                            <kendo-grid-messages pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}">
+                                            </kendo-grid-messages>
+
+                                            <kendo-grid-column field="OwnershipNumber" [hidden]="true"
+                                                media="(min-width: 901px)"> </kendo-grid-column>
+
+                                            <kendo-grid-column media="(min-width: 901px)" field="ID" title="ID"
+                                                width="60" [hidden]="true"> </kendo-grid-column>
+
+                                            <kendo-grid-column media="(min-width: 901px)" field="$" title="" width="40"
+                                                [filterable]="false" [sortable]="false">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <div kendoTooltip tooltipClass="chkbox-tooltip" class="top"
+                                                        position="top"
+                                                        [class.disable-tip]="legalChanges.includes(dataItem.OwnershipNumber)">
+                                                        <input [disabled]="
+                                                                dataItem.IsDeletedFlag === true ||
+                                                                (dataItem.IsRecoveredFlag === true && loggedInUserType === 'Internal') ||
+                                                                dataItem.IsRowDisable === true ||
+                                                                legalChanges.includes(dataItem.OwnershipNumber)
+                                                            " type="checkbox" [id]="rowIndex + 1" class="k-checkbox"
+                                                            (change)="checkedRow($event, dataItem)" />
+                                                        <label class="k-checkbox-label" [for]="rowIndex + 1"></label>
+                                                        <div title="{{ pageContent.Ownership_Info.Cannot_delete_due_to_data_dependency }}"
+                                                            *ngIf="legalChanges.includes(dataItem.OwnershipNumber)">
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column media="(min-width: 901px)" field="SNO" title="#"
+                                                width="60" [filterable]="false">
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <section class="doc-info">
+                                                        <div>{{ dataItem.SNO}}</div>
+                                                        <div kendoTooltip class="top" position="top"
+                                                            *ngIf="_srvAuthentication.Profile.ContrID > 0">
+                                                            <span *ngIf="dataItem.IsDeletedFlag === true"
+                                                                class="k-icon k-i-file doc-del"
+                                                                title="{{ pageContent.Ownership_Info.Deleted_Owner }}"></span>
+                                                            <span *ngIf="dataItem.IsRecoveredFlag === true"
+                                                                class="k-icon k-i-file doc-rec"
+                                                                title="{{ pageContent.Ownership_Info.Recovered_Owner }}"></span>
+                                                        </div>
+                                                    </section>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="OwnershipName"
+                                                title="{{ pageContent.Ownership_Info.Name_Ownership }}" width="200"
+                                                media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem="dataItem"
+                                                    let-rowIndex="rowIndex">
+                                                    <div [class.disable-name]="disableDialog()"
+                                                        [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.OwnershipNameCue === true ? 'visual-cue' : 'none'">
+                                                        <a (click)="openDialogForm($event, 'EDIT', dataItem, dataArr)">{{
+                                                            dataItem.OwnershipName }}</a>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ContactEmail"
+                                                title="{{ pageContent.Ownership_Info.Email_Ownership }}" width="200"
+                                                media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem="dataItem"
+                                                    let-rowIndex="rowIndex">
+                                                    <div
+                                                        [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ContactEmailCue === true ? 'visual-cue' : 'none'">
+                                                        <span>{{ dataItem.ContactEmail }}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ContactPhone"
+                                                title="{{ pageContent.Ownership_Info.Phone_Ownership }}" width="130"
+                                                [style]="{ 'text-align': 'center' }" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <div
+                                                        [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ContactPhoneCue == true ? 'visual-cue' : 'none'">
+                                                        <span>{{ dataItem.ContactPhone | phone }}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ContrEmployeeTypeId"
+                                                title="{{ pageContent.Ownership_Info.Role }}" width="110"
+                                                [style]="{ 'text-align': 'center' }" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <div
+                                                        [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ContrEmployeeTypeIdCue == true ? 'visual-cue' : 'none'">
+                                                        <span>{{
+                                                            dataItem.ContrEmployeeTypeId === 1
+                                                            ? 'Principal'
+                                                            : dataItem.ContrEmployeeTypeId === 2
+                                                            ? 'Owner'
+                                                            : dataItem.ContrEmployeeTypeId === 9
+                                                            ? 'Primary Owner'
+                                                            : dataItem.ContrEmployeeTypeId
+                                                            }}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="OwnershipPercentage"
+                                                title="{{ pageContent.Ownership_Info.Ownership }}" width="140"
+                                                [style]="{ 'text-align': 'center' }" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <div
+                                                        [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.OwnershipPercentageCue == true ? 'visual-cue' : 'none'">
+                                                        <span>{{ dataItem.OwnershipPercentage }}%</span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ActiveFlag"
+                                                title="{{ pageContent.Ownership_Info.Active }}" width="110"
+                                                [style]="{ 'text-align': 'center' }" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <div
+                                                        [class]="_srvAuthentication.Profile.ContrID > 0 && dataItem.ActiveFlagCue == true ? 'visual-cue' : 'none'">
+                                                        <span>{{ dataItem.ActiveFlag }}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="VeteranFlag"
+                                                title="{{ pageContent.Ownership_Info.Veteran }}" width="110"
+                                                [style]="{ 'text-align': 'center' }" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    <div [class]="
+                                                            _srvAuthentication.Profile.ContrID > 0 &&
+                                                            (dataItem.VeteranFlagCue == true || dataItem.VeteranMilitaryAffiliationDataCue == true || dataItem.VeteranEmployeeHireDateCue === true)
+                                                                ? 'visual-cue'
+                                                                : 'none'
+                                                        ">
+                                                        <span>{{ dataItem.VeteranFlag }}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="LegalIssueFlag"
+                                                title="{{ pageContent.Ownership_Info.Legal_Flag }}" width="140"
+                                                [style]="{ 'text-align': 'center' }" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column"
+                                                    let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter [isPrimitive]="true" [field]="column.field"
+                                                        [filterService]="filterService" [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)">
+                                                    </app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-messages pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                noRecords="{{ this.pageContent.General_Keys.General_No_Record_Available }}">
+                                            </kendo-grid-messages>
+                                        </kendo-grid>
+                                    </section>
+                                    <!-- content close -->
+                                </div>
+                                <!-- content close -->
+                            </div>
+                        </div>
+                        <!-- </div></perfect-scrollbar> -->
+                    </div>
+                </section>
+                <!-- middle content area close -->
+
+                <!-- bottom block open -->
+
+                <section class="bottom-section">
+                    <section class="action-buttons">
+                        <button *ngIf="
+                                _srvAuthentication.Profile.ContrID == 0 ||
+                                (_srvAuthentication.Profile.ContrID > 0 && _srvAuthentication.Profile.EventName !== 'No Event' && loggedInUserType !== 'Internal')
+                            " kendoButton type="button" (click)="onBackClick()">
+                            {{ pageContent.Ownership_Info.Back_Ownership }}
+                        </button>
+                        <button *ngIf="!readonlyMode" type="submit"
+                            [disabled]="!$pagePrivilege.editAccess && $pagePrivilege.readonlyAccess" kendoButton
+                            [primary]="true" [innerHTML]="
+                                _srvAuthentication.Profile.ContrID > 0 && _srvAuthentication.Profile.EventName === 'No Event' ? pageContent.Ownership_Info.Save : pageContent.Ownership_Info.Save_Next
+                            "></button>
+                        <button *ngIf="readonlyMode" type="button" (click)="nextPage()" kendoButton [primary]="true">{{
+                            pageContent.Ownership_Info.Next }}</button>
+                    </section>
+                </section>
+            </form>
+
+            <!-- middle content area close -->
+            <!-- bottom block open -->
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="popup-loader"></div>
+<ng-container #container></ng-container>

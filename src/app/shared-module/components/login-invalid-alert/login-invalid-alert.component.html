@@ -1,0 +1,15 @@
+<kendo-dialog-titlebar>
+    <h1>Alert</h1>
+</kendo-dialog-titlebar>
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <section class="white-block" [innerHTML]="alertMessage"></section>
+        </div>
+    </div>
+</div>
+<!-- footer section -->
+<div class="popup-footer">
+    <button kendoButton type="button" [primary]="true" (click)="close()">OK</button>
+</div>

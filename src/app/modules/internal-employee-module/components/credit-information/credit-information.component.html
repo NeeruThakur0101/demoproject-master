@@ -1,0 +1,235 @@
+<main appGridlayout class="ContractorOperations" [class.internal-user]="loginDetails[0]?.ContrID > 0">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <h1>{{ pageContent.Credit_Information.Credit_Information }}</h1>
+            </section>
+            <!-- top block close -->
+            <!-- middle content area open -->
+            <section class="middle-section">
+                <div class="white-block">
+                    <form class="k-form-inline h-100">
+                        <!-- scroll bar open    //(click) = "showPendingProfileChange()" -->
+                        <!-- <perfect-scrollbar><div> -->
+                        <div class="scrollable-content-wrapper">
+                            <div class="scrollable-content">
+                                <section class="white-block credit-info-section">
+                                    <section class="grid-top-bar">
+                                        <div>
+                                            <h2>{{ pageContent.Credit_Information.Viewing }} ({{ loginDetails[0].ContrID }}) {{ loginDetails[0].CompanyName }}</h2>
+                                        </div>
+                                        <div>
+                                            <button kendobutton="" type="button" class="k-button k-primary" (click)="addEditCreditReport('ADD', '')">
+                                                {{ pageContent.Credit_Information.Add_Credit_Report }}
+                                            </button>
+                                        </div>
+                                    </section>
+                                    <section class="cont-operation-wrap">
+                                        <kendo-grid
+                                            media="(min-width: 901px)"
+                                            [kendoGridBinding]="gridData"
+                                            class="responsive-grid desktop-mode"
+                                            [filter]="filter"
+                                            filterable="menu"
+                                            (filterChange)="filterChange($event)"
+                                            [pageSize]="pageSize"
+                                            [skip]="skip"
+                                            [style.height.%]="100"
+                                            [sortable]="{
+                                                allowUnsort: allowUnsort,
+                                                mode: 'single'
+                                            }"
+                                            [sort]="sort"
+                                            [resizable]="false"
+                                            [pageable]="pageObj"
+                                        >
+                                            <kendo-grid-column media="(max-width:900px)" title="Items">
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <!-- template for mobile -->
+                                                    <h2 class="tbl-card-title">
+                                                        <strong>{{ pageContent.Credit_Information.ID }}</strong>
+                                                        <a> {{ dataItem.ID }} </a>
+                                                    </h2>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Report_Date }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReportsDate }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Report_Type }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ReportType }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Payment_Trend }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.PaymentTrend }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Trade_Lines }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.TreadLines }}</dd>
+                                                    </dl>
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Highest_Credit }}</strong>
+                                                        </dt>
+
+                                                        <dd>{{ dataItem.HightestCredit }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Credit_Score }}</strong>
+                                                        </dt>
+
+                                                        <dd>{{ dataItem.creditScore }}</dd>
+                                                    </dl>
+
+                                                    <dl>
+                                                        <dt>
+                                                            <strong>{{ pageContent.Credit_Information.Action_Rating }}</strong>
+                                                        </dt>
+                                                        <dd>{{ dataItem.ActionRatingDesc }}</dd>
+                                                    </dl>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="ID" title="#" width="50" media="(min-width: 901px)" class="event-link" filterable="false">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex">
+                                                    {{ dataItem.ID }}
+                                                    <!-- {{ rowIndex+1 }} -->
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-messages
+                                                pagerItems="{{ this.pageContent.General_Keys.Items }}"
+                                                pagerItemsPerPage="{{ this.pageContent.General_Keys.Items_Per_Page }}"
+                                                noRecords="{{ pageContent.General_Keys.General_No_Record_Available }}"
+                                            >
+                                            </kendo-grid-messages>
+                                            <kendo-grid-column field="ReportsDate" title="{{ pageContent.Credit_Information.Report_Date }}" width="200" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                                <ng-template kendoGridCellTemplate let-dataItem>
+                                                    <a (click)="addEditCreditReport('EDIT', dataItem)">{{ dataItem.ReportsDate | date: 'MM/dd/yyyy' }}</a>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ReportType" title="{{ pageContent.Credit_Information.Report_Type }}" width="150" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="PaymentTrend" title="{{ pageContent.Credit_Information.Payment_Trend }}" width="210" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                            <kendo-grid-column field="TreadLines" title="{{ pageContent.Credit_Information.Trade_Lines }}" width="220" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                field="HightestCredit"
+                                                title="{{ pageContent.Credit_Information.Highest_Credit }}"
+                                                width="180"
+                                                media="(min-width: 901px)"
+                                                class="highestCredit"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column
+                                                field="creditScore"
+                                                title="{{ pageContent.Credit_Information.Credit_Score }}"
+                                                width="150"
+                                                media="(min-width: 901px)"
+                                                class="highestCredit"
+                                            >
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+
+                                            <kendo-grid-column field="ActionRatingDesc" title="{{ pageContent.Credit_Information.Action_Rating }}" width="180" media="(min-width: 901px)">
+                                                <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter" let-filterService="filterService">
+                                                    <app-multicheck-filter
+                                                        [isPrimitive]="true"
+                                                        [field]="column.field"
+                                                        [filterService]="filterService"
+                                                        [currentFilter]="filter"
+                                                        [data]="distinctPrimitive(column.field)"
+                                                    ></app-multicheck-filter>
+                                                </ng-template>
+                                            </kendo-grid-column>
+                                        </kendo-grid>
+                                    </section>
+                                </section>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+<div kendoDialogContainer class="big-dialog flag"></div>

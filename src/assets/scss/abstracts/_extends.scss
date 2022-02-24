@@ -1,0 +1,306 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to extends.
+// -----------------------------------------------------------------------------
+
+%d-flx {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+%block-base {
+    border: 1px solid $c-Blk-30;
+    @include rad(5px);
+    background-color: $c-L-Blue;
+}
+
+%outer-block {
+    @extend %block-base;
+    padding: 6px 5px;
+    border-radius: 0;
+    border: none;
+}
+
+%inner-block {
+    box-shadow: inset 0px 0px 7px 0px $c-Blk-50;
+    @extend %block-base;
+    padding: 1.75rem 1.5rem;
+}
+
+%white-block {
+    border: 1px solid $c-Blk-20;
+    background-color: $c-White;
+    padding: 1.5rem 2rem 2rem;
+    @include rad(5px);
+    margin-top: 2rem;
+    overflow: hidden;
+    &:first-of-type {
+        margin-top: 0;
+    }
+    @include Max($Tab-P) {
+        padding: 1.5rem;
+    }
+}
+%m-auto-center {
+    margin: 0 auto;
+}
+//shadow
+%sh-L {
+    box-shadow: -3px 3px 5px 0px rgba($c-D-Blue, 1);
+}
+%sh-inner {
+    box-shadow: inset 0px 0px 10px 0px $c-D-Blue;
+}
+%sh-inner-D {
+    box-shadow: inset 0px 0px 10px 0px $c-Blk;
+}
+%box-shadow {
+    box-shadow: 0 2px 0 0 $c-L-Gry;
+}
+// form elements
+%input-base {
+    font-size: 1.4rem;
+    font-family: $bs-Font !important;
+    color: $c-Inp-Color;
+    background-color: $c-Inp-Bg-Color;
+    @extend %box-shadow;
+    border: 1px solid $c-Inp-Bdr-Color;
+    width: 100%;
+    line-height: 4rem;
+    height: 4rem;
+    padding: 0 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 400;
+
+    &:focus {
+        border: 1px solid $c-Inp-Focus-Bdr-Color;
+    }
+}
+
+%Width-112 {
+    width: calc(100% + 12px);
+}
+
+%btn {
+    font-size: 1.5rem;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    color: $c-White;
+    border: 1px solid $c-Btn-Bdr-Color;
+    padding: 0 1.5rem;
+    line-height: 2.5rem;
+    height: 3rem;
+    border-radius: 0.25rem;
+    background-color: $c-P-Btn-Bg;
+    overflow: hidden;
+    position: relative;
+    background-clip: border-box;
+    //box-shadow: none !important;
+    transition: all 0.3s ease;
+    &:hover {
+        color: $c-B-Hover-Clr;
+        background-color: $c-B-Hover-Bg;
+    }
+    &:active {
+        color: $c-B-Hover-Clr;
+        background-color: $c-M-Blue;
+    }
+}
+%txt-btn {
+    font-size: 1.4rem;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    color: $c-White;
+    padding: 0 3.5rem;
+    line-height: 3rem;
+    border-radius: 0.25rem;
+    background-color: $c-D-Blue;
+    border: 1px solid $c-Btn-Bdr-Color;
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    &:hover {
+        color: $c-White;
+        background-color: $c-Blk;
+    }
+    &:active {
+        color: $c-White;
+        background-color: $c-M-Blue;
+    }
+}
+%btn-cancel {
+    background-color: $c-Cancel-Bg-color;
+    border: none;
+    cursor: pointer;
+    border: 1px solid $c-Cancel-Bdr-Color;
+    color: $c-Cancel-Color;
+    font-size: 1.5rem;
+    padding: 0 3.5rem;
+    line-height: 2.5rem;
+
+    @include Max(540px) {
+        padding: 0 1.5rem;
+    }
+
+    height: 3rem;
+    &:hover {
+        background-color: $c-Cancel-Hover-Bg-Color;
+    }
+}
+%d-Flx {
+    display: flex;
+}
+%flx-wrap {
+    @extend %d-Flx;
+    flex-wrap: wrap;
+}
+
+.k-filter-menu-container {
+    .k-checkbox {
+        display: none;
+    }
+    .k-multiselect-checkbox {
+        margin-left: 0;
+        font-size: 13px;
+    }
+}
+%Flx-100 {
+    flex: 0 0 100%;
+    max-width: 100%;
+}
+%Flx-50 {
+    flex: 0 0 50%;
+    max-width: 50%;
+}
+%Flx-33 {
+    flex: 0 0 33.33%;
+    max-width: 33.33%;
+}
+%Flx-25 {
+    flex: 0 0 25%;
+    max-width: 25%;
+}
+%fs-N {
+    font-weight: 400;
+}
+%No-Shadow {
+    box-shadow: none;
+}
+%No-Bdr {
+    border: none;
+}
+%W-100 {
+    width: 100%;
+}
+%W-100-I {
+    width: 100% !important;
+}
+
+%H-100 {
+    height: 100%;
+}
+
+%H-100-I {
+    height: 100% !important;
+}
+
+// Radio and Checkbox Base
+
+%base-Radio-Checkbox {
+    font-size: 16px;
+    font-family: 'WebComponentsIcons', monospace;
+    box-sizing: border-box;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+    width: 16px;
+    height: 16px;
+    border-width: 1px;
+    border-style: solid;
+}
+%label-Radio-Checkbox {
+    font-weight: normal;
+    margin: 0 2px 0 5px;
+    white-space: normal;
+    display: inline-block;
+    padding-left: calc(16px + 8px);
+    vertical-align: top;
+}
+
+%Web-Comp-Fonts {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: 'WebComponentsIcons';
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    text-decoration: none;
+    display: inline-block;
+    vertical-align: middle;
+    display: block;
+}
+
+%form-off {
+    position: absolute;
+    right: -29px;
+    width: 3rem;
+    height: 3rem;
+    border: 1px solid $c-Bdr-L;
+    background-color: $c-White;
+    top: 15px;
+    display: inline-block;
+    text-align: center;
+    line-height: 2.8rem;
+    border-radius: 0 5px 5px 0;
+    color: $c-D-Gry;
+    cursor: pointer;
+    &:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        display: block;
+        position: absolute;
+        @include bg('ico-arrow-left.svg', '', '', 14px);
+        top: 7px;
+        left: 7px;
+        @include iehack() {
+            // top: 5px;
+            left: 6px;
+        }
+    }
+    &:hover {
+        background-color: $c-D-Blue;
+        // &:after {
+        //     color: $c-White;
+        // }
+        &:before {
+            content: '';
+            @include bg('ico-arrow-left-w.svg', '', '', 14px);
+        }
+    }
+    @include Max($D-S) {
+        // &:after {
+        //   content: "\f0a9";
+        // }
+    }
+}
+%trans {
+    transition: all 0.3s ease;
+}
+/*
+.div {
+  @include gridTwoColOdd(100, 20px, "flx", 40, 60, 900, 50, 768, 100 );
+}
+*/

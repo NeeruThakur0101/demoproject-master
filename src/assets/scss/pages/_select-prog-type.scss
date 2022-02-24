@@ -1,0 +1,116 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Program Type Page
+// -----------------------------------------------------------------------------
+
+.program-types-wrapper {
+    padding-bottom: 1rem !important;
+    .scrollable-content {
+        max-height: 18rem;
+        padding: 0;
+        @media all and (max-width: 1100px) {
+            max-height: initial;
+        }
+    }
+    .program-types {
+        @include grid(100, 10px, 'flx', 4, 1520, 3, 1250, 2, 820, 1) ;    
+        padding: 0 !important;
+        margin: 0 -10px !important;
+        .col {
+            padding-bottom: 1rem !important;
+            p {
+                padding-bottom: 0.8rem;
+                &:last-child {
+                    padding-bottom: 0;
+                }
+            }
+            @include Max(1100px) {
+                padding-bottom: 1rem;
+            }
+        }
+        .k-checkbox-label {
+            padding-bottom: 0 !important;
+            margin-left: 0;
+            padding-left: calc(16px + 8px);
+            display: block;
+        }
+    }
+}
+.app-type-option {
+    @extend %d-flx;
+    p {
+        color: $c-D-Blue;
+        font-weight: bold;
+        padding-bottom: 0;
+        @include Max( $Tab-P) {
+            flex: 0 0 100%;
+            padding-bottom: 0.5rem;
+        }
+    }
+    .k-switch {
+        align-self: flex-start;
+        margin-left: 50px;
+        padding-top: 4px;
+        @include Max( $Tab-P) {
+            margin-left: 35px;
+            margin-top: 5px;
+            margin-bottom: 8px;
+        }
+    }
+    & + p a {
+        cursor: pointer;
+    }
+    @include Max($Tab-P) {
+        kendo-switch {
+            margin-left: 28px !important;
+            margin-bottom: 15px !important;
+        }
+    }
+}
+.prog-type-info-bar {
+    display: inline-block;
+    .k-checkbox + .k-checkbox-label {
+        margin-top: 3px;
+        width: 16px;
+        overflow: hidden;
+        height: 16px;
+        padding: 0 20px 0 0;
+        display: inherit;
+    }
+}
+.scrollable-content {
+    &.prog-type {
+        max-height: initial;
+        overflow: initial;
+        height: initial;
+    }
+}
+.eligible-btn {
+    a {
+        cursor: pointer;
+    }
+}
+// @include Min(1600px) {
+//     .select-prog-type {
+//         .scrollable-content {
+//             width: 100%;
+//         }
+//     }
+// }
+.select-prog-type {
+    kendo-panelbar.k-panelbar kendo-panelbar-item .k-header > .k-icon {
+        top: 23px;
+    }
+    kendo-panelbar.k-panelbar kendo-panelbar-item .k-header {
+        padding: 0px !important;
+        h3 {
+            width: 100%;
+            padding: 13px 13px 13px 40px;
+        }
+    }
+    .ico-hammer {
+        @include Min(1px) {
+            position: relative;
+            top: 3px;
+        }
+    }
+}

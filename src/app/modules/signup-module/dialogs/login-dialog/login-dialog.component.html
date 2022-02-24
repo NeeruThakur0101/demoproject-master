@@ -1,0 +1,38 @@
+<div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div>
+<kendo-dialog-titlebar>
+    <h1>Login user company list</h1>
+</kendo-dialog-titlebar>
+<!-- popup content section -->
+<div class="popup-content">
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- popup content -->
+            <section class="white-block">
+                <section class="form-block floating-labels">
+                    <div class="form-control">
+                        <kendo-textbox-container required floatingLabel="Company">
+                            <kendo-dropdownlist
+                                [data]="CompanyData"
+                                textField="CompanyName"
+                                valueField="ContractorResourceID"
+                                [ngClass]="{ err: submitted && selectedCompany.CompanyName === null}"
+                                [valuePrimitive]="true"
+                                [filterable]="true"
+                                (selectionChange)="onSelectedContractor($event)"
+                                (filterChange)="handleFilterCompany($event)"
+                            >
+                            </kendo-dropdownlist>
+                            <div *ngIf="submitted && selectedCompany.CompanyName === null" class="invalid-feedback">
+                                <div class="err-msg">Company is required</div>
+                            </div>
+                        </kendo-textbox-container>
+                    </div>
+                </section>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div class="popup-footer">
+    <button kendoButton type="button" [primary]="true" (click)="onSubmit()">Submit</button>
+</div>

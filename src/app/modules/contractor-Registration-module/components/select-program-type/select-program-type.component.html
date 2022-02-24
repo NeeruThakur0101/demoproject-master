@@ -1,0 +1,125 @@
+<main class="select-prog-type" [class.hasScroll]="setClass" [class.internal-user]="loginDetails[0]?.ContrID > 0">
+    <!-- <div *ngIf="loader" class="page-loader"><span class="k-i-loading"></span></div> -->
+    <div class="outer-block">
+        <div class="inner-block">
+            <!-- top block open -->
+            <section class="top-section">
+                <app-header></app-header>
+                <h2>{{ pageContent.Application_Type.Application_Types }}</h2>
+            </section>
+
+            <!-- middle content area open -->
+            <section class="middle-section">
+                <div class="white-block">
+                    <!-- <perfect-scrollbar><div> -->
+                    <div class="scrollable-content-wrapper" #commentBlock max-height="410" min-Height="621">
+                        <div class="scrollable-content">
+                            <div class="scroll-inner" #commentArea>
+                                <section class="white-block">
+                                    <h3>
+                                        {{ pageContent.Application_Type.Select_The_Application_Type }}
+                                    </h3>
+                                    <div class="panelbar-wrapper">
+                                        <kendo-panelbar [expandMode]="'single'">
+                                            <kendo-panelbar-item *ngFor="let item of data; let i = index" title="">
+                                                <ng-template kendoPanelBarItemTitle>
+                                                    <h3 (click)="checkHeight()">
+                                                        <span class="fa-stack fa-lg stacked-icon">
+                                                            <i class="fa fa-square-o fa-stack-2x"></i>
+                                                            <i class="fa fa-money fa-stack-1x"></i>
+                                                        </span>
+                                                        {{ item.ContrAppTypeDesc }}
+
+                                                        <div class="prog-type-info-bar">
+                                                            <input
+                                                                [attr.disabled]="ContrID === 0 && loggedInUserType === 'Internal' ? '' : null"
+                                                                type="checkbox"
+                                                                id="{{ item.ContrAppTypeID }}"
+                                                                class="k-checkbox"
+                                                                (click)="selectApplicationTypeId(item.ContrAppTypeID, $event)"
+                                                                [checked]="item.count > 0"
+                                                            />
+                                                            <label class="k-checkbox-label" (click)="$event.stopPropagation()" for="{{ item.ContrAppTypeID }}"></label>
+                                                            <div kendoTooltip class="right" position="right">
+                                                                <span class="ico-hammer" title="{{ item.ContrAppTypeDefinition }}"></span>
+                                                            </div>
+                                                        </div>
+                                                    </h3>
+                                                </ng-template>
+
+                                                <ng-template kendoPanelBarContent>
+                                                    <div class="outer-block">
+                                                        <div class="inner-block">
+                                                            <section class="white-block program-types-wrapper">
+                                                                <section class="program-types">
+                                                                    <div class="col" *ngFor="let col of item.Trades">
+                                                                        <p *ngFor="let obj of col">
+                                                                            <input
+                                                                                type="checkbox"
+                                                                                [attr.disabled]="ContrID === 0 && loggedInUserType === 'Internal' ? '' : null"
+                                                                                id="{{ obj.TradeListID }}_{{ item.ContrAppTypeID }}"
+                                                                                (click)="updateTrades($event)"
+                                                                                [checked]="obj.Checked"
+                                                                                class="k-checkbox"
+                                                                            />
+                                                                            <label class="k-checkbox-label" for="{{ obj.TradeListID }}_{{ item.ContrAppTypeID }}">{{ obj.TradeName }}</label>
+                                                                        </p>
+                                                                    </div>
+                                                                </section>
+                                                            </section>
+                                                        </div>
+                                                    </div>
+                                                </ng-template>
+                                            </kendo-panelbar-item>
+                                        </kendo-panelbar>
+                                    </div>
+                                </section>
+                                <section class="white-block">
+                                    <div class="app-type-option">
+                                        <p>
+                                            {{ pageContent.Application_Type.Wish_For_Financial_Deferral_Option_Process }}
+                                            <span kendoTooltip class="right" position="right">
+                                                <span
+                                                    class="ico-hammer"
+                                                    title="{{pageContent.Application_Type.Title_financial_deferal}}"
+                                                ></span>
+                                            </span>
+                                        </p>
+
+                                        <kendo-switch
+                                            [(ngModel)]="isCheckedFinancialDeferral"
+                                            [attr.disabled]="ContrID === 0 && (loggedInUserType === 'Internal' ? '' : null)"
+                                            (click)="toggleFinancialDefferal(isCheckedFinancialDeferral)"
+                                        >
+                                        </kendo-switch>
+                                    </div>
+                                    <p class="eligible-btn">
+                                        <a [class.disableLink]="ContrID === 0 && loggedInUserType == 'Internal' ? true : false" (click)="toggleFinancialDefferal(true)"
+                                            >{{ pageContent.Application_Type.Click_Here_For_Eligible }}
+                                        </a>
+                                    </p>
+                                </section>
+                            </div>
+                            <!-- content close -->
+                        </div>
+                    </div>
+                    <!-- </div></perfect-scrollbar> -->
+                </div>
+            </section>
+            <!-- middle content area close -->
+
+            <!-- bottom block open -->
+            <section class="bottom-section">
+                <section class="action-buttons">
+                    <button *ngIf="!(this.ContrID === 0 && loggedInUserType === 'Internal')" type="button" (click)="onSaveNext()" kendoButton [primary]="true">
+                        {{ pageContent.Application_Type.Global_Button_SaveAndNext }}
+                    </button>
+                    <button *ngIf="this.ContrID === 0 && loggedInUserType === 'Internal'" type="button" (click)="onNext()" kendoButton [primary]="true">
+                        {{ pageContent.Application_Type.Global_Button_Next }}
+                    </button>
+                </section>
+            </section>
+        </div>
+    </div>
+    <div kendoDialogContainer class="popup-loader"></div>
+</main>

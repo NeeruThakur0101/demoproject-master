@@ -1,0 +1,77 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to Horizontal Accordian.
+// -----------------------------------------------------------------------------
+.horizontal-accord {
+    list-style: none;
+    height: 200px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 100%;
+    li {
+        flex: 0 0 50px;
+        height: 200px;
+        margin-right: 10px;
+        &:last-child {
+            margin-right: 0;
+        }
+        display: flex;
+        span {
+            flex: 0 0 50px;
+            position: relative;
+            background-color: $c-Off-White;
+            cursor: pointer;
+            input[type='radio'] {
+                display: none;
+            }
+            label {
+                cursor: pointer;
+                top: 0;
+                position: absolute;
+                display: block;
+                font-size: 20px;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                em {
+                    transform: rotate(-90deg) translateY(-50%);
+                    top: 50%;
+                    position: absolute;
+                    display: block;
+                    left: -10px;
+                }
+            }
+            input[type='radio'] {
+                &:checked {
+                    + label {
+                        background-color: $c-Blk;
+                        color: $c-White;
+                        + section {
+                            display: block;
+                        }
+                    }
+                }
+            }
+        }
+        section {
+            flex: 0;
+            display: none;
+        }
+        &.active {
+            flex: 1;
+            span {
+                display: flex;
+                flex: 0 0 100%;
+                label {
+                    flex: 0 0 50px;
+                    position: relative;
+                }
+                section {
+                    display: flex !important;
+                    flex: 1;
+                    padding: 10px;
+                }
+            }
+        }
+    }
+}
